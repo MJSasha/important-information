@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+
+  important-information:
+    image: mjsasha/myrepo:backend_important-information
+    container_name: backend
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      - PSQL_HOST=postgres
+      - PSQL_PORT=5432
+      - PSQL_USER=postgres
+      - PSQL_PASSWORD=postgres
