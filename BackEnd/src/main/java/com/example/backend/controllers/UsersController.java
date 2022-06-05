@@ -1,5 +1,6 @@
 package com.example.backend.controllers;
 
+import com.example.backend.baseClasses.BaseController;
 import com.example.backend.models.User;
 import com.example.backend.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,27 +9,17 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/users")
-public class UsersController {
-
-    private final UsersService usersService;
+public class UsersController extends BaseController<User, Integer> {
 
     @Autowired
     public UsersController(UsersService usersService) {
-        this.usersService = usersService;
+        super(usersService);
     }
 
-    @PostMapping
-    public ResponseEntity create(@RequestBody User user){
-        try {
-            usersService.create(user);
-            return ResponseEntity.ok("Create successful");
-        } catch (Exception exception){
-            return ResponseEntity.badRequest().body(exception.getMessage());
-        }
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<User> read(@PathVariable Integer id){
-        return ResponseEntity.ok(usersService.readById(id));
+    @Override
+    @PatchMapping("/{id}")
+    public ResponseEntity<String> update(@RequestBody User user, @PathVariable Integer id) {
+        user.setId(id);
+        return super.update(user, id);
     }
 }
