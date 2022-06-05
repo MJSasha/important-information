@@ -1,7 +1,6 @@
 package com.example.backend.controllers;
 
 import com.example.backend.baseClasses.BaseController;
-import com.example.backend.data.definitions.UserRole;
 import com.example.backend.data.models.User;
 import com.example.backend.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;

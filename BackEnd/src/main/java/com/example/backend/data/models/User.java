@@ -2,16 +2,14 @@ package com.example.backend.data.models;
 
 import com.example.backend.data.definitions.UserRole;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Type;
 
-import javax.management.relation.Role;
 import javax.persistence.*;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "users")
-@Getter @Setter
 public class User {
 
     @Id
@@ -22,7 +20,10 @@ public class User {
 
     private String login;
 
-    private String password;
+    @OneToOne
+    private Password password;
+
+    private String token;
 
     @Enumerated(EnumType.ORDINAL)
     private UserRole role;
