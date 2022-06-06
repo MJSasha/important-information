@@ -1,13 +1,16 @@
 package com.example.backend.data.models;
 
 import com.example.backend.data.definitions.UserRole;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "users")
 public class User {
@@ -28,4 +31,14 @@ public class User {
 
     @Enumerated(EnumType.ORDINAL)
     private UserRole role;
+
+
+    // TODO: 6/6/2022 Delete 
+    public User(String name, String login, Password password, String token, UserRole role) {
+        this.name = name;
+        this.login = login;
+        this.password = password;
+        this.token = token;
+        this.role = role;
+    }
 }
