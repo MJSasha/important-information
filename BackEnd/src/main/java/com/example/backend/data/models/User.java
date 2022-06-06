@@ -21,6 +21,7 @@ public class User {
     private String login;
 
     @OneToOne
+    @JoinColumn(name = "password_id", referencedColumnName = "id")
     private Password password;
 
     private String token;
