@@ -23,10 +23,10 @@ class TestComponent extends React.Component {
                 <table>
                     <thead>
                         <tr>
-                            <td> User Id</td>
-                            <td> User First Name</td>
-                            <td> User Last Name</td>
-                            <td> User Email Id</td>
+                            <td> User Name</td>
+                            <td> User Login</td>
+                            <td> User Password</td>
+                            <td> User Role</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -34,6 +34,7 @@ class TestComponent extends React.Component {
                             this.state.users.map(
                                 user => 
                                 <tr key = {user.name}>  
+                                     <td> {user.name}</td>
                                      <td> {user.login}</td>   
                                      <td> {user.password}</td>   
                                      <td> {user.role}</td>   
