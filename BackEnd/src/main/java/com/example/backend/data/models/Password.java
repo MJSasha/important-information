@@ -18,4 +18,9 @@ public class Password {
     Integer id;
 
     String value;
+
+    // TODO: 6/6/2022 Delete 
+    public Password(String value) {
+        this.value = value;
+    }
 }
