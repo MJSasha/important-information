@@ -31,7 +31,6 @@ public class User {
     @Enumerated(EnumType.ORDINAL)
     private UserRole role;
 
-
     // TODO: 6/6/2022 Delete 
     public User(String name, String login, Password password, String token, UserRole role) {
         this.name = name;
