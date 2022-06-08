@@ -1,7 +1,6 @@
 package com.example.backend.data.models;
 
 import com.example.backend.data.definitions.UserRole;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
