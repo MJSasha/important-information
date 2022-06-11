@@ -35,7 +35,11 @@ public class UsersService extends BaseCRUDService<User, Integer> {
         return user;
     }
 
-    public User readUserByLogin(String login){
+    public User readByLogin(String login) {
         return repository.findByLogin(login);
+    }
+
+    public User readByToken(String token) {
+        return repository.findByToken(token);
     }
 }

@@ -18,11 +18,15 @@ public class AuthService {
     }
 
     public String createToken(AuthModel authModel) throws NotAuthException {
-        var user = usersService.readUserByLogin(authModel.getLogin());
+        var user = usersService.readByLogin(authModel.getLogin());
 
-        if (Objects.equals(user.getPassword().getValue(), authModel.getPassword())){
+        if (Objects.equals(user.getPassword().getValue(), authModel.getPassword())) {
             return user.getToken();
         }
         throw new NotAuthException("Такого пользователя не существует");
+    }
+
+    public void authenticate(String token) throws NotAuthException {
+        if (usersService.readByToken(token) == null) throw new NotAuthException("Токен истек или не верен");
     }
 }
