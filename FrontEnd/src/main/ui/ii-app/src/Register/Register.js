@@ -31,11 +31,11 @@ function Register(){
             .then(token => {
                 if (token) {
                     localStorage.setItem('token', token);
-                    alert("Success")
+                    alert("Success", token)
                     // next step after auth
                     // window.location.href = DOMEN_SITE + "/auth"
                 } else { // why it's here??
-                    alert("Fail")
+                    alert("Fail", token)
                 }
             })
             .catch(err => {
