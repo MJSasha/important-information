@@ -6,10 +6,7 @@ import com.example.backend.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -28,14 +25,26 @@ public class AuthController {
     @PostMapping
     public ResponseEntity<String> authenticate(@RequestBody AuthModel authModel, HttpServletResponse response) {
         try {
-            String token = authService.createToken(authModel);
+            String token = authService.authenticate(authModel);
 
             Cookie cookie = new Cookie("token", token);
             response.addCookie(cookie);
 
             return ResponseEntity.ok(token);
         } catch (NotAuthException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
+        }
+    }
+
+    @PostMapping("/byToken")
+    public ResponseEntity<String> authenticateByToken(@RequestBody String token, HttpServletResponse response) {
+        try {
+            authService.authenticate(token);
+            Cookie cookie = new Cookie("token", token);
+            response.addCookie(cookie);
+            return ResponseEntity.ok("Authenticate successful");
+        } catch (NotAuthException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
     }
 }

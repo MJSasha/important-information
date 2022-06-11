@@ -17,10 +17,10 @@ public class AuthService {
         this.usersService = usersService;
     }
 
-    public String createToken(AuthModel authModel) throws NotAuthException {
+    public String authenticate(AuthModel authModel) throws NotAuthException {
         var user = usersService.readByLogin(authModel.getLogin());
 
-        if (Objects.equals(user.getPassword().getValue(), authModel.getPassword())) {
+        if (user != null && Objects.equals(user.getPassword().getValue(), authModel.getPassword())) {
             return user.getToken();
         }
         throw new NotAuthException("Такого пользователя не существует");
