@@ -20,7 +20,8 @@ public class AuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         try {
-            if (Objects.equals(request.getServletPath(), "/api/auth")) return true;
+            if (Objects.equals(request.getServletPath(), "/api/auth")
+                    || Objects.equals(request.getServletPath(), "/api/start")) return true;
             var cookies = request.getCookies();
             var token = Arrays.stream(cookies).filter(c -> Objects.equals(c.getName(), "token")).findFirst().get();
             authService.authenticate(token.getValue());
