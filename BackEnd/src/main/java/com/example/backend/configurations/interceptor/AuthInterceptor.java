@@ -1,4 +1,4 @@
-package com.example.backend;
+package com.example.backend.configurations.interceptor;
 
 import com.example.backend.services.AuthService;
 import org.springframework.web.servlet.HandlerInterceptor;

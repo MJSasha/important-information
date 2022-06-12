@@ -28,6 +28,7 @@ public class AuthController {
             String token = authService.authenticate(authModel);
 
             Cookie cookie = new Cookie("token", token);
+            cookie.setMaxAge(60 * 60 * 24 * 365 * 2);
             response.addCookie(cookie);
 
             return ResponseEntity.ok(token);

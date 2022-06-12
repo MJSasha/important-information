@@ -1,5 +1,6 @@
-package com.example.backend;
+package com.example.backend.configurations;
 
+import com.example.backend.configurations.interceptor.AuthInterceptor;
 import com.example.backend.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
