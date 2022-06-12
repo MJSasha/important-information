@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const DOMEN_SERVER = 'http://localhost:8080/api';
 
@@ -29,20 +30,29 @@ function Register(){
                 password: register.password,
             })
             .then(token => {
-                if (token) {
-                    localStorage.setItem('token', token);
-                    alert("Success", token)
+                    console.log(token.data)
+                    Cookies.set('token', token.data, {expires: 730});
+                    alert("Success = " + token.data)
                     // next step after auth
                     // window.location.href = DOMEN_SITE + "/auth"
-                } else { // why it's here??
-                    alert("Fail", token)
-                }
             })
             .catch(err => {
                 alert(err)
             })
-        
     }
+
+    const getAllUsers = event => {
+        event.preventDefault();
+
+        axios.get(DOMEN_SERVER + "/users")
+        .then(response => {
+            console.log(response.data)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
+
     return (
         <div className="form">
             <h2>Register:</h2>
@@ -63,7 +73,12 @@ function Register(){
                 /></p>
                 <input type="submit"/>
             </form>
+            <form onSubmit={getAllUsers}>
+                <input type="submit" value="getUsers"/>
+            </form>
+
         </div>
+        
     )
 }
 
