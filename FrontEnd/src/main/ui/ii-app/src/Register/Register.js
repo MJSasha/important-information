@@ -44,7 +44,7 @@ function Register(){
     const getAllUsers = event => {
         event.preventDefault();
 
-        axios.get(DOMEN_SERVER + "/users")
+        axios.get(DOMEN_SERVER + "/users", {withCredentials: true})
         .then(response => {
             console.log(response.data)
         })
