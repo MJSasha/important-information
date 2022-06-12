@@ -19,7 +19,6 @@ import java.util.ArrayList;
 
 @RestController
 @RequestMapping("api/start")
-@CrossOrigin
 public class StartDataGenerateController {
 
     UsersService usersService;
