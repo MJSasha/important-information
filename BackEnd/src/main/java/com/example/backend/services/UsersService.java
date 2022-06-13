@@ -14,7 +14,6 @@ public class UsersService extends BaseCRUDService<User, Integer> {
 
     UsersRepository repository;
 
-    @Autowired
     public UsersService(CrudRepository<User, Integer> repository) {
         super(repository);
 

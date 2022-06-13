@@ -12,7 +12,6 @@ public class AuthService {
 
     UsersService usersService;
 
-    @Autowired
     public AuthService(UsersService usersService) {
         this.usersService = usersService;
     }

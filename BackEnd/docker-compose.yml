@@ -3,7 +3,7 @@ version: "3"
 services:
 
   important-information:
-    image: mjsasha/backend_important-information:1.1
+    image: mjsasha/backend_important-information:2.0
     container_name: backend
     restart: always
     ports:
@@ -19,6 +19,6 @@ services:
     container_name: imp-inf-db
     restart: always
     environment:
-        - POSTGRES_USER=postgres
-        - POSTGRES_PASSWORD=postgres
-        - POSTGRES_DB=imp-inf-db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=imp-inf-db
