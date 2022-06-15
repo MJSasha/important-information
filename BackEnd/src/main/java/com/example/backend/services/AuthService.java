@@ -1,8 +1,8 @@
 package com.example.backend.services;
 
+import com.example.backend.configurations.ApiConfig;
 import com.example.backend.data.exceptions.NotAuthException;
 import com.example.backend.data.models.AuthModel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -10,10 +10,12 @@ import java.util.Objects;
 @Service
 public class AuthService {
 
-    UsersService usersService;
+    private final UsersService usersService;
+    private final ApiConfig apiConfig;
 
-    public AuthService(UsersService usersService) {
+    public AuthService(UsersService usersService, ApiConfig apiConfig) {
         this.usersService = usersService;
+        this.apiConfig = apiConfig;
     }
 
     public String authenticate(AuthModel authModel) throws NotAuthException {
@@ -26,6 +28,7 @@ public class AuthService {
     }
 
     public void authenticate(String token) throws NotAuthException {
+        if (token.equals(apiConfig.getToken())) return;
         if (usersService.readByToken(token) == null) throw new NotAuthException("Токен истек или не верен");
     }
 }
