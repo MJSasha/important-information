@@ -24,3 +24,5 @@
 Представляет собой *API*, написанное на *Java* с использованием *Spring*. Подробное описание о работе, составе и запуске можно найти в папке [*BackEnd*](https://github.com/MJSasha/important-information/tree/main/BackEnd)
 
 ### FrontEnd
+
+### TelegramBot
