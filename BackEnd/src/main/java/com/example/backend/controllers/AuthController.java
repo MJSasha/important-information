@@ -1,5 +1,6 @@
 package com.example.backend.controllers;
 
+import com.example.backend.configurations.ApiConfig;
 import com.example.backend.data.exceptions.NotAuthException;
 import com.example.backend.data.models.AuthModel;
 import com.example.backend.services.AuthService;
@@ -10,16 +11,25 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    AuthService authService;
+    private final AuthService authService;
+    private final ApiConfig apiConfig;
+    private final Logger logger = Logger.getLogger(String.class.getName());
 
     @Autowired
-    public AuthController(AuthService authService) {
+    public AuthController(AuthService authService, ApiConfig apiConfig) {
         this.authService = authService;
+        this.apiConfig = apiConfig;
+    }
+
+    @GetMapping
+    public void logApiToken() {
+        logger.info("API token ---- " + apiConfig.getToken());
     }
 
     @PostMapping

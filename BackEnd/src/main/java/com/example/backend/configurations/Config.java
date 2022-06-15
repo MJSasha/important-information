@@ -2,7 +2,6 @@ package com.example.backend.configurations;
 
 import com.example.backend.configurations.interceptor.AuthInterceptor;
 import com.example.backend.services.AuthService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
@@ -12,8 +11,7 @@ public class Config extends WebMvcConfigurationSupport {
 
     AuthService authService;
 
-    @Autowired
-    public Config(AuthService authService) {
+    public Config(AuthService authService, ApiConfig apiConfig) {
         this.authService = authService;
     }
 
