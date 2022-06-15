@@ -15,9 +15,9 @@ public class Password {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Integer id;
+    private Integer id;
 
-    String value;
+    private String value;
 
     // TODO: 6/6/2022 Delete 
     public Password(String value) {

@@ -1,5 +1,6 @@
 package com.example.backend.configurations.interceptor;
 
+import com.example.backend.configurations.ApiConfig;
 import com.example.backend.services.AuthService;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -18,15 +19,17 @@ public class AuthInterceptor implements HandlerInterceptor {
     }
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+            throws Exception {
         try {
             if (inListOfAvailable(request.getServletPath())) return true;
-            var cookies = request.getCookies();
-            var token = Arrays.stream(cookies).filter(c -> Objects.equals(c.getName(), "token")).findFirst().get();
-            authService.authenticate(token.getValue());
+            String token = Arrays.stream(request.getCookies())
+                    .filter(c -> Objects.equals(c.getName(), "token"))
+                    .findFirst().get().getValue();
+            authService.authenticate(token);
             return true;
         } catch (Exception e) {
-            response.sendError(401);
+            response.sendError(401, e.getMessage());
             return false;
         }
     }

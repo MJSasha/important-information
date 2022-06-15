@@ -31,7 +31,7 @@ public class StartDataGenerateController {
     }
 
     @GetMapping
-    public ResponseEntity<ArrayList<User>> createStartData(){
+    public ResponseEntity<ArrayList<User>> createStartData() {
         ArrayList<Password> passwords = new ArrayList<>();
         passwords.add(new Password("qwerty"));
         passwords.add(new Password("123456"));
