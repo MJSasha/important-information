@@ -42,7 +42,7 @@ public class AuthController {
             response.addCookie(cookie);
 
             return ResponseEntity.ok(token);
-        } catch (NotAuthException e) {
+        } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
     }
