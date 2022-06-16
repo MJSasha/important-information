@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "users")
+@Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "id"), @UniqueConstraint(columnNames = "login")})
 public class User {
 
     @Id
@@ -32,11 +32,10 @@ public class User {
     private UserRole role;
 
     // TODO: 6/6/2022 Delete 
-    public User(String name, String login, Password password, String token, UserRole role) {
+    public User(String name, String login, Password password, UserRole role) {
         this.name = name;
         this.login = login;
         this.password = password;
-        this.token = token;
         this.role = role;
     }
 }

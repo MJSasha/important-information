@@ -39,9 +39,9 @@ public class StartDataGenerateController {
         passwordsService.create(passwords);
 
         ArrayList<User> users = new ArrayList<>();
-        users.add(new User("Vova", "vova@gmail.com", passwords.get(0), "VovaToken", UserRole.ADMIN));
-        users.add(new User("Petya", "petya@gmail.com", passwords.get(1), "PetyaToken", UserRole.USER));
-        users.add(new User("Lena", "lena@gmail.com", passwords.get(2), "LenaToken", UserRole.USER));
+        users.add(new User("Vova", "vova@gmail.com", passwords.get(0), UserRole.ADMIN));
+        users.add(new User("Petya", "petya@gmail.com", passwords.get(1), UserRole.USER));
+        users.add(new User("Lena", "lena@gmail.com", passwords.get(2), UserRole.USER));
         usersService.create(users);
 
         return ResponseEntity.ok(users);
