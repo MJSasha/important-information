@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -19,14 +21,15 @@ public class User {
     private Integer id;
 
     private String name;
-
     private String login;
+    private String token;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private List<Note> note = new ArrayList<>();
 
     @OneToOne
     @JoinColumn(name = "password_id", referencedColumnName = "id")
     private Password password;
-
-    private String token;
 
     @Enumerated(EnumType.ORDINAL)
     private UserRole role;

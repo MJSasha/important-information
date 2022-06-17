@@ -22,7 +22,12 @@ public class Day {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private Date date;
 
+    private String information;
+
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "days_lessons")
     private List<LessonAndTime> lessonsAndTimes = new ArrayList<>();
+
+    @Transient
+    private User currentUserNote;
 }
