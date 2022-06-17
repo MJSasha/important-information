@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Jura:wght@700&display=swap');
+
+p{
+    font-family: 'Jura', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 28px;
+    color: #C0D9F5;
+}
+input{
+    border: none;
+    border-radius: 10px;
+}
+.wrapper{
+    display: flex;
+
+    background: url("../Register/bg-image-1.svg") no-repeat;
+    width: 100%;
+    height: 100vh;
+    background-size: 100%;
+}
+.form{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: fixed;
+    left: 50%;
+    top: 30%;
+    transform: translate(-50%, -50%);
+    width: 25%;
+    height: 50%;
+    border-radius: 15px;
+    background-color: #304590;
+    margin-top: 10%;
+}
+.login-wrapper{
+    padding-left: 7vh;
+    margin-top: -30px;
+    /* padding: 60px 120px 70px; */
+}
+#login{
+    width: 70%;
+    height: 5vh;
+}
+.password-wrapper{
+    padding-left: 7vh;
+    margin-top: 50px;
+    /* padding: 0 120px 50px 120px; */
+}
+#password{
+    width: 70%;
+    height: 5vh;
+}
+.sign-in-btn{
+    padding-top: 50px;
+    padding-left: 150px;
+}
+#signin{
+    width: 50%;
+}
+@media (max-width:420px){
+.wrapper{
+    background: url('../Register/bg-image-1m.svg') no-repeat;
+}
+}
