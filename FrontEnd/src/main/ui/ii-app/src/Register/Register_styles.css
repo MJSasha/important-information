@@ -13,8 +13,7 @@ input{
     border-radius: 10px;
 }
 .wrapper{
-    display: flex;
-
+    /* display: flex; */
     background: url("../Register/bg-image-1.svg") no-repeat;
     width: 100%;
     height: 100vh;
@@ -35,18 +34,16 @@ input{
     margin-top: 10%;
 }
 .login-wrapper{
-    padding-left: 7vh;
+    padding-left: 20%;
     margin-top: -30px;
-    /* padding: 60px 120px 70px; */
 }
 #login{
     width: 70%;
     height: 5vh;
 }
 .password-wrapper{
-    padding-left: 7vh;
+    padding-left: 20%;
     margin-top: 50px;
-    /* padding: 0 120px 50px 120px; */
 }
 #password{
     width: 70%;
@@ -54,13 +51,23 @@ input{
 }
 .sign-in-btn{
     padding-top: 50px;
-    padding-left: 150px;
+    padding-left: 30%;
 }
 #signin{
     width: 50%;
 }
-@media (max-width:420px){
+@media (max-width:850px){
+
 .wrapper{
     background: url('../Register/bg-image-1m.svg') no-repeat;
+    width: 100%;
+    height: 100vh;
+    background-size: 100%;
 }
+.form{
+    width: 75%;
+    height: 65%;
+    top: 40%;
+}
+
 }
