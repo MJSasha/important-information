@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using TelegramBot.Interfaces;
 using TelegramBot.Services;
 
 namespace TelegramBot.Messages
 {
     public class MessageCollector
     {
-        private readonly BotService bot;
+        private readonly IBotActions bot;
 
         [Obsolete]
         public MessageCollector(long chatId)
