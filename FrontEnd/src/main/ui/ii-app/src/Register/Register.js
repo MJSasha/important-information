@@ -43,23 +43,11 @@ function Register(){
             })
     }
 
-    const getAllUsers = event => {
-        event.preventDefault();
-
-        axios.get(DOMEN_SERVER + "/users", {withCredentials: true})
-        .then(response => {
-            console.log(response.data)
-        })
-        .catch(err => {
-            console.log(err)
-        })
-    }
-
     return (
         <div className='wrapper'>
             <div className="form">
                 <h1>Register:</h1>
-                <form onSubmit={submitCheckin}>
+                <form className='auth-main' onSubmit={submitCheckin}>
                     <div className="login-wrapper">
                         <p>Login: </p>
                         <input 
@@ -83,9 +71,6 @@ function Register(){
                     <div className='sign-in-btn'>
                     <input id='signin' type="submit" value="Sign in"/>
                     </div>
-                </form>
-                <form onSubmit={getAllUsers}>
-                    <input id='getusers' type="submit" value="getUsers"/>
                 </form>
             </div>
         </div>

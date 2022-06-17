@@ -33,6 +33,9 @@ input{
     background-color: #304590;
     margin-top: 10%;
 }
+.auth-main{
+    margin-bottom: 10vh;
+}
 .login-wrapper{
     padding-left: 20%;
     margin-top: -30px;
@@ -66,7 +69,7 @@ input{
 }
 .form{
     width: 75%;
-    height: 65%;
+    height: 60%;
     top: 40%;
 }
 
