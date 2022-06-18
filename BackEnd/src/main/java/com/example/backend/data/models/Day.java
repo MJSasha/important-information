@@ -1,6 +1,7 @@
 package com.example.backend.data.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,5 +30,5 @@ public class Day {
     private List<LessonAndTime> lessonsAndTimes = new ArrayList<>();
 
     @Transient
-    private User currentUserNote;
+    private String currentUserNote;
 }

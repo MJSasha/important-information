@@ -25,7 +25,7 @@ public class User {
     private String token;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    private List<Note> note = new ArrayList<>();
+    private List<Note> notes = new ArrayList<>();
 
     @OneToOne
     @JoinColumn(name = "password_id", referencedColumnName = "id")
