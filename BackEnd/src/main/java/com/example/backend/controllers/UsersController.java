@@ -42,6 +42,8 @@ public class UsersController extends BaseController<User, Integer> {
         var user = usersService.readByToken(token);
         if (user == null) return ResponseEntity.notFound().build();
 
+        user.getNotes().forEach(n->n.setUser(null));
+
         return ResponseEntity.ok(user);
     }
 }

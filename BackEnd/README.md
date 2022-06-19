@@ -16,5 +16,8 @@ API доступна по локальному порту 8080
 
 ## Документация
 
-Документация сделана при помощи *Postman* и доступна по 
+Документация сделана при помощи *Postman* и доступна по
 [ссылке](https://documenter.getpostman.com/view/19981559/Uz5GpGt3).
+
+*DockerHub* проекта доступен по [ссылке](https://hub.docker.com/repository/docker/mjsasha/backend_important-information)
+.

@@ -32,16 +32,16 @@ public class StartDataGenerateController {
 
     @GetMapping
     public ResponseEntity<ArrayList<User>> createStartData() {
-        ArrayList<Password> passwords = new ArrayList<>();
-        passwords.add(new Password("qwerty"));
-        passwords.add(new Password("123456"));
-        passwords.add(new Password("1q2w3e"));
-        passwordsService.create(passwords);
+//        ArrayList<Password> passwords = new ArrayList<>();
+//        passwords.add(new Password("qwerty"));
+//        passwords.add(new Password("123456"));
+//        passwords.add(new Password("1q2w3e"));
+//        passwordsService.create(passwords);
 
         ArrayList<User> users = new ArrayList<>();
-        users.add(new User("Vova", "vova@gmail.com", passwords.get(0), UserRole.ADMIN));
-        users.add(new User("Petya", "petya@gmail.com", passwords.get(1), UserRole.USER));
-        users.add(new User("Lena", "lena@gmail.com", passwords.get(2), UserRole.USER));
+        users.add(new User("Vova", "vova@gmail.com", new Password("qwerty"), UserRole.ADMIN));
+        users.add(new User("Petya", "petya@gmail.com", new Password("123456"), UserRole.USER));
+        users.add(new User("Lena", "lena@gmail.com", new Password("1q2w3e"), UserRole.USER));
         usersService.create(users);
 
         return ResponseEntity.ok(users);

@@ -13,7 +13,10 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "id"), @UniqueConstraint(columnNames = "login")})
+@Table(name = "users", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "id"),
+        @UniqueConstraint(columnNames = "login")
+})
 public class User {
 
     @Id
@@ -23,11 +26,12 @@ public class User {
     private String name;
     private String login;
     private String token;
+    private Long chatId;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<Note> notes = new ArrayList<>();
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "password_id", referencedColumnName = "id")
     private Password password;
 
