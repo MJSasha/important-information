@@ -8,7 +8,7 @@ namespace TelegramBot.Messages
 {
     public class MessageCollector
     {
-        private readonly IBotActions bot;
+        private readonly IBotService bot;
 
         [Obsolete]
         public MessageCollector(long chatId)
@@ -25,7 +25,7 @@ namespace TelegramBot.Messages
                 new List<string>{ "L3B1" }
             };
 
-            return () => bot.SendMessage("Стортовое меню", ButtonsGenerater.GetInlineByttons(markup));
+            return () => bot.SendMessage("Стартовое меню", ButtonsGenerater.GetInlineButtons(markup));
         }
         public Func<Task> SendText(string text)
         {

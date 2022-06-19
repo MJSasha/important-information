@@ -10,7 +10,7 @@ namespace TelegramBot.Services
         /// </summary>
         /// <param name="markup">Разметка кнопок. первый лист - строчки, второй - столбцы</param>
         /// <returns></returns>
-        public static IReplyMarkup GetInlineByttons(List<List<string>> markup)
+        public static IReplyMarkup GetInlineButtons(List<List<string>> markup)
         {
             List<List<InlineKeyboardButton>> returnsButtons = new();
 
@@ -29,7 +29,7 @@ namespace TelegramBot.Services
         /// </summary>
         /// <param name="markup">Разметка кнопок. Первый лист - строчки, второй - столбцы</param>
         /// <returns></returns>
-        public static IReplyMarkup GetInlineByttonsWithCustomCollback(List<List<(string name, string callback)>> markup)
+        public static IReplyMarkup GetInlineButtons(List<List<(string name, string callback)>> markup)
         {
             List<List<InlineKeyboardButton>> returnsButtons = new();
 

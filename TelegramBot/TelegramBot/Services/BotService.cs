@@ -5,7 +5,7 @@ using TelegramBot.Interfaces;
 
 namespace TelegramBot.Services
 {
-    public class BotService : IBotActions
+    public class BotService : IBotService
     {
         private readonly long chatId;
         private readonly TelegramBotClient client = new(AppSettings.Token);
