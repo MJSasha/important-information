@@ -2,8 +2,12 @@ package com.example.backend.controllers;
 
 import com.example.backend.configurations.ApiConfig;
 import com.example.backend.data.exceptions.NotAuthException;
-import com.example.backend.data.models.AuthModel;
+import com.example.backend.data.models.Password;
+import com.example.backend.data.models.User;
+import com.example.backend.data.viewModels.AuthModel;
+import com.example.backend.data.viewModels.RegistrationModel;
 import com.example.backend.services.AuthService;
+import com.example.backend.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +22,14 @@ import java.util.logging.Logger;
 public class AuthController {
 
     private final AuthService authService;
+    private final UsersService usersService;
     private final ApiConfig apiConfig;
     private final Logger logger = Logger.getLogger(String.class.getName());
 
     @Autowired
-    public AuthController(AuthService authService, ApiConfig apiConfig) {
+    public AuthController(AuthService authService, ApiConfig apiConfig, UsersService usersService) {
         this.authService = authService;
+        this.usersService = usersService;
         this.apiConfig = apiConfig;
     }
 
@@ -42,9 +48,22 @@ public class AuthController {
             response.addCookie(cookie);
 
             return ResponseEntity.ok(token);
-        } catch (NotAuthException e) {
+        } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
+    }
+
+    @PostMapping("/{chatId}")
+    public ResponseEntity<String> registration(@RequestBody RegistrationModel registrationModel,
+                                               @PathVariable Long chatId,
+                                               HttpServletResponse response){
+        var user = new User();
+        user.setLogin(registrationModel.getLogin());
+        user.setPassword(new Password(registrationModel.getPassword()));
+        user.setChatId(chatId);
+
+        usersService.create(user);
+        return authenticate(registrationModel.toAuthModel(), response);
     }
 
     @PostMapping("/byToken")

@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import axios from 'axios';
+import Cookies from 'js-cookie';
+import './Register_styles.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const DOMEN_SERVER = 'http://localhost:8080/api';
 
@@ -29,40 +32,47 @@ function Register(){
                 password: register.password,
             })
             .then(token => {
-                if (token) {
-                    localStorage.setItem('token', token);
-                    alert("Success", token)
+                    console.log(token.data)
+                    Cookies.set('token', token.data, {expires: 730});
+                    alert("Success = " + token.data)
                     // next step after auth
                     // window.location.href = DOMEN_SITE + "/auth"
-                } else { // why it's here??
-                    alert("Fail", token)
-                }
             })
             .catch(err => {
                 alert(err)
             })
-        
     }
+
     return (
-        <div className="form">
-            <h2>Register:</h2>
-            <form onSubmit={submitCheckin}>
-                <p>Login: <input 
-                type="login"
-                id="login"
-                name="login"
-                value={register.login}
-                onChange={changeInputRegister}
-                /></p>
-                <p>Password: <input 
-                type="password"
-                id="password"
-                name="password"
-                value={register.password}
-                onChange={changeInputRegister}
-                /></p>
-                <input type="submit"/>
-            </form>
+        <div className='wrapper'>
+            <div className="form">
+                <h1>Register:</h1>
+                <form className='auth-main' onSubmit={submitCheckin}>
+                    <div className="login-wrapper">
+                        <p>Login: </p>
+                        <input 
+                        type="login"
+                        id="login"
+                        name="login"
+                        value={register.login}
+                        onChange={changeInputRegister}
+                        />
+                    </div>
+                    <div className="password-wrapper">
+                        <p>Password: </p>
+                        <input 
+                        type="password"
+                        id="password"
+                        name="password"
+                        value={register.password}
+                        onChange={changeInputRegister}
+                        />
+                    </div>
+                    <div className='sign-in-btn'>
+                    <input id='signin' type="submit" value="Sign in"/>
+                    </div>
+                </form>
+            </div>
         </div>
     )
 }
