@@ -60,6 +60,7 @@ public class AuthController {
         var user = new User();
         user.setLogin(registrationModel.getLogin());
         user.setPassword(new Password(registrationModel.getPassword()));
+        user.setChatId(chatId);
 
         usersService.create(user);
         return authenticate(registrationModel.toAuthModel(), response);
