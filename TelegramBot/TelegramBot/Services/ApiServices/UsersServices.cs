@@ -18,7 +18,7 @@ namespace TelegramBot.Services.ApiServices
         {
             var json = JsonSerializer.Serialize(item);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
-            var httpResponse = await httpClient.PostAsync(Root, data);
+            var httpResponse = await httpClient.PostAsync(Root.ToString() + "/createAll", data);
             if (!httpResponse.IsSuccessStatusCode) throw new ErrorResponseException(httpResponse.StatusCode, await httpResponse.Content.ReadAsStringAsync());
         }
     }
