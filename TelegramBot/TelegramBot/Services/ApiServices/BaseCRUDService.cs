@@ -24,7 +24,6 @@ namespace TelegramBot.Services.ApiServices
             return await Deserialize<List<TEntity>>(httpResponse);
         }
 
-        //TODO - Post List<TEntity>
         public async Task Create(TEntity item)
         {
             var json = JsonSerializer.Serialize(item);
