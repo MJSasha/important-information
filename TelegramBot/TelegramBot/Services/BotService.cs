@@ -5,7 +5,7 @@ using TelegramBot.Interfaces;
 
 namespace TelegramBot.Services
 {
-    public class BotService : IBotActions
+    public class BotService : IBotService
     {
         private readonly long chatId;
         private readonly TelegramBotClient client = new(AppSettings.Token);
@@ -30,7 +30,7 @@ namespace TelegramBot.Services
         }
         public async Task EditMessage(string message, IReplyMarkup buttons, int messageId)
         {
-            await client.EditMessageTextAsync(chatId, messageId, message, replyMarkup: (InlineKeyboardMarkup) buttons);
+            await client.EditMessageTextAsync(chatId, messageId, message, replyMarkup: (InlineKeyboardMarkup)buttons);
         }
     }
 }

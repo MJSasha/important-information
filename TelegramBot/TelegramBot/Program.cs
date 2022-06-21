@@ -9,8 +9,9 @@ namespace TelegramBot
     internal class Program
     {
         [Obsolete]
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
+
             try
             {
                 var client = new TelegramBotClient(AppSettings.Token);
