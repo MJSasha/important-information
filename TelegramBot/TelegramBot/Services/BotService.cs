@@ -30,7 +30,7 @@ namespace TelegramBot.Services
         }
         public async Task EditMessage(string message, IReplyMarkup buttons, int messageId)
         {
-            await client.EditMessageTextAsync(chatId, messageId, message, replyMarkup: (InlineKeyboardMarkup) buttons);
+            await client.EditMessageTextAsync(chatId, messageId, message, replyMarkup: (InlineKeyboardMarkup)buttons);
         }
     }
 }
