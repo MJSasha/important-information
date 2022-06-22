@@ -42,7 +42,7 @@ input{
 }
 #login{
     width: 70%;
-    height: 5vh;
+    height: 4vh;
 }
 .password-wrapper{
     padding-left: 20%;
@@ -50,17 +50,24 @@ input{
 }
 #password{
     width: 70%;
-    height: 5vh;
+    height: 4vh;
 }
 .sign-in-btn{
     padding-top: 50px;
     padding-left: 30%;
+    margin-bottom: -5%;
 }
 #signin{
+    cursor: pointer;
     width: 50%;
+    height: 4vh;
+}
+.logo-auth{
+    width: 10vw;
+    height: 10vh;
+    padding-left: 30%;
 }
 @media (max-width:850px){
-
 .wrapper{
     background: url('../Register/bg-image-1m.svg') no-repeat;
     width: 100%;
@@ -72,5 +79,9 @@ input{
     height: 60%;
     top: 40%;
 }
-
+.logo-auth{
+    padding-left: 25%;
+    width: 35vw;
+    height: 20vh;
+}
 }

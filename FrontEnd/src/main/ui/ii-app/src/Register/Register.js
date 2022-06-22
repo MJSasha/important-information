@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import './Register_styles.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import logo from './logo.svg';
 
 const DOMEN_SERVER = 'http://localhost:8080/api';
 
@@ -46,7 +46,7 @@ function Register(){
     return (
         <div className='wrapper'>
             <div className="form">
-                <h1>Register:</h1>
+                <img className='logo-auth' src={logo} alt="lookbook" />
                 <form className='auth-main' onSubmit={submitCheckin}>
                     <div className="login-wrapper">
                         <p>Login: </p>
