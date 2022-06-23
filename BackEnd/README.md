@@ -21,6 +21,8 @@
 
 *PGAdmin* доступен по локальному порту 5050
 
+## Запуск PGAdmin
+
 1. Переходим на порт [5050](http://localhost:5050)
 2. Вводил логин и пароль указанные в файле [*docker-compose.yml*](https://github.com/MJSasha/important-information/blob/main/BackEnd/docker-compose.yml)
 
@@ -54,8 +56,6 @@
 ![Reg2](/BackEnd/ForReadMe/PGReg2.png)
 
 </div>
-
-## Запуск PGAdmin
 
 ## Документация
 
