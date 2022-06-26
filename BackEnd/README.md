@@ -17,6 +17,8 @@
 - *imp-inf-db* - база данных
 - *pgadmin* - визуальный интерфейс для работы с БД
 
+**Тестовые модели добавляются автоматически, их можно посмотреть в файле [data.sql](/src/main/resources/data.sql)**
+
 *API* доступна по локальному порту 8080
 
 *PGAdmin* доступен по локальному порту 5050
@@ -24,7 +26,8 @@
 ## Запуск PGAdmin
 
 1. Переходим на порт [5050](http://localhost:5050)
-2. Вводил логин и пароль указанные в файле [*docker-compose.yml*](https://github.com/MJSasha/important-information/blob/main/BackEnd/docker-compose.yml)
+2. Вводил логин и пароль указанные в файле [*
+   docker-compose.yml*](https://github.com/MJSasha/important-information/blob/main/BackEnd/docker-compose.yml)
 
 <code>
 

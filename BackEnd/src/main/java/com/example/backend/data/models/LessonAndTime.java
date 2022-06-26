@@ -22,6 +22,7 @@ public class LessonAndTime {
     @JsonFormat(pattern = "HH:mm:ss")
     private Date time;
 
+    // TODO: 6/26/2022 one to many
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "lesson_id", referencedColumnName = "id")
     private Lesson lesson;
