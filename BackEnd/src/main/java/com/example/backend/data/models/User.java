@@ -1,9 +1,12 @@
 package com.example.backend.data.models;
 
 import com.example.backend.data.definitions.UserRole;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -28,7 +31,8 @@ public class User {
     private String token;
     private Long chatId;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Note> notes = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -37,12 +41,4 @@ public class User {
 
     @Enumerated(EnumType.ORDINAL)
     private UserRole role;
-
-    // TODO: 6/6/2022 Delete 
-    public User(String name, String login, Password password, UserRole role) {
-        this.name = name;
-        this.login = login;
-        this.password = password;
-        this.role = role;
-    }
 }
