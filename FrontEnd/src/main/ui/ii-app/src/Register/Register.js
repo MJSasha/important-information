@@ -2,7 +2,9 @@ import React, { useState } from 'react'
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import './Register_styles.css';
-import logo from './logo.svg';
+import logo from './img/logo.svg';
+import { Form, Button} from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const DOMEN_SERVER = 'http://localhost:8080/api';
 
@@ -44,39 +46,41 @@ function Register(){
     }
 
     return (
-        <div className='wrapper'>
-            <div className="form">
-                <img className='logo-auth' src={logo} alt="lookbook" />
-                <form className='auth-main' onSubmit={submitCheckin}>
-                    <div className="login-wrapper">
-                        <p>Login: </p>
-                        <input 
+        <div className="text-center">
+            <div className="form-wrapper form-signin">
+                <img className='mb-4' src={logo} alt="lookbook" />
+                <Form onSubmit={submitCheckin}>
+                    <Form.Group className="mb-3" controlId="formGroupLogin">
+                        <Form.Label className='h3 mb-3 font-weight-normal text-light'>Login</Form.Label>
+                        <Form.Control
+                        required
+                        autoFocus
+                        className='form-control'
                         type="login"
-                        id="login"
                         name="login"
+                        placeholder="Enter login"
                         value={register.login}
                         onChange={changeInputRegister}
                         />
-                    </div>
-                    <div className="password-wrapper">
-                        <p>Password: </p>
-                        <input 
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="formGroupPassword">
+                        <Form.Label className='h3 mb-3 font-weight-normal text-light'>Password</Form.Label>
+                        <Form.Control
+                        required
+                        className='form-control'
                         type="password"
-                        id="password"
                         name="password"
+                        placeholder="Password"
                         value={register.password}
                         onChange={changeInputRegister}
                         />
-                    </div>
-                    <div className='sign-in-btn'>
-                    <input id='signin' type="submit" value="Sign in"/>
-                    </div>
-                </form>
+                    </Form.Group>
+                    <Button className='btn btn-lg btn-primary btn-block' type="submit">
+                    Sign in
+                    </Button>
+                </Form>
             </div>
         </div>
     )
 }
-
-
-
 export default Register;
