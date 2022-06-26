@@ -14,6 +14,8 @@
 ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
+![C#](https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=c-sharp&logoColor=white)
+![.Net](https://img.shields.io/badge/.NET-5C2D91?style=for-the-badge&logo=.net&logoColor=white)
 
 ## Составные части проета
 
@@ -24,3 +26,9 @@
 Представляет собой *API*, написанное на *Java* с использованием *Spring*. Подробное описание о работе, составе и запуске можно найти в папке [*BackEnd*](https://github.com/MJSasha/important-information/tree/main/BackEnd)
 
 ### FrontEnd
+
+Фронт, написан на React и исползующий API из проекта BackEnd
+
+### TelegramBot
+
+Проект с телеграм ботом, написаном на .NET и использующем API из проекта BackEnd

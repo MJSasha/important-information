@@ -1,8 +1,10 @@
 version: "3"
 
+# Эта штука разворачивает весь проект
 services:
 
-  important-information:
+# BackEnd
+  backend:
     image: mjsasha/backend_important-information:2.5
     container_name: backend
     restart: always
@@ -15,6 +17,15 @@ services:
       - PSQL_USER=postgres
       - PSQL_PASSWORD=postgres
 
+# FrontEnd
+  frontend:
+    image: mjsasha/frontend_important-information:1.0
+    container_name: frontend
+    restart: always
+    ports:
+      - "3000:3000"
+
+# База данных
   postgres:
     image: postgres:14.2
     container_name: imp-inf-db
@@ -26,6 +37,7 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=imp-inf-db
 
+# Админка
   pgadmin:
     container_name: pgadmin
     image: dpage/pgadmin4
