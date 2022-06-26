@@ -17,7 +17,7 @@
 - *imp-inf-db* - база данных
 - *pgadmin* - визуальный интерфейс для работы с БД
 
-**Тестовые модели добавляются автоматически, их можно посмотреть в файле [data.sql](/src/main/resources/data.sql)**
+**Тестовые модели добавляются автоматически, их можно посмотреть в файле [data.sql](https://github.com/MJSasha/important-information/blob/main/BackEnd/src/main/resources/data.sql)**
 
 *API* доступна по локальному порту 8080
 
