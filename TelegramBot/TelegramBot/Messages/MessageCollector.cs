@@ -20,9 +20,8 @@ namespace TelegramBot.Messages
         {
             List<List<string>> markup = new()
             {
-                new List<string>{ "L1B1", "L1B2", "L1B3" },
-                new List<string>{ "L2B1", "L2B2" },
-                new List<string>{ "L3B1" }
+                new List<string>{ "Новости" },
+                new List<string>{ "О нас" },
             };
 
             return () => bot.SendMessage("Стартовое меню", ButtonsGenerater.GetInlineButtons(markup));
