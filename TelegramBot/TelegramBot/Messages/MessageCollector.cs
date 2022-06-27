@@ -24,7 +24,7 @@ namespace TelegramBot.Messages
                 new List<string>{ "О нас" },
             };
 
-            return () => bot.SendMessage("Стартовое меню", ButtonsGenerater.GetInlineButtons(markup));
+            return () => bot.SendMessage("Добро пожаловать!", ButtonsGenerater.GetInlineButtons(markup));
         }
         public Func<Task> SendText(string text)
         {

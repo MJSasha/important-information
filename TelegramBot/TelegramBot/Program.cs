@@ -35,6 +35,7 @@ namespace TelegramBot
 
             Func<Task> response = e.CallbackQuery.Data switch
             {
+                "@О нас" => message.SendText("Саша Мусалов - тг \nДаня - фронт \nВова - тг \nСаша Ушанков - бэк и тг"),
                 _ => message.UnknownMessage()
             };
 
