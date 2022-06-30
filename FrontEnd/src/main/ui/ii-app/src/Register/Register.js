@@ -4,17 +4,22 @@ import Cookies from 'js-cookie';
 import './Register_styles.css';
 import logo from './img/logo.svg';
 import { Form, Button} from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const DOMEN_SERVER = 'http://localhost:8080/api';
 
 function Register(){
+
+    const navigate = useNavigate()
+
     const [register, setRegister] = useState(() => {
         return {
             login: "",
             password: "",
         }
     })
+    const [errMsg, setErrMsg] = useState('')
 
     const changeInputRegister = event => {
         event.persist()
@@ -36,12 +41,18 @@ function Register(){
             .then(token => {
                     console.log(token.data)
                     Cookies.set('token', token.data, {expires: 730});
-                    alert("Success = " + token.data)
-                    // next step after auth
-                    // window.location.href = DOMEN_SITE + "/auth"
+                    navigate('/main')
             })
             .catch(err => {
-                alert(err)
+                if (!err?.response) {
+                    setErrMsg('No Server Response');
+                } else if (err.response?.status === 400) {
+                    setErrMsg('Missing Username or Password');
+                } else if (err.response?.status === 401) {
+                    setErrMsg('Unauthorized');
+                } else {
+                    setErrMsg('Login Failed');
+                }
             })
     }
 
@@ -75,6 +86,7 @@ function Register(){
                         onChange={changeInputRegister}
                         />
                     </Form.Group>
+                    <p className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive" style={{color:'red'}}>{errMsg}</p>
                     <Button className='btn btn-lg btn-primary btn-block' type="submit">
                     Sign in
                     </Button>
@@ -83,4 +95,4 @@ function Register(){
         </div>
     )
 }
-export default Register;
+export default Register
