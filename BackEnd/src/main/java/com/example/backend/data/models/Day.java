@@ -20,7 +20,7 @@ public class Day {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(pattern = "yyy-MM-dd")
     private Date date;
 
     private String information;

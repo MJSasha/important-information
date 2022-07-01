@@ -14,17 +14,17 @@ VALUES (1, 'First lesson', 'First', 'First teacher'),
        (3, 'Third lesson', 'Third', 'Third teacher');
 
 INSERT INTO lesson_time
-VALUES (1, '01-09-2022 09:00:00', 1),
-       (2, '01-09-2022 10:45:00', 2),
-       (3, '01-09-2022 13:00:00', 3),
-       (4, '01-09-2022 09:00:00', 2),
-       (5, '01-09-2022 10:45:00', 1),
-       (6, '01-09-2022 13:00:00', 3);
+VALUES (1, '09:00:00', 1),
+       (2, '10:45:00', 2),
+       (3, '13:00:00', 3),
+       (4, '09:00:00', 2),
+       (5, '10:45:00', 1),
+       (6, '13:00:00', 3);
 
 INSERT INTO days
-VALUES (1, '01-09-2022 09:00:00', 'First day'),
-       (2, '02-09-2022 09:00:00', 'Second day'),
-       (3, '03-09-2022 09:00:00', 'Third day');
+VALUES (1, '2022-09-01', 'First day'),
+       (2, '2022-09-02', 'Second day'),
+       (3, '2022-09-03', 'Third day');
 
 INSERT INTO days_lessons
 VALUES (1, 1),
@@ -41,5 +41,5 @@ VALUES (1, 'Vova note', 1, 1),
        (2, 'Dima note', 1, 2);
 
 INSERT INTO news
-VALUES (1, 'Is sent message', FALSE),
-       (2, 'Not sent message', TRUE);
+VALUES (1, 'Is sent message', 0),
+       (2, 'Not sent message', 1);
