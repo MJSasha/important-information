@@ -31,8 +31,7 @@ public class User {
     private String token;
     private Long chatId;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    @JsonIgnore
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<Note> notes = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)

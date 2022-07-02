@@ -1,6 +1,8 @@
 package com.example.backend.data.models;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 
