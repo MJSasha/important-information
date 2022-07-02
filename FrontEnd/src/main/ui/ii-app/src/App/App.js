@@ -9,7 +9,7 @@ function App() {
   return (
     <BrowserRouter>
         <Routes>
-          <Route path ="/register" element = {<Register />}/>
+          <Route path ="/" element = {<Register />}/>
           <Route path ="/main" element = {<Main />}/>
         </Routes>
     </BrowserRouter>
