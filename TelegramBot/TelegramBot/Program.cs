@@ -19,7 +19,9 @@ namespace TelegramBot
 
                 client.StartReceiving();
                 client.OnMessage += OnMessageHandler;
+                client.OnMessage += LogService.MessageLoging;
                 client.OnCallbackQuery += OnCallbackQweryHandlerAsync;
+                client.OnCallbackQuery += LogService.CallbackLoging;
                 Console.ReadLine();
                 client.StopReceiving();
             }
