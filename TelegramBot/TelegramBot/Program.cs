@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Args;
 using TelegramBot.Messages;
+using TelegramBot.Services;
 
 namespace TelegramBot
 {
@@ -11,19 +12,20 @@ namespace TelegramBot
         [Obsolete]
         static void Main(string[] args)
         {
-
             try
             {
                 var client = new TelegramBotClient(AppSettings.Token);
+                SingletonService.TelegramClient = client;
+
                 client.StartReceiving();
                 client.OnMessage += OnMessageHandler;
                 client.OnCallbackQuery += OnCallbackQweryHandlerAsync;
                 Console.ReadLine();
                 client.StopReceiving();
             }
-            catch
+            catch (Exception ex)
             {
-                Console.WriteLine("ERROR");
+                Console.WriteLine(ex);
                 Console.ReadLine();
             }
         }
