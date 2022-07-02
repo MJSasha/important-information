@@ -77,10 +77,7 @@ namespace TelegramBot.Services.ApiServices
             {
                 var options = new JsonSerializerOptions
                 {
-                    Converters =
-                    {
-                            new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
-                    }
+                    Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase) }
                 };
                 var jsonRequest = await httpResponse.Content.ReadAsStringAsync();
                 return JsonSerializer.Deserialize<T>(jsonRequest, options);
