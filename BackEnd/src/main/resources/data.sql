@@ -22,9 +22,9 @@ VALUES (1, '09:00:00', 1),
        (6, '13:00:00', 3);
 
 INSERT INTO days
-VALUES (1, '2022-09-01', 'First day'),
-       (2, '2022-09-02', 'Second day'),
-       (3, '2022-09-03', 'Third day');
+VALUES (1, '01-09-2022', 'First day'),
+       (2, '02-09-2022', 'Second day'),
+       (3, '03-09-2022', 'Third day');
 
 INSERT INTO days_lessons
 VALUES (1, 1),
