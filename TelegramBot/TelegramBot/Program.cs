@@ -15,9 +15,11 @@ namespace TelegramBot
             try
             {
                 var client = new TelegramBotClient(AppSettings.Token);
+                var newsMessages = new NewsMessages();
                 client.StartReceiving();
                 client.OnMessage += OnMessageHandler;
                 client.OnCallbackQuery += OnCallbackQweryHandlerAsync;
+                newsMessages.StartMailing();
                 Console.ReadLine();
                 client.StopReceiving();
             }
@@ -61,12 +63,16 @@ namespace TelegramBot
 
                 _ => message.UnknownMessage()
             };
-            if (text == "*" + text.Substring(1))
-            {
-                response = message.SendAll(text);
-            }
+
+
 
             await response();
+
         }
+
+
+
+
+
     }
 }

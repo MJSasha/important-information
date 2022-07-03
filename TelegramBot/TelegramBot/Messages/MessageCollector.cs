@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using TelegramBot.Interfaces;
 using TelegramBot.Services;
-using TelegramBot.Services.ApiServices;
-using TelegramBot.Data.Models;
 
 
 
@@ -40,19 +38,6 @@ namespace TelegramBot.Messages
             return () => bot.SendMessage("Пока я не понимаю данное сообщение, но скоро научусь");
         }
 
-        [Obsolete]
-        public Func<Task> SendAll(string text)
-        {
-            News news = new News();
-            news.NeedToSend = true;
-            news.Message = text;
-            
 
-            NewsService newsService = new NewsService();    //Отправляем запросс на добавление параметров news
-            newsService.Add(news);
-            return () => bot.SendMessage("Сообщение отправленно");
-
-
-        }
     }
 }

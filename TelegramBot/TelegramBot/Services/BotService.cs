@@ -19,6 +19,10 @@ namespace TelegramBot.Services
         {
             await client.SendTextMessageAsync(chatId, message);
         }
+        public async Task SendMessage(string message, long chatId)
+        {
+            await client.SendTextMessageAsync(chatId, message);
+        }
         public async Task SendMessage(string message, IReplyMarkup buttons)
         {
             await client.SendTextMessageAsync(chatId, message, replyMarkup: buttons);

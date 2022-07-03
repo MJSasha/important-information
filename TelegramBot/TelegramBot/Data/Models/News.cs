@@ -1,6 +1,4 @@
-﻿using System;
-using System.Text.Json.Serialization;
-using System.Collections.Generic;
+﻿using System.Text.Json.Serialization;
 
 namespace TelegramBot.Data.Models
 {
@@ -10,6 +8,7 @@ namespace TelegramBot.Data.Models
         public int Id { get; set; }
         [JsonPropertyName("message")]
         public string Message { get; set; }
+
         [JsonPropertyName("needToSend")]
         public bool NeedToSend { get; set; }
     }

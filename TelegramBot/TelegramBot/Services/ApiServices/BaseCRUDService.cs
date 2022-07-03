@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks; 
+using System.Threading.Tasks;
 using TelegramBot.Data.CustomExceptions;
 
 
@@ -33,6 +33,7 @@ namespace TelegramBot.Services.ApiServices
             var httpResponse = await httpClient.PostAsync(Root, data);
             if (!httpResponse.IsSuccessStatusCode) throw new ErrorResponseException(httpResponse.StatusCode, await httpResponse.Content.ReadAsStringAsync());
         }
+
         public async Task Create(List<TEntity> item)
         {
             var json = JsonSerializer.Serialize(item);
