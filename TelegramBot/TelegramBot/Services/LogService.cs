@@ -6,7 +6,7 @@ namespace TelegramBot.Services
     public static class LogService
     {
         [Obsolete]
-        public static void MessageLogпing(object sender, MessageEventArgs e)
+        public static void MessageLogging(object sender, MessageEventArgs e)
         {
             Console.WriteLine($"{DateTime.Now} INFO --- ChatId: { e.Message.Chat.Id}; Message: { e.Message.Text}");
         }
