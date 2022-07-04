@@ -49,4 +49,14 @@ public class UsersController extends BaseController<User, Integer> {
 
         return ResponseEntity.ok(user);
     }
+
+    @GetMapping("/byChatId/{chatId}")
+    public ResponseEntity<User> getByChatId(@PathVariable Long chatId) {
+        try {
+            return ResponseEntity.ok(usersService.readByChatId(chatId));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return ResponseEntity.noContent().build();
+        }
+    }
 }

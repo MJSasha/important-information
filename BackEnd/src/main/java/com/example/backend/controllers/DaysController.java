@@ -58,4 +58,24 @@ public class DaysController extends BaseController<Day, Integer> {
 
         return ResponseEntity.ok(days);
     }
+
+    @GetMapping("/byDate")
+    public ResponseEntity<Day> readByDate(@RequestBody String date, HttpServletRequest request)
+            throws NotAuthException {
+        String token = Arrays.stream(request.getCookies())
+                .filter(c -> Objects.equals(c.getName(), "token"))
+                .findFirst().get().getValue();
+
+        var day = daysService.readByDate(date);
+
+        if (day == null) return ResponseEntity.noContent().build();
+
+        var currentUser = usersService.readByToken(token);
+        if (currentUser == null) return ResponseEntity.notFound().build();
+        for (var note : currentUser.getNotes()) {
+            if (Objects.equals(note.getDay().getId(), day.getId())) day.setCurrentUserNote(note.getDescription());
+        }
+
+        return ResponseEntity.ok(day);
+    }
 }
