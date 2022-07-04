@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Args;
 using TelegramBot.Messages;
+using TelegramBot.Data;
 
 namespace TelegramBot
 {
@@ -32,10 +33,11 @@ namespace TelegramBot
         private static async void OnCallbackQweryHandlerAsync(object sender, CallbackQueryEventArgs e)
         {
             MessageCollector message = new(e.CallbackQuery.Message.Chat.Id);
+            MessagesTexts messagestexs = new(e.CallbackQuery.Message.Chat.Id);
 
             Func<Task> response = e.CallbackQuery.Data switch
             {
-                "@О нас" => message.SendText("Саша Мусалов - тг \nДаня - фронт \nВова - тг \nСаша Ушанков - бэк и тг"),
+                "@О нас" => messagestexs.Information(),
                 _ => message.UnknownMessage()
             };
 
