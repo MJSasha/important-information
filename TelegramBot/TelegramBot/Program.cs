@@ -1,9 +1,6 @@
 ﻿using System;
 using Telegram.Bot;
 using TelegramBot.Services;
-using TelegramBot.Handlers;
-using Telegram.Bot.Args;
-using TelegramBot.Messages;
 using System.Collections.Generic;
 
 namespace TelegramBot
@@ -19,13 +16,12 @@ namespace TelegramBot
                 SingletonService.TelegramClient = client;
 
                 var busyUsers = new List<long>() { 999999999 };
-                BusyUsers.BusyUserId = busyUsers;
-
+                DistributionService.BusyUserId = busyUsers;
 
                 client.StartReceiving();
-                client.OnMessage += Collector;
+                client.OnMessage += DistributionService.Collector;
                 client.OnMessage += LogService.MessageLogging;
-                client.OnCallbackQuery += Collector;
+                client.OnCallbackQuery += DistributionService.Collector;
                 client.OnCallbackQuery += LogService.CallbackLogging;
                 Console.ReadLine();
                 client.StopReceiving();
@@ -35,20 +31,6 @@ namespace TelegramBot
                 Console.WriteLine(ex);
                 Console.ReadLine();
             }
-        }
-
-        [Obsolete]
-        public static void Collector(object sender, MessageEventArgs e)
-        {
-            if (!BusyUsers.BusyUserId.Contains(e.Message.Chat.Id)) BaseHandler.OnMessageHandler(sender, e);
-            else RegistrationHandler.OnMessageHandler(sender, e);
-        }
-
-        [Obsolete]
-        public static void Collector(object sender, CallbackQueryEventArgs e)
-        {
-            if (!BusyUsers.BusyUserId.Contains(e.CallbackQuery.Message.Chat.Id)) BaseHandler.OnCallbackQweryHandlerAsync(sender, e);
-            else RegistrationHandler.OnCallbackQweryHandlerAsync(sender, e);
         }
     }
 }
