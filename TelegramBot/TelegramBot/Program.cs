@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Telegram.Bot;
+using TelegramBot.Services;
+using TelegramBot.Handlers;
 using Telegram.Bot.Args;
 using TelegramBot.Messages;
-using TelegramBot.Services;
+using System.Collections.Generic;
 
 namespace TelegramBot
 {
@@ -17,10 +18,14 @@ namespace TelegramBot
                 var client = new TelegramBotClient(AppSettings.Token);
                 SingletonService.TelegramClient = client;
 
+                var busyUsers = new List<long>() { 999999999 };
+                BusyUsers.BusyUserId = busyUsers;
+
+
                 client.StartReceiving();
-                client.OnMessage += OnMessageHandler;
+                client.OnMessage += Collector;
                 client.OnMessage += LogService.MessageLogging;
-                client.OnCallbackQuery += OnCallbackQweryHandlerAsync;
+                client.OnCallbackQuery += Collector;
                 client.OnCallbackQuery += LogService.CallbackLogging;
                 Console.ReadLine();
                 client.StopReceiving();
@@ -33,36 +38,17 @@ namespace TelegramBot
         }
 
         [Obsolete]
-        private static async void OnCallbackQweryHandlerAsync(object sender, CallbackQueryEventArgs e)
+        public static void Collector(object sender, MessageEventArgs e)
         {
-            MessageCollector message = new(e.CallbackQuery.Message.Chat.Id);
-
-            Func<Task> response = e.CallbackQuery.Data switch
-            {
-                _ => message.UnknownMessage()
-            };
-
-            await response();
+            if (!BusyUsers.BusyUserId.Contains(e.Message.Chat.Id)) BaseHandler.OnMessageHandler(sender, e);
+            else RegistrationHandler.OnMessageHandler(sender, e);
         }
 
         [Obsolete]
-        private static async void OnMessageHandler(object sender, MessageEventArgs e)
+        public static void Collector(object sender, CallbackQueryEventArgs e)
         {
-            MessageCollector message = new(e.Message.Chat.Id);
-
-            Func<Task> response = e.Message.Text switch
-            {
-                "/start" => message.StartMenu(),
-                "Привет" => message.SendText("Привет"),
-                "/reg" => message.RegistrationUsers(e.Message.Chat.Id),
-                _ => message.UnknownMessage()
-            };
-
-            if (message.busyUsers.Contains(e.Message.Chat.Id))
-            {
-                await message.RegistrationUsers(e.Message.Chat.Id, e.Message.Text);
-            }
-            await response();
+            if (!BusyUsers.BusyUserId.Contains(e.CallbackQuery.Message.Chat.Id)) BaseHandler.OnCallbackQweryHandlerAsync(sender, e);
+            else RegistrationHandler.OnCallbackQweryHandlerAsync(sender, e);
         }
     }
 }
