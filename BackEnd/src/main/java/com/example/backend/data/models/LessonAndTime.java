@@ -6,6 +6,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Getter
@@ -19,9 +21,9 @@ public class LessonAndTime {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @JsonFormat(pattern = "HH:mm:ss")
-    private Date time;
+    private String time;
 
+    // TODO: 6/26/2022 one to many
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "lesson_id", referencedColumnName = "id")
     private Lesson lesson;

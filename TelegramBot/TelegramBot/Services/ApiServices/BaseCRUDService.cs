@@ -3,8 +3,10 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks; //TemporaryFunctions
+using System.Text.Json.Serialization;
+using System.Threading.Tasks; 
 using TelegramBot.Data.CustomExceptions;
+
 
 namespace TelegramBot.Services.ApiServices
 {
@@ -73,8 +75,12 @@ namespace TelegramBot.Services.ApiServices
         {
             if (httpResponse.IsSuccessStatusCode)
             {
+                var options = new JsonSerializerOptions
+                {
+                    Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase) }
+                };
                 var jsonRequest = await httpResponse.Content.ReadAsStringAsync();
-                return JsonSerializer.Deserialize<T>(jsonRequest);
+                return JsonSerializer.Deserialize<T>(jsonRequest, options);
             }
             throw new ErrorResponseException(httpResponse.StatusCode, await httpResponse.Content.ReadAsStringAsync());
         }

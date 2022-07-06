@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+
+  frontend:
+    image: mjsasha/frontend_important-information:1.1
+    build: .
+    container_name: "frontend"
+    ports:
+      - "3000:3000"

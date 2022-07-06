@@ -1,10 +1,9 @@
 package com.example.backend.repositories;
 
-import com.example.backend.data.models.Day;
+import com.example.backend.data.models.News;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface DaysRepository extends CrudRepository<Day, Integer> {
-    Day getByDate(String date);
+public interface NewsRepository extends CrudRepository<News, Integer> {
 }

@@ -1,0 +1,20 @@
+version: "3"
+
+# Эта штука разворачивает весь проект
+services:
+
+# BackEnd
+  backend:
+    image: mjsasha/backend_important-information:2.7
+    container_name: backend
+    restart: always
+    ports:
+      - "8080:8080"
+
+# FrontEnd
+  frontend:
+    image: mjsasha/frontend_important-information:1.0
+    container_name: frontend
+    restart: always
+    ports:
+      - "3000:3000"

@@ -3,22 +3,8 @@ version: "3"
 services:
 
   important-information:
-    image: mjsasha/backend_important-information:2.5
+    image: mjsasha/backend_important-information:2.8
     container_name: backend
     restart: always
     ports:
       - "8080:8080"
-    environment:
-      - PSQL_HOST=postgres
-      - PSQL_PORT=5432
-      - PSQL_USER=postgres
-      - PSQL_PASSWORD=postgres
-
-  postgres:
-    image: postgres:14.2
-    container_name: imp-inf-db
-    restart: always
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=imp-inf-db

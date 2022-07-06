@@ -41,4 +41,8 @@ public class UsersService extends BaseCRUDService<User, Integer> {
     public User readByToken(String token) {
         return repository.findByToken(token);
     }
+
+    public User readByChatId(Long chatId) {
+        return repository.findByChatId(chatId);
+    }
 }
