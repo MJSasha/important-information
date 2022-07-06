@@ -1,34 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Args;
 using TelegramBot.Messages;
+using TelegramBot.Services;
 
 namespace TelegramBot
 {
     internal class Program
     {
-        private static List<long> RegistrationUsersChatId = new();
-        public static TelegramBotClient client = new TelegramBotClient(AppSettings.Token);
-
-
         [Obsolete]
         static void Main(string[] args)
         {
             try
             {
+                var client = new TelegramBotClient(AppSettings.Token);
+                SingletonService.TelegramClient = client;
+
                 client.StartReceiving();
                 client.OnMessage += OnMessageHandler;
-                client.OnMessage += Test;
-                client.OnCallbackQuery += Test;
+                client.OnMessage += LogService.MessageLogging;
                 client.OnCallbackQuery += OnCallbackQweryHandlerAsync;
+                client.OnCallbackQuery += LogService.CallbackLogging;
                 Console.ReadLine();
                 client.StopReceiving();
             }
-            catch
+            catch (Exception ex)
             {
-                Console.WriteLine("ERROR");
+                Console.WriteLine(ex);
                 Console.ReadLine();
             }
         }
@@ -47,47 +46,23 @@ namespace TelegramBot
         }
 
         [Obsolete]
-        public static async void OnMessageHandler(object sender, MessageEventArgs e)
+        private static async void OnMessageHandler(object sender, MessageEventArgs e)
         {
             MessageCollector message = new(e.Message.Chat.Id);
-            Console.WriteLine(message);
 
             Func<Task> response = e.Message.Text switch
             {
                 "/start" => message.StartMenu(),
-                "/reg" => StartRegistration(e.Message.Chat.Id)
-
-                ,
                 "Привет" => message.SendText("Привет"),
+                "/reg" => message.RegistrationUsers(e.Message.Chat.Id),
                 _ => message.UnknownMessage()
             };
 
+            if (message.busyUsers.Contains(e.Message.Chat.Id))
+            {
+                await message.RegistrationUsers(e.Message.Chat.Id, e.Message.Text);
+            }
             await response();
         }
-        [Obsolete]
-        public static Func<Task> StartRegistration(long chatId)
-        {
-            RegistrationUsersChatId.Add(chatId);
-            client.StopReceiving();
-            MessageCollector msg = new MessageCollector(chatId);
-            return () => msg.RegistrationUsers(chatId);
-
-        }
-
-
-        [Obsolete]
-        private static void Test(object sender, MessageEventArgs e)
-        {
-            Console.WriteLine(e.Message.Text);
-        }
-
-        [Obsolete]
-        private static void Test(object sender, CallbackQueryEventArgs e)
-        {
-            Console.WriteLine(e.CallbackQuery.Data);
-
-        }
-
-
     }
 }
