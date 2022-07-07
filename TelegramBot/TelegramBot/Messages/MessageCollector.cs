@@ -22,7 +22,7 @@ namespace TelegramBot.Messages
         {
             List<List<string>> markup = new()
             {
-                new List<string>{ "Hello", "L1B2", "L1B3","extra","Данек вперед" },
+                new List<string>{ "Hello", "L1B2", "L1B3" },
                 new List<string>{ "L2B1", "L2B2" },
                 new List<string>{ "Отправить всем" }
             };

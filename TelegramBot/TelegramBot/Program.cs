@@ -15,10 +15,10 @@ namespace TelegramBot
             try
             {
                 var client = new TelegramBotClient(AppSettings.Token);
-                var newsMessages = new NewsMessages();
                 client.StartReceiving();
                 client.OnMessage += OnMessageHandler;
                 client.OnCallbackQuery += OnCallbackQweryHandlerAsync;
+                var newsMessages = new NewsMessages();
                 newsMessages.StartMailing();
                 Console.ReadLine();
                 client.StopReceiving();
@@ -38,7 +38,7 @@ namespace TelegramBot
             Func<Task> response = e.CallbackQuery.Data switch
             {
                 "@Hello" => message.SendText("Hello"),
-                "@Отправить всем" => message.SendText("Отправить сообщение всем ^^ Введить сообщение которое хотите отправить, опставив в начанле *"),
+                
 
                 _ => message.UnknownMessage()
             };
@@ -64,15 +64,7 @@ namespace TelegramBot
                 _ => message.UnknownMessage()
             };
 
-
-
             await response();
-
         }
-
-
-
-
-
     }
 }
