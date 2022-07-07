@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Telegram.Bot.Args;
 using TelegramBot.Handlers;
 
@@ -12,6 +13,11 @@ namespace TelegramBot.Services
         [Obsolete]
         public static void Collector(object sender, MessageEventArgs e)
         {
+            foreach (var item in BusyUserId)
+            {
+                Console.WriteLine("Collector: " + item);
+
+            }
             if (!BusyUserId.Contains(e.Message.Chat.Id)) BaseHandler.OnMessageHandler(sender, e);
             else RegistrationHandler.OnMessageHandler(sender, e);
         }

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Telegram.Bot.Args;
 using TelegramBot.Messages;
+using TelegramBot.Services;
 
 namespace TelegramBot.Handlers
 {
@@ -29,7 +31,7 @@ namespace TelegramBot.Handlers
             {
                 "/start" => message.StartMenu(),
                 "Привет" => message.SendText("Привет"),
-                "/reg" => message.SendText("Добавление на регистрацию"),
+                "/reg" => RegistrationServices.AddToRegistration(e.Message.Chat.Id),
                 _ => message.UnknownMessage()
             };
 

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Telegram.Bot.Args;
+using TelegramBot.Data.ViewModels;
 using TelegramBot.Messages;
+using TelegramBot.Services;
 
 namespace TelegramBot.Handlers
 {
@@ -23,15 +25,10 @@ namespace TelegramBot.Handlers
         [Obsolete]
         public static async void OnMessageHandler(object sender, MessageEventArgs e)
         {
-            Console.WriteLine("Вы попали на регистрвцию :-))");
-            MessageCollector message = new(e.Message.Chat.Id);
+            Console.WriteLine(e.Message.Chat.FirstName + " - попал на регистрацию -");
+            var regService = new RegistrationServices();
 
-            Func<Task> response = e.Message.Text switch
-            {
-                _ => message.SendText("RegistrationHandler:" + e.Message.Text)
-            };
-
-            await response();
+            await regService.StartRegistration(e.Message.Chat.Id, e.Message.Text);
         }
     }
 }

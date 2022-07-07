@@ -15,7 +15,7 @@ namespace TelegramBot
                 var client = new TelegramBotClient(AppSettings.Token);
                 SingletonService.TelegramClient = client;
 
-                var busyUsers = new List<long>() { 999999999 };
+                var busyUsers = new List<long>();
                 DistributionService.BusyUserId = busyUsers;
 
                 client.StartReceiving();

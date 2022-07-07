@@ -9,16 +9,16 @@ namespace TelegramBot.Messages
     public class MessageCollector
     {
         private readonly IBotService bot;
-        public List<long> busyUsers;
+
+        public object RegistrationService { get; set; }
 
         [Obsolete]
         public MessageCollector(long chatId)
         {
             bot = new BotService(chatId);
-            busyUsers = new List<long>();
         }
 
-        public Func<Task> StartMenu()
+    public Func<Task> StartMenu()
         {
             List<List<string>> markup = new()
             {
@@ -36,16 +36,6 @@ namespace TelegramBot.Messages
         public Func<Task> UnknownMessage()
         {
             return () => bot.SendMessage("Пока я не понимаю данное сообщение, но скоро научусь");
-        }
-        public Func<Task> RegistrationUsers(long chatId) //AddToRegistration
-        {
-            if (!busyUsers.Contains(chatId)) busyUsers.Add(chatId);
-            return () => bot.SendMessage("Пользователь " + chatId.ToString() + "улетел на регистрацию");
-        }
-        public async Task RegistrationUsers(long chatId, string text) //получение содержимого сообщений из основного ообработчика
-        {
-            //
-            await bot.SendMessage("Пользователь: " + chatId.ToString() + "text: " + text);
         }
     }
 }
