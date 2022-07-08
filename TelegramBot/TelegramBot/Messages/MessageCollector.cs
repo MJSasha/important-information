@@ -18,7 +18,7 @@ namespace TelegramBot.Messages
             bot = new BotService(chatId);
         }
 
-    public Func<Task> StartMenu()
+        public Func<Task> StartMenu()
         {
             List<List<string>> markup = new()
             {

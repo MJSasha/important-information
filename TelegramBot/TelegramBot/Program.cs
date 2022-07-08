@@ -1,7 +1,6 @@
 ﻿using System;
 using Telegram.Bot;
 using TelegramBot.Services;
-using System.Collections.Generic;
 
 namespace TelegramBot
 {
@@ -14,9 +13,6 @@ namespace TelegramBot
             {
                 var client = new TelegramBotClient(AppSettings.Token);
                 SingletonService.TelegramClient = client;
-
-                var busyUsers = new List<long>();
-                DistributionService.BusyUserId = busyUsers;
 
                 client.StartReceiving();
                 client.OnMessage += DistributionService.Collector;

@@ -1,145 +1,121 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using TelegramBot.Data.ViewModels;
 using TelegramBot.Interfaces;
-using TelegramBot.Messages;
-using TelegramBot.Services;
 
 namespace TelegramBot.Services
 {
     public class RegistrationServices
     {
-        private static Task One;
-        private static RegistrationModel Model = new RegistrationModel();
-        private static CancellationTokenSource ts;
+        private readonly long chatId;
+        private string registrationMassage;
+
+        private Task registrationTask;
+        private readonly RegistrationModel registrationModel = new();
+        private CancellationTokenSource сancellationToken;
         private IBotService bot;
-        private static long ChatId;
-        private static List<long> BusyUserId = DistributionService.BusyUserId; 
-        private static string data;
 
-        public static Func<Task> AddToRegistration(long chatId)
+        public RegistrationServices(long chatId)
         {
-            BusyUserId.Add(chatId);
-            ChatId = chatId;
-            Task addToRegistration = new(() => BusyUserId.Add(chatId));
-            return () => addToRegistration;
+            this.chatId = chatId;
         }
 
-        public static Func<Task> EndToRegistration(long chatId)
-        {
-            var busyUserId = DistributionService.BusyUserId;
-            BusyUserId.Remove(chatId);
 
-            ChatId = chatId;
-            Task addToRegistration = new(() => busyUserId.Remove(chatId));
-            return () => addToRegistration;
+        [Obsolete]
+        public async Task ContinueRegistration(string registrationMassage)
+        {
+            this.registrationMassage = registrationMassage;
+
+            if (сancellationToken == null) await Task.Run(() => Registrate());
+            if (!сancellationToken.IsCancellationRequested) registrationTask.Start();
         }
 
         [Obsolete]
-        public async Task StartRegistration(long chatId, string text)
+        private void Registrate()
         {
-            data = text;    
-            if (ts==null) await Task.Run(() => IsSuccessRegistration());
-            if (!ts.IsCancellationRequested) One.Start();
-        }
-
-        [Obsolete]
-        private void IsSuccessRegistration()
-        {
-            bot = new BotService(ChatId);
+            bot = new BotService(chatId);
 
             try
             {
-                ts = new CancellationTokenSource();
-                One = new Task(RegName);
+                сancellationToken = new CancellationTokenSource();
+                registrationTask = new Task(RegName);
                 bot.SendMessage("enter name:");
-                One.Wait(ts.Token);
+                registrationTask.Wait(сancellationToken.Token);
             }
             catch (SystemException)
             {
-                ts.Dispose();
+                сancellationToken.Dispose();
             }
             try
             {
-                ts = new CancellationTokenSource();
-                One = new Task(RegEmail);
+                сancellationToken = new CancellationTokenSource();
+                registrationTask = new Task(RegEmail);
                 bot.SendMessage("enter email:");
 
-                One = new Task(RegEmail);
-                One.Wait(ts.Token);
+                registrationTask = new Task(RegEmail);
+                registrationTask.Wait(сancellationToken.Token);
             }
             catch (SystemException)
             {
-                ts.Dispose();
+                сancellationToken.Dispose();
             }
             try
             {
-                ts = new CancellationTokenSource();
+                сancellationToken = new CancellationTokenSource();
                 bot.SendMessage("enter password:");
 
-                One = new Task(RegPass);
-                One.Wait(ts.Token);
+                registrationTask = new Task(RegPass);
+                registrationTask.Wait(сancellationToken.Token);
             }
             catch (SystemException)
             {
-                ts.Dispose();
+                сancellationToken.Dispose();
             }
 
-             bot.SendMessage("successfull");
-             bot.SendMessage(Model.Name);
-             bot.SendMessage(Model.Email);
-             bot.SendMessage(Model.Password);
-             EndToRegistration(ChatId);
-
+            EndRegistration();
         }
-        private static void RegName()
+
+        private Func<Task> EndRegistration()
         {
-            if (RegistrationName(data))
+            var busyUserId = DistributionService.BusyUsersIdAdnService;
+            DistributionService.BusyUsersIdAdnService.RemoveAll(u => u.chatId == chatId);
+
+            Task addToRegistration = new(() => busyUserId.RemoveAll(u => u.chatId == chatId));
+            return () => addToRegistration;
+        }
+
+
+
+        private void RegName()
+        {
+            try
             {
-                ts.Cancel();
-                Console.WriteLine("RegName is succesfull");
+                registrationModel.Name = registrationMassage;
+                сancellationToken.Cancel();
             }
-            else throw new("RegName Bad");
-        }
-        private static void RegEmail()
-        {
-            if (RegistrationEmail(data))
+            catch //Тут ощибка исключения
             {
-                ts.Cancel();
-                Console.WriteLine("RegEmail is succesfull");
+
             }
-            else throw new("RegEmail Bad");
         }
-        private static void RegPass()
+        private void RegEmail()
         {
-            if (RegistrationPassword(data))
+            try
             {
-                ts.Cancel();
-                Console.WriteLine("RegPass is succesfull");
+                registrationModel.Email = registrationMassage;
+                сancellationToken.Cancel();
             }
-            else throw new("RegistrationPassword Bad");
+            catch { }
         }
-
-        public static Boolean RegistrationName(string text)
+        private void RegPass()
         {
-            Model.Name = text;
-            return true;
+            try
+            {
+                registrationModel.Password = registrationMassage;
+                сancellationToken.Cancel();
+            }
+            catch { }
         }
-
-        public static Boolean RegistrationEmail(string text)
-        {
-            Model.Email = text;
-            return true;
-        }
-        public static Boolean RegistrationPassword(string text)
-        {
-            Model.Password = text;
-            return true;
-        }
-
     }
 }

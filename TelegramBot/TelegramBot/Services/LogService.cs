@@ -8,7 +8,7 @@ namespace TelegramBot.Services
         [Obsolete]
         public static void MessageLogging(object sender, MessageEventArgs e)
         {
-            Console.WriteLine($"{DateTime.Now} INFO --- ChatId: { e.Message.Chat.Id}; Message: { e.Message.Text}");
+            Console.WriteLine($"{DateTime.Now} INFO --- ChatId: {e.Message.Chat.Id}; Message: {e.Message.Text}");
         }
 
         [Obsolete]

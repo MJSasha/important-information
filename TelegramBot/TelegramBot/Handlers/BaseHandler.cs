@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Telegram.Bot.Args;
 using TelegramBot.Messages;
@@ -30,8 +29,8 @@ namespace TelegramBot.Handlers
             Func<Task> response = e.Message.Text switch
             {
                 "/start" => message.StartMenu(),
+                "/reg" => async () => DistributionService.BusyUsersIdAdnService.Add((e.Message.Chat.Id, new RegistrationServices(e.Message.Chat.Id))),
                 "Привет" => message.SendText("Привет"),
-                "/reg" => RegistrationServices.AddToRegistration(e.Message.Chat.Id),
                 _ => message.UnknownMessage()
             };
 
