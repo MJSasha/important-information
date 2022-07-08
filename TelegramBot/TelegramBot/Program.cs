@@ -9,11 +9,12 @@ namespace TelegramBot
     internal class Program
     {
         [Obsolete]
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             try
             {
                 var client = SingletonService.GetClient();
+                await NewsMessages.StartMailing();
 
                 client.StartReceiving();
 
