@@ -20,9 +20,9 @@ namespace TelegramBot
 
                 LogService.LogStart();
 
-                client.OnMessage += OnMessageHandler;
+                client.OnMessage += DistributionService.Distributor;
                 client.OnMessage += LogService.LogMessages;
-                client.OnCallbackQuery += OnCallbackQweryHandlerAsync;
+                client.OnCallbackQuery += DistributionService.Distributor;
                 client.OnCallbackQuery += LogService.LogCallbacks;
 
                 Console.ReadLine();
@@ -33,34 +33,6 @@ namespace TelegramBot
                 Console.WriteLine(ex);
                 Console.ReadLine();
             }
-        }
-
-        [Obsolete]
-        private static async void OnCallbackQweryHandlerAsync(object sender, CallbackQueryEventArgs e)
-        {
-            MessageCollector message = new(e.CallbackQuery.Message.Chat.Id);
-
-            Func<Task> response = e.CallbackQuery.Data switch
-            {
-                _ => message.UnknownMessage()
-            };
-
-            await response();
-        }
-
-        [Obsolete]
-        private static async void OnMessageHandler(object sender, MessageEventArgs e)
-        {
-            MessageCollector message = new(e.Message.Chat.Id);
-
-            Func<Task> response = e.Message.Text switch
-            {
-                "/start" => message.StartMenu(),
-                "Привет" => message.SendText("Привет"),
-                _ => message.UnknownMessage()
-            };
-
-            await response();
         }
     }
 }
