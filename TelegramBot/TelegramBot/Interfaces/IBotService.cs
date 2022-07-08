@@ -6,7 +6,6 @@ namespace TelegramBot.Interfaces
     public interface IBotService
     {
         Task SendMessage(string message);
-        Task SendMessage(string message, long chatId);
         Task SendMessage(string message, IReplyMarkup buttons);
     }
 }

@@ -9,17 +9,16 @@ namespace TelegramBot
     internal class Program
     {
         [Obsolete]
-        public static void Main(string[] args)
+        static async Task Main(string[] args)
         {
 
             try
             {
                 var client = new TelegramBotClient(AppSettings.Token);
+                await NewsMessages.StartMailing();
                 client.StartReceiving();
                 client.OnMessage += OnMessageHandler;
                 client.OnCallbackQuery += OnCallbackQweryHandlerAsync;
-                var newsMessages = new NewsMessages();
-                newsMessages.StartMailing();
                 Console.ReadLine();
                 client.StopReceiving();
             }

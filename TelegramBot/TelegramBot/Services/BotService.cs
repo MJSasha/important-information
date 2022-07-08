@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBot.Interfaces;
@@ -8,18 +9,24 @@ namespace TelegramBot.Services
     public class BotService : IBotService
     {
         private readonly long chatId;
-        private readonly TelegramBotClient client = new(AppSettings.Token);
+        private static readonly TelegramBotClient client = new(AppSettings.Token);
 
         public BotService(long chatId)
         {
             this.chatId = chatId;
         }
 
-        public async Task SendMessage(string message)
+        //TODO - id не может быть null, это нужно будет поправить и в бэке (в тестовой бд), и тут
+        public static async Task SendMessage(string message, List<long?> chatIds)
         {
-            await client.SendTextMessageAsync(chatId, message);
+            foreach (var id in chatIds)
+            {
+                if (id == null) continue;
+                await client.SendTextMessageAsync(id, message); 
+            }
         }
-        public async Task SendMessage(string message, long chatId)
+
+        public async Task SendMessage(string message)
         {
             await client.SendTextMessageAsync(chatId, message);
         }

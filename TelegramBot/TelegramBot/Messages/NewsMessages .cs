@@ -1,40 +1,35 @@
 ﻿using System;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using TelegramBot.Services;
 using TelegramBot.Services.ApiServices;
-using TelegramBot.Interfaces;
 
 namespace TelegramBot.Messages
 {
     public class NewsMessages
     {
-        private readonly IBotService bot;
-        public void StartMailing()
+        public static async Task StartMailing()
         {
-            int num = 0;
-            TimerCallback tm = new TimerCallback(UnsentNews);
-            Timer timer = new Timer(tm, num, 0, 30000);
+            await Task.Run(() => { Timer timer = new Timer(async (_) => await SendNews(), 0, 0, (int)TimeSpan.FromMinutes(5).TotalMilliseconds); });
         }
-        private async void UnsentNews(object obj)
+
+        private static async Task SendNews()
         {
             var newsService = new NewsService();
             var unsentNews = await newsService.GetUnsent();
+
             if (unsentNews != null)
             {
                 var userService = new UsersServices();
                 var users = await userService.Get();
-                foreach (long chatId in users.Select(u => u.ChatId).ToList())
+
+                foreach (var news in unsentNews)
                 {
-                    foreach (var message in unsentNews.Select(m => m.Message).ToList())
-                    {
-
-                        
-                        await bot.SendMessage(message, chatId);
-
-                    }
+                    await BotService.SendMessage(news.Message, users.Select(u => u.ChatId).ToList());
+                    news.NeedToSend = false;
+                    await newsService.Update(news.Id, news);
                 }
-                unsentNews.ForEach(newsinfo => newsinfo.NeedToSend = false);
             }
         }
     }
