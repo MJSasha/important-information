@@ -8,7 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.temporal.ValueRange;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -21,6 +23,20 @@ public class UsersController extends BaseController<User, Integer> {
         super(usersService);
 
         this.usersService = usersService;
+    }
+
+    @Override
+    public ResponseEntity<List<User>> readAll() {
+        var users = super.readAll();
+        Objects.requireNonNull(users.getBody()).forEach(u -> u.setNotes(null));
+        return users;
+    }
+
+    @Override
+    public ResponseEntity<User> readById(Integer id) {
+        var user = super.readById(id);
+        Objects.requireNonNull(user.getBody()).setNotes(null);
+        return user;
     }
 
     @Override
