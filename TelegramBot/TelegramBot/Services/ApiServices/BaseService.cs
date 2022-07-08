@@ -15,7 +15,7 @@ namespace TelegramBot.Services.ApiServices
 
             HttpClientHandler handler = new();
             handler.CookieContainer = new CookieContainer();
-            handler.CookieContainer.Add(Root, new Cookie("token", AppSettings.TokenApi));
+            handler.CookieContainer.Add(Root, new Cookie("token", AppSettings.ApiToken));
             httpClient = new HttpClient(handler);
         }
     }
