@@ -7,7 +7,7 @@ namespace TelegramBot.Services.ApiServices
 {
     public class NewsService : BaseCRUDService<News, int>
     {
-        public NewsService() : base(AppSettings.NotesRoot)
+        public NewsService() : base(AppSettings.NewsRoot)
         {
 
         }
