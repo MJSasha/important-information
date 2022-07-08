@@ -37,13 +37,26 @@ public class UsersController extends BaseController<User, Integer> {
         String token = Arrays.stream(request.getCookies())
                 .filter(c -> Objects.equals(c.getName(), "token"))
                 .findFirst().get().getValue();
-        if (token == null) throw new NotAuthException("Нет токена");
 
         var user = usersService.readByToken(token);
         if (user == null) return ResponseEntity.notFound().build();
 
-        user.getNotes().forEach(n->n.setUser(null));
+        user.getPassword().setValue(null);
+        user.getNotes().forEach(n -> {
+            n.setUser(null);
+            n.getDay().setLessonsAndTimes(null);
+        });
 
         return ResponseEntity.ok(user);
+    }
+
+    @GetMapping("/byChatId/{chatId}")
+    public ResponseEntity<User> getByChatId(@PathVariable Long chatId) {
+        try {
+            return ResponseEntity.ok(usersService.readByChatId(chatId));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return ResponseEntity.noContent().build();
+        }
     }
 }
