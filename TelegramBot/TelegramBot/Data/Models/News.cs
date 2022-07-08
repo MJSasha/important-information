@@ -8,7 +8,6 @@ namespace TelegramBot.Data.Models
         public int Id { get; set; }
         [JsonPropertyName("message")]
         public string Message { get; set; }
-
         [JsonPropertyName("needToSend")]
         public bool NeedToSend { get; set; }
     }

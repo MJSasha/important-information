@@ -4,8 +4,6 @@ using System.Threading.Tasks;
 using TelegramBot.Interfaces;
 using TelegramBot.Services;
 
-
-
 namespace TelegramBot.Messages
 {
     public class MessageCollector
@@ -22,9 +20,9 @@ namespace TelegramBot.Messages
         {
             List<List<string>> markup = new()
             {
-                new List<string>{ "Hello", "L1B2", "L1B3" },
+                new List<string>{ "L1B1", "L1B2", "L1B3" },
                 new List<string>{ "L2B1", "L2B2" },
-                new List<string>{ "Отправить всем" }
+                new List<string>{ "L3B1" }
             };
 
             return () => bot.SendMessage("Стартовое меню", ButtonsGenerater.GetInlineButtons(markup));
@@ -37,7 +35,5 @@ namespace TelegramBot.Messages
         {
             return () => bot.SendMessage("Пока я не понимаю данное сообщение, но скоро научусь");
         }
-
-
     }
 }

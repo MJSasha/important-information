@@ -22,7 +22,7 @@ namespace TelegramBot.Services
             foreach (var id in chatIds)
             {
                 if (id == null) continue;
-                await client.SendTextMessageAsync(id, message); 
+                await client.SendTextMessageAsync(id, message);
             }
         }
 
