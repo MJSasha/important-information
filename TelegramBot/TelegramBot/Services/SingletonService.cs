@@ -4,6 +4,12 @@ namespace TelegramBot.Services
 {
     public static class SingletonService
     {
-        public static TelegramBotClient TelegramClient { get; set; }
+        private static TelegramBotClient TelegramClient { get; set; }
+
+        public static TelegramBotClient GetClient()
+        {
+            if (TelegramClient == null) TelegramClient = new TelegramBotClient(AppSettings.Token);
+            return TelegramClient;
+        }
     }
 }

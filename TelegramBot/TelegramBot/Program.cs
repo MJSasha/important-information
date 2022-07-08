@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Telegram.Bot;
 using Telegram.Bot.Args;
 using TelegramBot.Messages;
 using TelegramBot.Services;
@@ -14,14 +13,17 @@ namespace TelegramBot
         {
             try
             {
-                var client = new TelegramBotClient(AppSettings.Token);
-                SingletonService.TelegramClient = client;
+                var client = SingletonService.GetClient();
 
                 client.StartReceiving();
+
+                LogService.LogStart();
+
                 client.OnMessage += OnMessageHandler;
-                client.OnMessage += LogService.MessageLogging;
+                client.OnMessage += LogService.LogMessages;
                 client.OnCallbackQuery += OnCallbackQweryHandlerAsync;
-                client.OnCallbackQuery += LogService.CallbackLogging;
+                client.OnCallbackQuery += LogService.LogCallbacks;
+
                 Console.ReadLine();
                 client.StopReceiving();
             }
