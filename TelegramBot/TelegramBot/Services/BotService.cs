@@ -8,7 +8,7 @@ namespace TelegramBot.Services
     public class BotService : IBotService
     {
         private readonly long chatId;
-        private readonly TelegramBotClient client = new(AppSettings.Token);
+        private readonly TelegramBotClient client = SingletonService.GetClient();
 
         public BotService(long chatId)
         {
