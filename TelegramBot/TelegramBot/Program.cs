@@ -50,7 +50,9 @@ namespace TelegramBot
             {
                 "/start" => message.StartMenu(),
                 "Привет" => message.SendText("Привет"),
+                "Предметы" => message.SubjectMenu(),
                 _ => message.UnknownMessage()
+                
             };
 
             await response();

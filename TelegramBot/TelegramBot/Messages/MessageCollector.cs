@@ -27,7 +27,17 @@ namespace TelegramBot.Messages
 
             return () => bot.SendMessage("Стартовое меню", ButtonsGenerater.GetInlineButtons(markup));
         }
-        public Func<Task> SendText(string text)
+        public Func<Task> SubjectMenu()
+        {
+            List<List<string>> markup = new()
+            {
+                new List<string> { "Предмет1", "Предмет2", "Предмет3" },
+                new List<string> { "Предмет4", "Предмет5" }
+            };
+
+            return () => bot.SendMessage("Выберите предмет", ButtonsGenerater.GetInlineButtons(markup));
+        }
+            public Func<Task> SendText(string text)
         {
             return () => bot.SendMessage(text);
         }
