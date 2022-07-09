@@ -25,7 +25,9 @@ namespace TelegramBot.Handlers
         [Obsolete]
         public static async void OnMessage(object sender, MessageEventArgs e)
         {
-            await DistributionService.BusyUsersIdAdnService.Where(u => u.chatId == e.Message.Chat.Id).Select(u => u.registrationServices).First().ContinueRegistration(e.Message.Text);
+            var selectedServiceById = DistributionService.BusyUsersIdAdnService
+                .Where(u => u.chatId == e.Message.Chat.Id).Select(u => u.registrationServices);
+            await selectedServiceById.First().ContinueRegistration(e.Message.Text);
         }
     }
 }
