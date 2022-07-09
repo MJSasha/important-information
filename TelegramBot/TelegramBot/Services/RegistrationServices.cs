@@ -3,18 +3,20 @@ using System.Threading;
 using System.Threading.Tasks;
 using TelegramBot.Data.ViewModels;
 using TelegramBot.Interfaces;
+using TelegramBot.Services.ApiServices;
 
 namespace TelegramBot.Services
 {
     public class RegistrationServices
     {
+        private readonly RegistrationModel registrationModel = new();
+
         private readonly long chatId;
         private string registrationMassage;
 
-        private Task registrationTask;
-        private readonly RegistrationModel registrationModel = new();
-        private CancellationTokenSource сancellationToken;
         private IBotService bot;
+        private Task registrationTask;
+        private CancellationTokenSource сancellationToken;
 
         public RegistrationServices(long chatId)
         {
@@ -36,86 +38,43 @@ namespace TelegramBot.Services
         {
             bot = new BotService(chatId);
 
-            try
-            {
-                сancellationToken = new CancellationTokenSource();
-                registrationTask = new Task(RegName);
-                bot.SendMessage("enter name:");
-                registrationTask.Wait(сancellationToken.Token);
-            }
-            catch (SystemException)
-            {
-                сancellationToken.Dispose();
-            }
-            try
-            {
-                сancellationToken = new CancellationTokenSource();
-                registrationTask = new Task(RegEmail);
-                bot.SendMessage("enter email:");
-
-                registrationTask = new Task(RegEmail);
-                registrationTask.Wait(сancellationToken.Token);
-            }
-            catch (SystemException)
-            {
-                сancellationToken.Dispose();
-            }
-            try
-            {
-                сancellationToken = new CancellationTokenSource();
-                bot.SendMessage("enter password:");
-
-                registrationTask = new Task(RegPass);
-                registrationTask.Wait(сancellationToken.Token);
-            }
-            catch (SystemException)
-            {
-                сancellationToken.Dispose();
-            }
+            RegistrationInteration("Введите ваше имя", () => registrationModel.Name = registrationMassage);
+            RegistrationInteration("Придумайте логин", () => registrationModel.Email = registrationMassage);
+            RegistrationInteration("Придумайте пароль", () => registrationModel.Password = registrationMassage);
 
             EndRegistration();
         }
 
+        private void RegistrationInteration(string message, Action action)
+        {
+            try
+            {
+                сancellationToken = new();
+                registrationTask = new Task(() =>
+                {
+                    action();
+                    сancellationToken.Cancel();
+                });
+                bot.SendMessage(message);
+                registrationTask.Wait();
+            }
+            catch //Обработка ошибки валидации (на будущее)
+            {
+                throw;
+            }
+        }
+
         private Func<Task> EndRegistration()
         {
-            var busyUserId = DistributionService.BusyUsersIdAdnService;
-            DistributionService.BusyUsersIdAdnService.RemoveAll(u => u.chatId == chatId);
-
-            Task addToRegistration = new(() => busyUserId.RemoveAll(u => u.chatId == chatId));
-            return () => addToRegistration;
-        }
-
-
-
-        private void RegName()
-        {
-            try
+            return async () =>
             {
-                registrationModel.Name = registrationMassage;
-                сancellationToken.Cancel();
-            }
-            catch //Тут ощибка исключения
-            {
+                AuthService authService = new();
+                await authService.Registrate(registrationModel, chatId);
 
-            }
-        }
-        private void RegEmail()
-        {
-            try
-            {
-                registrationModel.Email = registrationMassage;
-                сancellationToken.Cancel();
-            }
-            catch { }
-        }
-        private void RegPass()
-        {
-            try
-            {
-                registrationModel.Password = registrationMassage;
-                сancellationToken.Cancel();
-            }
-            catch { }
+                await bot.SendMessage("Регистрация закончена");
+
+                DistributionService.BusyUsersIdAdnService.RemoveAll(u => u.chatId == chatId);
+            };
         }
     }
 }

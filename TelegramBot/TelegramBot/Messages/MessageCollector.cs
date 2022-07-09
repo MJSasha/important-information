@@ -10,8 +10,6 @@ namespace TelegramBot.Messages
     {
         private readonly IBotService bot;
 
-        public object RegistrationService { get; set; }
-
         [Obsolete]
         public MessageCollector(long chatId)
         {
@@ -39,7 +37,3 @@ namespace TelegramBot.Messages
         }
     }
 }
-
-
-
-
