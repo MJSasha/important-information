@@ -1,5 +1,6 @@
 ﻿using System;
-using Telegram.Bot;
+using System.Threading.Tasks;
+using TelegramBot.Messages;
 using TelegramBot.Services;
 
 namespace TelegramBot
@@ -7,18 +8,22 @@ namespace TelegramBot
     internal class Program
     {
         [Obsolete]
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             try
             {
-                var client = new TelegramBotClient(AppSettings.Token);
-                SingletonService.TelegramClient = client;
+                var client = SingletonService.GetClient();
+                await NewsMessages.StartMailing();
 
                 client.StartReceiving();
-                client.OnMessage += DistributionService.Collector;
-                client.OnMessage += LogService.MessageLogging;
-                client.OnCallbackQuery += DistributionService.Collector;
-                client.OnCallbackQuery += LogService.CallbackLogging;
+
+                LogService.LogStart();
+
+                client.OnMessage += DistributionService.DistributeMessages;
+                client.OnMessage += LogService.LogMessages;
+                client.OnCallbackQuery += DistributionService.DistributeCallbacks;
+                client.OnCallbackQuery += LogService.LogCallbacks;
+
                 Console.ReadLine();
                 client.StopReceiving();
             }
