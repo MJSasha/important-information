@@ -21,7 +21,7 @@ namespace TelegramBot.Messages
 
             if (unsentNews != null)
             {
-                var userService = new UsersServices();
+                var userService = new UsersService();
                 var users = await userService.Get();
 
                 foreach (var news in unsentNews)
