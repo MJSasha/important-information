@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Telegram.Bot.Args;
+using TelegramBot.Data;
 using TelegramBot.Messages;
 using TelegramBot.Services;
 
@@ -15,6 +16,7 @@ namespace TelegramBot.Handlers
 
             Func<Task> response = e.CallbackQuery.Data switch
             {
+                "@О нас" => message.SendText(MessagesTexts.AboutUs),
                 _ => message.UnknownMessage()
             };
 

@@ -8,8 +8,8 @@ using TelegramBot.Interfaces;
 
 namespace TelegramBot.Data
 {
-    public class MessagesTexts
+    public static class MessagesTexts
     {
-        public string AboutUs { get; } = "Мы делаем бота для telegram";
+        public static string AboutUs { get; } = "Мы делаем бота для telegram";
     }
 }
