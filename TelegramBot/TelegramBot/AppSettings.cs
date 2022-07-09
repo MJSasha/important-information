@@ -8,7 +8,7 @@
         public static string BaseRoot { get; } = "http://localhost:8080/api/";
 #else
         public static string Token { get; } = "";
-        public static string TokenApi { get; } = "";
+        public static string ApiToken { get; } = "";
         public static string BaseRoot { get; } = "";
 #endif
 
