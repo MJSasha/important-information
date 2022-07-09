@@ -39,7 +39,3 @@ namespace TelegramBot.Messages
         }
     }
 }
-
-
-
-

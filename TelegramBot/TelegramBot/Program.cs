@@ -20,9 +20,9 @@ namespace TelegramBot
 
                 LogService.LogStart();
 
-                client.OnMessage += DistributionService.Distributor;
+                client.OnMessage += DistributionService.DistributeMessages;
                 client.OnMessage += LogService.LogMessages;
-                client.OnCallbackQuery += DistributionService.Distributor;
+                client.OnCallbackQuery += DistributionService.DistributeCallbacks;
                 client.OnCallbackQuery += LogService.LogCallbacks;
 
                 Console.ReadLine();
