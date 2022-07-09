@@ -1,62 +1,37 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Telegram.Bot;
-using Telegram.Bot.Args;
 using TelegramBot.Messages;
-using TelegramBot.Data;
+using TelegramBot.Services;
 
 namespace TelegramBot
 {
     internal class Program
     {
         [Obsolete]
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-
             try
             {
-                var client = new TelegramBotClient(AppSettings.Token);
+                var client = SingletonService.GetClient();
+                await NewsMessages.StartMailing();
+
                 client.StartReceiving();
-                client.OnMessage += OnMessageHandler;
-                client.OnCallbackQuery += OnCallbackQweryHandlerAsync;
+
+                LogService.LogStart();
+
+                client.OnMessage += DistributionService.DistributeMessages;
+                client.OnMessage += LogService.LogMessages;
+                client.OnCallbackQuery += DistributionService.DistributeCallbacks;
+                client.OnCallbackQuery += LogService.LogCallbacks;
+
                 Console.ReadLine();
                 client.StopReceiving();
             }
-            catch
+            catch (Exception ex)
             {
-                Console.WriteLine("ERROR");
+                Console.WriteLine(ex);
                 Console.ReadLine();
             }
-        }
-
-        [Obsolete]
-        private static async void OnCallbackQweryHandlerAsync(object sender, CallbackQueryEventArgs e)
-        {
-            MessageCollector message = new(e.CallbackQuery.Message.Chat.Id);
-            var text = new MessagesTexts();
-
-            Func<Task> response = e.CallbackQuery.Data switch
-            {
-                "@О нас" => message.SendText(text.AboutUs),
-                _ => message.UnknownMessage()
-            };
-
-            await response();
-        }
-
-        [Obsolete]
-        private static async void OnMessageHandler(object sender, MessageEventArgs e)
-        {
-            MessageCollector message = new(e.Message.Chat.Id);
-
-            Func<Task> response = e.Message.Text switch
-            {
-                "/start" => message.StartMenu(),
-                "Привет" => message.SendText("Привет"),
-                _ => message.UnknownMessage()
-            };
-
-            await response();
         }
     }
 }
