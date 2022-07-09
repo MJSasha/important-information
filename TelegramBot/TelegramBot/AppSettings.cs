@@ -2,7 +2,7 @@
 {
     public static class AppSettings
     {
-        public static string Token { get; } = "5565611906:AAErbs8WISn9I5JMEbkm3n8qVb7gXGBs2Lw";
+        public static string Token { get; } = "2065215367:AAHxs51AowRJAqefe3tvV7d5jn5nsC_-xDc";
 
         public static string ApiToken { get; } = "Fp9u5dsvcdM3XIm";
         public static string BaseRoot { get; } = "http://localhost:8080/api/";
