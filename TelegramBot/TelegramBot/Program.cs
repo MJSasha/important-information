@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Telegram.Bot;
 using Telegram.Bot.Args;
 using TelegramBot.Messages;
-using TelegramBot.Services;
+using TelegramBot.Data;
 
 namespace TelegramBot
 {
@@ -11,25 +12,19 @@ namespace TelegramBot
         [Obsolete]
         static void Main(string[] args)
         {
+
             try
             {
-                var client = SingletonService.GetClient();
-
+                var client = new TelegramBotClient(AppSettings.Token);
                 client.StartReceiving();
-
-                LogService.LogStart();
-
                 client.OnMessage += OnMessageHandler;
-                client.OnMessage += LogService.LogMessages;
                 client.OnCallbackQuery += OnCallbackQweryHandlerAsync;
-                client.OnCallbackQuery += LogService.LogCallbacks;
-
                 Console.ReadLine();
                 client.StopReceiving();
             }
-            catch (Exception ex)
+            catch
             {
-                Console.WriteLine(ex);
+                Console.WriteLine("ERROR");
                 Console.ReadLine();
             }
         }
@@ -38,11 +33,11 @@ namespace TelegramBot
         private static async void OnCallbackQweryHandlerAsync(object sender, CallbackQueryEventArgs e)
         {
             MessageCollector message = new(e.CallbackQuery.Message.Chat.Id);
-            MessagesTexts messagestexs = new(e.CallbackQuery.Message.Chat.Id);
+            var text = new MessagesTexts();
 
             Func<Task> response = e.CallbackQuery.Data switch
             {
-                "@О нас" => messagestexs.Information(),
+                "@О нас" => message.SendText(text.AboutUs),
                 _ => message.UnknownMessage()
             };
 
