@@ -21,7 +21,7 @@ namespace TelegramBot.Services.ApiServices
         }
 
         public async Task<List<TEntity>> Get()
-        {           
+        {
             HttpResponseMessage httpResponse = await httpClient.GetAsync(Root);
             return await Deserialize<List<TEntity>>(httpResponse);
         }
