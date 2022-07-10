@@ -32,9 +32,10 @@ namespace TelegramBot
         private static async void OnCallbackQweryHandlerAsync(object sender, CallbackQueryEventArgs e)
         {
             MessageCollector message = new(e.CallbackQuery.Message.Chat.Id);
-
+           
             Func<Task> response = e.CallbackQuery.Data switch
             {
+                "@Предмет1" => message.SubjectInfo(e.CallbackQuery.Message.MessageId),
                 _ => message.UnknownMessage()
             };
 
