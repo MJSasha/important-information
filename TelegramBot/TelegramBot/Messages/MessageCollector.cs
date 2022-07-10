@@ -36,7 +36,11 @@ namespace TelegramBot.Messages
 
             return () => bot.SendMessage("Выберите предмет", ButtonsGenerater.GetInlineButtons(markup));
         }
-            public Func<Task> SendText(string text)
+        public Func<Task> SubjectInfo(int chatId)
+        {
+            return () => bot.EditMessage("Основная информация", chatId);
+        }
+        public Func<Task> SendText(string text)
         {
             return () => bot.SendMessage(text);
         }
