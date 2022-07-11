@@ -10,7 +10,7 @@ namespace TelegramBot.Handlers
     public class BaseHandler
     {
         [Obsolete]
-        public static async void OnCallbackQweryHandlerAsync(object sender, CallbackQueryEventArgs e)
+        public static async void OnCallback(object sender, CallbackQueryEventArgs e)
         {
             MessageCollector message = new(e.CallbackQuery.Message.Chat.Id);
 
@@ -24,14 +24,14 @@ namespace TelegramBot.Handlers
         }
 
         [Obsolete]
-        public static async void OnMessageHandler(object sender, MessageEventArgs e)
+        public static async void OnMessage(object sender, MessageEventArgs e)
         {
             MessageCollector message = new(e.Message.Chat.Id);
 
             Func<Task> response = e.Message.Text switch
             {
                 "/start" => message.StartMenu(),
-                "/reg" => async () => DistributionService.BusyUsersIdAdnService.Add((e.Message.Chat.Id, new RegistrationServices(e.Message.Chat.Id))),
+                "/reg" => async () => DistributionService.BusyUsersIdAndService.Add((e.Message.Chat.Id, new RegistrationHandler(e.Message.Chat.Id))),
                 "Привет" => message.SendText("Привет"),
                 _ => message.UnknownMessage()
             };
