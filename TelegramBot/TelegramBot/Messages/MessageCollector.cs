@@ -38,7 +38,21 @@ namespace TelegramBot.Messages
         }
         public Func<Task> SubjectInfo(int chatId)
         {
-            return () => bot.EditMessage("Основная информация", chatId);
+            List<List<string>> markup = new()
+            {
+                new List<string> { "Назад" }
+            };
+
+            return () => bot.EditMessage("Название:\nПреподаватель:\nИнформация:", ButtonsGenerater.GetInlineButtons(markup), chatId);
+        }
+        public Func<Task> ReturnSubjectMenu(int chatId)
+        {
+            List<List<string>> markup = new()
+            {
+                new List<string> { "Предмет1", "Предмет2", "Предмет3" },
+                new List<string> { "Предмет4", "Предмет5" }
+            };
+            return () => bot.EditMessage("Выберите предмет", ButtonsGenerater.GetInlineButtons(markup),chatId);
         }
         public Func<Task> SendText(string text)
         {

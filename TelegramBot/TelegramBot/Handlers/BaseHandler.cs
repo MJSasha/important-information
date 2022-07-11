@@ -18,6 +18,7 @@ namespace TelegramBot.Handlers
             {
                 "@О нас" => message.SendText(MessagesTexts.AboutUs),
                 "@Предмет1" => message.SubjectInfo(e.CallbackQuery.Message.MessageId),
+                "@Назад" => message.ReturnSubjectMenu(e.CallbackQuery.Message.MessageId),
                 _ => message.UnknownMessage()
             };
 
