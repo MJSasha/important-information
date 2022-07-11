@@ -22,6 +22,7 @@ namespace TelegramBot.Handlers
         public RegistrationHandler(long chatId)
         {
             this.chatId = chatId;
+            bot = new BotService(chatId);
         }
 
 
@@ -37,13 +38,16 @@ namespace TelegramBot.Handlers
         [Obsolete]
         private void Registrate()
         {
-            bot = new BotService(chatId);
-
             RegistrationInteration("Введите ваше имя и фамилию", () => registrationModel.Name = registrationMassage);
             RegistrationInteration("Придумайте логин", () => registrationModel.Email = registrationMassage);
             RegistrationInteration("Придумайте пароль", () => registrationModel.Password = registrationMassage);
+            RegistrationInteration($"Вы зарегистрированны! Теперь я буду обращаться к вам по имени {registrationModel.Name}", async () =>
+            {
+                AuthService authService = new();
+                await authService.Registrate(registrationModel, chatId);
 
-            EndRegistration();
+                DistributionService.BusyUsersIdAndService.RemoveAll(u => u.chatId == chatId);
+            });
         }
 
         private void RegistrationInteration(string message, Action action)
@@ -63,19 +67,6 @@ namespace TelegramBot.Handlers
             {
                 throw;
             }
-        }
-
-        private Func<Task> EndRegistration()
-        {
-            return async () =>
-            {
-                AuthService authService = new();
-                await authService.Registrate(registrationModel, chatId);
-
-                await bot.SendMessage("Регистрация закончена");
-
-                DistributionService.BusyUsersIdAndService.RemoveAll(u => u.chatId == chatId);
-            };
         }
     }
 }
