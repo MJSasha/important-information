@@ -15,7 +15,7 @@ namespace TelegramBot.Handlers
         private readonly long chatId;
         private string registrationMassage;
 
-        private IBotService bot;
+        private readonly IBotService bot;
         private Task registrationTask;
         private CancellationTokenSource сancellationToken;
 
