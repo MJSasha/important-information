@@ -31,7 +31,7 @@ namespace TelegramBot.Handlers
             Func<Task> response = e.Message.Text switch
             {
                 "/start" => message.StartMenu(),
-                "/reg" => async () => DistributionService.BusyUsersIdAndService.Add((e.Message.Chat.Id, new RegistrationHandler(e.Message.Chat.Id))),
+                "/reg" => async () => DistributionService.BusyUsersIdAndService.Add(e.Message.Chat.Id, new RegistrationHandler(e.Message.Chat.Id)),
                 "Привет" => message.SendText("Привет"),
                 _ => message.UnknownMessage()
             };
