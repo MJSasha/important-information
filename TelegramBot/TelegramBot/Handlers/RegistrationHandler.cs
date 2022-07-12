@@ -46,7 +46,7 @@ namespace TelegramBot.Handlers
                 AuthService authService = new();
                 await authService.Registrate(registrationModel, chatId);
 
-                DistributionService.BusyUsersIdAndService.RemoveAll(u => u.chatId == chatId);
+                DistributionService.BusyUsersIdAndService.Remove(chatId);
             });
         }
 
