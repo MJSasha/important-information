@@ -1,33 +1,72 @@
 ﻿using System;
-using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
-using Telegram.Bot.Args;
-using TelegramBot.Messages;
+using TelegramBot.Data.ViewModels;
+using TelegramBot.Interfaces;
 using TelegramBot.Services;
+using TelegramBot.Services.ApiServices;
 
 namespace TelegramBot.Handlers
 {
-    public class RegistrationHandler
+    public class RegistrationHandler : IHandler
     {
-        [Obsolete]
-        public static async void OnCallback(object sender, CallbackQueryEventArgs e)
+        private readonly RegistrationModel registrationModel = new();
+
+        private readonly long chatId;
+        private string registrationMassage;
+
+        private readonly IBotService bot;
+        private Task registrationTask;
+        private CancellationTokenSource сancellationToken;
+
+        public RegistrationHandler(long chatId)
         {
-            MessageCollector message = new(e.CallbackQuery.Message.Chat.Id);
+            this.chatId = chatId;
+            bot = new BotService(chatId);
+        }
 
-            Func<Task> response = e.CallbackQuery.Data switch
-            {
-                _ => message.UnknownMessage()
-            };
 
-            await response();
+        [Obsolete]
+        public async Task ProcessMessage(string registrationMassage)
+        {
+            this.registrationMassage = registrationMassage;
+
+            if (сancellationToken == null) await Task.Run(() => Registrate());
+            if (!сancellationToken.IsCancellationRequested) registrationTask.Start();
         }
 
         [Obsolete]
-        public static async void OnMessage(object sender, MessageEventArgs e)
+        private void Registrate()
         {
-            var selectedServiceById = DistributionService.BusyUsersIdAdnService
-                .Where(u => u.chatId == e.Message.Chat.Id).Select(u => u.registrationServices);
-            await selectedServiceById.First().ContinueRegistration(e.Message.Text);
+            RegistrationInteration("Введите ваше имя и фамилию", () => registrationModel.Name = registrationMassage);
+            RegistrationInteration("Придумайте логин", () => registrationModel.Email = registrationMassage);
+            RegistrationInteration("Придумайте пароль", () => registrationModel.Password = registrationMassage);
+            RegistrationInteration($"Вы зарегистрированны! Теперь я буду обращаться к вам по имени {registrationModel.Name}", async () =>
+            {
+                AuthService authService = new();
+                await authService.Registrate(registrationModel, chatId);
+
+                DistributionService.BusyUsersIdAndService.Remove(chatId);
+            });
+        }
+
+        private void RegistrationInteration(string message, Action action)
+        {
+            try
+            {
+                сancellationToken = new();
+                registrationTask = new Task(() =>
+                {
+                    action();
+                    сancellationToken.Cancel();
+                });
+                bot.SendMessage(message);
+                registrationTask.Wait();
+            }
+            catch //Обработка ошибки валидации (на будущее)
+            {
+                throw;
+            }
         }
     }
 }
