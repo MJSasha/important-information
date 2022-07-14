@@ -69,7 +69,7 @@ namespace TelegramBot.Handlers
             AuthService authService = new();
             await authService.Registrate(registrationModel, chatId);
             DistributionService.BusyUsersIdAndService.Remove(chatId);
-            LogService.LogInfo($"ChatId: {chatId} | Name: {registrationModel.Name} | Login: {registrationModel.Email}");
+            LogService.LogInfo($"|REGISTRATION| ChatId: {chatId} | Name: {registrationModel.Name} | Login: {registrationModel.Email}");
             await bot.SendMessage($"Вы зарегистрированны! Теперь я буду обращаться к вам по имени {registrationModel.Name}");
         }
     }
