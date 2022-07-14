@@ -22,37 +22,42 @@ namespace TelegramBot.Messages
             {
                 new List<string>{ "Новости" },
                 new List<string>{ "О нас" },
+                new List<string> { "Предметы" },
             };
 
             return () => bot.SendMessage("Доброе пожаловать в чат Важной информации.\nЧто бы вы хотели узнать?", ButtonsGenerater.GetInlineButtons(markup));
         }
-        public Func<Task> SubjectMenu()
+        public Func<Task> ReturnStartMenu(int messageid)
+        {
+            List<List<string>> markup = new()
+            {
+                new List<string> { "Новости" },
+                new List<string> { "О нас" },
+                new List<string> { "Предметы" },
+            };
+
+            return () => bot.EditMessage("Доброе пожаловать в чат Важной информации.\nЧто бы вы хотели узнать?", ButtonsGenerater.GetInlineButtons(markup), messageid);
+        }
+        public Func<Task> SubjectMenu(int messageid)
         {
             List<List<string>> markup = new()
             {
                 new List<string> { "Предмет1", "Предмет2", "Предмет3" },
-                new List<string> { "Предмет4", "Предмет5" }
+                new List<string> { "Предмет4", "Предмет5" } ,
+                new List<string> { "Назад в стартовое меню"}
             };
 
-            return () => bot.SendMessage("Выберите предмет", ButtonsGenerater.GetInlineButtons(markup));
+            return () => bot.EditMessage("Выберите предмет", ButtonsGenerater.GetInlineButtons(markup), messageid);
         }
-        public Func<Task> SubjectInfo(int chatId)
+            public Func<Task> SubjectInfo(int messageid)
         {
             List<List<string>> markup = new()
             {
-                new List<string> { "Назад" }
+                new List<string> { "Назад" },
+                new List<string> { "Назад в стартовое меню" }
             };
 
-            return () => bot.EditMessage("Название:\nПреподаватель:\nИнформация:", ButtonsGenerater.GetInlineButtons(markup), chatId);
-        }
-        public Func<Task> ReturnSubjectMenu(int chatId)
-        {
-            List<List<string>> markup = new()
-            {
-                new List<string> { "Предмет1", "Предмет2", "Предмет3" },
-                new List<string> { "Предмет4", "Предмет5" }
-            };
-            return () => bot.EditMessage("Выберите предмет", ButtonsGenerater.GetInlineButtons(markup),chatId);
+            return () => bot.EditMessage("Название:\nПреподаватель:\nИнформация:", ButtonsGenerater.GetInlineButtons(markup), messageid);
         }
         public Func<Task> SendText(string text)
         {

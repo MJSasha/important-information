@@ -17,12 +17,14 @@ namespace TelegramBot.Handlers
             Func<Task> response = e.CallbackQuery.Data switch
             {
                 "@О нас" => message.SendText(MessagesTexts.AboutUs),
+                "@Предметы" => message.SubjectMenu(e.CallbackQuery.Message.MessageId),
                 "@Предмет1" => message.SubjectInfo(e.CallbackQuery.Message.MessageId),
                 "@Предмет2" => message.SubjectInfo(e.CallbackQuery.Message.MessageId),
                 "@Предмет3" => message.SubjectInfo(e.CallbackQuery.Message.MessageId),
                 "@Предмет4" => message.SubjectInfo(e.CallbackQuery.Message.MessageId),
                 "@Предмет5" => message.SubjectInfo(e.CallbackQuery.Message.MessageId),
-                "@Назад" => message.ReturnSubjectMenu(e.CallbackQuery.Message.MessageId),
+                "@Назад в стартовое меню" => message.ReturnStartMenu(e.CallbackQuery.Message.MessageId),
+                "@Назад" => message.SubjectMenu(e.CallbackQuery.Message.MessageId),
                 _ => message.UnknownMessage()
             };
 
@@ -39,7 +41,6 @@ namespace TelegramBot.Handlers
                 "/start" => message.StartMenu(),
                 "/reg" => async () => DistributionService.BusyUsersIdAdnService.Add((e.Message.Chat.Id, new RegistrationServices(e.Message.Chat.Id))),
                 "Привет" => message.SendText("Привет"),
-                "Предметы" => message.SubjectMenu(),
                 _ => message.UnknownMessage()
             };
 
