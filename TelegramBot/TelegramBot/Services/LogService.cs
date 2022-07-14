@@ -11,7 +11,7 @@ namespace TelegramBot.Services
                 $"\n-----------------------------------------------------" +
                 $"\nToken: {AppSettings.Token}" +
                 $"\nBackEnd Root: {AppSettings.BaseRoot}" +
-                $"\n-----------------------------------------------------");
+                $"\n-----------------------------------------------------\n");
         }
 
         public static void LogInfo(string info)
