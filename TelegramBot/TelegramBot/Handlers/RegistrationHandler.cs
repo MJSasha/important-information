@@ -41,12 +41,11 @@ namespace TelegramBot.Handlers
             RegistrationInteration("Введите ваше имя и фамилию", () => registrationModel.Name = registrationMassage);
             RegistrationInteration("Придумайте логин", () => registrationModel.Email = registrationMassage);
             RegistrationInteration("Придумайте пароль", () => registrationModel.Password = registrationMassage);
-            LogService.LogInfo($"ChatId: {chatId} | Name: {registrationModel.Name} | Login: {registrationModel.Email}");
             RegistrationInteration($"Вы зарегистрированны! Теперь я буду обращаться к вам по имени {registrationModel.Name}", async () =>
             {
                 AuthService authService = new();
-                //await authService.Registrate(registrationModel, chatId);
-
+                await authService.Registrate(registrationModel, chatId);
+                LogService.LogInfo($"ChatId: {chatId} | Name: {registrationModel.Name} | Login: {registrationModel.Email}");
                 DistributionService.BusyUsersIdAndService.Remove(chatId);
             });
         }
