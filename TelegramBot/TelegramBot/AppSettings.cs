@@ -7,9 +7,9 @@
         public static string ApiToken { get; } = "Fp9u5dsvcdM3XIm";
         public static string BaseRoot { get; } = "http://localhost:8080/api/";
 #else
-        public static string Token { get; } = "5585844903:AAE9kG6Lsar77FVDuObq9TUDr99FrB-0FSI";
-        public static string ApiToken { get; } = "Fp9u5dsvcdM3XIm";
-        public static string BaseRoot { get; } = "https://a8815-e735.s.d-f.pw/api/";
+        public static string Token { get; } = "";
+        public static string ApiToken { get; } = "";
+        public static string BaseRoot { get; } = "";
 #endif
 
         public static string UsersRoot { get; } = "users";
@@ -17,5 +17,6 @@
         public static string NewsRoot { get; } = "news";
         public static string NotesRoot { get; } = "notes";
         public static string AuthRoot { get; } = "auth";
+        public static string LessonsRoot { get; } = "lessons";
     }
 }

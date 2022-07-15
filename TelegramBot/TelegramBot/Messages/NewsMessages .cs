@@ -20,7 +20,6 @@ namespace TelegramBot.Messages
             try
             {
                 var newsService = new NewsService();
-                var news = await newsService.Get();
                 var unsentNews = await newsService.GetUnsent();
 
                 if (unsentNews != null)
