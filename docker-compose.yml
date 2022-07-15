@@ -5,7 +5,7 @@ services:
 
 # BackEnd
   backend:
-    image: mjsasha/backend_important-information:2.7
+    image: mjsasha/backend_important-information:2.8.1
     container_name: backend
     restart: always
     ports:

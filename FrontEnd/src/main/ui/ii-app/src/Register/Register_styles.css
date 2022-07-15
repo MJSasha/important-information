@@ -1,5 +1,7 @@
 
-
+*, ::after, ::before {
+    box-sizing: border-box;
+}
 .text-center{
     background: url("./img/bg-image-1.svg") no-repeat;
     height: 100vh;

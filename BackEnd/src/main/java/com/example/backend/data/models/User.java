@@ -39,5 +39,5 @@ public class User {
     private Password password;
 
     @Enumerated(EnumType.ORDINAL)
-    private UserRole role;
+    private UserRole role = UserRole.USER;
 }

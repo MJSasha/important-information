@@ -20,7 +20,6 @@ namespace TelegramBot.Messages
         {
             List<List<string>> markup = new()
             {
-                new List<string>{ "Новости" },
                 new List<string>{ "О нас" },
                 new List<string> { "Предметы" },
             };
@@ -63,6 +62,12 @@ namespace TelegramBot.Messages
         {
             return () => bot.SendMessage(text);
         }
+
+        public Func<Task> EditToText(string text, int messageId)
+        {
+            return () => bot.EditMessage(text, messageId);
+        }
+
         public Func<Task> UnknownMessage()
         {
             return () => bot.SendMessage("Пока я не понимаю данное сообщение, но скоро научусь");
