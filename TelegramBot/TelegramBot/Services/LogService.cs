@@ -11,7 +11,17 @@ namespace TelegramBot.Services
                 $"\n-----------------------------------------------------" +
                 $"\nToken: {AppSettings.Token}" +
                 $"\nBackEnd Root: {AppSettings.BaseRoot}" +
-                $"\n-----------------------------------------------------");
+                $"\n-----------------------------------------------------\n");
+        }
+
+        public static void LogInfo(string info)
+        {
+            Console.WriteLine($"{DateTime.Now} INFO --- {info}");
+        }
+
+        public static void LogServerNotFound(string actionName = null)
+        {
+            Console.WriteLine($"{DateTime.Now} ERROR --- Server not found (404). {actionName} - Not completed");
         }
 
         [Obsolete]

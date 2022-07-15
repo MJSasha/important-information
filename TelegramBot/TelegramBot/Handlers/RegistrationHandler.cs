@@ -15,7 +15,7 @@ namespace TelegramBot.Handlers
         private readonly long chatId;
         private string registrationMassage;
 
-        private IBotService bot;
+        private readonly IBotService bot;
         private Task registrationTask;
         private CancellationTokenSource сancellationToken;
 
@@ -40,17 +40,10 @@ namespace TelegramBot.Handlers
         {
             RegistrationInteration("Введите ваше имя и фамилию", () => registrationModel.Name = registrationMassage);
             RegistrationInteration("Придумайте логин", () => registrationModel.Email = registrationMassage);
-            RegistrationInteration("Придумайте пароль", () => registrationModel.Password = registrationMassage);
-            RegistrationInteration($"Вы зарегистрированны! Теперь я буду обращаться к вам по имени {registrationModel.Name}", async () =>
-            {
-                AuthService authService = new();
-                await authService.Registrate(registrationModel, chatId);
-
-                DistributionService.BusyUsersIdAndService.Remove(chatId);
-            });
+            RegistrationInteration("Придумайте пароль", () => registrationModel.Password = registrationMassage, CompleteRegistration);
         }
 
-        private void RegistrationInteration(string message, Action action)
+        private void RegistrationInteration(string message, Action action, Action completeRegistrationAction = null)
         {
             try
             {
@@ -62,11 +55,22 @@ namespace TelegramBot.Handlers
                 });
                 bot.SendMessage(message);
                 registrationTask.Wait();
+
+                completeRegistrationAction?.Invoke();
             }
             catch //Обработка ошибки валидации (на будущее)
             {
                 throw;
             }
+        }
+
+        private async void CompleteRegistration()
+        {
+            AuthService authService = new();
+            await authService.Registrate(registrationModel, chatId);
+            DistributionService.BusyUsersIdAndService.Remove(chatId);
+            LogService.LogInfo($"|REGISTRATION| ChatId: {chatId} | Name: {registrationModel.Name} | Login: {registrationModel.Email}");
+            await bot.SendMessage($"Вы зарегистрированны! Теперь я буду обращаться к вам по имени {registrationModel.Name}");
         }
     }
 }
