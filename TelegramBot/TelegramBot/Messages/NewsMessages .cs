@@ -12,7 +12,7 @@ namespace TelegramBot.Messages
     {
         public static async Task StartMailing()
         {
-            await Task.Run(() => { Timer timer = new Timer(async (_) => await SendNews(), 0, 0, (int)TimeSpan.FromMinutes(5).TotalMilliseconds); });
+            await Task.Run(() => { Timer timer = new(async (_) => await SendNews(), 0, 0, (int)TimeSpan.FromMinutes(1).TotalMilliseconds); });
         }
 
         private static async Task SendNews()
@@ -20,6 +20,7 @@ namespace TelegramBot.Messages
             try
             {
                 var newsService = new NewsService();
+                var news = await newsService.Get();
                 var unsentNews = await newsService.GetUnsent();
 
                 if (unsentNews != null)
@@ -36,7 +37,7 @@ namespace TelegramBot.Messages
                     LogService.LogInfo($"Sent {unsentNews.Count} news to {users.Count} users");
                 }
             }
-            catch (HttpRequestException ex)
+            catch (HttpRequestException)
             {
                 LogService.LogServerNotFound("News mailing");
             }
