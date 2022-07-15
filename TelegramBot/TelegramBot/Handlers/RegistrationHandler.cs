@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
+using TelegramBot.Data.CustomExceptions;
 using TelegramBot.Data.ViewModels;
 using TelegramBot.Services;
 using TelegramBot.Services.ApiServices;
@@ -36,12 +38,26 @@ namespace TelegramBot.Handlers
 
         private async void CompleteRegistration()
         {
-            //Вот тут надо провалидировать модель
-            AuthService authService = new();
-            await authService.Registrate(registrationModel, chatId);
-            DistributionService.BusyUsersIdAndService.Remove(chatId);
-            LogService.LogInfo($"|REGISTRATION| ChatId: {chatId} | Name: {registrationModel.Name} | Login: {registrationModel.Login}");
-            await bot.SendMessage($"Вы зарегистрированны! Теперь я буду обращаться к вам по имени {registrationModel.Name}");
+            try
+            {
+                AuthService authService = new();
+                await authService.Registrate(registrationModel, chatId);
+                LogService.LogInfo($"|REGISTRATION| ChatId: {chatId} | Name: {registrationModel.Name} | Login: {registrationModel.Login}");
+                await bot.SendMessage($"Вы зарегистрированны! Теперь я буду обращаться к вам по имени {registrationModel.Name}");
+            }
+            catch (ErrorResponseException)
+            {
+                await bot.SendMessage("Мде... походу такой логин уже существует, дружище. Давай по новой (/reg)");
+            }
+            catch (HttpRequestException)
+            {
+                LogService.LogServerNotFound("Registration");
+                await bot.SendMessage("Упс, что-то пошло не так...");
+            }
+            finally
+            {
+                DistributionService.BusyUsersIdAndService.Remove(chatId);
+            }
         }
     }
 }
