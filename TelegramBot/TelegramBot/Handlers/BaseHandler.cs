@@ -16,7 +16,7 @@ namespace TelegramBot.Handlers
 
             Func<Task> response = e.CallbackQuery.Data switch
             {
-                "@О нас" => message.SendText(MessagesTexts.AboutUs),
+                "@О нас" => message.EditToText(MessagesTexts.AboutUs, e.CallbackQuery.Message.MessageId),
                 _ => message.UnknownMessage()
             };
 
@@ -32,7 +32,6 @@ namespace TelegramBot.Handlers
             {
                 "/start" => message.StartMenu(),
                 "/reg" => async () => DistributionService.BusyUsersIdAndService.Add(e.Message.Chat.Id, new RegistrationHandler(e.Message.Chat.Id)),
-                "Привет" => message.SendText("Привет"),
                 _ => message.UnknownMessage()
             };
 

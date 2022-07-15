@@ -20,16 +20,22 @@ namespace TelegramBot.Messages
         {
             List<List<string>> markup = new()
             {
-                new List<string>{ "Новости" },
                 new List<string>{ "О нас" },
             };
 
             return () => bot.SendMessage("Доброе пожаловать в чат Важной информации.\nЧто бы вы хотели узнать?", ButtonsGenerater.GetInlineButtons(markup));
         }
+
         public Func<Task> SendText(string text)
         {
             return () => bot.SendMessage(text);
         }
+
+        public Func<Task> EditToText(string text, int messageId)
+        {
+            return () => bot.EditMessage(text, messageId);
+        }
+
         public Func<Task> UnknownMessage()
         {
             return () => bot.SendMessage("Пока я не понимаю данное сообщение, но скоро научусь");
