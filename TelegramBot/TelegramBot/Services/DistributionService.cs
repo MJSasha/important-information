@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Telegram.Bot.Args;
 using TelegramBot.Handlers;
-using TelegramBot.Interfaces;
 
 namespace TelegramBot.Services
 {
     public static class DistributionService
     {
-        public static Dictionary<long, IHandler> BusyUsersIdAndService { get; set; } = new();
+        public static Dictionary<long, BaseSpecialHandler> BusyUsersIdAndService { get; set; } = new();
 
         [Obsolete]
         public static async void DistributeMessages(object sender, MessageEventArgs e)

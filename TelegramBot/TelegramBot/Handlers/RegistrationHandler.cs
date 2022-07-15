@@ -1,76 +1,63 @@
 ﻿using System;
-using System.Threading;
+using System.Net.Http;
 using System.Threading.Tasks;
+using TelegramBot.Data.CustomExceptions;
 using TelegramBot.Data.ViewModels;
-using TelegramBot.Interfaces;
 using TelegramBot.Services;
 using TelegramBot.Services.ApiServices;
 
 namespace TelegramBot.Handlers
 {
-    public class RegistrationHandler : IHandler
+    public class RegistrationHandler : BaseSpecialHandler
     {
         private readonly RegistrationModel registrationModel = new();
-
         private readonly long chatId;
         private string registrationMassage;
 
-        private readonly IBotService bot;
-        private Task registrationTask;
-        private CancellationTokenSource сancellationToken;
-
-        public RegistrationHandler(long chatId)
+        public RegistrationHandler(long chatId) : base(new BotService(chatId))
         {
             this.chatId = chatId;
-            bot = new BotService(chatId);
         }
 
-
         [Obsolete]
-        public async Task ProcessMessage(string registrationMassage)
+        public override async Task ProcessMessage(string registrationMassage)
         {
             this.registrationMassage = registrationMassage;
 
             if (сancellationToken == null) await Task.Run(() => Registrate());
-            if (!сancellationToken.IsCancellationRequested) registrationTask.Start();
+            if (!сancellationToken.IsCancellationRequested) currentTask.Start();
         }
 
         [Obsolete]
         private void Registrate()
         {
-            RegistrationInteration("Введите ваше имя и фамилию", () => registrationModel.Name = registrationMassage);
-            RegistrationInteration("Придумайте логин", () => registrationModel.Email = registrationMassage);
-            RegistrationInteration("Придумайте пароль", () => registrationModel.Password = registrationMassage, CompleteRegistration);
-        }
-
-        private void RegistrationInteration(string message, Action action, Action completeRegistrationAction = null)
-        {
-            try
-            {
-                сancellationToken = new();
-                registrationTask = new Task(() =>
-                {
-                    action();
-                    сancellationToken.Cancel();
-                });
-                bot.SendMessage(message);
-                registrationTask.Wait();
-
-                completeRegistrationAction?.Invoke();
-            }
-            catch //Обработка ошибки валидации (на будущее)
-            {
-                throw;
-            }
+            AddProcessing("Введите ваше имя и фамилию", () => registrationModel.Name = registrationMassage);
+            AddProcessing("Придумайте логин", () => registrationModel.Login = registrationMassage);
+            AddProcessing("Придумайте пароль", () => registrationModel.Password = registrationMassage, CompleteRegistration);
         }
 
         private async void CompleteRegistration()
         {
-            AuthService authService = new();
-            await authService.Registrate(registrationModel, chatId);
-            DistributionService.BusyUsersIdAndService.Remove(chatId);
-            LogService.LogInfo($"|REGISTRATION| ChatId: {chatId} | Name: {registrationModel.Name} | Login: {registrationModel.Email}");
-            await bot.SendMessage($"Вы зарегистрированны! Теперь я буду обращаться к вам по имени {registrationModel.Name}");
+            try
+            {
+                AuthService authService = new();
+                await authService.Registrate(registrationModel, chatId);
+                LogService.LogInfo($"|REGISTRATION| ChatId: {chatId} | Name: {registrationModel.Name} | Login: {registrationModel.Login}");
+                await bot.SendMessage($"Вы зарегистрированны! Теперь я буду обращаться к вам по имени {registrationModel.Name}");
+            }
+            catch (ErrorResponseException)
+            {
+                await bot.SendMessage("Мде... походу такой логин уже существует, дружище. Давай по новой (/reg)");
+            }
+            catch (HttpRequestException)
+            {
+                LogService.LogServerNotFound("Registration");
+                await bot.SendMessage("Упс, что-то пошло не так...");
+            }
+            finally
+            {
+                DistributionService.BusyUsersIdAndService.Remove(chatId);
+            }
         }
     }
 }
