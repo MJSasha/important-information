@@ -1,7 +1,7 @@
 import React from 'react';
 // import './App.css';
-import Register from '../Register/Register';
-import Main from '../MainPage/Main'
+import Register from './Register/Register';
+import Main from './MainPage/Main'
 import { BrowserRouter, Route, Routes} from 'react-router-dom';
 
 
