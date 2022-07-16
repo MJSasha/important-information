@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import './Register_styles.css';
+import './Register_styles.modules.css';
 import logo from './img/logo.svg';
 import { Form, Button} from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
