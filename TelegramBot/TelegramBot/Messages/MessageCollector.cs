@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using TelegramBot.Interfaces;
 using TelegramBot.Services;
+using TelegramBot.Services.ApiServices;
 
 namespace TelegramBot.Messages
 {
@@ -39,28 +40,30 @@ namespace TelegramBot.Messages
         }
         public Func<Task> SubjectMenu(int messageid)
         {
+                var lessonsservice = new LessonsService();
+                var lessons = lessonsservice.Get();
+
             List<List<string>> markup = new()
             {
                 new List<string> { "Предмет1", "Предмет2", "Предмет3" },
                 new List<string> { "Предмет4", "Предмет5" } ,
-                new List<string> { "Назад в стартовое меню"}
+                new List<string> { "Назад" }
             };
 
             return () => bot.EditMessage("Выберите предмет", ButtonsGenerater.GetInlineButtons(markup), messageid);
         }
             public Func<Task> SubjectInfo(int messageid)
         {
-            List<List<string>> markup = new()
+            List<List<(string, string)>> markup = new()
             {
-                new List<string> { "Назад" },
-                new List<string> { "Назад в стартовое меню" }
+                new List<(string, string)> { ("Назад","Меню предметов") }
             };
 
             return () => bot.EditMessage("Название:\nПреподаватель:\nИнформация:", ButtonsGenerater.GetInlineButtons(markup), messageid);
         }
         public Func<Task> SendText(string text)
         {
-            return () => bot.SendMessage(text);
+            return () => bot.SendMessage(text) ;
         }
 
         public Func<Task> EditToText(string text, int messageId)

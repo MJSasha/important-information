@@ -23,8 +23,8 @@ namespace TelegramBot.Handlers
                 "@Предмет3" => message.SubjectInfo(e.CallbackQuery.Message.MessageId),
                 "@Предмет4" => message.SubjectInfo(e.CallbackQuery.Message.MessageId),
                 "@Предмет5" => message.SubjectInfo(e.CallbackQuery.Message.MessageId),
-                "@Назад в стартовое меню" => message.ReturnStartMenu(e.CallbackQuery.Message.MessageId),
-                "@Назад" => message.SubjectMenu(e.CallbackQuery.Message.MessageId),
+                "@Назад" => message.ReturnStartMenu(e.CallbackQuery.Message.MessageId),
+                "@Меню предметов" => message.SubjectMenu(e.CallbackQuery.Message.MessageId),
                 _ => message.UnknownMessage()
             };
 
