@@ -12,7 +12,7 @@ namespace TelegramBot.Messages
     {
         public static async Task StartMailing()
         {
-            await Task.Run(() => { Timer timer = new(async (_) => await SendNews(), 0, 0, (int)TimeSpan.FromMinutes(1).TotalMilliseconds); });
+            await Task.Run(() => { Timer timer = new(async (_) => await SendNews(), new AutoResetEvent(true), 0, (int)TimeSpan.FromMinutes(1).TotalMilliseconds); });
         }
 
         private static async Task SendNews()
