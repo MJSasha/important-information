@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using TelegramBot.Data.ViewModels;
 using TelegramBot.Interfaces;
 using TelegramBot.Services;
 using TelegramBot.Services.ApiServices;
@@ -38,15 +40,23 @@ namespace TelegramBot.Messages
 
             return () => bot.EditMessage("Доброе пожаловать в чат Важной информации.\nЧто бы вы хотели узнать?", ButtonsGenerater.GetInlineButtons(markup), messageid);
         }
+        public static readonly List<string> ABC;
+        public static async Task<List<string>> GetLessonsName()
+        {
+            var lessonsService = new LessonsService();
+            var lessons = await lessonsService.Get();
+            var ABC = lessons.Select(x => x.Name).ToList();
+            return ABC;
+        }
+
         public Func<Task> SubjectMenu(int messageid)
         {
-                var lessonsservice = new LessonsService();
-                var lessons = lessonsservice.Get();
-
+            _ = GetLessonsName();
+            string firstName = ABC[0];
             List<List<string>> markup = new()
             {
+                new List<string> { $"{firstName}" },
                 new List<string> { "Предмет1", "Предмет2", "Предмет3" },
-                new List<string> { "Предмет4", "Предмет5" } ,
                 new List<string> { "Назад" }
             };
 
@@ -54,12 +64,13 @@ namespace TelegramBot.Messages
         }
             public Func<Task> SubjectInfo(int messageid)
         {
+
             List<List<(string, string)>> markup = new()
             {
-                new List<(string, string)> { ("Назад","Меню предметов") }
+                new List<(string, string)> { ("Назад", "Меню предметов") }
             };
 
-            return () => bot.EditMessage("Название:\nПреподаватель:\nИнформация:", ButtonsGenerater.GetInlineButtons(markup), messageid);
+                return () => bot.EditMessage($"Название:\nПреподаватель:\nИнформация:", ButtonsGenerater.GetInlineButtons(markup), messageid);
         }
         public Func<Task> SendText(string text)
         {
