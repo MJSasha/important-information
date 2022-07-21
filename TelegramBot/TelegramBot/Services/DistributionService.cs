@@ -13,17 +13,17 @@ namespace TelegramBot.Services
         [Obsolete]
         public static async void DistributeMessages(object sender, MessageEventArgs e)
         {
-            if (!BusyUsersIdAndService.Keys.Contains(e.Message.Chat.Id)) BaseHandler.OnMessage(sender, e);
+            if (!BusyUsersIdAndService.Keys.Contains(e.Message.Chat.Id)) await BaseHandler.OnMessage(sender, e);
 
             if (BusyUsersIdAndService.Keys.Contains(e.Message.Chat.Id)) await BusyUsersIdAndService[e.Message.Chat.Id].ProcessMessage(e.Message.Text);
         }
 
         [Obsolete]
-        public static void DistributeCallbacks(object sender, CallbackQueryEventArgs e)
+        public static async void DistributeCallbacks(object sender, CallbackQueryEventArgs e)
         {
             BusyUsersIdAndService.Remove(e.CallbackQuery.Message.Chat.Id);
 
-            if (!BusyUsersIdAndService.Keys.Contains(e.CallbackQuery.Message.Chat.Id)) BaseHandler.OnCallback(sender, e);
+            if (!BusyUsersIdAndService.Keys.Contains(e.CallbackQuery.Message.Chat.Id)) await BaseHandler.OnCallback(sender, e);
         }
     }
 }

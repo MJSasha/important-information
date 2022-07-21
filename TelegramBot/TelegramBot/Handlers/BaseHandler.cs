@@ -10,7 +10,7 @@ namespace TelegramBot.Handlers
     public class BaseHandler
     {
         [Obsolete]
-        public static async void OnCallback(object sender, CallbackQueryEventArgs e)
+        public static async Task OnCallback(object sender, CallbackQueryEventArgs e)
         {
             MessageCollector message = new(e.CallbackQuery.Message.Chat.Id);
 
@@ -24,7 +24,7 @@ namespace TelegramBot.Handlers
         }
 
         [Obsolete]
-        public static async void OnMessage(object sender, MessageEventArgs e)
+        public static async Task OnMessage(object sender, MessageEventArgs e)
         {
             MessageCollector message = new(e.Message.Chat.Id);
 
