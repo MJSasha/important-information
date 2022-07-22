@@ -40,34 +40,34 @@ namespace TelegramBot.Messages
 
             return () => bot.EditMessage("Доброе пожаловать в чат Важной информации.\nЧто бы вы хотели узнать?", ButtonsGenerater.GetInlineButtons(markup), messageid);
         }
-        public static readonly List<string> ABC;
+       
         public static async Task<List<string>> GetLessonsName()
         {
             var lessonsService = new LessonsService();
             var lessons = await lessonsService.Get();
-            var ABC = lessons.Select(x => x.Name).ToList();
-            return ABC;
+            return lessons.Select(x => x.Name).ToList();
         }
 
-        public Func<Task> SubjectMenu(int messageid)
+        public async Task<Func<Task>> SubjectMenu(int messageid)
         {
-            _ = GetLessonsName();
-            string firstName = ABC[0];
-            List<List<string>> markup = new()
-            {
-                new List<string> { $"{firstName}" },
-                new List<string> { "Предмет1", "Предмет2", "Предмет3" },
-                new List<string> { "Назад" }
-            };
-
+            List<string> Names = await GetLessonsName();
+            List<List<(string, string)>> markup = new();
+            { 
+          
+                new List<(string, string)> { ($"{Names[0]}", "subject") };
+                new List<(string, string)> { ($"{Names[1]}", "subject") };
+                new List<(string, string)> { ($"{Names[2]}", "subject") };
+                new List<(string, string)> { ("Назад", "основное меню") };
+            }
+         
             return () => bot.EditMessage("Выберите предмет", ButtonsGenerater.GetInlineButtons(markup), messageid);
         }
-            public Func<Task> SubjectInfo(int messageid)
+        public Func<Task> SubjectInfo(int messageid)
         {
 
             List<List<(string, string)>> markup = new()
             {
-                new List<(string, string)> { ("Назад", "Меню предметов") }
+                new List<(string, string)> { ("Назад", "меню предметов") }
             };
 
                 return () => bot.EditMessage($"Название:\nПреподаватель:\nИнформация:", ButtonsGenerater.GetInlineButtons(markup), messageid);
