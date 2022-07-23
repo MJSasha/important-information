@@ -18,21 +18,18 @@ namespace TelegramBot.Messages
 
         public Func<Task> StartMenu()
         {
-            List<List<string>> markup = new()
+            ButtonsGenerater buttonsGenerater = new();
+            buttonsGenerater.SetInlineButtons(new List<List<string>>()
             {
                 new List<string>{ "Новости" },
                 new List<string>{ "О нас" },
-            };
-
-            List<List<string>> urlmarkup = new()
+            });
+            buttonsGenerater.SetInlineUrlButtons(new List<List<(string, string)>>()
             {
-                new List<string>{"Go URL", "https://www.google.com"}
-            };
-            //InlineKeyboardButton urlButton = new InlineKeyboardButton();
-            //urlButton.Text = "Go URL";
-            //urlButton.Url = "https://www.google.com";
+                new List<(string, string)>{("Go URL", "https://www.google.com")}
+            });
 
-            return () => bot.SendMessage("Доброе пожаловать в чат Важной информации.\nЧто бы вы хотели узнать?", ButtonsGenerater.GetInlineButtons(markup), ButtonsGenerater.GetInlineUrlButtons(urlmarkup));
+            return () => bot.SendMessage("Доброе пожаловать в чат Важной информации.\nЧто бы вы хотели узнать?", buttonsGenerater.GetButtons());
         }
         public Func<Task> SendText(string text)
         {
