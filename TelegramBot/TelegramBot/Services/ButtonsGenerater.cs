@@ -42,5 +42,18 @@ namespace TelegramBot.Services
 
             return new InlineKeyboardMarkup(returnsButtons);
         }
+        public static IReplyMarkup GetInlineUrlButtons(List<List<(string name, string url)>> urlmarkup)
+        {
+            List<List<InlineKeyboardButton>> returnsButtons = new();
+
+            foreach (var lines in urlmarkup)
+            {
+                List<InlineKeyboardButton> buttonsLine = new();
+                lines.ForEach(text => buttonsLine.Add(InlineKeyboardButton.WithUrl(text.name, text.url)));
+                returnsButtons.Add(buttonsLine);
+            }
+
+            return new InlineKeyboardMarkup(returnsButtons);
+        }
     }
 }

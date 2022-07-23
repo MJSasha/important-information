@@ -24,7 +24,15 @@ namespace TelegramBot.Messages
                 new List<string>{ "О нас" },
             };
 
-            return () => bot.SendMessage("Доброе пожаловать в чат Важной информации.\nЧто бы вы хотели узнать?", ButtonsGenerater.GetInlineButtons(markup));
+            List<List<string>> urlmarkup = new()
+            {
+                new List<string>{"Go URL", "https://www.google.com"}
+            };
+            //InlineKeyboardButton urlButton = new InlineKeyboardButton();
+            //urlButton.Text = "Go URL";
+            //urlButton.Url = "https://www.google.com";
+
+            return () => bot.SendMessage("Доброе пожаловать в чат Важной информации.\nЧто бы вы хотели узнать?", ButtonsGenerater.GetInlineButtons(markup), ButtonsGenerater.GetInlineUrlButtons(urlmarkup));
         }
         public Func<Task> SendText(string text)
         {
