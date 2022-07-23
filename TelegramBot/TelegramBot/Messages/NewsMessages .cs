@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Net.Http;
-using System.Threading;
 using System.Threading.Tasks;
 using TelegramBot.Services;
 using TelegramBot.Services.ApiServices;
@@ -10,9 +9,13 @@ namespace TelegramBot.Messages
 {
     public class NewsMessages
     {
-        public static async Task StartMailing()
+        public static async void StartMailing()
         {
-            await Task.Run(() => { Timer timer = new Timer(async (_) => await SendNews(), 0, 0, (int)TimeSpan.FromMinutes(5).TotalMilliseconds); });
+            while (true)
+            {
+                await SendNews();
+                await Task.Delay((int)TimeSpan.FromMinutes(1).TotalMilliseconds);
+            }
         }
 
         private static async Task SendNews()
@@ -36,7 +39,7 @@ namespace TelegramBot.Messages
                     LogService.LogInfo($"Sent {unsentNews.Count} news to {users.Count} users");
                 }
             }
-            catch (HttpRequestException ex)
+            catch (HttpRequestException)
             {
                 LogService.LogServerNotFound("News mailing");
             }

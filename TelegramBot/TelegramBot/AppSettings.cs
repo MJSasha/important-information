@@ -17,5 +17,6 @@
         public static string NewsRoot { get; } = "news";
         public static string NotesRoot { get; } = "notes";
         public static string AuthRoot { get; } = "auth";
+        public static string LessonsRoot { get; } = "lessons";
     }
 }

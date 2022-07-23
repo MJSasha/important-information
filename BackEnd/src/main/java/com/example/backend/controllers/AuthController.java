@@ -58,6 +58,7 @@ public class AuthController {
                                                @PathVariable Long chatId,
                                                HttpServletResponse response){
         var user = new User();
+        user.setName(registrationModel.getName());
         user.setLogin(registrationModel.getLogin());
         user.setPassword(new Password(registrationModel.getPassword()));
         user.setChatId(chatId);

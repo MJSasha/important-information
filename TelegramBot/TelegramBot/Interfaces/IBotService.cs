@@ -7,5 +7,7 @@ namespace TelegramBot.Interfaces
     {
         Task SendMessage(string message);
         Task SendMessage(string message, IReplyMarkup buttons);
+        Task EditMessage(string message, int messageId);
+        Task EditMessage(string message, IReplyMarkup buttons, int messageId);
     }
 }
