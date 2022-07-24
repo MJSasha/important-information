@@ -13,7 +13,7 @@ namespace TelegramBot
             try
             {
                 var client = SingletonService.GetClient();
-                await NewsMessages.StartMailing();
+                NewsMessages.StartMailing();
 
                 client.StartReceiving();
 

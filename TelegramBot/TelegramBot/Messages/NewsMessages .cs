@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Net.Http;
-using System.Threading;
 using System.Threading.Tasks;
 using TelegramBot.Data.CustomExceptions;
 using TelegramBot.Services;
@@ -11,9 +10,13 @@ namespace TelegramBot.Messages
 {
     public class NewsMessages
     {
-        public static async Task StartMailing()
+        public static async void StartMailing()
         {
-            await Task.Run(() => { Timer timer = new(async (_) => await SendNews(), 0, 0, (int)TimeSpan.FromMinutes(1).TotalMilliseconds); });
+            while (true)
+            {
+                await SendNews();
+                await Task.Delay((int)TimeSpan.FromMinutes(1).TotalMilliseconds);
+            }
         }
 
         private static async Task SendNews()
