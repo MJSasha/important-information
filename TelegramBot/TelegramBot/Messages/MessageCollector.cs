@@ -21,6 +21,7 @@ namespace TelegramBot.Messages
             List<List<string>> markup = new()
             {
                 new List<string>{ "О нас" },
+                new List<string>{ "Сменить пароль" },
             };
 
             await bot.SendMessage("Доброе пожаловать в чат Важной информации.\nЧто бы вы хотели узнать?", ButtonsGenerater.GetInlineButtons(markup));
