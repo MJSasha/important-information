@@ -48,21 +48,22 @@ namespace TelegramBot.Messages
             return lessons.Select(x => x.Name).ToList();
         }
 
-        public async Task<Func<Task>> SubjectMenu(int messageid)
+        public async Task<Func<Task>> LessonsMenu(int messageid)
         {
-            List<string> Names = await GetLessonsName();
+            List<string> lessonNames = await GetLessonsName();
             List<List<(string, string)>> markup = new();
-            { 
-          
-                new List<(string, string)> { ($"{Names[0]}", "subject") };
-                new List<(string, string)> { ($"{Names[1]}", "subject") };
-                new List<(string, string)> { ($"{Names[2]}", "subject") };
-                new List<(string, string)> { ("Назад", "основное меню") };
-            }
-         
+            
+                for (int i = 0; i < lessonNames.Count; i += 3)
+                {
+                    markup.Add(new List<(string, string)> { (lessonNames[i], lessonNames[i]), (lessonNames[i + 1], lessonNames[i]), (lessonNames[i + 2], lessonNames[i]) });
+
+                }
+                markup.Add(new List<(string, string)> { ("Назад", "основное меню") });
+
             return () => bot.EditMessage("Выберите предмет", ButtonsGenerater.GetInlineButtons(markup), messageid);
+            
         }
-        public Func<Task> SubjectInfo(int messageid)
+        public Func<Task> LessonInfo(int messageid)
         {
 
             List<List<(string, string)>> markup = new()
