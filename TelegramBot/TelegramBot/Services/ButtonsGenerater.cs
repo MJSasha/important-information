@@ -1,27 +1,27 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace TelegramBot.Services
 {
-    public static class ButtonsGenerater
+    public class ButtonsGenerater
     {
+        private List<List<InlineKeyboardButton>> returnsButtons = new();
+
+        public IReplyMarkup GetButtons()
+        {
+            return new InlineKeyboardMarkup(returnsButtons);
+        }
+
         /// <summary>
         /// Возвращает кнопки с колбеком эквивалентным названию со знаком "@"
         /// </summary>
         /// <param name="markup">Разметка кнопок. первый лист - строчки, второй - столбцы</param>
         /// <returns></returns>
-        public static IReplyMarkup GetInlineButtons(List<List<string>> markup)
+        public void SetInlineButtons(List<List<string>> markup)
         {
-            List<List<InlineKeyboardButton>> returnsButtons = new();
-
-            foreach (var lines in markup)
-            {
-                List<InlineKeyboardButton> buttonsLine = new();
-                lines.ForEach(text => buttonsLine.Add(InlineKeyboardButton.WithCallbackData(text, "@" + text)));
-                returnsButtons.Add(buttonsLine);
-            }
-
-            return new InlineKeyboardMarkup(returnsButtons);
+            AddButtons(markup, (lineMarkup) => lineMarkup.Select(text => InlineKeyboardButton.WithCallbackData(text, "@" + text)).ToList());
         }
 
         /// <summary>
@@ -29,31 +29,22 @@ namespace TelegramBot.Services
         /// </summary>
         /// <param name="markup">Разметка кнопок. Первый лист - строчки, второй - столбцы</param>
         /// <returns></returns>
-        public static IReplyMarkup GetInlineButtons(List<List<(string name, string callback)>> markup)
+        public void SetInlineButtons(List<List<(string name, string callback)>> markup)
         {
-            List<List<InlineKeyboardButton>> returnsButtons = new();
-
-            foreach (var lines in markup)
-            {
-                List<InlineKeyboardButton> buttonsLine = new();
-                lines.ForEach(text => buttonsLine.Add(InlineKeyboardButton.WithCallbackData(text.name, "@" + text.callback)));
-                returnsButtons.Add(buttonsLine);
-            }
-
-            return new InlineKeyboardMarkup(returnsButtons);
+            AddButtons(markup, (lineMarkup) => lineMarkup.Select(b => InlineKeyboardButton.WithUrl(b.name, "@" + b.callback)).ToList());
         }
-        public static IReplyMarkup GetInlineUrlButtons(List<List<(string name, string url)>> urlmarkup)
+
+        public void SetInlineUrlButtons(List<List<(string name, string url)>> markup)
         {
-            List<List<InlineKeyboardButton>> returnsButtons = new();
+            AddButtons(markup, (lineMarkup) => lineMarkup.Select(b => InlineKeyboardButton.WithUrl(b.name, b.url)).ToList());
+        }
 
-            foreach (var lines in urlmarkup)
+        private void AddButtons<T>(List<List<T>> markup, Func<List<T>, List<InlineKeyboardButton>> createLine)
+        {
+            foreach (var lineMarkup in markup)
             {
-                List<InlineKeyboardButton> buttonsLine = new();
-                lines.ForEach(text => buttonsLine.Add(InlineKeyboardButton.WithUrl(text.name, text.url)));
-                returnsButtons.Add(buttonsLine);
+                returnsButtons.Add(createLine(lineMarkup));
             }
-
-            return new InlineKeyboardMarkup(returnsButtons);
         }
     }
 }
