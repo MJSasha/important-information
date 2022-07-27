@@ -17,14 +17,12 @@ namespace TelegramBot.Handlers
             Func<Task> response = e.CallbackQuery.Data switch
             {
                 "@О нас" => message.SendText(MessagesTexts.AboutUs),
-                "@Предметы" => message.SubjectMenu(e.CallbackQuery.Message.MessageId),
-                "@Предмет1" => message.SubjectInfo(e.CallbackQuery.Message.MessageId),
-                "@Предмет2" => message.SubjectInfo(e.CallbackQuery.Message.MessageId),
-                "@Предмет3" => message.SubjectInfo(e.CallbackQuery.Message.MessageId),
-                "@Предмет4" => message.SubjectInfo(e.CallbackQuery.Message.MessageId),
-                "@Предмет5" => message.SubjectInfo(e.CallbackQuery.Message.MessageId),
-                "@Назад" => message.ReturnStartMenu(e.CallbackQuery.Message.MessageId),
-                "@Меню предметов" => message.SubjectMenu(e.CallbackQuery.Message.MessageId),
+                "@Предметы" => await message.LessonsMenu(e.CallbackQuery.Message.MessageId),
+                "@lesson[i]" => message.LessonInfo(e.CallbackQuery.Message.MessageId),
+                "@lesson[i+1]" => message.LessonInfo(e.CallbackQuery.Message.MessageId),
+                "@lesson[i+2]" => message.LessonInfo(e.CallbackQuery.Message.MessageId),
+                "@основное меню" => message.ReturnStartMenu(e.CallbackQuery.Message.MessageId),
+                "@меню предметов" => await message.LessonsMenu(e.CallbackQuery.Message.MessageId),
                 _ => message.UnknownMessage()
             };
 

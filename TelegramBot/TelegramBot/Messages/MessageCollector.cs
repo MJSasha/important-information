@@ -55,7 +55,7 @@ namespace TelegramBot.Messages
             
                 for (int i = 0; i < lessonNames.Count; i += 3)
                 {
-                    markup.Add(new List<(string, string)> { (lessonNames[i], lessonNames[i]), (lessonNames[i + 1], lessonNames[i]), (lessonNames[i + 2], lessonNames[i]) });
+                    markup.Add(new List<(string, string)> { (lessonNames[i], "lesson[i]"), (lessonNames[i + 1], "lesson[i+1]"), (lessonNames[i + 2], "lesson[i+2]") });
 
                 }
                 markup.Add(new List<(string, string)> { ("Назад", "основное меню") });
