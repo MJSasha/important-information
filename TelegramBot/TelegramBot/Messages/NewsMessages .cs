@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using TelegramBot.Data.CustomExceptions;
 using TelegramBot.Services;
 using TelegramBot.Services.ApiServices;
 

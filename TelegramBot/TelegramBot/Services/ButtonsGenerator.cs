@@ -7,7 +7,7 @@ namespace TelegramBot.Services
 {
     public class ButtonsGenerator
     {
-        private List<List<InlineKeyboardButton>> returnsButtons = new();
+        private readonly List<List<InlineKeyboardButton>> returnsButtons = new();
 
         public IReplyMarkup GetButtons()
         {
@@ -25,6 +25,16 @@ namespace TelegramBot.Services
         }
 
         /// <summary>
+        /// Возвращает кнопки с колбеком эквивалентным названию со знаком "@"
+        /// </summary>
+        /// <param name="markup">Разметка кнопок. первый лист - строчки, второй - столбцы</param>
+        /// <returns></returns>
+        public void SetInlineButtons(List<string> markup)
+        {
+            SetInlineButtons(new List<List<string>> { markup });
+        }
+
+        /// <summary>
         /// Возвращает кнопки с колбеком (@ ставится автоматически)
         /// </summary>
         /// <param name="markup">Разметка кнопок. Первый лист - строчки, второй - столбцы</param>
@@ -34,9 +44,24 @@ namespace TelegramBot.Services
             AddButtons(markup, (lineMarkup) => lineMarkup.Select(b => InlineKeyboardButton.WithUrl(b.name, "@" + b.callback)).ToList());
         }
 
+        /// <summary>
+        /// Возвращает кнопки с колбеком (@ ставится автоматически)
+        /// </summary>
+        /// <param name="markup">Разметка кнопок. Первый лист - строчки, второй - столбцы</param>
+        /// <returns></returns>
+        public void SetInlineButtons(List<(string name, string callback)> markup)
+        {
+            SetInlineButtons(new List<List<(string name, string callback)>> { markup });
+        }
+
         public void SetInlineUrlButtons(List<List<(string name, string url)>> markup)
         {
             AddButtons(markup, (lineMarkup) => lineMarkup.Select(b => InlineKeyboardButton.WithUrl(b.name, b.url)).ToList());
+        }
+
+        public void SetInlineUrlButtons(List<(string name, string url)> markup)
+        {
+            SetInlineUrlButtons(new List<List<(string, string)>> { markup });
         }
 
         private void AddButtons<T>(List<List<T>> markup, Func<List<T>, List<InlineKeyboardButton>> createLine)

@@ -24,11 +24,7 @@ namespace TelegramBot.Messages
                 new List<string>{ "Новости" },
                 new List<string>{ "О нас" },
             });
-
-            buttonsGenerator.SetInlineUrlButtons(new List<List<(string, string)>>()
-            {
-                new List<(string, string)>{("Сайт", AppSettings.FrontRoot) }
-            });
+            buttonsGenerator.SetInlineUrlButtons(new List<(string, string)> { ("Наш сайт", AppSettings.FrontRoot) });
 
             await bot.SendMessage("Доброе пожаловать в чат Важной информации.\nЧто бы вы хотели узнать?", buttonsGenerator.GetButtons());
         }
