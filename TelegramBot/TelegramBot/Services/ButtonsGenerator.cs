@@ -5,7 +5,7 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace TelegramBot.Services
 {
-    public class ButtonsGenerater
+    public class ButtonsGenerator
     {
         private List<List<InlineKeyboardButton>> returnsButtons = new();
 
