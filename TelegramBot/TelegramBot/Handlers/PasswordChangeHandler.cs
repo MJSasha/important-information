@@ -29,10 +29,13 @@ namespace TelegramBot.Handlers
             if (!сancellationToken.IsCancellationRequested) currentTask.Start();
         }
         [Obsolete]
-        private void ChangePassword()
+        private async void ChangePassword()
         {
             AddProcessing("Придумайте новый пароль", () => UserModel.Password.Value = passwordMassage, CompleteChange);
             UserModel.Password.Value = passwordMassage;
+            var usersService = new UsersService();
+            await usersService.Get();
+            await usersService.Update(UserModel.Id, UserModel);
         }
 
         private async void CompleteChange()
