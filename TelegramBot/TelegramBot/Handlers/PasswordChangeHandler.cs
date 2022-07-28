@@ -33,9 +33,18 @@ namespace TelegramBot.Handlers
         {
             AddProcessing("Придумайте новый пароль", () => UserModel.Password.Value = passwordMassage, CompleteChange);
             UserModel.Password.Value = passwordMassage;
+            //
             var usersService = new UsersService();
-            await usersService.Get();
-            await usersService.Update(UserModel.Id, UserModel);
+            var users = await usersService.Get();
+            foreach (var user in users)
+            {
+                if (user.Id == chatId)
+                {
+                    user.Password.Value = passwordMassage;
+                    await usersService.Update(user.Id, user);
+                }
+            }
+            //
         }
 
         private async void CompleteChange()
