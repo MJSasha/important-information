@@ -39,7 +39,7 @@ function Register(){
                 password: register.password,
             })
             .then(token => {
-                    console.log(token.data)
+                    console.log('token => '+ token.data)
                     Cookies.set('token', token.data, {expires: 730});
                     navigate('/main')
             })
