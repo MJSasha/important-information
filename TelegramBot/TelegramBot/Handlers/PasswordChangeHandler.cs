@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
 using TelegramBot.Data.CustomExceptions;
-using TelegramBot.Data.ViewModels;
 using TelegramBot.Services;
 using TelegramBot.Services.ApiServices;
 using System.Net.Http;
 using TelegramBot.Data.Models;
+using System.Linq;
+
 
 namespace TelegramBot.Handlers
 {
@@ -33,18 +34,8 @@ namespace TelegramBot.Handlers
         {
             AddProcessing("Придумайте новый пароль", () => UserModel.Password.Value = passwordMassage, CompleteChange);
             UserModel.Password.Value = passwordMassage;
-            //
             var usersService = new UsersService();
-            var users = await usersService.Get();
-            foreach (var user in users)
-            {
-                if (user.Id == chatId)
-                {
-                    user.Password.Value = passwordMassage;
-                    await usersService.Update(user.Id, user);
-                }
-            }
-            //
+            var currentUser = (await usersService.Get()).First(u => u.ChatId == chatId);
         }
 
         private async void CompleteChange()
