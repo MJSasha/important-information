@@ -16,23 +16,27 @@ namespace TelegramBot.Messages
             bot = new BotService(chatId);
         }
 
-        public Func<Task> StartMenu()
+        public async Task StartMenu()
         {
-            List<List<string>> markup = new()
+            ButtonsGenerator buttonsGenerator = new();
+            buttonsGenerator.SetInlineButtons(new List<List<string>>()
             {
                 new List<string>{ "Новости" },
                 new List<string>{ "О нас" },
-            };
+            });
+            buttonsGenerator.SetInlineUrlButtons(new List<(string, string)> { ("Наш сайт", AppSettings.FrontRoot) });
 
-            return () => bot.SendMessage("Доброе пожаловать в чат Важной информации.\nЧто бы вы хотели узнать?", ButtonsGenerater.GetInlineButtons(markup));
+            await bot.SendMessage("Доброе пожаловать в чат Важной информации.\nЧто бы вы хотели узнать?", buttonsGenerator.GetButtons());
         }
-        public Func<Task> SendText(string text)
+
+        public async Task EditToText(string text, int messageId)
         {
-            return () => bot.SendMessage(text);
+            await bot.EditMessage(text, messageId);
         }
-        public Func<Task> UnknownMessage()
+
+        public async Task UnknownMessage()
         {
-            return () => bot.SendMessage("Пока я не понимаю данное сообщение, но скоро научусь");
+            await bot.SendMessage("Пока я не понимаю данное сообщение, но скоро научусь");
         }
     }
 }

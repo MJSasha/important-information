@@ -2,6 +2,12 @@ version: "3"
 
 services:
 
+  bot:
+    image: mjsasha/bot_important-information:1.0.0
+    build: .
+    restart: always
+    container_name: "bot"
+
   important-information:
     image: mjsasha/backend_important-information:2.9
     container_name: backend

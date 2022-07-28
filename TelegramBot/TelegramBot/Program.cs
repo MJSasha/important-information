@@ -13,7 +13,7 @@ namespace TelegramBot
             try
             {
                 var client = SingletonService.GetClient();
-                await NewsMessages.StartMailing();
+                NewsMessages.StartMailing();
 
                 client.StartReceiving();
 
@@ -25,6 +25,7 @@ namespace TelegramBot
                 client.OnCallbackQuery += LogService.LogCallbacks;
 
                 Console.ReadLine();
+
                 client.StopReceiving();
             }
             catch (Exception ex)
