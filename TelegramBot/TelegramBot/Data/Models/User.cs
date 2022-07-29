@@ -31,7 +31,9 @@ namespace TelegramBot.Data.Models
 
     public class Password
     {
+        [JsonPropertyName("id")]
         public int Id { get; set; }
+        [JsonPropertyName("value")]
         public string Value { get; set; }
     }
 }
