@@ -14,7 +14,7 @@ namespace TelegramBot.Handlers
     {
         private readonly User UserModel = new();
         private readonly long chatId;
-        private string passwordMassage;
+        private string newPassword;
 
         public PasswordChangeHandler(long chatId) : base(new BotService(chatId))
         {
@@ -24,30 +24,30 @@ namespace TelegramBot.Handlers
         [Obsolete]
         public override async Task ProcessMessage(string passwordMassage)
         {
-            this.passwordMassage = passwordMassage;
+            newPassword = passwordMassage;
 
             if (сancellationToken == null) await Task.Run(() => ChangePassword());
             if (!сancellationToken.IsCancellationRequested) currentTask.Start();
         }
         [Obsolete]
-        private async void ChangePassword()
+        private void ChangePassword()
         {
-            AddProcessing("Придумайте новый пароль", () => UserModel.Password.Value = passwordMassage, CompleteChange);
-            UserModel.Password.Value = passwordMassage;
-            var usersService = new UsersService();
-            var currentUser = (await usersService.Get()).First(u => u.ChatId == chatId);
+            AddProcessing("Придумайте новый пароль", () => UserModel.Password.Value = newPassword, CompleteChange);
         }
 
         private async void CompleteChange()
         {
             try
             {
-                LogService.LogInfo($"|CHANGEPASSWORD| ChatId: {chatId} | Name: {UserModel.Name} | Login: {UserModel.Login}");
-                await bot.SendMessage($"Вы успешно сменили пароль! Ваш новый пароль {UserModel.Password.Value}");
-            }
-            catch (ErrorResponseException)
-            {
-                await bot.SendMessage("Мде... походу такой логин уже существует, дружище. Давай по новой (/pass)");
+                var usersService = new UsersService();
+                var currentUser = (await usersService.Get()).First(u => u.ChatId == chatId);
+                if (currentUser == null) {await bot.SendMessage($"Не могу найти пользователя, возможно вы ещё не зарегестрированны");}
+                else
+                {
+                    LogService.LogInfo($"|CHANGEPASSWORD| ChatId: {chatId} | Name: {UserModel.Name} | Login: {UserModel.Login}");
+                    await usersService.Update(currentUser.Id, currentUser);
+                    await bot.SendMessage($"Вы успешно сменили пароль! Ваш новый пароль {UserModel.Password.Value}");
+                }
             }
             catch (HttpRequestException)
             {
