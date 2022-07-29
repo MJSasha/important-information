@@ -41,7 +41,7 @@ namespace TelegramBot.Services
         /// <returns></returns>
         public void SetInlineButtons(List<List<(string name, string callback)>> markup)
         {
-            AddButtons(markup, (lineMarkup) => lineMarkup.Select(b => InlineKeyboardButton.WithUrl(b.name, "@" + b.callback)).ToList());
+            AddButtons(markup, (lineMarkup) => lineMarkup.Select(b => InlineKeyboardButton.WithCallbackData(b.name, "@" + b.callback)).ToList());
         }
 
         /// <summary>
