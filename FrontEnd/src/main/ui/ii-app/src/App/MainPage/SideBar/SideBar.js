@@ -8,9 +8,9 @@ function SideBar(){
 
     return(
             <div className={`d-flex flex-column align-items-stretch flex-shrink-0 bg-white ${styles.wrapper}`} style={{width: 380}}>
-                <a href="/" className="d-flex align-items-center flex-shrink-0 p-3 a-dark text-decoration-none border-bottom">
+                <h1 className="d-flex align-items-center flex-shrink-0 p-3 a-dark text-decoration-none border-bottom">
                 <span className="fs-5 fw-semibold">List group</span>
-                </a>
+                </h1>
                 <div className="list-group list-group-flush border-bottom scrollarea">
                     <p className="list-group-item list-group-item-action active py-3 lh-tight">
                         <div className="d-flex w-100 align-items-center justify-content-between">
