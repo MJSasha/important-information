@@ -17,6 +17,5 @@ namespace TelegramBot.Services.ApiServices
             HttpResponseMessage httpResponse = await httpClient.GetAsync(Root + "/unsent");
             return await Deserialize<List<News>>(httpResponse);
         }
-
     }
 }
