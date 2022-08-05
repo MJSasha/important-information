@@ -11,7 +11,7 @@ namespace TelegramBot.Services
             Console.WriteLine($"{DateTime.Now} BOT START" +
                 $"\n-----------------------------------------------------" +
                 $"\nToken: {AppSettings.Token}" +
-                $"\nBackEnd Root: {AppSettings.BaseRoot}" +
+                $"\nBackEnd Root: {AppSettings.BackRoot}" +
                 $"\n-----------------------------------------------------\n");
         }
 

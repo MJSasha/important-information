@@ -1,7 +1,15 @@
 INSERT INTO lessons (id, information, name, teacher)
     VALUES (1, 'First lesson', 'First', 'First teacher'),
            (2, 'Second lesson', 'Second', 'Second teacher'),
-           (3, 'Third lesson', 'Third', 'Third teacher');
+           (3, 'Third lesson', 'Third', 'Third teacher'),
+           (4, '4', '4', '4'),
+           (5, '5', '5', '5'),
+           (6, '6', '6', '6'),
+           (7, '7', '7', '7'),
+           (8, '8', '8', '8'),
+           (9, '9', '9', '9'),
+           (10, '10', '10', '10'),
+           (11, '11', '11', '11');
 
 INSERT INTO lesson_time (id, time, lesson_id)
     VALUES (1, '09:00:00', 1),
