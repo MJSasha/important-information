@@ -5,6 +5,10 @@ using TelegramBot.Data;
 using TelegramBot.Interfaces;
 using TelegramBot.Services;
 using TelegramBot.Services.ApiServices;
+using TelegramBot.Data.Models;
+using System.Linq;
+using TelegramBot.Handlers;
+using TelegramBot.Services.ApiServices;
 using TelegramBot.Utils;
 
 namespace TelegramBot.Messages
@@ -110,10 +114,6 @@ namespace TelegramBot.Messages
                         (lessons[i + 1].Name, lessons[i + 1].GetLessonCallback()), (lessons[i + 2].Name, lessons[i + 2].GetLessonCallback()) });
                 }
             }
-
-            buttonsGenerator.SetInlineButtons(new List<(string, string)> { ("<<Назад", "/start") });
-
-            await bot.EditMessage("Для просмотра детальной информации по предмету, нажмите на кнопку", messageId, buttonsGenerator.GetButtons());
         }
 
         public async Task EditToLesson(int lessonId)
