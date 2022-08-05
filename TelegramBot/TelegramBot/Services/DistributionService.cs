@@ -21,9 +21,9 @@ namespace TelegramBot.Services
         [Obsolete]
         public static async void DistributeCallbacks(object sender, CallbackQueryEventArgs e)
         {
-            BusyUsersIdAndService.Remove(e.CallbackQuery.Message.Chat.Id);
-
             if (!BusyUsersIdAndService.Keys.Contains(e.CallbackQuery.Message.Chat.Id)) await BaseHandler.OnCallback(sender, e);
+
+            if (BusyUsersIdAndService.Keys.Contains(e.CallbackQuery.Message.Chat.Id)) await BusyUsersIdAndService[e.CallbackQuery.Message.Chat.Id].ProcessMessage(e.CallbackQuery.Message.Text);
         }
     }
 }

@@ -17,6 +17,7 @@ namespace TelegramBot.Handlers
             Task response = e.CallbackQuery.Data switch
             {
                 "@О нас" => message.EditToText(MessagesTexts.AboutUs, e.CallbackQuery.Message.MessageId),
+                "@Отправить всем" => Task.Run(() => DistributionService.BusyUsersIdAndService.Add(e.CallbackQuery.Message.Chat.Id, new SendAllHandler(e.CallbackQuery.Message.Chat.Id))),
                 _ => message.UnknownMessage()
             };
 

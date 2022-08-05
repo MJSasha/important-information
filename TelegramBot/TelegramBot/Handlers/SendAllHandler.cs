@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using TelegramBot.Services;
 using TelegramBot.Services.ApiServices;
 using TelegramBot.Data.Models;
+using TelegramBot.Messages;
 
 namespace TelegramBot.Handlers
 {
@@ -36,12 +37,12 @@ namespace TelegramBot.Handlers
             try
             {
                 var newsService = new NewsService();
-                var sendNews = new News();
-                sendNews.Message = sendingMessage;
-                sendNews.NeedToSend = true;
-                sendNews.Id = (int)chatId;
-                await newsService.Create(sendNews);
-                LogService.LogInfo($"|SENDALL| ChatId: {chatId} | Message: {sendNews.Message} | NeedToSend: {sendNews.NeedToSend}");
+                var news = new News();
+                news.Message = sendingMessage;
+                news.NeedToSend = true;
+                await newsService.Create(news);
+                NewsMessages.StartMailing();
+                LogService.LogInfo($"|SENDALL| ChatId: {chatId} | Message: {news.Message} | NeedToSend: {news.NeedToSend}");
                 await bot.SendMessage($"Сообщение отправлено!");
             }
             catch (HttpRequestException)
