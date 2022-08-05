@@ -24,7 +24,7 @@ public class Day {
     private String date;
     private String information;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
     @JoinTable(name = "days_lessons")
     private List<LessonAndTime> lessonsAndTimes = new ArrayList<>();
 
