@@ -1,7 +1,5 @@
 package com.example.backend.baseClasses;
 
-import com.example.backend.data.definitions.UserRole;
-import com.example.backend.data.models.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

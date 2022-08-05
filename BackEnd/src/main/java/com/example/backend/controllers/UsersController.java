@@ -33,7 +33,8 @@ public class UsersController extends BaseController<User, Integer> {
     }
 
     @Override
-    public ResponseEntity<User> readById(Integer id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<User> readById(@PathVariable Integer id) {
         var user = super.readById(id);
         Objects.requireNonNull(user.getBody()).setNotes(null);
         return user;

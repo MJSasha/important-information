@@ -2,6 +2,6 @@
 {
     public static class MessagesTexts
     {
-        public static string AboutUs { get; } = "Мы делаем бота для telegram";
+        public static string AboutUs { get; } = "Тут нужно чет придумать, пока туфта была";
     }
 }
