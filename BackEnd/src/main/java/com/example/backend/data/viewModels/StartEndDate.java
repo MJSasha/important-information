@@ -9,8 +9,8 @@ import java.util.Date;
 @Getter
 @Setter
 public class StartEndDate {
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date start;
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date end;
 }

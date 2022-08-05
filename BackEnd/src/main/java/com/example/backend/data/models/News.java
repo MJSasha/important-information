@@ -14,10 +14,11 @@ import javax.persistence.*;
 public class News {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String message;
+    private String pictures;
     private boolean needToSend;
 
 //    @ManyToOne
