@@ -1,7 +1,6 @@
 package com.example.backend.controllers;
 
 import com.example.backend.baseClasses.BaseController;
-import com.example.backend.data.exceptions.NotAuthException;
 import com.example.backend.data.models.Day;
 import com.example.backend.data.viewModels.StartEndDate;
 import com.example.backend.services.DaysService;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.text.ParseException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -30,6 +28,12 @@ public class DaysController extends BaseController<Day, Integer> {
 
         this.daysService = daysService;
         this.usersService = usersService;
+    }
+
+    @Override
+    public ResponseEntity<String> update(Day day, Integer id) {
+        day.setId(id);
+        return super.update(day, id);
     }
 
     @GetMapping("/byDates")
