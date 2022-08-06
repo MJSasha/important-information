@@ -22,6 +22,12 @@ public class NewsController extends BaseController<News, Integer> {
         this.newsService = newsService;
     }
 
+    @Override
+    public ResponseEntity<String> update(News news, Integer id) {
+        news.setId(id);
+        return super.update(news, id);
+    }
+
     @GetMapping("/unsent")
     public ResponseEntity<List<News>> getUnsent() {
         var unsentNews = newsService.read().stream().filter(News::isNeedToSend).toList();
