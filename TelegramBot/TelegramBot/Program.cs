@@ -25,6 +25,7 @@ namespace TelegramBot
                 client.OnCallbackQuery += LogService.LogCallbacks;
 
                 Console.ReadLine();
+
                 client.StopReceiving();
             }
             catch (Exception ex)

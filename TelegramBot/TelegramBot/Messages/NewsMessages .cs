@@ -43,6 +43,10 @@ namespace TelegramBot.Messages
             {
                 LogService.LogServerNotFound("News mailing");
             }
+            catch (Exception ex)
+            {
+                LogService.LogError(ex.ToString());
+            }
         }
     }
 }

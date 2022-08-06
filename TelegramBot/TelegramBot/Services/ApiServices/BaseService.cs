@@ -11,7 +11,7 @@ namespace TelegramBot.Services.ApiServices
 
         public BaseService(string entityRoot)
         {
-            Root = new Uri(AppSettings.BaseRoot + entityRoot);
+            Root = new Uri(AppSettings.BackRoot + entityRoot);
 
             HttpClientHandler handler = new()
             {

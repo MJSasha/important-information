@@ -1,7 +1,6 @@
 package com.example.backend.controllers;
 
 import com.example.backend.baseClasses.BaseController;
-import com.example.backend.data.exceptions.NotAuthException;
 import com.example.backend.data.models.Day;
 import com.example.backend.data.viewModels.StartEndDate;
 import com.example.backend.services.DaysService;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.text.ParseException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -32,36 +30,36 @@ public class DaysController extends BaseController<Day, Integer> {
         this.usersService = usersService;
     }
 
+    @Override
+    public ResponseEntity<String> update(Day day, Integer id) {
+        day.setId(id);
+        return super.update(day, id);
+    }
+
     @GetMapping("/byDates")
-    public ResponseEntity<List<Day>> readByDates(@RequestBody StartEndDate startEndDate, HttpServletRequest request)
-            throws NotAuthException {
-        String token = Arrays.stream(request.getCookies())
-                .filter(c -> Objects.equals(c.getName(), "token"))
-                .findFirst().get().getValue();
+    public ResponseEntity<List<Day>> readByDates(@RequestBody StartEndDate startEndDate, HttpServletRequest request) {
+        var days = daysService.read().stream().filter(d ->
+                d.getDate().after(startEndDate.getStart()) && d.getDate().before(startEndDate.getEnd())).toList();
 
-        var days = daysService.read().stream().filter(d -> {
-            try {
-                return d.getStringAsDate().after(startEndDate.getStart()) && d.getStringAsDate().before(startEndDate.getEnd());
-            } catch (ParseException e) {
-                e.printStackTrace();
-                return false;
+        try {
+            String token = Arrays.stream(request.getCookies())
+                    .filter(c -> Objects.equals(c.getName(), "token"))
+                    .findFirst().get().getValue();
+
+            var currentUser = usersService.readByToken(token);
+            if (currentUser == null) return ResponseEntity.ok(days);
+            for (var note : currentUser.getNotes()) {
+                days.forEach(day -> {
+                    if (Objects.equals(note.getDay().getId(), day.getId())) day.setCurrentUserNote(note.getDescription());
+                });
             }
-        }).toList();
-
-        var currentUser = usersService.readByToken(token);
-        if (currentUser == null) return ResponseEntity.notFound().build();
-        for (var note : currentUser.getNotes()) {
-            days.forEach(day -> {
-                if (Objects.equals(note.getDay().getId(), day.getId())) day.setCurrentUserNote(note.getDescription());
-            });
-        }
+        } catch (Exception ignored) {}
 
         return ResponseEntity.ok(days);
     }
 
     @GetMapping("/byDate")
-    public ResponseEntity<Day> readByDate(@RequestBody String date, HttpServletRequest request)
-            throws NotAuthException {
+    public ResponseEntity<Day> readByDate(@RequestBody String date, HttpServletRequest request) {
         String token = Arrays.stream(request.getCookies())
                 .filter(c -> Objects.equals(c.getName(), "token"))
                 .findFirst().get().getValue();

@@ -11,7 +11,7 @@ namespace TelegramBot.Services
             Console.WriteLine($"{DateTime.Now} BOT START" +
                 $"\n-----------------------------------------------------" +
                 $"\nToken: {AppSettings.Token}" +
-                $"\nBackEnd Root: {AppSettings.BaseRoot}" +
+                $"\nBackEnd Root: {AppSettings.BackRoot}" +
                 $"\n-----------------------------------------------------\n");
         }
 
@@ -33,7 +33,7 @@ namespace TelegramBot.Services
         [Obsolete]
         public static void LogMessages(object sender, MessageEventArgs e)
         {
-            LogInfo($"ChatId: { e.Message.Chat.Id} | Message: { e.Message.Text}");
+            LogInfo($"ChatId: {e.Message.Chat.Id} | Message: {e.Message.Text}");
         }
 
         [Obsolete]

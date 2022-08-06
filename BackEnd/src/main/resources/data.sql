@@ -1,9 +1,17 @@
-INSERT INTO lessons
+INSERT INTO lessons (id, information, name, teacher)
 VALUES (1, 'First lesson', 'First', 'First teacher'),
        (2, 'Second lesson', 'Second', 'Second teacher'),
-       (3, 'Third lesson', 'Third', 'Third teacher');
+       (3, 'Third lesson', 'Third', 'Third teacher'),
+       (4, '4', '4', '4'),
+       (5, '5', '5', '5'),
+       (6, '6', '6', '6'),
+       (7, '7', '7', '7'),
+       (8, '8', '8', '8'),
+       (9, '9', '9', '9'),
+       (10, '10', '10', '10'),
+       (11, '11', '11', '11');
 
-INSERT INTO lesson_time
+INSERT INTO lesson_time (id, time, lesson_id)
 VALUES (1, '09:00:00', 1),
        (2, '10:45:00', 2),
        (3, '13:00:00', 3),
@@ -11,21 +19,27 @@ VALUES (1, '09:00:00', 1),
        (5, '10:45:00', 1),
        (6, '13:00:00', 3);
 
-INSERT INTO days
-VALUES (1, '01-09-2022', 'First day'),
-       (2, '02-09-2022', 'Second day'),
-       (3, '03-09-2022', 'Third day');
+INSERT INTO days (id, date, information)
+VALUES (1, '2022-09-01', 'First day'),
+       (2, '2022-09-02', 'Second day'),
+       (3, '2022-09-03', 'Third day');
 
-INSERT INTO days_lessons
+INSERT INTO days_lessons (day_id, lessons_and_times_id)
 VALUES (1, 1),
        (1, 2),
        (2, 1),
-       (2, 1),
+       (2, 6),
        (2, 3),
        (3, 4),
        (3, 5),
        (3, 6);
 
-INSERT INTO news
-VALUES (1, 'Is sent message', 0),
-       (2, 'Not sent message', 1);
+INSERT INTO news (id, message, pictures, need_to_send)
+VALUES (1, 'Is sent message', '', 0),
+       (2, 'Not sent message', '', 1);
+
+INSERT INTO passwords (id, value)
+VALUES (1, 'admin');
+
+INSERT INTO users (id, chat_id, login, name, role, token, password_id)
+VALUES (1, 1234567, 'admin', 'admin', 0, '', 1);
