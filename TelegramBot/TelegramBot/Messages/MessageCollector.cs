@@ -131,6 +131,24 @@ namespace TelegramBot.Messages
                 $"name: {lesson.Name}\n" +
                 $"teacher: {lesson.Teacher}\n" +
                 $"information: {lesson.Information}", messageId, buttonsGenerator.GetButtons());
+            ButtonsGenerator buttonsGenerator = new();
+
+            for (int i = 0; i < lessons.Count; i += 3)
+            {
+                if (lessons.Count < i + 3)
+                {
+                    if (lessons.Count - i == 2) buttonsGenerator.SetInlineButtons(new List<string> { lessons[i].Name, lessons[i + 1].Name });
+                    if (lessons.Count - i == 1) buttonsGenerator.SetInlineButtons(new List<string> { lessons[i].Name });
+                }
+                else
+                {
+                    buttonsGenerator.SetInlineButtons(new List<string> { lessons[i].Name, lessons[i + 1].Name, lessons[i + 2].Name });
+                }
+            }
+
+            buttonsGenerator.SetInlineButtons(new List<(string, string)> { ("<<Назад", "/start") });
+
+            await bot.EditMessage("Для просмотра детальной информации по предмету, нажмите на кнопку", messageId, buttonsGenerator.GetButtons());
         }
 
         public async Task EditToText(string text)
