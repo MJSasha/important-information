@@ -4,12 +4,39 @@ version: "3"
 services:
 
 # BackEnd
-  backend:
-    image: mjsasha/backend_important-information:2.9
-    container_name: backend
+  backend-api:
+    image: mjsasha/backend_important-information:3.0.1
+    container_name: backend-api
     restart: always
     ports:
       - "8080:8080"
+    environment:
+      MYSQL_HOST: imp-inf-db
+      MYSQL_PORT: 3306
+      MYSQL_DB: imp-inf-db
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+
+# Database
+  imp-inf-db:
+    image: mysql
+    container_name: imp-inf-db
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: imp-inf-db
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+      MYSQL_ROOT_PASSWORD: admin
+
+# Database adminer
+  adminer:
+    image: adminer
+    container_name: adminer
+    restart: always
+    ports:
+      - "5000:8080"
 
 # FrontEnd
   frontend:

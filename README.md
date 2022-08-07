@@ -4,7 +4,6 @@
 
 <img alt="GitHub watchers" src="https://img.shields.io/github/watchers/MJSasha/important-information?style=social"><img alt="GitHub contributors" src="https://img.shields.io/github/contributors/MJSasha/important-information"><img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/MJSasha/important-information">
 
-
 Данный проект является учебным. Идея проекта состоит в разработке веб приложения, в котором будет поддерживаться актуальное расписание пар, зачетов и экзаменов, вестись лента новостей с информацией по предметам. Также предполагается наличие системы с отображением домашнего задания и возможностью выгрузки своих решений, добавления ссылок на полезные источники и т.д.
 
 ### Стек проекта
@@ -27,8 +26,8 @@
 
 ### FrontEnd
 
-Фронт, написан на React и исползующий API из проекта BackEnd
+Фронт, написан на React и исползующий API из проекта [*BackEnd*](https://github.com/MJSasha/important-information/tree/main/BackEnd)
 
 ### TelegramBot
 
-Проект с телеграм ботом, написаном на .NET и использующем API из проекта BackEnd
+Проект с телеграм ботом, который написан на .NET и использует API из проекта [*BackEnd*](https://github.com/MJSasha/important-information/tree/main/BackEnd)
