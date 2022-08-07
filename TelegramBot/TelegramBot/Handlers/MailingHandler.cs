@@ -4,16 +4,16 @@ using System.Threading.Tasks;
 using TelegramBot.Services;
 using TelegramBot.Services.ApiServices;
 using TelegramBot.Data.Models;
-using TelegramBot.Messages;
+using System.Linq;
 
 namespace TelegramBot.Handlers
 {
-    public class SendAllHandler : BaseSpecialHandler
+    public class MailingHandler : BaseSpecialHandler
     {
         private readonly long chatId;
         private string sendingMessage;
 
-        public SendAllHandler(long chatId) : base(new BotService(chatId))
+        public MailingHandler(long chatId) : base(new BotService(chatId))
         {
             this.chatId = chatId;
         }
@@ -23,25 +23,27 @@ namespace TelegramBot.Handlers
         {
             this.sendingMessage = sendingMessage;
 
-            if (сancellationToken == null) await Task.Run(() => SendAll());
+            if (сancellationToken == null) await Task.Run(() => Mailing());
             if (!сancellationToken.IsCancellationRequested) currentTask.Start();
         }
 
         [Obsolete]
-        private void SendAll()
+        private void Mailing()
         {
-            AddProcessing("Напишите сообщение которое хотите отправить", CompleteSend);
+            AddProcessing("Напишите сообщение которое хотите отправить", SendAll);
         }
-        private async void CompleteSend()
+        private async void SendAll()
         {
             try
             {
                 var newsService = new NewsService();
                 var news = new News();
+                var userService = new UsersService();
                 news.Message = sendingMessage;
-                news.NeedToSend = true;
+                news.NeedToSend = false;
                 await newsService.Create(news);
-                NewsMessages.StartMailing();
+                var users = await userService.Get();
+                foreach (var user in users) { await BotService.SendMessage(sendingMessage, users.Select(u => u.ChatId).ToList()); }
                 LogService.LogInfo($"|SENDALL| ChatId: {chatId} | Message: {news.Message} | NeedToSend: {news.NeedToSend}");
                 await bot.SendMessage($"Сообщение отправлено!");
             }
