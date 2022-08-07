@@ -36,8 +36,8 @@ namespace TelegramBot.Handlers
         {
             try
             {
-                var usersService = new UsersService(); 
-                var currentUser = (await usersService.Get()).FirstOrDefault(u => u.ChatId == chatId);
+                var usersService = new UsersService();
+                var currentUser = await usersService.GetByChatId(chatId);
                 if (currentUser == null) { await bot.SendMessage($"Не могу найти пользователя, возможно вы ещё не зарегестрированны (/reg)"); }
                 else
                 {

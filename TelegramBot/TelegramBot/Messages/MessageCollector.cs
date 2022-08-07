@@ -12,37 +12,67 @@ namespace TelegramBot.Messages
     {
         private readonly IBotService bot;
         private readonly int messageId;
+        private readonly long chatId;
 
         [Obsolete]
         public MessageCollector(long chatId, int messageId)
         {
             bot = new BotService(chatId);
             this.messageId = messageId;
+            this.chatId = chatId;
         }
 
         public async Task SendStartMenu()
         {
             ButtonsGenerator buttonsGenerator = new();
-            buttonsGenerator.SetInlineButtons(new List<List<string>>()
+            var usersService = new UsersService();
+            var currentUser = await usersService.GetByChatId(chatId);
+            if ((int)currentUser.Role == 0)
+            {
+                buttonsGenerator.SetInlineButtons(new List<List<string>>()
+            {
+                new List<string>{ "Предметы" },
+                new List<string>{ "Новости" },
+                new List<string>{ "О нас" },
+                new List<string>{ "Отправить всем" },
+            });
+            }
+            else
+            {
+                buttonsGenerator.SetInlineButtons(new List<List<string>>()
             {
                 new List<string>{ "Предметы" },
                 new List<string>{ "Новости" },
                 new List<string>{ "О нас" },
             });
-
+            }
             await bot.SendMessage("Доброе пожаловать в чат Важной информации.\nЧто бы вы хотели узнать?", buttonsGenerator.GetButtons());
         }
 
         public async Task EditToStartMenu()
         {
             ButtonsGenerator buttonsGenerator = new();
-            buttonsGenerator.SetInlineButtons(new List<List<string>>()
+            var usersService = new UsersService();
+            var currentUser = await usersService.GetByChatId(chatId);
+            if ((int)currentUser.Role == 0)
+            {
+                buttonsGenerator.SetInlineButtons(new List<List<string>>()
+            {
+                new List<string>{ "Предметы" },
+                new List<string>{ "Новости" },
+                new List<string>{ "О нас" },
+                new List<string>{ "Отправить всем" },
+            });
+            }
+            else
+            {
+                buttonsGenerator.SetInlineButtons(new List<List<string>>()
             {
                 new List<string>{ "Предметы" },
                 new List<string>{ "Новости" },
                 new List<string>{ "О нас" },
             });
-
+            }
             await bot.EditMessage("Доброе пожаловать в чат Важной информации.\nЧто бы вы хотели узнать?", buttonsGenerator.GetButtons(), messageId);
         }
 
