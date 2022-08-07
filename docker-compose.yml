@@ -40,7 +40,7 @@ services:
 
 # FrontEnd
   frontend:
-    image: mjsasha/frontend_important-information:1.0
+    image: mjsasha/frontend_important-information:1.1
     container_name: frontend
     restart: always
     ports:
