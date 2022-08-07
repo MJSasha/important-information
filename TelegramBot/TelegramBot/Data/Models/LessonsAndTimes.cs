@@ -7,8 +7,10 @@ namespace TelegramBot.Data.ViewModels
     {
         [JsonPropertyName("id")]
         public int Id { get; set; }
+
         [JsonPropertyName("time")]
         public DateTime? Time { get; set; }    //"HH:mm:ss"
+
         [JsonPropertyName("lesson")]
         public Lesson Lesson { get; set; }
     }

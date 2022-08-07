@@ -10,12 +10,16 @@ namespace TelegramBot.Data.Models
     {
         [JsonPropertyName("id")]
         public int Id { get; set; }
+
         [JsonPropertyName("date")]
-        public DateTime? Date { get; set; }  // "dd-MM-yyyy"
+        public DateTime? Date { get; set; }  // "yyyy-MM-dd"
+
         [JsonPropertyName("information")]
         public string Information { get; set; }
+
         [JsonPropertyName("lessonsAndTimes")]
         public List<LessonsAndTimes> LessonsAndTimes { get; set; }
+
         [JsonPropertyName("currentUserNote")]
         public string CurrentUserNote { get; set; }
     }

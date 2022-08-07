@@ -6,8 +6,13 @@ namespace TelegramBot.Data.Models
     {
         [JsonPropertyName("id")]
         public int Id { get; set; }
+
         [JsonPropertyName("message")]
         public string Message { get; set; }
+
+        [JsonPropertyName("pictures")]
+        public string Pictures { get; set; }
+
         [JsonPropertyName("needToSend")]
         public bool NeedToSend { get; set; }
     }

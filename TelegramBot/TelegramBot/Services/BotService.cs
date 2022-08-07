@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types.ReplyMarkups;
+using TelegramBot.Data.CustomExceptions;
 using TelegramBot.Interfaces;
 
 namespace TelegramBot.Services
@@ -16,32 +18,46 @@ namespace TelegramBot.Services
             this.chatId = chatId;
         }
 
-        //TODO - id не может быть null, это нужно будет поправить и в бэке (в тестовой бд), и тут
-        public static async Task SendMessage(string message, List<long?> chatIds)
+        [Obsolete]
+        public static async Task SendMessage(string message, List<long> chatIds)
         {
-            foreach (var id in chatIds)
+            foreach (var chatId in chatIds)
             {
-                if (id == null) continue;
-                await client.SendTextMessageAsync(id, message);
+                try
+                {
+                    await client.SendTextMessageAsync(chatId, message);
+                }
+                catch (Telegram.Bot.Exceptions.ChatNotFoundException)
+                {
+                    throw new ChatNotFoundException(message, chatId);
+                }
             }
         }
 
-        public async Task SendMessage(string message)
+        [Obsolete]
+        public async Task SendMessage(string message, IReplyMarkup buttons = null)
         {
-            await client.SendTextMessageAsync(chatId, message);
-        }
-        public async Task SendMessage(string message, IReplyMarkup buttons)
-        {
-            await client.SendTextMessageAsync(chatId, message, replyMarkup: buttons);
+            try
+            {
+                await client.SendTextMessageAsync(chatId, message, replyMarkup: buttons);
+            }
+            catch (Telegram.Bot.Exceptions.ChatNotFoundException)
+            {
+                throw new ChatNotFoundException(message, chatId);
+            }
         }
 
-        public async Task EditMessage(string message, int messageId)
+        [Obsolete]
+        public async Task EditMessage(string message, int messageId, IReplyMarkup buttons = null)
         {
-            await client.EditMessageTextAsync(chatId, messageId, message);
-        }
-        public async Task EditMessage(string message, IReplyMarkup buttons, int messageId)
-        {
-            await client.EditMessageTextAsync(chatId, messageId, message, replyMarkup: (InlineKeyboardMarkup)buttons);
+            try
+            {
+                await client.EditMessageTextAsync(chatId, messageId, message, replyMarkup: (InlineKeyboardMarkup)buttons);
+            }
+            catch (Telegram.Bot.Exceptions.ChatNotFoundException)
+            {
+                throw new ChatNotFoundException(message, chatId);
+            }
         }
     }
 }
