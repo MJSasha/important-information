@@ -27,25 +27,17 @@ namespace TelegramBot.Messages
             ButtonsGenerator buttonsGenerator = new();
             var usersService = new UsersService();
             var currentUser = await usersService.GetByChatId(chatId);
-            if ((int)currentUser.Role == 0)
-            {
-                buttonsGenerator.SetInlineButtons(new List<List<string>>()
-            {
-                new List<string>{ "Предметы" },
-                new List<string>{ "Новости" },
-                new List<string>{ "О нас" },
-                new List<string>{ "Отправить всем" },
-            });
-            }
-            else
-            {
-                buttonsGenerator.SetInlineButtons(new List<List<string>>()
+
+            buttonsGenerator.SetInlineButtons(new List<List<string>>()
             {
                 new List<string>{ "Предметы" },
                 new List<string>{ "Новости" },
                 new List<string>{ "О нас" },
-            });
-            }
+        });
+            if (currentUser?.Role == Data.Models.Role.ADMIN) {
+                buttonsGenerator.SetInlineButtons(new List<List<string>>()
+            {new List<string> { "Отправить всем" }, }); }
+
             await bot.SendMessage("Доброе пожаловать в чат Важной информации.\nЧто бы вы хотели узнать?", buttonsGenerator.GetButtons());
         }
 
@@ -54,25 +46,19 @@ namespace TelegramBot.Messages
             ButtonsGenerator buttonsGenerator = new();
             var usersService = new UsersService();
             var currentUser = await usersService.GetByChatId(chatId);
-            if ((int)currentUser.Role == 0)
-            {
-                buttonsGenerator.SetInlineButtons(new List<List<string>>()
-            {
-                new List<string>{ "Предметы" },
-                new List<string>{ "Новости" },
-                new List<string>{ "О нас" },
-                new List<string>{ "Отправить всем" },
-            });
-            }
-            else
-            {
-                buttonsGenerator.SetInlineButtons(new List<List<string>>()
+
+            buttonsGenerator.SetInlineButtons(new List<List<string>>()
             {
                 new List<string>{ "Предметы" },
                 new List<string>{ "Новости" },
                 new List<string>{ "О нас" },
-            });
+        });
+            if (currentUser?.Role == Data.Models.Role.ADMIN)
+            {
+                buttonsGenerator.SetInlineButtons(new List<List<string>>()
+            {new List<string> { "Отправить всем" }, });
             }
+
             await bot.EditMessage("Доброе пожаловать в чат Важной информации.\nЧто бы вы хотели узнать?", buttonsGenerator.GetButtons(), messageId);
         }
 
