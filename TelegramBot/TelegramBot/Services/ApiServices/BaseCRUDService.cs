@@ -80,8 +80,9 @@ namespace TelegramBot.Services.ApiServices
                 {
                     Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase) }
                 };
-                var jsonRequest = await httpResponse.Content.ReadAsStringAsync();
-                return JsonSerializer.Deserialize<T>(jsonRequest, options);
+                var jsonResponse = await httpResponse.Content.ReadAsStringAsync();
+                if (jsonResponse != null) return default;
+                return JsonSerializer.Deserialize<T>(jsonResponse, options);
             }
             throw new ErrorResponseException(httpResponse.StatusCode, await httpResponse.Content.ReadAsStringAsync());
         }

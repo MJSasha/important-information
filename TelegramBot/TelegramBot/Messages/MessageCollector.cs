@@ -25,18 +25,17 @@ namespace TelegramBot.Messages
         public async Task SendStartMenu()
         {
             ButtonsGenerator buttonsGenerator = new();
-            var usersService = new UsersService();
-            var currentUser = await usersService.GetByChatId(chatId);
 
             buttonsGenerator.SetInlineButtons(new List<List<string>>()
             {
                 new List<string>{ "Предметы" },
                 new List<string>{ "Новости" },
                 new List<string>{ "О нас" },
-        });
-            if (currentUser?.Role == Data.Models.Role.ADMIN) {
-                buttonsGenerator.SetInlineButtons(new List<List<string>>()
-            {new List<string> { "Отправить всем" }, }); }
+            });
+
+            var usersService = new UsersService();
+            var currentUser = await usersService.GetByChatId(chatId);
+            if (currentUser?.Role == Data.Models.Role.ADMIN) buttonsGenerator.SetInlineButtons(new List<string>() { "Отправить всем" } );
 
             await bot.SendMessage("Доброе пожаловать в чат Важной информации.\nЧто бы вы хотели узнать?", buttonsGenerator.GetButtons());
         }

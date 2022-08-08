@@ -14,12 +14,15 @@ namespace TelegramBot.Data.Models
         [JsonPropertyName("needToSend")]
         public bool NeedToSend { get; set; }
 
+        /// <summary>
+        /// Get публичный для сериализации, для получения массива картинок используйте метод <see cref="GetPictures"/>.
+        /// </summary>
         [JsonPropertyName("pictures")]
-        private string pictures;
+        public string Pictures { get; private set; }
 
-        public string[] GetPictures => pictures.Split("|");
-        public void CleanPictures() => pictures = "";
-        public void AddPictures(string[] pictures) => pictures.ToList().ForEach(picture => this.pictures += $"{picture}|");
-        public void AddPicture(string picture) => pictures += $"{picture}|";
+        public string[] GetPictures() => Pictures.Split("|");
+        public void CleanPictures() => Pictures = "";
+        public void AddPictures(string[] pictures) => pictures.ToList().ForEach(picture => this.Pictures += $"{picture}|");
+        public void AddPicture(string picture) => Pictures += $"{picture}|";
     }
 }

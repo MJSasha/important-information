@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using TelegramBot.Data.Models;
 using TelegramBot.Services;
 using TelegramBot.Services.ApiServices;
-using TelegramBot.Data.Models;
-using System.Linq;
 
 namespace TelegramBot.Handlers
 {
