@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Telegram.Bot.Args;
 using TelegramBot.Messages;
@@ -20,6 +21,7 @@ namespace TelegramBot.Handlers
                 "@Предметы" => message.EditToLessonsMenu(),
                 "@Отправить всем" => Task.Run(() => DistributionService.BusyUsersIdAndService.Add(e.CallbackQuery.Message.Chat.Id, new MailingHandler(e.CallbackQuery.Message.Chat.Id))),
                 _ => message.UnknownMessage()
+                _ => ProcessSpecialCallback(e.CallbackQuery.Data, message)
             };
 
             await response;
@@ -39,6 +41,12 @@ namespace TelegramBot.Handlers
             };
 
             await response;
+        }
+
+        private static Task ProcessSpecialCallback(string callback, MessageCollector message)
+        {
+            if (Regex.IsMatch(callback, @"^(@lessonId:)[0-9]{1,}")) return message.EditToLesson(Convert.ToInt32(callback[10..]));
+            return message.UnknownMessage();
         }
     }
 }
