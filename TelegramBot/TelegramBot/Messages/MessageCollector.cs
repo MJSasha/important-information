@@ -137,18 +137,34 @@ namespace TelegramBot.Messages
             {
                 if (lessons.Count < i + 3)
                 {
-                    if (lessons.Count - i == 2) buttonsGenerator.SetInlineButtons(new List<string> { lessons[i].Name, lessons[i + 1].Name });
-                    if (lessons.Count - i == 1) buttonsGenerator.SetInlineButtons(new List<string> { lessons[i].Name });
+                    if (lessons.Count - i == 2) buttonsGenerator.SetInlineButtons(new List<(string, string)> { (lessons[i].Name, lessons[i].GetLessonCallback()),
+                        (lessons[i + 1].Name, lessons[i + 1].GetLessonCallback()) });
+                    if (lessons.Count - i == 1) buttonsGenerator.SetInlineButtons(new List<(string, string)> { (lessons[i].Name, lessons[i].GetLessonCallback()) });
                 }
                 else
                 {
-                    buttonsGenerator.SetInlineButtons(new List<string> { lessons[i].Name, lessons[i + 1].Name, lessons[i + 2].Name });
+                    buttonsGenerator.SetInlineButtons(new List<(string, string)> { (lessons[i].Name, lessons[i].GetLessonCallback()),
+                        (lessons[i + 1].Name, lessons[i + 1].GetLessonCallback()), (lessons[i + 2].Name, lessons[i + 2].GetLessonCallback()) });
                 }
             }
 
             buttonsGenerator.SetInlineButtons(new List<(string, string)> { ("<<Назад", "/start") });
 
             await bot.EditMessage("Для просмотра детальной информации по предмету, нажмите на кнопку", messageId, buttonsGenerator.GetButtons());
+        }
+
+        public async Task EditToLesson(int lessonId)
+        {
+            ButtonsGenerator buttonsGenerator = new();
+            buttonsGenerator.SetInlineButtons(new List<(string, string)> { ("<<Назад", "Предметы") });
+
+            LessonsService lessonsService = new();
+            var lesson = await lessonsService.Get(lessonId);
+
+            await bot.EditMessage($"id: {lesson.Id}\n" +
+                $"name: {lesson.Name}\n" +
+                $"teacher: {lesson.Teacher}\n" +
+                $"information: {lesson.Information}", messageId, buttonsGenerator.GetButtons());
         }
 
         public async Task EditToText(string text)
