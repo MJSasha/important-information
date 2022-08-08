@@ -36,8 +36,11 @@ namespace TelegramBot.Messages
                 new List<string>{ "Предметы" },
                 new List<string>{ "Новости" },
                 new List<string>{ "О нас" },
-                new List<string>{ "Отправить всем" },
             });
+
+            var usersService = new UsersService();
+            var currentUser = await usersService.GetByChatId(chatId);
+            if (currentUser?.Role == Data.Models.Role.ADMIN) buttonsGenerator.SetInlineButtons(new List<string>() { "Отправить всем" } );
 
             var usersService = new UsersService();
             var currentUser = await usersService.GetByChatId(chatId);
