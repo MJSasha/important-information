@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -59,20 +61,22 @@ public class DaysController extends BaseController<Day, Integer> {
     }
 
     @GetMapping("/byDate")
-    public ResponseEntity<Day> readByDate(@RequestBody String date, HttpServletRequest request) {
-        String token = Arrays.stream(request.getCookies())
-                .filter(c -> Objects.equals(c.getName(), "token"))
-                .findFirst().get().getValue();
-
-        var day = daysService.readByDate(date);
+    public ResponseEntity<Day> readByDate(@RequestBody String date, HttpServletRequest request) throws ParseException {
+        var day = daysService.readByDate(new SimpleDateFormat("yyyy-MM-dd").parse(date));
 
         if (day == null) return ResponseEntity.noContent().build();
 
-        var currentUser = usersService.readByToken(token);
-        if (currentUser == null) return ResponseEntity.notFound().build();
-        for (var note : currentUser.getNotes()) {
-            if (Objects.equals(note.getDay().getId(), day.getId())) day.setCurrentUserNote(note.getDescription());
-        }
+        try {
+            String token = Arrays.stream(request.getCookies())
+                    .filter(c -> Objects.equals(c.getName(), "token"))
+                    .findFirst().get().getValue();
+
+            var currentUser = usersService.readByToken(token);
+            if (currentUser == null) return ResponseEntity.ok(day);
+            for (var note : currentUser.getNotes()) {
+                if (Objects.equals(note.getDay().getId(), day.getId())) day.setCurrentUserNote(note.getDescription());
+            }
+        } catch (Exception ignored) {}
 
         return ResponseEntity.ok(day);
     }

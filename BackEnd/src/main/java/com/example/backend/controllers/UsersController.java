@@ -8,9 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.time.temporal.ValueRange;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -25,20 +23,6 @@ public class UsersController extends BaseController<User, Integer> {
         this.usersService = usersService;
     }
 
-    @Override
-    public ResponseEntity<List<User>> readAll() {
-        var users = super.readAll();
-        Objects.requireNonNull(users.getBody()).forEach(u -> u.setNotes(null));
-        return users;
-    }
-
-    @Override
-    @GetMapping("/{id}")
-    public ResponseEntity<User> readById(@PathVariable Integer id) {
-        var user = super.readById(id);
-        Objects.requireNonNull(user.getBody()).setNotes(null);
-        return user;
-    }
 
     @Override
     @PatchMapping("/{id}")
@@ -54,7 +38,7 @@ public class UsersController extends BaseController<User, Integer> {
                 .findFirst().get().getValue();
 
         var user = usersService.readByToken(token);
-        if (user == null) return ResponseEntity.notFound().build();
+        if (user == null) return ResponseEntity.noContent().build();
 
         user.getPassword().setValue(null);
         user.getNotes().forEach(n -> {
@@ -66,12 +50,17 @@ public class UsersController extends BaseController<User, Integer> {
     }
 
     @GetMapping("/byChatId/{chatId}")
-    public ResponseEntity<User> getByChatId(@PathVariable Long chatId) {
-        try {
-            return ResponseEntity.ok(usersService.readByChatId(chatId));
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return ResponseEntity.noContent().build();
-        }
+    public User getByChatId(@PathVariable Long chatId) {
+        var user = usersService.readByChatId(chatId);
+        RemoveUnnecessaryLinks(user);
+        return user;
+    }
+
+    @Override
+    protected void RemoveUnnecessaryLinks(User user) {
+        user.getNotes().forEach(note -> {
+            note.setUser(null);
+            note.getDay().setCurrentUserNote(null);
+        });
     }
 }
