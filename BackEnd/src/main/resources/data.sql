@@ -42,4 +42,7 @@ INSERT INTO passwords (id, value)
 VALUES (1, 'admin');
 
 INSERT INTO users (id, chat_id, login, name, role, token, password_id)
-VALUES (1, 1234567, 'admin', 'admin', 0, '', 1);
+VALUES (1, 1234567, 'admin', 'admin', 1, '', 1);
+
+INSERT INTO note (id, description, day_id, user_id)
+VALUES (1, 'Admin note', 1, 1);

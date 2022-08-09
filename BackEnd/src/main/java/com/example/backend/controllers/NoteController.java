@@ -20,4 +20,10 @@ public class NoteController extends BaseController<Note, Integer> {
         note.setId(id);
         return super.update(note, id);
     }
+
+    @Override
+    protected void RemoveUnnecessaryLinks(Note note) {
+        note.getUser().setNotes(null);
+        note.getDay().setCurrentUserNote(null);
+    }
 }

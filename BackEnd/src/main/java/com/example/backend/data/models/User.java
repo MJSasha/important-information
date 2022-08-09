@@ -1,7 +1,6 @@
 package com.example.backend.data.models;
 
 import com.example.backend.data.definitions.UserRole;
-import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,11 +13,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "users", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "id"),
-        @UniqueConstraint(columnNames = "login"),
-        @UniqueConstraint(columnNames = "chatId")
-})
+@Table(name = "users")
 public class User {
 
     @Id
@@ -26,9 +21,13 @@ public class User {
     private Integer id;
 
     private String name;
+    @Column(unique = true)
+
     private String login;
+
     private String token;
-    @NotNull
+
+    @Column(unique = true, nullable = false)
     private Long chatId;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
