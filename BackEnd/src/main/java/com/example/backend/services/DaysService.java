@@ -3,8 +3,9 @@ package com.example.backend.services;
 import com.example.backend.baseClasses.BaseCRUDService;
 import com.example.backend.data.models.Day;
 import com.example.backend.repositories.DaysRepository;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 @Service
 public class DaysService extends BaseCRUDService<Day, Integer> {
@@ -17,7 +18,7 @@ public class DaysService extends BaseCRUDService<Day, Integer> {
         this.daysRepository = daysRepository;
     }
 
-    public Day readByDate(String date) {
+    public Day readByDate(Date date) {
         return daysRepository.getByDate(date);
     }
 }
