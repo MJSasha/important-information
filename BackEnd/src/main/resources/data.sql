@@ -34,9 +34,9 @@ VALUES (1, 1),
        (3, 5),
        (3, 6);
 
-INSERT INTO news (id, message, pictures, need_to_send)
-VALUES (1, 'Is sent message', '', 0),
-       (2, 'Not sent message', '', 1);
+INSERT INTO news (id, date_time_of_create, message, need_to_send, pictures)
+VALUES (1, NOW(), 'Is sent message', 0, ''),
+       (2, NOW(), 'Not sent message', 1, '');
 
 INSERT INTO passwords (id, value)
 VALUES (1, 'admin');
