@@ -3,7 +3,6 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using TelegramBot.Data.CustomExceptions;
 
@@ -12,6 +11,7 @@ namespace TelegramBot.Services.ApiServices
 {
     public class BaseCRUDService<TEntity, TKey> : BaseService
     {
+
         public BaseCRUDService(string entityRoot) : base(entityRoot) { }
 
         public async Task<TEntity> Get(TKey key)

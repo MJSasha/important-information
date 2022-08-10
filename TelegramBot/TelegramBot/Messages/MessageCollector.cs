@@ -71,6 +71,23 @@ namespace TelegramBot.Messages
             await bot.EditMessage(MessagesTexts.AboutUs, messageId, buttonsGenerator.GetButtons());
         }
 
+        public async Task SendAllNews()
+        {
+            NewsService newsService = new();
+            var allNews = await newsService.Get();
+
+            foreach (var news in allNews)
+            {
+                await bot.SendMessage($"date time: {news.DateTimeOfCreate}\n" +
+                    $"text: {news.Message}\n" +
+                    $"pictures: {news.Pictures}");
+            }
+
+            ButtonsGenerator buttonsGenerator = new();
+            buttonsGenerator.SetInlineButtons(new List<(string, string)> { ("<<Назад", "/start") });
+            await bot.SendMessage("На данный момент это все доступные новости, для возвращение в стартовое меню нажмите на кнопку", buttonsGenerator.GetButtons());
+        }
+
         public async Task EditToLessonsMenu()
         {
             LessonsService lessonsService = new();
