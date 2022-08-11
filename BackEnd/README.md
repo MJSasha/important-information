@@ -21,7 +21,7 @@ docker-compose down
 |-|-|-|
 |*backend-api*|API|8080|
 |*imp-inf-db*|База данный MySQL|3306|
-|*adminer*|Админка для просмотра данных в бд|5000|
+|*adminer*|Админка для просмотра данных в бд|[5000](http://localhost:5000)|
 
 **Тестовые модели добавляются автоматически, их можно посмотреть в файле [data.sql](https://github.com/MJSasha/important-information/blob/main/BackEnd/src/main/resources/data.sql)**
 
