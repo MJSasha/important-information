@@ -32,6 +32,7 @@ namespace TelegramBot.Handlers
         {
             AddProcessing("Напишите сообщение которое хотите отправить", SendAll);
         }
+        [Obsolete]
         private async void SendAll()
         {
             try

@@ -76,13 +76,8 @@ namespace TelegramBot.Services.ApiServices
         {
             if (httpResponse.IsSuccessStatusCode)
             {
-                var options = new JsonSerializerOptions
-                {
-                    Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase) }
-                };
-                var jsonResponse = await httpResponse.Content.ReadAsStringAsync();
-                if (jsonResponse != null) return default;
-                return JsonSerializer.Deserialize<T>(jsonResponse, options);
+                var jsonRequest = await httpResponse.Content.ReadAsStringAsync();
+                return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(jsonRequest);
             }
             throw new ErrorResponseException(httpResponse.StatusCode, await httpResponse.Content.ReadAsStringAsync());
         }
