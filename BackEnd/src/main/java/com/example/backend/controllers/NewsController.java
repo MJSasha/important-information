@@ -27,9 +27,7 @@ public class NewsController extends BaseController<News, Integer> {
 
     @GetMapping("/byDates")
     public ResponseEntity<List<News>> readByDates(@RequestBody StartEndDate startEndDate, HttpServletRequest request) {
-        var allNews = newsService.read();
-        var test = allNews.stream().filter(n -> n.getDateTimeOfCreate().after(startEndDate.getEnd())).toList();
-        var news = allNews.stream().filter(d ->
+        var news = newsService.read().stream().filter(d ->
                 d.getDateTimeOfCreate().after(startEndDate.getStart()) && d.getDateTimeOfCreate().before(startEndDate.getEnd())).toList();
 
         return ResponseEntity.ok(news);

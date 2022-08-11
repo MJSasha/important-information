@@ -17,7 +17,7 @@ namespace TelegramBot.Services.ApiServices
         {
             HttpRequestMessage httpRequest = new HttpRequestMessage
             {
-                Content = new StringContent(JsonConvert.SerializeObject(startEndTime), Encoding.UTF8, "application/json"),
+                Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(startEndTime), Encoding.UTF8, "application/json"),
                 Method = HttpMethod.Get,
                 RequestUri = new Uri(Root.ToString() + "/byDates")
             };
