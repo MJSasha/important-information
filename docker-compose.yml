@@ -54,8 +54,10 @@ services:
     image: mjsasha/bot_important-information:1.0.0
     container_name: bot
     restart: always
+    depends_on:
+      - backend-api
     environment:
       TOKEN: 2065215367:AAHxs51AowRJAqefe3tvV7d5jn5nsC_-xDc #Тут свой ставьте
       API_TOKEN: Fp9u5dsvcdM3XIm
       BACK_ROOT: http://backend-api:8080/api/
-      FRONT_ROOT: http://frontend:3000
+      FRONT_ROOT: google.com
