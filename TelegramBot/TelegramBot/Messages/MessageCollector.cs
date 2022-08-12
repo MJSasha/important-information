@@ -61,29 +61,27 @@ namespace TelegramBot.Messages
 
         public async Task SendWeekNews(int newsShift = 0)
         {
-            DateTime currentWeekStartDate = DateTime.Now.AddDays(-(DateTime.Now.DayOfWeek - DayOfWeek.Monday));
-            NewsService newsService = new();
-            var allNewsInSelectedWeek = (await newsService.Get(new StartEndTime
-            {
-                Start = currentWeekStartDate.AddDays(7 * newsShift),
-                End = currentWeekStartDate.AddDays(7 + 7 * newsShift)
-            })).OrderBy(n => n.DateTimeOfCreate);
+            DateTime weekStartDate = DateTime.Now.AddDays(-(DateTime.Now.DayOfWeek - DayOfWeek.Monday)).AddDays(7 * newsShift);
+            DateTime weekEndDate = weekStartDate.AddDays(6);
 
+            var allNewsInSelectedWeek = await GetWeekNews(weekStartDate);
             ButtonsGenerator buttonsGenerator = new();
 
-            if (allNewsInSelectedWeek.Any())
+            await SendNews(allNewsInSelectedWeek);
+
+            if (weekEndDate < DateTime.Now && await CheckAnyNewsBefore(weekEndDate))
             {
-                await SendNews(allNewsInSelectedWeek);
-                SetPaginationAndGoBackButtons(buttonsGenerator, newsShift);
-                await bot.SendMessage($"Новости, созданные в промежуток С {currentWeekStartDate.AddDays(7 * newsShift):dd-MM-yyyy} ДО {currentWeekStartDate.AddDays(6 + 7 * newsShift):dd-MM-yyyy}\n" +
-                    $"Для перехода к другой неделе нажмите на кнопку", buttonsGenerator.GetButtons());
+                buttonsGenerator.SetInlineButtons(new List<(string, string)> { ("⬅ Предыдущая", $"newsShift:{newsShift - 1}"), ("Следующая ➡", $"newsShift:{newsShift + 1}") });
             }
             else
             {
-                newsShift += newsShift > 0 ? -1 : 1;
-                SetPaginationAndGoBackButtons(buttonsGenerator, newsShift);
-                await bot.EditMessage("Дальше новостей нет, туда не ходи!", messageId, buttonsGenerator.GetButtons());
+                if (weekEndDate < DateTime.Now) buttonsGenerator.SetInlineButton(("Следующая ➡", $"newsShift:{newsShift + 1}"));
+                else if (await CheckAnyNewsBefore(weekEndDate)) buttonsGenerator.SetInlineButton(("⬅ Предыдущая", $"newsShift:{newsShift - 1}"));
             }
+            buttonsGenerator.SetGoBackButton();
+
+            await bot.SendMessage($"Новости, созданные в промежуток С {weekStartDate:dd-MM-yyyy} ДО {weekEndDate:dd-MM-yyyy}\n" +
+                    $"Для перехода к другой неделе нажмите на кнопку", buttonsGenerator.GetButtons());
         }
 
         public async Task EditToLessonsMenu()
@@ -146,10 +144,21 @@ namespace TelegramBot.Messages
                     $"pictures: {oneNews.Pictures}");
             }
         }
-        private void SetPaginationAndGoBackButtons(ButtonsGenerator buttonsGenerator, int newsShift)
+        private async Task<IOrderedEnumerable<News>> GetWeekNews(DateTime weekStartDate)
         {
-            buttonsGenerator.SetInlineButtons(new List<(string, string)> { ("⬅ Предыдущая", $"newsShift:{newsShift - 1}"), ("Следующая ➡", $"newsShift:{newsShift + 1}") });
-            buttonsGenerator.SetGoBackButton();
+            NewsService newsService = new();
+            return (await newsService.Get(new StartEndTime
+            {
+                Start = weekStartDate,
+                End = weekStartDate.AddDays(7)
+            })).OrderBy(n => n.DateTimeOfCreate);
+        }
+        private async Task<bool> CheckAnyNewsBefore(DateTime date)
+        {
+            date = date.AddDays(-7);
+            NewsService newsService = new();
+            var newsBefore = await newsService.Get(new StartEndTime { End = date });
+            return newsBefore.Any();
         }
     }
 }
