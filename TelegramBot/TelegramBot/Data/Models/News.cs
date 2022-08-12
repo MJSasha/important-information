@@ -24,9 +24,9 @@ namespace TelegramBot.Data.Models
         /// Get публичный для сериализации, для получения массива картинок используйте метод <see cref="GetPictures"/>.
         /// </summary>
         [JsonPropertyName("pictures")]
-        public string Pictures { get; private set; }
+        public string Pictures { get; set; }
 
-        public string[] GetPictures() => Pictures.Split("|");
+        public string[] GetPictures() => Pictures?.Split("|", StringSplitOptions.RemoveEmptyEntries);
         public void CleanPictures() => Pictures = "";
         public void AddPictures(string[] pictures) => pictures.ToList().ForEach(picture => this.Pictures += $"{picture}|");
         public void AddPicture(string picture) => Pictures += $"{picture}|";

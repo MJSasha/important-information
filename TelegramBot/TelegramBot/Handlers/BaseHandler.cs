@@ -46,6 +46,7 @@ namespace TelegramBot.Handlers
         private static Task ProcessSpecialCallback(string callback, MessageCollector message)
         {
             if (Regex.IsMatch(callback, @"^(@lessonId:)[0-9]{1,}")) return message.EditToLesson(Convert.ToInt32(callback[10..]));
+            else if (Regex.IsMatch(callback, @"^(@newsShift:)(-){0,1}[0-9]{1,}")) return message.SendWeekNews(Convert.ToInt32(callback[11..]));
             return message.UnknownMessage();
         }
     }

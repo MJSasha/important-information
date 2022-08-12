@@ -7,7 +7,7 @@ import { Form, Button} from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const DOMEN_SERVER = 'https://a8473-2e1f.s.d-f.pw/api';
+const DOMEN_SERVER = process.env.REACT_APP_BACK_ROOT;
 
 function Register(){
 

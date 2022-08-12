@@ -2,7 +2,7 @@
 .datepicker-wrapper{
     display: flex;
     align-items: center;
-    width: 30%;
+    border-bottom: 2px solid #000000;
 }
 .react-datepicker__input-container{
     width: 50%;

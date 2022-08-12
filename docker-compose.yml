@@ -5,7 +5,7 @@ services:
 
 # BackEnd
   backend-api:
-    image: mjsasha/backend_important-information:3.0.1
+    image: mjsasha/backend_important-information:3.0.4
     container_name: backend-api
     restart: always
     ports:
@@ -16,6 +16,7 @@ services:
       MYSQL_DB: imp-inf-db
       MYSQL_USER: admin
       MYSQL_PASSWORD: admin
+      API_TOKEN: Fp9u5dsvcdM3XIm
 
 # Database
   imp-inf-db:
@@ -45,3 +46,16 @@ services:
     restart: always
     ports:
       - "3000:3000"
+    environment:
+      REACT_APP_BACK_ROOT: http://localhost:8080/api
+
+# TgBot
+  bot:
+    image: mjsasha/bot_important-information:1.0.0
+    container_name: bot
+    restart: always
+    environment:
+      TOKEN: 2065215367:AAHxs51AowRJAqefe3tvV7d5jn5nsC_-xDc #Тут свой ставьте
+      API_TOKEN: Fp9u5dsvcdM3XIm
+      BACK_ROOT: http://backend-api:8080/api/
+      FRONT_ROOT: http://frontend:3000

@@ -58,6 +58,7 @@ namespace TelegramBot.Services
             {
                 throw new ChatNotFoundException(message, chatId);
             }
+            catch (Telegram.Bot.Exceptions.MessageIsNotModifiedException) { /*ignore*/ }
         }
     }
 }
