@@ -11,9 +11,7 @@ namespace TelegramBot.Services.ApiServices
 {
     public class DaysServices : BaseCRUDService<Day, int>
     {
-        public DaysServices() : base(AppSettings.DaysRoot)
-        {
-        }
+        public DaysServices() : base(AppSettings.DaysRoot) { }
 
         public async Task<List<Day>> Get(StartEndTime startEndTime)
         {
