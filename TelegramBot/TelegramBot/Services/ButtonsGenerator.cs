@@ -14,55 +14,16 @@ namespace TelegramBot.Services
             return new InlineKeyboardMarkup(returnsButtons);
         }
 
-        /// <summary>
-        /// Возвращает кнопки с колбеком эквивалентным названию со знаком "@"
-        /// </summary>
-        /// <param name="markup">Разметка кнопок. первый лист - строчки, второй - столбцы</param>
-        /// <returns></returns>
-        public void SetInlineButtons(List<List<string>> markup)
-        {
-            AddButtons(markup, (lineMarkup) => lineMarkup.Select(text => InlineKeyboardButton.WithCallbackData(text, "@" + text)).ToList());
-        }
+        public void SetInlineButton(string markup) => SetInlineButtons(new List<string> { markup });
+        public void SetInlineButtons(List<string> markup) => SetInlineButtons(new List<List<string>> { markup });
+        public void SetInlineButtons(List<List<string>> markup) => AddButtons(markup, (lineMarkup) => lineMarkup.Select(text => InlineKeyboardButton.WithCallbackData(text, "@" + text)).ToList());
 
-        /// <summary>
-        /// Возвращает кнопки с колбеком эквивалентным названию со знаком "@"
-        /// </summary>
-        /// <param name="markup">Разметка кнопок. первый лист - строчки, второй - столбцы</param>
-        /// <returns></returns>
-        public void SetInlineButtons(List<string> markup)
-        {
-            SetInlineButtons(new List<List<string>> { markup });
-        }
+        public void SetInlineButton((string, string) markup) => SetInlineButtons(new List<(string, string)> { markup });
+        public void SetInlineButtons(List<(string name, string callback)> markup) => SetInlineButtons(new List<List<(string name, string callback)>> { markup });
+        public void SetInlineButtons(List<List<(string name, string callback)>> markup) => AddButtons(markup, (lineMarkup) => lineMarkup.Select(b => InlineKeyboardButton.WithCallbackData(b.name, "@" + b.callback)).ToList());
 
-        /// <summary>
-        /// Возвращает кнопки с колбеком (@ ставится автоматически)
-        /// </summary>
-        /// <param name="markup">Разметка кнопок. Первый лист - строчки, второй - столбцы</param>
-        /// <returns></returns>
-        public void SetInlineButtons(List<List<(string name, string callback)>> markup)
-        {
-            AddButtons(markup, (lineMarkup) => lineMarkup.Select(b => InlineKeyboardButton.WithCallbackData(b.name, "@" + b.callback)).ToList());
-        }
-
-        /// <summary>
-        /// Возвращает кнопки с колбеком (@ ставится автоматически)
-        /// </summary>
-        /// <param name="markup">Разметка кнопок. Первый лист - строчки, второй - столбцы</param>
-        /// <returns></returns>
-        public void SetInlineButtons(List<(string name, string callback)> markup)
-        {
-            SetInlineButtons(new List<List<(string name, string callback)>> { markup });
-        }
-
-        public void SetInlineUrlButtons(List<List<(string name, string url)>> markup)
-        {
-            AddButtons(markup, (lineMarkup) => lineMarkup.Select(b => InlineKeyboardButton.WithUrl(b.name, b.url)).ToList());
-        }
-
-        public void SetInlineUrlButtons(List<(string name, string url)> markup)
-        {
-            SetInlineUrlButtons(new List<List<(string, string)>> { markup });
-        }
+        public void SetInlineUrlButtons(List<List<(string name, string url)>> markup) => AddButtons(markup, (lineMarkup) => lineMarkup.Select(b => InlineKeyboardButton.WithUrl(b.name, b.url)).ToList());
+        public void SetInlineUrlButtons(List<(string name, string url)> markup) => SetInlineUrlButtons(new List<List<(string, string)>> { markup });
 
         private void AddButtons<T>(List<List<T>> markup, Func<List<T>, List<InlineKeyboardButton>> createLine)
         {

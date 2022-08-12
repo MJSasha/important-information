@@ -6,7 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.time.ZonedDateTime;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -20,7 +20,7 @@ public class News {
     private Integer id;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private ZonedDateTime dateTimeOfCreate = ZonedDateTime.now();
+    private Date dateTimeOfCreate = Date.from(java.time.ZonedDateTime.now().toInstant());
     private String message;
     private String pictures;
     private boolean needToSend;
