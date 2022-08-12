@@ -1,4 +1,6 @@
-﻿namespace TelegramBot
+﻿using System;
+
+namespace TelegramBot
 {
     public static class AppSettings
     {
@@ -8,10 +10,10 @@
         public static string BackRoot { get; } = "http://localhost:8080/api/";
         public static string FrontRoot { get; } = "google.com";
 #else
-        public static string Token { get; } = "";
-        public static string ApiToken { get; } = "";
-        public static string BackRoot { get; } = "";
-        public static string FrontRoot { get; } = "";
+        public static string Token { get; } = Environment.GetEnvironmentVariable("TOKEN");
+        public static string ApiToken { get; } = Environment.GetEnvironmentVariable("API_TOKEN");
+        public static string BackRoot { get; } = Environment.GetEnvironmentVariable("BACK_ROOT");
+        public static string FrontRoot { get; } = Environment.GetEnvironmentVariable("FRONT_ROOT");
 #endif
 
         public static string UsersRoot { get; } = "users";
