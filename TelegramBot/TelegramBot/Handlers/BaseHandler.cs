@@ -20,7 +20,7 @@ namespace TelegramBot.Handlers
                 "@О нас" => message.EditToAboutUsMenu(),
                 "@Предметы" => message.EditToLessonsMenu(),
                 "@Отправить всем" => Task.Run(() => DistributionService.BusyUsersIdAndService.Add(e.CallbackQuery.Message.Chat.Id, new MailingHandler(e.CallbackQuery.Message.Chat.Id))),
-                "@Новости" => message.SendAllNews(),
+                "@Новости" => message.SendWeekNews(),
                 _ => ProcessSpecialCallback(e.CallbackQuery.Data, message)
             };
 

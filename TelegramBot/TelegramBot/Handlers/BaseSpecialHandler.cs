@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using TelegramBot.Interfaces;
+using Telegram.Bot.Args;
 
 namespace TelegramBot.Handlers
 {
@@ -17,7 +18,7 @@ namespace TelegramBot.Handlers
         }
 
         [Obsolete]
-        public abstract Task ProcessMessage(string registrationMassage);
+        public abstract Task ProcessMessage(Telegram.Bot.Types.Message registrationMassage);
 
         protected void AddProcessing(string message, Action action, Action completeAction = null)
         {

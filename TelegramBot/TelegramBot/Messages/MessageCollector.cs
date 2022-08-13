@@ -1,7 +1,7 @@
 ﻿using System;
-using TelegramBot.Utils;
-using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using TelegramBot.Data;
 using TelegramBot.Data.Models;
 using TelegramBot.Data.ViewModels;
@@ -39,7 +39,7 @@ namespace TelegramBot.Messages
 
             var usersService = new UsersService();
             var currentUser = await usersService.GetByChatId(chatId);
-            if (currentUser?.Role == Data.Models.Role.ADMIN) buttonsGenerator.SetInlineButtons(new List<string>() { "Отправить всем" } );
+            if (currentUser?.Role == Role.ADMIN) buttonsGenerator.SetInlineButtons(new List<string>() { "Отправить всем" } );
 
             await bot.SendMessage("Доброе пожаловать в чат Важной информации.\nЧто бы вы хотели узнать?", buttonsGenerator.GetButtons());
         }
@@ -56,7 +56,7 @@ namespace TelegramBot.Messages
                 new List<string>{ "Новости" },
                 new List<string>{ "О нас" },
         });
-            if (currentUser?.Role == Data.Models.Role.ADMIN)
+            if (currentUser?.Role == Role.ADMIN)
             {
                 buttonsGenerator.SetInlineButtons(new List<List<string>>()
             {new List<string> { "Отправить всем" }, });
@@ -95,24 +95,8 @@ namespace TelegramBot.Messages
             }
             buttonsGenerator.SetGoBackButton();
 
-            await bot.EditMessage(MessagesTexts.AboutUs, messageId, buttonsGenerator.GetButtons());
-        }
-
-        public async Task SendAllNews()
-        {
-            NewsService newsService = new();
-            var allNews = await newsService.Get();
-
-            foreach (var news in allNews)
-            {
-                await bot.SendMessage($"date time: {news.DateTimeOfCreate}\n" +
-                    $"text: {news.Message}\n" +
-                    $"pictures: {news.Pictures}");
-            }
-
-            ButtonsGenerator buttonsGenerator = new();
-            buttonsGenerator.SetInlineButtons(new List<(string, string)> { ("<<Назад", "/start") });
-            await bot.SendMessage("На данный момент это все доступные новости, для возвращение в стартовое меню нажмите на кнопку", buttonsGenerator.GetButtons());
+            await bot.SendMessage($"Новости, созданные в промежуток С {weekStartDate:dd-MM-yyyy} ДО {weekEndDate:dd-MM-yyyy}\n" +
+                    $"Для перехода к другой неделе нажмите на кнопку", buttonsGenerator.GetButtons());
         }
 
         public async Task EditToLessonsMenu()
@@ -136,16 +120,25 @@ namespace TelegramBot.Messages
                         (lessons[i + 1].Name, lessons[i + 1].GetLessonCallback()), (lessons[i + 2].Name, lessons[i + 2].GetLessonCallback()) });
                 }
             }
+
+            buttonsGenerator.SetGoBackButton();
+
+            await bot.EditMessage("Для просмотра детальной информации по предмету, нажмите на кнопку", messageId, buttonsGenerator.GetButtons());
         }
 
         public async Task EditToLesson(int lessonId)
         {
             ButtonsGenerator buttonsGenerator = new();
-            buttonsGenerator.SetInlineButtons(new List<(string, string)> { ("<<Назад", "Предметы") });
+            buttonsGenerator.SetGoBackButton("Предметы");
 
-            await bot.EditMessage(MessagesTexts.AboutUs, messageId, buttonsGenerator.GetButtons());
+            LessonsService lessonsService = new();
+            var lesson = await lessonsService.Get(lessonId);
+
+            await bot.EditMessage($"id: {lesson.Id}\n" +
+                $"name: {lesson.Name}\n" +
+                $"teacher: {lesson.Teacher}\n" +
+                $"information: {lesson.Information}", messageId, buttonsGenerator.GetButtons());
         }
-
 
         public async Task EditToText(string text)
         {

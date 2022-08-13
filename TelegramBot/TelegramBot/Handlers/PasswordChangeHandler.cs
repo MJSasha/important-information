@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using TelegramBot.Services;
 using TelegramBot.Services.ApiServices;
-
+using Telegram.Bot.Args;
 
 namespace TelegramBot.Handlers
 {
@@ -18,9 +18,9 @@ namespace TelegramBot.Handlers
         }
 
         [Obsolete]
-        public override async Task ProcessMessage(string newPassword)
+        public override async Task ProcessMessage(Telegram.Bot.Types.Message newPassword)
         {
-            this.newPassword = newPassword;
+            this.newPassword = newPassword.Text;
 
             if (сancellationToken == null) await Task.Run(() => ChangePassword());
             if (!сancellationToken.IsCancellationRequested) currentTask.Start();

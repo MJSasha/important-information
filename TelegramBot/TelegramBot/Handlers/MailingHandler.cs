@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using TelegramBot.Data.Models;
 using TelegramBot.Services;
 using TelegramBot.Services.ApiServices;
+using Telegram.Bot.Args;
 
 namespace TelegramBot.Handlers
 {
@@ -12,17 +13,17 @@ namespace TelegramBot.Handlers
     {
         private readonly long chatId;
         private string sendingMessage;
-
+        private Telegram.Bot.Types.PhotoSize[] photo;
         public MailingHandler(long chatId) : base(new BotService(chatId))
         {
             this.chatId = chatId;
         }
 
         [Obsolete]
-        public override async Task ProcessMessage(string sendingMessage)
+        public override async Task ProcessMessage(Telegram.Bot.Types.Message sendingMessage)
         {
-            this.sendingMessage = sendingMessage;
-
+            this.sendingMessage = sendingMessage.Text;
+            this.photo = sendingMessage.Photo;
             if (сancellationToken == null) await Task.Run(() => Mailing());
             if (!сancellationToken.IsCancellationRequested) currentTask.Start();
         }
@@ -39,12 +40,19 @@ namespace TelegramBot.Handlers
             {
                 var newsService = new NewsService();
                 var news = new News();
-                var userService = new UsersService();
-                news.Message = sendingMessage;
+                var userService = new UsersService(); 
+                news.Message = sendingMessage; 
+                if (photo != null) { news.Pictures = photo.ToString(); }
                 news.NeedToSend = false;
                 await newsService.Create(news);
                 var users = await userService.Get();
-                foreach (var user in users) { await BotService.SendMessage(sendingMessage, users.Select(u => u.ChatId).ToList()); }
+                if (news.Message != null)
+                {
+                    foreach (var user in users) { await BotService.SendMessage(news.Message, users.Select(u => u.ChatId).ToList()); }
+                }
+                if (news.Pictures != null) {
+                    foreach (var user in users) { await BotService.SendPhoto(news.Pictures, users.Select(u => u.ChatId).ToList()); } 
+                }
                 LogService.LogInfo($"|SENDALL| ChatId: {chatId} | Message: {news.Message} | NeedToSend: {news.NeedToSend}");
                 await bot.SendMessage($"Сообщение отправлено!");
             }

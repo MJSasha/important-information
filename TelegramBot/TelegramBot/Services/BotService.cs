@@ -60,5 +60,20 @@ namespace TelegramBot.Services
             }
             catch (Telegram.Bot.Exceptions.MessageIsNotModifiedException) { /*ignore*/ }
         }
+        [Obsolete]
+        public static async Task SendPhoto(string photo, List<long> chatIds)
+        {
+            foreach (var chatId in chatIds)
+            {
+                try
+                {
+                    await client.SendPhotoAsync(chatId, photo);
+                }
+                catch (Telegram.Bot.Exceptions.ChatNotFoundException)
+                {
+                    throw new ChatNotFoundException(photo, chatId);
+                }
+            }
+        }
     }
 }
