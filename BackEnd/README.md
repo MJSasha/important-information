@@ -25,6 +25,17 @@ docker-compose down
 
 **Тестовые модели добавляются автоматически, их можно посмотреть в файле [data.sql](https://github.com/MJSasha/important-information/blob/main/BackEnd/src/main/resources/data.sql)**
 
+### Переменные среды
+
+|Название|Дефолтное значение|Описание|
+|-|-|-|
+|MYSQL_HOST|0.0.0.0|Хост БД|
+|MYSQL_PORT|3306|Порт БД|
+|MYSQL_DB|imp-inf-db|Название БД|
+|MYSQL_USER|admin|Пользователь БД|
+|MYSQL_PASSWORD|admin|Пароль к БД|
+|API_TOKEN|Fp9u5dsvcdM3XIm|Токен доступа внешних *API*|
+
 ## Документация
 
 Документация сделана при помощи *Postman* и доступна по
