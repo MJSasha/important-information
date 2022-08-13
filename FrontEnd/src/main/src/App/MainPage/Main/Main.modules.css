@@ -19,15 +19,17 @@ html {
     padding-left: 10%;
 }
 .SideBarWrapper{
-    position: relative;
-    /* sidebar height */
-    height: 820px;
-    /*  */
-    box-shadow: -6px 0px 4px -2px rgba(0, 0, 0, 0.4);
+  position: fixed;
+  right: 0;
+  z-index: 100;
+  /* sidebar height */
+  height: 820px;
+  /*  */
+  box-shadow: -6px 0px 4px -2px rgba(0, 0, 0, 0.4);
 }
 .content-wrapper{
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 }
 /* SideBar transition start*/
 .fade-enter{
