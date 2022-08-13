@@ -16,6 +16,24 @@
 ![C#](https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=c-sharp&logoColor=white)
 ![.Net](https://img.shields.io/badge/.NET-5C2D91?style=for-the-badge&logo=.net&logoColor=white)
 
+## Заупск проекта
+
+Проект можно запустить целиком от *docker-compose.yml* файла из этой папки. Команда запуска:
+
+```bash
+docker-compose up
+```
+
+При этом запустится:
+
+|Название контейнера|Описание|Порт|
+|-|-|-|
+|*backend-api*|API|8080|
+|*imp-inf-db*|База данный MySQL|3306|
+|*adminer*|Админка для просмотра данных в бд|[5000](http://localhost:5000)|
+|*frontend*|Веб приложение|[3000](http://localhost:3000)|
+|*bot*|Телеграм бот||
+
 ## Составные части проета
 
 Проект состоит из двух основных частей: *FrontEnd* и *BackEnd*
