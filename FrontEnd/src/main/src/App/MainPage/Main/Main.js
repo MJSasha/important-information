@@ -32,19 +32,18 @@ function Main(){
                 </header>
             </div>
             <div className="content-wrapper">
-                {/* date */}
-                <div className="parent-datepicker-wrapper">
-                <ReactDatePicker />
-                </div>
-                {/* date */}
                 <div className="container">
+                    {/* date */}
+                    <div className="parent-datepicker-wrapper">
+                    <ReactDatePicker />
+                    </div>
+                    {/* date */}
                     <div className="content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque quaerat consequatur atque architecto illo debitis dolorem, molestias nulla porro dolor veniam totam quisquam? Sapiente odio maiores, culpa corrupti numquam dolorem?</div>
-
                 </div>
                 <CSSTransition in={showSB} timeout={300} classNames='fade' unmountOnExit>
-                <div className="SideBarWrapper">
-                    <SideBar/>
-                </div>
+                    <div className="SideBarWrapper">
+                        <SideBar/>
+                    </div>
                 </CSSTransition>
             </div>
         </div>
