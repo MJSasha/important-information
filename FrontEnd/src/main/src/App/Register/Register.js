@@ -7,7 +7,7 @@ import { Form, Button} from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const DOMEN_SERVER = process.env.REACT_APP_BACK_ROOT;
+const DOMEN_SERVER = process.env.REACT_APP_BACK_ROOT ?? 'http://localhost:8080/api';
 
 function Register(){
 
