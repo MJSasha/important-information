@@ -15,7 +15,7 @@ namespace TelegramBot.Services
         {
             if (!BusyUsersIdAndService.Keys.Contains(e.Message.Chat.Id)) await BaseHandler.OnMessage(sender, e);
 
-            if (BusyUsersIdAndService.Keys.Contains(e.Message.Chat.Id)) await BusyUsersIdAndService[e.Message.Chat.Id].ProcessMessage(e.Message.Text);
+            if (BusyUsersIdAndService.Keys.Contains(e.Message.Chat.Id)) await BusyUsersIdAndService[e.Message.Chat.Id].ProcessMessage(e);
         }
 
         [Obsolete]

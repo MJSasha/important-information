@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Telegram.Bot.Args;
+using TelegramBot.Data;
 using TelegramBot.Services;
 using TelegramBot.Services.ApiServices;
 
@@ -19,15 +21,14 @@ namespace TelegramBot.Handlers
         }
 
         [Obsolete]
-        public override async Task ProcessMessage(string newPassword)
+        public override async Task ProcessMessage(MessageEventArgs e)
         {
-            this.newPassword = newPassword;
-
-            if (сancellationToken == null) await Task.Run(() => ChangePassword());
-            if (!сancellationToken.IsCancellationRequested) currentTask.Start();
+            newPassword = e.Message.Text;
+            await base.ProcessMessage(e);
         }
+
         [Obsolete]
-        private void ChangePassword()
+        protected override void RegistrateProcessing()
         {
             AddProcessing("Придумайте новый пароль", CompleteChange);
         }
@@ -50,7 +51,7 @@ namespace TelegramBot.Handlers
             catch (HttpRequestException)
             {
                 LogService.LogServerNotFound("PasswordChange");
-                await bot.SendMessage("Упс, что-то пошло не так...");
+                await bot.SendMessage(MessagesTexts.Oops);
             }
             finally
             {
