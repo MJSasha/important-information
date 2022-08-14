@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Telegram.Bot.Args;
+using Telegram.Bot.Types;
 using TelegramBot.Interfaces;
 
 namespace TelegramBot.Handlers
@@ -18,7 +18,7 @@ namespace TelegramBot.Handlers
         }
 
         [Obsolete]
-        public virtual async Task ProcessMessage(MessageEventArgs e)
+        public virtual async Task ProcessMessage(Message message)
         {
             if (сancellationToken == null) await Task.Run(() => RegistrateProcessing());
             if (!сancellationToken.IsCancellationRequested) currentTask.Start();

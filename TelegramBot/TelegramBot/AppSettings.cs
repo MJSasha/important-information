@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if !DEBUG
+using System;
+#endif
 
 namespace TelegramBot
 {

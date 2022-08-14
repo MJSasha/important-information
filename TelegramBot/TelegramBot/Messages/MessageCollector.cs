@@ -34,7 +34,7 @@ namespace TelegramBot.Messages
                 new List<string>{ "О нас" },
             });
 
-            await bot.SendMessage("Доброе пожаловать в чат Важной информации.\nЧто бы вы хотели узнать?", buttonsGenerator.GetButtons());
+            await bot.SendMessage(Texts.StartMenu, buttonsGenerator.GetButtons());
         }
 
         public async Task EditToStartMenu()
@@ -47,7 +47,7 @@ namespace TelegramBot.Messages
                 new List<string>{ "О нас" },
             });
 
-            await bot.EditMessage("Доброе пожаловать в чат Важной информации.\nЧто бы вы хотели узнать?", messageId, buttonsGenerator.GetButtons());
+            await bot.EditMessage(Texts.StartMenu, messageId, buttonsGenerator.GetButtons());
         }
 
         public async Task EditToAboutUsMenu()
@@ -56,7 +56,7 @@ namespace TelegramBot.Messages
             buttonsGenerator.SetInlineUrlButtons(new List<(string, string)> { ("Наш сайт", AppSettings.FrontRoot) });
             buttonsGenerator.SetGoBackButton();
 
-            await bot.EditMessage(MessagesTexts.AboutUs, messageId, buttonsGenerator.GetButtons());
+            await bot.EditMessage(Texts.AboutUs, messageId, buttonsGenerator.GetButtons());
         }
 
         public async Task SendWeekNews(int newsShift = 0)

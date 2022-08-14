@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Telegram.Bot.Args;
+using Telegram.Bot.Types;
 using TelegramBot.Data;
 using TelegramBot.Data.CustomExceptions;
 using TelegramBot.Data.ViewModels;
@@ -22,10 +22,10 @@ namespace TelegramBot.Handlers
         }
 
         [Obsolete]
-        public override async Task ProcessMessage(MessageEventArgs e)
+        public override async Task ProcessMessage(Message message)
         {
-            registrationMassage = e.Message.Text;
-            await base.ProcessMessage(e);
+            registrationMassage = message.Text;
+            await base.ProcessMessage(message);
         }
 
         [Obsolete]
@@ -52,7 +52,7 @@ namespace TelegramBot.Handlers
             catch (HttpRequestException)
             {
                 LogService.LogServerNotFound("Registration");
-                await bot.SendMessage(MessagesTexts.Oops);
+                await bot.SendMessage(Texts.Oops);
             }
             finally
             {

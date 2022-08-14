@@ -7,35 +7,35 @@ using TelegramBot.Services;
 
 namespace TelegramBot.Handlers
 {
-    public class BaseHandler
+    public class MainHandler
     {
         [Obsolete]
-        public static async Task OnCallback(object sender, CallbackQueryEventArgs e)
+        public static async Task OnCallback(object sender, CallbackQueryEventArgs queryEventArgs)
         {
-            MessageCollector message = new(e.CallbackQuery.Message.Chat.Id, e.CallbackQuery.Message.MessageId);
+            MessageCollector message = new(queryEventArgs.CallbackQuery.Message.Chat.Id, queryEventArgs.CallbackQuery.Message.MessageId);
 
-            Task response = e.CallbackQuery.Data switch
+            Task response = queryEventArgs.CallbackQuery.Data switch
             {
                 "@/start" => message.EditToStartMenu(),
                 "@О нас" => message.EditToAboutUsMenu(),
                 "@Предметы" => message.EditToLessonsMenu(),
                 "@Новости" => message.SendWeekNews(),
-                _ => ProcessSpecialCallback(e.CallbackQuery.Data, message)
+                _ => ProcessSpecialCallback(queryEventArgs.CallbackQuery.Data, message)
             };
 
             await response;
         }
 
         [Obsolete]
-        public static async Task OnMessage(object sender, MessageEventArgs e)
+        public static async Task OnMessage(object sender, MessageEventArgs eventArgs)
         {
-            MessageCollector message = new(e.Message.Chat.Id, e.Message.MessageId);
+            MessageCollector message = new(eventArgs.Message.Chat.Id, eventArgs.Message.MessageId);
 
-            Task response = e.Message.Text switch
+            Task response = eventArgs.Message.Text switch
             {
                 "/start" => message.SendStartMenu(),
-                "/reg" => Task.Run(() => DistributionService.BusyUsersIdAndService.Add(e.Message.Chat.Id, new RegistrationHandler(e.Message.Chat.Id))),
-                "/passChange" => Task.Run(() => DistributionService.BusyUsersIdAndService.Add(e.Message.Chat.Id, new PasswordChangeHandler(e.Message.Chat.Id))),
+                "/reg" => Task.Run(() => DistributionService.BusyUsersIdAndService.Add(eventArgs.Message.Chat.Id, new RegistrationHandler(eventArgs.Message.Chat.Id))),
+                "/passChange" => Task.Run(() => DistributionService.BusyUsersIdAndService.Add(eventArgs.Message.Chat.Id, new PasswordChangeHandler(eventArgs.Message.Chat.Id))),
                 _ => message.UnknownMessage()
             };
 
