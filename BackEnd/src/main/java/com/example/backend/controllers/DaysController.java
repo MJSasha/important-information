@@ -6,10 +6,7 @@ import com.example.backend.data.viewModels.StartEndDate;
 import com.example.backend.services.DaysService;
 import com.example.backend.services.UsersService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
@@ -33,6 +30,7 @@ public class DaysController extends BaseController<Day, Integer> {
     }
 
     @Override
+    @PatchMapping("/{id}")
     public ResponseEntity<String> update(Day day, Integer id) {
         day.setId(id);
         return super.update(day, id);

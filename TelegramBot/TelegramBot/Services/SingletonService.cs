@@ -8,7 +8,7 @@ namespace TelegramBot.Services
 
         public static TelegramBotClient GetClient()
         {
-            if (TelegramClient == null) TelegramClient = new TelegramBotClient(AppSettings.Token);
+            if (TelegramClient == null) TelegramClient = new TelegramBotClient(AppSettings.BotToken);
             return TelegramClient;
         }
     }

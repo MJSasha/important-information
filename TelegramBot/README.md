@@ -1,3 +1,14 @@
 # **<p align="center">Telegram Bot</p>**
 
-## 
+## Запуск
+
+Проект можно запустить командой `docker-compose up`
+
+### Переменные среды
+
+|Название|Дефолтное значение|Описание|
+|-|-|-|
+|API_TOKEN|2065215367:AAHxs51AowRJAqefe3tvV7d5jn5nsC_-xDc|Токен доступа к ТГ боту|
+|API_TOKEN|Fp9u5dsvcdM3XIm|Токен доступа к *BackEnd*|
+|BACK_ROOT|<http://backend-api:8080/api/>|Путь к серверу|
+|FRONT_ROOT|google.com|Ссылка на сайт, который будет отображаться в "О Нас"|

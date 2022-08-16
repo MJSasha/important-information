@@ -24,15 +24,15 @@ namespace TelegramBot.Handlers
         {
             this.sendingMessage = sendingMessage.Text;
             this.photo = sendingMessage.Photo;
-            if (сancellationToken == null) await Task.Run(() => Mailing());
-            if (!сancellationToken.IsCancellationRequested) currentTask.Start();
+            await base.ProcessMessage(sendingMessage);
         }
 
         [Obsolete]
-        private void Mailing()
+        protected override void RegistrateProcessing()
         {
             AddProcessing("Напишите сообщение которое хотите отправить", SendAll);
         }
+
         [Obsolete]
         private async void SendAll()
         {
