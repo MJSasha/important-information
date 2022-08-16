@@ -10,7 +10,7 @@ namespace TelegramBot.Services
             Console.ResetColor();
             Console.WriteLine($"{DateTime.Now} BOT START" +
                 $"\n-----------------------------------------------------" +
-                $"\nToken: {AppSettings.Token}" +
+                $"\nToken: {AppSettings.ApiToken}" +
                 $"\nBackEnd Root: {AppSettings.BackRoot}" +
                 $"\n-----------------------------------------------------\n");
         }
