@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import './Register_styles.css';
+import './Register_styles.modules.css';
 import logo from './img/logo.svg';
 import { Form, Button} from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const DOMEN_SERVER = 'https://a8473-2e1f.s.d-f.pw/api';
+const DOMEN_SERVER = process.env.REACT_APP_BACK_ROOT ?? 'http://localhost:8080/api';
 
 function Register(){
 
@@ -39,7 +39,7 @@ function Register(){
                 password: register.password,
             })
             .then(token => {
-                    console.log(token.data)
+                    console.log('token => '+ token.data)
                     Cookies.set('token', token.data, {expires: 730});
                     navigate('/main')
             })

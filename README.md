@@ -4,7 +4,6 @@
 
 <img alt="GitHub watchers" src="https://img.shields.io/github/watchers/MJSasha/important-information?style=social"><img alt="GitHub contributors" src="https://img.shields.io/github/contributors/MJSasha/important-information"><img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/MJSasha/important-information">
 
-
 Данный проект является учебным. Идея проекта состоит в разработке веб приложения, в котором будет поддерживаться актуальное расписание пар, зачетов и экзаменов, вестись лента новостей с информацией по предметам. Также предполагается наличие системы с отображением домашнего задания и возможностью выгрузки своих решений, добавления ссылок на полезные источники и т.д.
 
 ### Стек проекта
@@ -17,6 +16,24 @@
 ![C#](https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=c-sharp&logoColor=white)
 ![.Net](https://img.shields.io/badge/.NET-5C2D91?style=for-the-badge&logo=.net&logoColor=white)
 
+## Заупск проекта
+
+Проект можно запустить целиком от *docker-compose.yml* файла из этой папки. Команда запуска:
+
+```bash
+docker-compose up
+```
+
+При этом запустится:
+
+|Название контейнера|Описание|Порт|
+|-|-|-|
+|*backend-api*|API|8080|
+|*imp-inf-db*|База данный MySQL|3306|
+|*adminer*|Админка для просмотра данных в бд|[5000](http://localhost:5000)|
+|*frontend*|Веб приложение|[3000](http://localhost:3000)|
+|*bot*|Телеграм бот||
+
 ## Составные части проета
 
 Проект состоит из двух основных частей: *FrontEnd* и *BackEnd*
@@ -27,8 +44,8 @@
 
 ### FrontEnd
 
-Фронт, написан на React и исползующий API из проекта BackEnd
+Фронт, написан на React и исползующий API из проекта [*BackEnd*](https://github.com/MJSasha/important-information/tree/main/BackEnd)
 
 ### TelegramBot
 
-Проект с телеграм ботом, написаном на .NET и использующем API из проекта BackEnd
+Проект с телеграм ботом, который написан на .NET и использует API из проекта [*BackEnd*](https://github.com/MJSasha/important-information/tree/main/BackEnd)

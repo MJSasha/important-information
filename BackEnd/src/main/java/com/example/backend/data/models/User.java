@@ -1,12 +1,9 @@
 package com.example.backend.data.models;
 
 import com.example.backend.data.definitions.UserRole;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -16,19 +13,21 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "users", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "id"),
-        @UniqueConstraint(columnNames = "login")
-})
+@Table(name = "users")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String name;
+    @Column(unique = true)
+
     private String login;
+
     private String token;
+
+    @Column(unique = true, nullable = false)
     private Long chatId;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using TelegramBot.Data.ViewModels;
+using TelegramBot.Utils;
 
 namespace TelegramBot.Data.Models
 {
@@ -10,12 +11,17 @@ namespace TelegramBot.Data.Models
     {
         [JsonPropertyName("id")]
         public int Id { get; set; }
+
         [JsonPropertyName("date")]
-        public DateTime? Date { get; set; }  // "dd-MM-yyyy"
+        [Newtonsoft.Json.JsonConverter(typeof(CustomDateTimeConverter), "yyyy-MM-dd")]
+        public DateTime? Date { get; set; }
+
         [JsonPropertyName("information")]
         public string Information { get; set; }
+
         [JsonPropertyName("lessonsAndTimes")]
         public List<LessonsAndTimes> LessonsAndTimes { get; set; }
+
         [JsonPropertyName("currentUserNote")]
         public string CurrentUserNote { get; set; }
     }

@@ -11,19 +11,19 @@ namespace TelegramBot.Services
         public static Dictionary<long, BaseSpecialHandler> BusyUsersIdAndService { get; set; } = new();
 
         [Obsolete]
-        public static async void DistributeMessages(object sender, MessageEventArgs e)
+        public static async void DistributeMessages(object sender, MessageEventArgs eventArgs)
         {
-            if (!BusyUsersIdAndService.Keys.Contains(e.Message.Chat.Id)) await BaseHandler.OnMessage(sender, e);
+            if (!BusyUsersIdAndService.Keys.Contains(eventArgs.Message.Chat.Id)) await MainHandler.OnMessage(sender, eventArgs);
 
-            if (BusyUsersIdAndService.Keys.Contains(e.Message.Chat.Id)) await BusyUsersIdAndService[e.Message.Chat.Id].ProcessMessage(e.Message.Text);
+            if (BusyUsersIdAndService.Keys.Contains(eventArgs.Message.Chat.Id)) await BusyUsersIdAndService[eventArgs.Message.Chat.Id].ProcessMessage(eventArgs.Message);
         }
 
         [Obsolete]
-        public static async void DistributeCallbacks(object sender, CallbackQueryEventArgs e)
+        public static async void DistributeCallbacks(object sender, CallbackQueryEventArgs queryEventArgs)
         {
-            BusyUsersIdAndService.Remove(e.CallbackQuery.Message.Chat.Id);
+            BusyUsersIdAndService.Remove(queryEventArgs.CallbackQuery.Message.Chat.Id);
 
-            if (!BusyUsersIdAndService.Keys.Contains(e.CallbackQuery.Message.Chat.Id)) await BaseHandler.OnCallback(sender, e);
+            if (!BusyUsersIdAndService.Keys.Contains(queryEventArgs.CallbackQuery.Message.Chat.Id)) await MainHandler.OnCallback(sender, queryEventArgs);
         }
     }
 }

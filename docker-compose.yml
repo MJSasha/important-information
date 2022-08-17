@@ -4,17 +4,60 @@ version: "3"
 services:
 
 # BackEnd
-  backend:
-    image: mjsasha/backend_important-information:2.9
-    container_name: backend
+  backend-api:
+    image: mjsasha/backend_important-information:3.0.4
+    container_name: backend-api
     restart: always
     ports:
       - "8080:8080"
+    environment:
+      MYSQL_HOST: imp-inf-db
+      MYSQL_PORT: 3306
+      MYSQL_DB: imp-inf-db
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+      API_TOKEN: Fp9u5dsvcdM3XIm
+
+# Database
+  imp-inf-db:
+    image: mysql
+    container_name: imp-inf-db
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: imp-inf-db
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+      MYSQL_ROOT_PASSWORD: admin
+
+# Database adminer
+  adminer:
+    image: adminer
+    container_name: adminer
+    restart: always
+    ports:
+      - "5000:8080"
 
 # FrontEnd
   frontend:
-    image: mjsasha/frontend_important-information:1.0
+    image: mjsasha/frontend_important-information:1.1
     container_name: frontend
     restart: always
     ports:
       - "3000:3000"
+    environment:
+      REACT_APP_BACK_ROOT: http://localhost:8080/api
+
+# TgBot
+  bot:
+    image: mjsasha/bot_important-information:1.0.0
+    container_name: bot
+    restart: always
+    depends_on:
+      - backend-api
+    environment:
+      API_TOKEN: 2065215367:AAHxs51AowRJAqefe3tvV7d5jn5nsC_-xDc #Тут свой ставьте
+      API_TOKEN: Fp9u5dsvcdM3XIm
+      BACK_ROOT: http://backend-api:8080/api/
+      FRONT_ROOT: google.com

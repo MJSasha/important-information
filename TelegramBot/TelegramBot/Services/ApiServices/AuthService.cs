@@ -8,7 +8,7 @@ using TelegramBot.Interfaces;
 
 namespace TelegramBot.Services.ApiServices
 {
-    public class AuthService : BaseService, IAuthService
+    public class AuthService : BaseService
     {
         public AuthService() : base(AppSettings.AuthRoot) { }
 

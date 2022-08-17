@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace TelegramBot.Data.Models
 {
@@ -7,10 +6,13 @@ namespace TelegramBot.Data.Models
     {
         [JsonPropertyName("id")]
         public int Id { get; set; }
+
         [JsonPropertyName("description")]
         public string Description { get; set; }
+
         [JsonPropertyName("day")]
-        public DateTime Day { get; set; }
+        public Day Day { get; set; }
+
         [JsonPropertyName("user")]
         public User User { get; set; }
     }

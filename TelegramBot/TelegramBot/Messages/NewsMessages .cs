@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using TelegramBot.Data.CustomExceptions;
 using TelegramBot.Services;
 using TelegramBot.Services.ApiServices;
 
@@ -9,6 +10,7 @@ namespace TelegramBot.Messages
 {
     public class NewsMessages
     {
+        [Obsolete]
         public static async void StartMailing()
         {
             while (true)
@@ -18,6 +20,7 @@ namespace TelegramBot.Messages
             }
         }
 
+        [Obsolete]
         private static async Task SendNews()
         {
             try
@@ -42,6 +45,10 @@ namespace TelegramBot.Messages
             catch (HttpRequestException)
             {
                 LogService.LogServerNotFound("News mailing");
+            }
+            catch (ChatNotFoundException ex)
+            {
+                LogService.LogError($"Chat not found | ChatId: {ex.ChatId}");
             }
             catch (Exception ex)
             {

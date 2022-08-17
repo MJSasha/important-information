@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text.Json.Serialization;
+using TelegramBot.Utils;
 
 namespace TelegramBot.Data.ViewModels
 {
@@ -7,8 +8,11 @@ namespace TelegramBot.Data.ViewModels
     {
         [JsonPropertyName("id")]
         public int Id { get; set; }
+
         [JsonPropertyName("time")]
-        public DateTime? Time { get; set; }    //"HH:mm:ss"
+        [Newtonsoft.Json.JsonConverter(typeof(CustomDateTimeConverter), "HH:mm:ss")]
+        public DateTime? Time { get; set; }
+
         [JsonPropertyName("lesson")]
         public Lesson Lesson { get; set; }
     }

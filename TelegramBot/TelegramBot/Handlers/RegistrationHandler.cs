@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Telegram.Bot.Types;
+using TelegramBot.Data;
 using TelegramBot.Data.CustomExceptions;
 using TelegramBot.Data.ViewModels;
 using TelegramBot.Services;
@@ -20,16 +22,14 @@ namespace TelegramBot.Handlers
         }
 
         [Obsolete]
-        public override async Task ProcessMessage(string registrationMassage)
+        public override async Task ProcessMessage(Message message)
         {
-            this.registrationMassage = registrationMassage;
-
-            if (сancellationToken == null) await Task.Run(() => Registrate());
-            if (!сancellationToken.IsCancellationRequested) currentTask.Start();
+            registrationMassage = message.Text;
+            await base.ProcessMessage(message);
         }
 
         [Obsolete]
-        private void Registrate()
+        protected override void RegistrateProcessing()
         {
             AddProcessing("Введите ваше имя и фамилию", () => registrationModel.Name = registrationMassage);
             AddProcessing("Придумайте логин", () => registrationModel.Login = registrationMassage);
@@ -52,7 +52,7 @@ namespace TelegramBot.Handlers
             catch (HttpRequestException)
             {
                 LogService.LogServerNotFound("Registration");
-                await bot.SendMessage("Упс, что-то пошло не так...");
+                await bot.SendMessage(Texts.Oops);
             }
             finally
             {

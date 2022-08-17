@@ -7,10 +7,8 @@ services:
     build: .
     restart: always
     container_name: "bot"
-
-  important-information:
-    image: mjsasha/backend_important-information:2.9
-    container_name: backend
-    restart: always
-    ports:
-      - "8080:8080"
+    environment:
+      API_TOKEN: 2065215367:AAHxs51AowRJAqefe3tvV7d5jn5nsC_-xDc #Тут свой ставьте
+      API_TOKEN: Fp9u5dsvcdM3XIm
+      BACK_ROOT: http://localhost:8080/api
+      FRONT_ROOT: http://localhost:3000

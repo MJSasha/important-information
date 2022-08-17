@@ -1,7 +1,5 @@
 package com.example.backend.baseClasses;
 
-import com.example.backend.data.definitions.UserRole;
-import com.example.backend.data.models.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,29 +15,33 @@ public class BaseController<TEntity, TKey> {
     }
 
     @GetMapping
-    public ResponseEntity<List<TEntity>> readAll(){
-        return ResponseEntity.ok(service.read());
+    public ResponseEntity<List<TEntity>> readAll() {
+        var result = service.read();
+        result.forEach(this::RemoveUnnecessaryLinks);
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TEntity> readById(@PathVariable TKey id){
-        return ResponseEntity.ok(service.read(id));
+    public ResponseEntity<TEntity> readById(@PathVariable TKey id) {
+        var result = service.read(id);
+        RemoveUnnecessaryLinks(result);
+        return ResponseEntity.ok(result);
     }
 
     @PostMapping("/createAll")
-    public ResponseEntity<String> create(@RequestBody ArrayList<TEntity> entities){
+    public ResponseEntity<String> create(@RequestBody ArrayList<TEntity> entities) {
         service.create(entities);
         return ResponseEntity.ok("Create successful");
     }
 
     @PostMapping
-    public ResponseEntity<String> create(@RequestBody TEntity entity){
+    public ResponseEntity<String> create(@RequestBody TEntity entity) {
         service.create(entity);
         return ResponseEntity.ok("Create successful");
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<String> update(@RequestBody TEntity entity, @PathVariable TKey id){
+    public ResponseEntity<String> update(@RequestBody TEntity entity, @PathVariable TKey id) {
         try {
             service.update(entity, id);
             return ResponseEntity.ok("Update successful");
@@ -49,14 +51,17 @@ public class BaseController<TEntity, TKey> {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable TKey id){
+    public ResponseEntity<String> delete(@PathVariable TKey id) {
         service.delete(id);
         return ResponseEntity.ok("Delete successful");
     }
 
     @DeleteMapping
-    public ResponseEntity<String> delete(@RequestBody ArrayList<TKey> ids){
+    public ResponseEntity<String> delete(@RequestBody ArrayList<TKey> ids) {
         service.delete(ids);
         return ResponseEntity.ok("Delete successful");
+    }
+
+    protected void RemoveUnnecessaryLinks(TEntity entity) {
     }
 }
