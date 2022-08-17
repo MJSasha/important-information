@@ -7,8 +7,6 @@ using TelegramBot.Data.CustomExceptions;
 using TelegramBot.Data.ViewModels;
 using TelegramBot.Services;
 using TelegramBot.Services.ApiServices;
-using Telegram.Bot.Types;
-using Telegram.Bot.Args;
 
 namespace TelegramBot.Handlers
 {
@@ -26,8 +24,8 @@ namespace TelegramBot.Handlers
         [Obsolete]
         public override async Task ProcessMessage(Message registrationMassage)
         {
-            registrationMassage = message.Text;
-            await base.ProcessMessage(message);
+            this.registrationMassage = registrationMassage.Text;
+            await base.ProcessMessage(registrationMassage);
         }
 
         [Obsolete]

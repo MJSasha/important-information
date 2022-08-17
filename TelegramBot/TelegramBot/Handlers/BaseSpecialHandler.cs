@@ -3,8 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
 using TelegramBot.Interfaces;
-using Telegram.Bot.Types;
-using Telegram.Bot.Args;
 
 namespace TelegramBot.Handlers
 {
@@ -20,7 +18,14 @@ namespace TelegramBot.Handlers
         }
 
         [Obsolete]
-        public abstract Task ProcessMessage(Message registrationMassage);
+        public virtual async Task ProcessMessage(Message message)
+        {
+            if (сancellationToken == null) await Task.Run(() => RegistrateProcessing());
+            if (!сancellationToken.IsCancellationRequested) currentTask.Start();
+        }
+
+        [Obsolete]
+        protected abstract void RegistrateProcessing();
 
         protected void AddProcessing(string message, Action action, Action completeAction = null)
         {

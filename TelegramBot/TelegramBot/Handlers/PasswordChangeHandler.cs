@@ -5,8 +5,6 @@ using Telegram.Bot.Types;
 using TelegramBot.Data;
 using TelegramBot.Services;
 using TelegramBot.Services.ApiServices;
-using Telegram.Bot.Types;
-using Telegram.Bot.Args;
 
 namespace TelegramBot.Handlers
 {
@@ -23,8 +21,8 @@ namespace TelegramBot.Handlers
         [Obsolete]
         public override async Task ProcessMessage(Message newPassword)
         {
-            newPassword = message.Text;
-            await base.ProcessMessage(message);
+            this.newPassword = newPassword.Text;
+            await base.ProcessMessage(newPassword);
         }
 
         [Obsolete]
