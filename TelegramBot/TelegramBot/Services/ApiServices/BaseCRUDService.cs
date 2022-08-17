@@ -11,7 +11,6 @@ namespace TelegramBot.Services.ApiServices
 {
     public class BaseCRUDService<TEntity, TKey> : BaseService
     {
-
         public BaseCRUDService(string entityRoot) : base(entityRoot) { }
 
         public async Task<TEntity> Get(TKey key)

@@ -48,8 +48,6 @@ namespace TelegramBot.Messages
         public async Task EditToStartMenu()
         {
             ButtonsGenerator buttonsGenerator = new();
-            var usersService = new UsersService();
-            var currentUser = await usersService.GetByChatId(chatId);
 
             buttonsGenerator.SetInlineButtons(new List<List<string>>()
             {
@@ -57,11 +55,10 @@ namespace TelegramBot.Messages
                 new List<string>{ "Новости" },
                 new List<string>{ "О нас" },
         });
-            if (currentUser?.Role == Role.ADMIN)
-            {
-                buttonsGenerator.SetInlineButtons(new List<List<string>>()
-            {new List<string> { "Отправить всем" }, });
-            }
+
+            var usersService = new UsersService();
+            var currentUser = await usersService.GetByChatId(chatId);
+            if (currentUser?.Role == Role.ADMIN) buttonsGenerator.SetInlineButtons(new List<string>() { "Отправить всем" });
 
             await bot.EditMessage(Texts.StartMenu, messageId, buttonsGenerator.GetButtons());
         }

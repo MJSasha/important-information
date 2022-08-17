@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using TelegramBot.Data.Models;
 using TelegramBot.Services;
 using TelegramBot.Services.ApiServices;
-using Telegram.Bot.Args;
+using Telegram.Bot.Types;
 
 namespace TelegramBot.Handlers
 {
@@ -13,16 +13,18 @@ namespace TelegramBot.Handlers
     {
         private readonly long chatId;
         private string sendingMessage;
-        private Telegram.Bot.Types.PhotoSize[] photo;
+        private PhotoSize[] photo;
+        private News news = new News();
         public MailingHandler(long chatId) : base(new BotService(chatId))
         {
             this.chatId = chatId;
         }
 
         [Obsolete]
-        public override async Task ProcessMessage(Telegram.Bot.Types.Message sendingMessage)
+        public override async Task ProcessMessage(Message sendingMessage)
         {
-            this.sendingMessage = sendingMessage.Text;
+            if (sendingMessage.Text == null){this.sendingMessage = sendingMessage.Caption;}
+            else{this.sendingMessage = sendingMessage.Text;}
             this.photo = sendingMessage.Photo;
             await base.ProcessMessage(sendingMessage);
         }
@@ -30,7 +32,21 @@ namespace TelegramBot.Handlers
         [Obsolete]
         protected override void RegistrateProcessing()
         {
-            AddProcessing("Напишите сообщение которое хотите отправить", SendAll);
+            AddProcessing("Напишите сообщение которое хотите отправить",
+            () =>
+            {
+                if (photo != null)
+                {
+                    news.AddPicture(photo[3].FileId);
+                    var dtn = DateTime.Now;
+                    while ((DateTime.Now - dtn).Seconds < 1)
+                    {
+                        AddProcessing("", () => news.AddPicture(photo[3].FileId));
+                    };
+                }
+            }
+            );
+            SendAll();
         }
 
         [Obsolete]
@@ -39,19 +55,18 @@ namespace TelegramBot.Handlers
             try
             {
                 var newsService = new NewsService();
-                var news = new News();
                 var userService = new UsersService(); 
-                news.Message = sendingMessage; 
-                if (photo != null) { news.Pictures = photo.ToString(); }
+                news.Message = sendingMessage;
                 news.NeedToSend = false;
-                await newsService.Create(news);
+                //await newsService.Create(news);
                 var users = await userService.Get();
+
                 if (news.Message != null)
                 {
-                    foreach (var user in users) { await BotService.SendMessage(news.Message, users.Select(u => u.ChatId).ToList()); }
+                    await BotService.SendMessage(news.Message, users.Select(u => u.ChatId).ToList()); 
                 }
                 if (news.Pictures != null) {
-                    foreach (var user in users) { await BotService.SendPhoto(news.Pictures, users.Select(u => u.ChatId).ToList()); } 
+                    await BotService.SendPhoto(news.Pictures, users.Select(u => u.ChatId).ToList());
                 }
                 LogService.LogInfo($"|SENDALL| ChatId: {chatId} | Message: {news.Message} | NeedToSend: {news.NeedToSend}");
                 await bot.SendMessage($"Сообщение отправлено!");

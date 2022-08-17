@@ -5,6 +5,7 @@ using Telegram.Bot;
 using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBot.Data.CustomExceptions;
 using TelegramBot.Interfaces;
+using Telegram.Bot.Types;
 
 namespace TelegramBot.Services
 {
@@ -35,6 +36,33 @@ namespace TelegramBot.Services
         }
 
         [Obsolete]
+        public static async Task SendPhoto(string photo, List<long> chatIds)
+        {
+            foreach (var chatId in chatIds)
+            {
+                try
+                {
+                    string[] media;
+                    media = photo.Split('|');
+
+                    IAlbumInputMedia[] albumInputMedias = new IAlbumInputMedia[media.Length - 1];
+                    for (int i = 0; i < media.Length - 1; i++)
+                    {
+                        albumInputMedias[i] = new InputMediaPhoto(media[i]);
+                    }
+
+                    await client.SendMediaGroupAsync(chatId, albumInputMedias);
+
+
+                }
+                catch (Telegram.Bot.Exceptions.ChatNotFoundException)
+                {
+                    throw new ChatNotFoundException(photo.ToString(), chatId);
+                }
+            }
+        }
+
+        [Obsolete]
         public async Task SendMessage(string message, IReplyMarkup buttons = null)
         {
             try
@@ -60,20 +88,6 @@ namespace TelegramBot.Services
             }
             catch (Telegram.Bot.Exceptions.MessageIsNotModifiedException) { /*ignore*/ }
         }
-        [Obsolete]
-        public static async Task SendPhoto(string photo, List<long> chatIds)
-        {
-            foreach (var chatId in chatIds)
-            {
-                try
-                {
-                    await client.SendPhotoAsync(chatId, photo);
-                }
-                catch (Telegram.Bot.Exceptions.ChatNotFoundException)
-                {
-                    throw new ChatNotFoundException(photo, chatId);
-                }
-            }
-        }
+        
     }
 }
