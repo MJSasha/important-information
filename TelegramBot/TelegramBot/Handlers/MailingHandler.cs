@@ -6,6 +6,7 @@ using TelegramBot.Data.Models;
 using TelegramBot.Services;
 using TelegramBot.Services.ApiServices;
 using Telegram.Bot.Types;
+using System.Threading;
 
 namespace TelegramBot.Handlers
 {
@@ -39,14 +40,27 @@ namespace TelegramBot.Handlers
                 {
                     news.AddPicture(photo[3].FileId);
                     var dtn = DateTime.Now;
-                    while ((DateTime.Now - dtn).Seconds < 1)
+                    while ((DateTime.Now - dtn).Seconds < 2)
                     {
-                        AddProcessing("", () => news.AddPicture(photo[3].FileId));
+                        MailingProcessing(photo[3].FileId);
                     };
                 }
             }
             );
             SendAll();
+        }
+
+        protected void MailingProcessing(string message, Action completeAction = null)
+        {
+            сancellationToken = new();
+            currentTask = new Task(() =>
+            {
+                news.AddPicture(message);
+                сancellationToken.Cancel();
+            });
+            news.AddPicture(message);
+            currentTask.Wait(1000);
+            completeAction?.Invoke();
         }
 
         [Obsolete]
@@ -58,7 +72,7 @@ namespace TelegramBot.Handlers
                 var userService = new UsersService(); 
                 news.Message = sendingMessage;
                 news.NeedToSend = false;
-                //await newsService.Create(news);
+                await newsService.Create(news);
                 var users = await userService.Get();
 
                 if (news.Message != null)
