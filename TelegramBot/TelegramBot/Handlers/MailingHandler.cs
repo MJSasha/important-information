@@ -12,6 +12,8 @@ namespace TelegramBot.Handlers
     public class MailingHandler : BaseSpecialHandler
     {
         private readonly long chatId;
+        private string sendingText;
+        private string caption;
         private PhotoSize[] photo;
         private News news = new News();
         public MailingHandler(long chatId) : base(new BotService(chatId))
@@ -22,8 +24,9 @@ namespace TelegramBot.Handlers
         [Obsolete]
         public override async Task ProcessMessage(Message sendingMessage)
         {
-            if (sendingMessage.Text == null){news.Message += sendingMessage.Caption;}
-            else{ news.Message = sendingMessage.Text;}
+            if (sendingMessage.Caption == null)
+            { this.sendingText = sendingMessage.Text; }
+            else{ this.caption = sendingMessage.Caption; }
             this.photo = sendingMessage.Photo;
             await base.ProcessMessage(sendingMessage);
         }
@@ -34,7 +37,8 @@ namespace TelegramBot.Handlers
             AddProcessing("Напишите сообщение которое хотите отправить",
             () =>
             {
-                    var dtn = DateTime.Now;
+                news.Message += sendingText;
+                var dtn = DateTime.Now;
                     while ((DateTime.Now - dtn).Seconds < 3)
                     {
                             MailingProcessing(photo);
@@ -66,6 +70,7 @@ namespace TelegramBot.Handlers
                 var newsService = new NewsService();
                 var userService = new UsersService(); 
                 news.NeedToSend = false;
+                if (caption != null) { news.Message = caption; }
                 await newsService.Create(news);
                 var users = await userService.Get();
 
