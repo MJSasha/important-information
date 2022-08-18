@@ -24,6 +24,8 @@ namespace TelegramBot.Services
             BusyUsersIdAndService.Remove(queryEventArgs.CallbackQuery.Message.Chat.Id);
 
             if (!BusyUsersIdAndService.Keys.Contains(queryEventArgs.CallbackQuery.Message.Chat.Id)) await MainHandler.OnCallback(sender, queryEventArgs);
+
+            if (BusyUsersIdAndService.Keys.Contains(queryEventArgs.CallbackQuery.Message.Chat.Id)) await BusyUsersIdAndService[queryEventArgs.CallbackQuery.Message.Chat.Id].ProcessMessage(queryEventArgs.CallbackQuery.Message);
         }
     }
 }
