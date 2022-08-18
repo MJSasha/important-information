@@ -6,14 +6,12 @@ using TelegramBot.Data.Models;
 using TelegramBot.Services;
 using TelegramBot.Services.ApiServices;
 using Telegram.Bot.Types;
-using System.Threading;
 
 namespace TelegramBot.Handlers
 {
     public class MailingHandler : BaseSpecialHandler
     {
         private readonly long chatId;
-        private string sendingMessage;
         private PhotoSize[] photo;
         private News news = new News();
         public MailingHandler(long chatId) : base(new BotService(chatId))
@@ -24,8 +22,8 @@ namespace TelegramBot.Handlers
         [Obsolete]
         public override async Task ProcessMessage(Message sendingMessage)
         {
-            if (sendingMessage.Text == null){this.sendingMessage = sendingMessage.Caption;}
-            else{this.sendingMessage = sendingMessage.Text;}
+            if (sendingMessage.Text == null){news.Message += sendingMessage.Caption;}
+            else{ news.Message = sendingMessage.Text;}
             this.photo = sendingMessage.Photo;
             await base.ProcessMessage(sendingMessage);
         }
@@ -36,30 +34,27 @@ namespace TelegramBot.Handlers
             AddProcessing("Напишите сообщение которое хотите отправить",
             () =>
             {
-                if (photo != null)
-                {
-                    news.AddPicture(photo[3].FileId);
                     var dtn = DateTime.Now;
-                    while ((DateTime.Now - dtn).Seconds < 2)
+                    while ((DateTime.Now - dtn).Seconds < 3)
                     {
-                        MailingProcessing(photo[3].FileId);
+                            MailingProcessing(photo);
                     };
-                }
+                if (photo != null){ news.AddPicture(photo[3].FileId); }
             }
             );
             SendAll();
         }
 
-        protected void MailingProcessing(string message, Action completeAction = null)
+        protected void MailingProcessing(PhotoSize[] photo, Action completeAction = null)
         {
             сancellationToken = new();
             currentTask = new Task(() =>
             {
-                news.AddPicture(message);
+                if (photo != null) { news.AddPicture(photo[3].FileId); }
                 сancellationToken.Cancel();
             });
-            news.AddPicture(message);
-            currentTask.Wait(1000);
+
+            currentTask.Wait(10);
             completeAction?.Invoke();
         }
 
@@ -70,7 +65,6 @@ namespace TelegramBot.Handlers
             {
                 var newsService = new NewsService();
                 var userService = new UsersService(); 
-                news.Message = sendingMessage;
                 news.NeedToSend = false;
                 await newsService.Create(news);
                 var users = await userService.Get();
