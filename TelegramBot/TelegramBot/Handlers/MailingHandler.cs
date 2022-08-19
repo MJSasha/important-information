@@ -41,7 +41,7 @@ namespace TelegramBot.Handlers
                 {
                     AddProcessing("", 10, () =>
                     {
-                        if (photo != null) { news.AddPicture(photo[photo.Length - 1].FileId); }
+                        if (photo != null) { news.AddPicture(photo[^1].FileId); }
                     });
                 };
             });

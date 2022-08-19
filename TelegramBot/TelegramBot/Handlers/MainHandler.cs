@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.Tracing;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Telegram.Bot.Args;

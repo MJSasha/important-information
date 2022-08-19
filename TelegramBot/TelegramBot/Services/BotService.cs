@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Telegram.Bot;
+using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBot.Data.CustomExceptions;
-using TelegramBot.Interfaces;
-using Telegram.Bot.Types;
 using TelegramBot.Data.Models;
+using TelegramBot.Interfaces;
 
 namespace TelegramBot.Services
 {

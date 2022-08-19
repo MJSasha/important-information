@@ -39,7 +39,7 @@ namespace TelegramBot.Messages
             await bot.SendMessage(Texts.StartMenu, buttonsGenerator.GetButtons());
             var usersService = new UsersService();
             var currentUser = await usersService.GetByChatId(chatId);
-            if (currentUser?.Role == Role.ADMIN) buttonsGenerator.SetInlineButtons(new List<string>() { "Отправить всем" } );
+            if (currentUser?.Role == Role.ADMIN) buttonsGenerator.SetInlineButtons(new List<string>() { "Отправить всем" });
 
             await bot.SendMessage(Texts.StartMenu, buttonsGenerator.GetButtons());
         }

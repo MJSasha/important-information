@@ -28,7 +28,7 @@ namespace TelegramBot.Handlers
         [Obsolete]
         protected override void RegistrateProcessing()
         {
-            AddProcessing("Придумайте новый пароль",int.MaxValue, CompleteChange);
+            AddProcessing("Придумайте новый пароль", int.MaxValue, CompleteChange);
         }
 
         private async void CompleteChange()

@@ -28,7 +28,7 @@ namespace TelegramBot.Data.Models
 
         public string[] GetPictures() => Pictures?.Split("|", StringSplitOptions.RemoveEmptyEntries);
         public void CleanPictures() => Pictures = "";
-        public void AddPictures(string[] pictures) => pictures.ToList().ForEach(picture => this.Pictures += $"{picture}|");
+        public void AddPictures(string[] pictures) => pictures.ToList().ForEach(picture => Pictures += $"{picture}|");
         public void AddPicture(string picture) => Pictures += $"{picture}|";
     }
 }
