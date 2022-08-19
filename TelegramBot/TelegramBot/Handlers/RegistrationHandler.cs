@@ -31,9 +31,9 @@ namespace TelegramBot.Handlers
         [Obsolete]
         protected override void RegistrateProcessing()
         {
-            AddProcessing("Введите ваше имя и фамилию", int.MaxValue, () => registrationModel.Name = registrationMassage);
-            AddProcessing("Придумайте логин", int.MaxValue, () => registrationModel.Login = registrationMassage);
-            AddProcessing("Придумайте пароль", int.MaxValue, () => registrationModel.Password = registrationMassage, CompleteRegistration);
+            AddProcessing("Введите ваше имя и фамилию", () => registrationModel.Name = registrationMassage);
+            AddProcessing("Придумайте логин", () => registrationModel.Login = registrationMassage);
+            AddProcessing("Придумайте пароль", () => registrationModel.Password = registrationMassage, CompleteRegistration);
         }
 
         private async void CompleteRegistration()

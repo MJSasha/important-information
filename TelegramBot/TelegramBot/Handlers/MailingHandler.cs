@@ -39,13 +39,21 @@ namespace TelegramBot.Handlers
                 var dtn = DateTime.Now;
                 while ((DateTime.Now - dtn).Seconds < 3)
                 {
-                    AddProcessing("", 10, () =>
-                    {
-                        if (photo != null) { news.AddPicture(photo[^1].FileId); }
-                    });
+                        MailingProcessing(photo);
+                    if (photo != null) { news.AddPicture(photo[^1].FileId); }
                 };
             });
             SendAll();
+        }
+        protected void MailingProcessing(PhotoSize[] photo, Action completeAction = null)
+        {
+            сancellationToken = new();
+            currentTask = new Task(() =>
+            {
+                if (photo != null) news.AddPicture(photo[^1].FileId);
+                сancellationToken.Cancel();
+            });
+            currentTask.Wait(10);
         }
 
         [Obsolete]
