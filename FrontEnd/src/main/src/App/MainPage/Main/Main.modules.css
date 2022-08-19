@@ -60,5 +60,21 @@ html {
   display: flex;
   justify-content: center;
 }
-
 /* datepicker styles */
+
+/* cards styles */
+.shadow-outline{
+  /* -webkit-box-shadow: 0px 0px 2px 5px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 0px 0px 2px 5px rgba(0, 0, 0, 0.4);
+  box-shadow: 0px 0px 2px 5px rgba(0, 0, 0, 0.4); */
+}
+.cards-wrapper{
+  margin-top: 1%;
+}
+.card{
+  width: 65%;
+  height: 310px;
+}
+.col{
+
+}
