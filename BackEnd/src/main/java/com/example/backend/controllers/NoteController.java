@@ -5,6 +5,7 @@ import com.example.backend.baseClasses.BaseController;
 import com.example.backend.data.models.Note;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,7 +19,7 @@ public class NoteController extends BaseController<Note, Integer> {
 
     @Override
     @PatchMapping("/{id}")
-    public ResponseEntity<String> update(Note note, Integer id) {
+    public ResponseEntity<String> update(Note note, @PathVariable Integer id) {
         note.setId(id);
         return super.update(note, id);
     }
