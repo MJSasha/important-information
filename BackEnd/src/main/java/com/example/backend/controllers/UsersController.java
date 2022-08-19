@@ -50,10 +50,11 @@ public class UsersController extends BaseController<User, Integer> {
     }
 
     @GetMapping("/byChatId/{chatId}")
-    public User getByChatId(@PathVariable Long chatId) {
+    public ResponseEntity<User> getByChatId(@PathVariable Long chatId) {
         var user = usersService.readByChatId(chatId);
+        if (user == null) return ResponseEntity.noContent().build();
         RemoveUnnecessaryLinks(user);
-        return user;
+        return ResponseEntity.ok(user);
     }
 
     @Override
