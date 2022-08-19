@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 using TelegramBot.Data.CustomExceptions;
 
@@ -27,7 +27,7 @@ namespace TelegramBot.Services.ApiServices
 
         public async Task Create(TEntity item)
         {
-            var json = JsonSerializer.Serialize(item);
+            var json = JsonConvert.SerializeObject(item);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
             var httpResponse = await httpClient.PostAsync(Root, data);
             if (!httpResponse.IsSuccessStatusCode) throw new ErrorResponseException(httpResponse.StatusCode, await httpResponse.Content.ReadAsStringAsync());
@@ -35,7 +35,7 @@ namespace TelegramBot.Services.ApiServices
 
         public async Task Create(List<TEntity> item)
         {
-            var json = JsonSerializer.Serialize(item);
+            var json = JsonConvert.SerializeObject(item);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
             var httpResponse = await httpClient.PostAsync(Root.ToString() + "/createAll", data);
             if (!httpResponse.IsSuccessStatusCode) throw new ErrorResponseException(httpResponse.StatusCode, await httpResponse.Content.ReadAsStringAsync());
@@ -46,7 +46,7 @@ namespace TelegramBot.Services.ApiServices
             TEntity entity = await Get(key);
             if (entity == null) throw new ErrorResponseException(HttpStatusCode.NotFound);
 
-            var json = new StringContent(JsonSerializer.Serialize(item), Encoding.UTF8, "application/json");
+            var json = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
 
             var httpResponse = await httpClient.PatchAsync(Root + "/" + key, json);
             if (!httpResponse.IsSuccessStatusCode) throw new ErrorResponseException(httpResponse.StatusCode, await httpResponse.Content.ReadAsStringAsync());
@@ -62,7 +62,7 @@ namespace TelegramBot.Services.ApiServices
         {
             HttpRequestMessage httpRequest = new HttpRequestMessage
             {
-                Content = new StringContent(JsonSerializer.Serialize(key), Encoding.UTF8, "application/json"),
+                Content = new StringContent(JsonConvert.SerializeObject(key), Encoding.UTF8, "application/json"),
                 Method = HttpMethod.Delete,
                 RequestUri = Root
             };
@@ -76,7 +76,7 @@ namespace TelegramBot.Services.ApiServices
             if (httpResponse.IsSuccessStatusCode)
             {
                 var jsonRequest = await httpResponse.Content.ReadAsStringAsync();
-                return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(jsonRequest);
+                return JsonConvert.DeserializeObject<T>(jsonRequest);
             }
             throw new ErrorResponseException(httpResponse.StatusCode, await httpResponse.Content.ReadAsStringAsync());
         }

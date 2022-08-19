@@ -16,12 +16,14 @@ namespace TelegramBot.Messages
     {
         private readonly IBotService bot;
         private readonly int messageId;
+        private readonly long chatId;
 
         [Obsolete]
         public MessageCollector(long chatId, int messageId)
         {
             bot = new BotService(chatId);
             this.messageId = messageId;
+            this.chatId = chatId;
         }
 
         public async Task SendStartMenu()
@@ -33,6 +35,10 @@ namespace TelegramBot.Messages
                 new List<string>{ "Новости" },
                 new List<string>{ "О нас" },
             });
+
+            var usersService = new UsersService();
+            var currentUser = await usersService.GetByChatId(chatId);
+            if (currentUser?.Role == Role.ADMIN) buttonsGenerator.SetInlineButtons(new List<string>() { "Отправить всем" });
 
             await bot.SendMessage(Texts.StartMenu, buttonsGenerator.GetButtons());
         }
@@ -46,6 +52,10 @@ namespace TelegramBot.Messages
                 new List<string>{ "Новости" },
                 new List<string>{ "О нас" },
             });
+
+            var usersService = new UsersService();
+            var currentUser = await usersService.GetByChatId(chatId);
+            if (currentUser?.Role == Role.ADMIN) buttonsGenerator.SetInlineButtons(new List<string>() { "Отправить всем" });
 
             await bot.EditMessage(Texts.StartMenu, messageId, buttonsGenerator.GetButtons());
         }

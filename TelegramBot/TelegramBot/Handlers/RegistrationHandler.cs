@@ -22,10 +22,10 @@ namespace TelegramBot.Handlers
         }
 
         [Obsolete]
-        public override async Task ProcessMessage(Message message)
+        public override async Task ProcessMessage(Message registrationMassage)
         {
-            registrationMassage = message.Text;
-            await base.ProcessMessage(message);
+            this.registrationMassage = registrationMassage.Text;
+            await base.ProcessMessage(registrationMassage);
         }
 
         [Obsolete]

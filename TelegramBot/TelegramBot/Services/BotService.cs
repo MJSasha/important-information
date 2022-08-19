@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot;
+using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBot.Data.CustomExceptions;
+using TelegramBot.Data.Models;
 using TelegramBot.Interfaces;
 
 namespace TelegramBot.Services
@@ -30,6 +33,30 @@ namespace TelegramBot.Services
                 catch (Telegram.Bot.Exceptions.ChatNotFoundException)
                 {
                     throw new ChatNotFoundException(message, chatId);
+                }
+            }
+        }
+
+        [Obsolete]
+        public static async Task SendNews(News news, List<long> chatIds)
+        {
+            foreach (var chatId in chatIds)
+            {
+                try
+                {
+                    if (!string.IsNullOrWhiteSpace(news.Pictures))
+                    {
+                        string[] media;
+                        media = news.GetPictures();
+                        List<InputMediaPhoto> albumInputMedias = news.GetPictures().Select(p => new InputMediaPhoto(p)).ToList();
+                        await client.SendMediaGroupAsync(chatId, albumInputMedias);
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(news.Message)) await client.SendTextMessageAsync(chatId, news.Message);
+                }
+                catch (Telegram.Bot.Exceptions.ChatNotFoundException)
+                {
+                    throw new ChatNotFoundException(news?.Message, chatId);
                 }
             }
         }
