@@ -36,7 +36,6 @@ namespace TelegramBot.Messages
                 new List<string>{ "О нас" },
             });
 
-            await bot.SendMessage(Texts.StartMenu, buttonsGenerator.GetButtons());
             var usersService = new UsersService();
             var currentUser = await usersService.GetByChatId(chatId);
             if (currentUser?.Role == Role.ADMIN) buttonsGenerator.SetInlineButtons(new List<string>() { "Отправить всем" });
@@ -52,7 +51,7 @@ namespace TelegramBot.Messages
                 new List<string>{ "Предметы" },
                 new List<string>{ "Новости" },
                 new List<string>{ "О нас" },
-        });
+            });
 
             var usersService = new UsersService();
             var currentUser = await usersService.GetByChatId(chatId);
