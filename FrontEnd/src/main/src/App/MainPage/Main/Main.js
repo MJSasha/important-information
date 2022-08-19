@@ -35,8 +35,6 @@ function Main(){
                 {/* date */}
                 <div className="parent-datepicker-wrapper">
                 <ReactDatePicker />
-
-                        <div className="content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque quaerat consequatur atque architecto illo debitis dolorem, molestias nulla porro dolor veniam totam quisquam? Sapiente odio maiores, culpa corrupti numquam dolorem?</div>
                 </div>
                 {/* date */}
                 <div className="container">
