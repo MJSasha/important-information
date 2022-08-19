@@ -5,7 +5,14 @@ import {CSSTransition} from 'react-transition-group';
 import SideBar from '../SideBar/SideBar';
 import './Main.modules.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ReactDatePicker from '../DatePicker/DatePicker'
+import ReactDatePicker from '../DatePicker/DatePicker';
+// imgs imp
+import pinkPlanet from './img/pinkPlanet.png';
+import orangePlanet from './img/orangePlanet.png';
+import orangeAsteroid from './img/orangeAsteroid.png';
+import bluePlanet from './img/bluePlanet.png';
+import astronaut from './img/astronaut.png';
+// 
 
 
 
@@ -31,72 +38,81 @@ function Main(){
                     </div>
                 </header>
             </div>
-            <div className="content-wrapper">
-                <div className="container">
+            <div className="hero">
 
-                    {/* date */}
-                    <div className="parent-datepicker-wrapper">
-                    <ReactDatePicker />
+
+                <div className="content-wrapper">
+                    <img className='pinkPlanet' src={pinkPlanet} alt="pinkPlanet"/>
+                    <img className='orangePlanet' src={orangePlanet} alt="orangePlanet"/>
+                    <img className='orangeAsteroid' src={orangeAsteroid} alt="orangeAsteroid"/>
+                    <img className='bluePlanet' src={bluePlanet} alt="bluePlanet"/>
+                    <img className='astronaut' src={astronaut} alt="astronaut"/>
+                    <div className="container">
+
+                        {/* date */}
+                        <div className="parent-datepicker-wrapper">
+                        <ReactDatePicker />
+                        </div>
+                        {/* date */}
+                        {/* cards */}
+                        <div class="row row-cols-1 row-cols-md-3 g-4 cards-wrapper">
+                            <div class="col ">
+                                <div class="card text-white bg-secondary mb-3 shadow-outline">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Заголовок карточки</h5>
+                                        <p class="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту. Этот контент немного длиннее.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col ">
+                                <div class="card text-white bg-secondary mb-3 shadow-outline">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Заголовок карточки</h5>
+                                        <p class="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту. Этот контент немного длиннее.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col ">
+                                <div class="card text-white bg-secondary mb-3 shadow-outline">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Заголовок карточки</h5>
+                                        <p class="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту. Этот контент немного длиннее.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col ">
+                                <div class="card text-white bg-secondary mb-3 shadow-outline">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Заголовок карточки</h5>
+                                        <p class="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту. Этот контент немного длиннее.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col ">
+                                <div class="card text-white bg-secondary mb-3 shadow-outline">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Заголовок карточки</h5>
+                                        <p class="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col ">
+                                <div class="card text-white bg-secondary mb-3 shadow-outline">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Заголовок карточки</h5>
+                                        <p class="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту. Этот контент немного длиннее.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {/* cards */}
                     </div>
-                    {/* date */}
-                    {/* cards */}
-                    <div class="row row-cols-1 row-cols-md-3 g-4 cards-wrapper">
-                        <div class="col ">
-                            <div class="card text-white bg-secondary mb-3 shadow-outline">
-                                <div class="card-body">
-                                    <h5 class="card-title">Заголовок карточки</h5>
-                                    <p class="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту. Этот контент немного длиннее.</p>
-                                </div>
-                            </div>
+                    <CSSTransition in={showSB} timeout={300} classNames='fade' unmountOnExit>
+                        <div className="SideBarWrapper">
+                            <SideBar/>
                         </div>
-                        <div class="col ">
-                            <div class="card text-white bg-secondary mb-3 shadow-outline">
-                                <div class="card-body">
-                                    <h5 class="card-title">Заголовок карточки</h5>
-                                    <p class="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту. Этот контент немного длиннее.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col ">
-                            <div class="card text-white bg-secondary mb-3 shadow-outline">
-                                <div class="card-body">
-                                    <h5 class="card-title">Заголовок карточки</h5>
-                                    <p class="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту. Этот контент немного длиннее.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col ">
-                            <div class="card text-white bg-secondary mb-3 shadow-outline">
-                                <div class="card-body">
-                                    <h5 class="card-title">Заголовок карточки</h5>
-                                    <p class="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту. Этот контент немного длиннее.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col ">
-                            <div class="card text-white bg-secondary mb-3 shadow-outline">
-                                <div class="card-body">
-                                    <h5 class="card-title">Заголовок карточки</h5>
-                                    <p class="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col ">
-                            <div class="card text-white bg-secondary mb-3 shadow-outline">
-                                <div class="card-body">
-                                    <h5 class="card-title">Заголовок карточки</h5>
-                                    <p class="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту. Этот контент немного длиннее.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {/* cards */}
+                    </CSSTransition>
                 </div>
-                <CSSTransition in={showSB} timeout={300} classNames='fade' unmountOnExit>
-                    <div className="SideBarWrapper">
-                        <SideBar/>
-                    </div>
-                </CSSTransition>
             </div>
         </div>
     )

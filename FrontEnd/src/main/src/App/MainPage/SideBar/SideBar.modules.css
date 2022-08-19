@@ -2,3 +2,9 @@
 *, ::after, ::before {
     box-sizing: border-box;
 }
+.SideBarWrapper{
+    background: rgb(255, 255, 255);
+}
+.username-wrapper{
+    text-align: center;
+}
