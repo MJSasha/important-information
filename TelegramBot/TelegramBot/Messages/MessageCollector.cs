@@ -29,7 +29,6 @@ namespace TelegramBot.Messages
         public async Task SendStartMenu()
         {
             ButtonsGenerator buttonsGenerator = new();
-
             buttonsGenerator.SetInlineButtons(new List<List<string>>()
             {
                 new List<string>{ "Предметы" },
@@ -48,7 +47,6 @@ namespace TelegramBot.Messages
         public async Task EditToStartMenu()
         {
             ButtonsGenerator buttonsGenerator = new();
-
             buttonsGenerator.SetInlineButtons(new List<List<string>>()
             {
                 new List<string>{ "Предметы" },

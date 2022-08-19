@@ -27,7 +27,7 @@ namespace TelegramBot.Handlers
         [Obsolete]
         protected abstract void RegistrateProcessing();
 
-        protected void AddProcessing(string message, Action action, Action completeAction = null)
+        protected void AddProcessing(string message,int timer, Action action, Action completeAction = null)
         {
             сancellationToken = new();
             currentTask = new Task(() =>
@@ -36,7 +36,7 @@ namespace TelegramBot.Handlers
                 сancellationToken.Cancel();
             });
             bot.SendMessage(message);
-            currentTask.Wait();
+            currentTask.Wait(timer);
 
             completeAction?.Invoke();
         }

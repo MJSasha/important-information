@@ -6,6 +6,7 @@ using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBot.Data.CustomExceptions;
 using TelegramBot.Interfaces;
 using Telegram.Bot.Types;
+using TelegramBot.Data.Models;
 
 namespace TelegramBot.Services
 {
@@ -36,28 +37,32 @@ namespace TelegramBot.Services
         }
 
         [Obsolete]
-        public static async Task SendPhoto(string photo, List<long> chatIds)
+        public static async Task SendPhoto(News news, List<long> chatIds)
         {
             foreach (var chatId in chatIds)
             {
                 try
                 {
-                    string[] media;
-                    media = photo.Split('|');
-
-                    IAlbumInputMedia[] albumInputMedias = new IAlbumInputMedia[media.Length - 1];
-                    for (int i = 0; i < media.Length - 1; i++)
+                    if (news.Message != null)
                     {
-                        albumInputMedias[i] = new InputMediaPhoto(media[i]);
+                        await client.SendTextMessageAsync(chatId, news.Message);
                     }
 
-                    await client.SendMediaGroupAsync(chatId, albumInputMedias);
-
-
+                    if (news.Pictures != null)
+                    {
+                        string[] media;
+                        media = news.GetPictures();
+                        IAlbumInputMedia[] albumInputMedias = new IAlbumInputMedia[media.Length];
+                        for (int i = 0; i < media.Length; i++)
+                        {
+                            albumInputMedias[i] = new InputMediaPhoto(media[i]);
+                        }
+                        await client.SendMediaGroupAsync(chatId, albumInputMedias);
+                    }
                 }
                 catch (Telegram.Bot.Exceptions.ChatNotFoundException)
                 {
-                    throw new ChatNotFoundException(photo.ToString(), chatId);
+                    throw new ChatNotFoundException(news.Pictures.ToString(), chatId);
                 }
             }
         }
@@ -88,6 +93,5 @@ namespace TelegramBot.Services
             }
             catch (Telegram.Bot.Exceptions.MessageIsNotModifiedException) { /*ignore*/ }
         }
-        
     }
 }

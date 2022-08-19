@@ -2,10 +2,10 @@
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Telegram.Bot.Types;
 using TelegramBot.Data.Models;
 using TelegramBot.Services;
 using TelegramBot.Services.ApiServices;
-using Telegram.Bot.Types;
 
 namespace TelegramBot.Handlers
 {
@@ -24,9 +24,8 @@ namespace TelegramBot.Handlers
         [Obsolete]
         public override async Task ProcessMessage(Message sendingMessage)
         {
-            if (sendingMessage.Caption == null)
-            { this.sendingText = sendingMessage.Text; }
-            else{ this.caption = sendingMessage.Caption; }
+            if (sendingMessage.Caption == null) { this.sendingText = sendingMessage.Text; }
+            else { this.caption = sendingMessage.Caption; }
             this.photo = sendingMessage.Photo;
             await base.ProcessMessage(sendingMessage);
         }
@@ -34,32 +33,21 @@ namespace TelegramBot.Handlers
         [Obsolete]
         protected override void RegistrateProcessing()
         {
-            AddProcessing("Напишите сообщение которое хотите отправить",
+            AddProcessing("Напишите сообщение которое хотите отправить", int.MaxValue,
             () =>
             {
                 news.Message += sendingText;
                 var dtn = DateTime.Now;
-                    while ((DateTime.Now - dtn).Seconds < 3)
-                    {
-                            MailingProcessing(photo);
-                    };
-                if (photo != null){ news.AddPicture(photo[3].FileId); }
-            }
-            );
-            SendAll();
-        }
-
-        protected void MailingProcessing(PhotoSize[] photo, Action completeAction = null)
-        {
-            сancellationToken = new();
-            currentTask = new Task(() =>
-            {
-                if (photo != null) { news.AddPicture(photo[3].FileId); }
-                сancellationToken.Cancel();
+                while ((DateTime.Now - dtn).Seconds < 3)
+                {
+                    AddProcessing("", 10,
+                        () =>
+                        {
+                            if (photo != null) { news.AddPicture(photo[photo.Length - 1].FileId); }
+                        });
+                };
             });
-
-            currentTask.Wait(10);
-            completeAction?.Invoke();
+            SendAll();
         }
 
         [Obsolete]
@@ -68,19 +56,13 @@ namespace TelegramBot.Handlers
             try
             {
                 var newsService = new NewsService();
-                var userService = new UsersService(); 
+                var userService = new UsersService();
                 news.NeedToSend = false;
                 if (caption != null) { news.Message = caption; }
                 await newsService.Create(news);
                 var users = await userService.Get();
 
-                if (news.Message != null)
-                {
-                    await BotService.SendMessage(news.Message, users.Select(u => u.ChatId).ToList()); 
-                }
-                if (news.Pictures != null) {
-                    await BotService.SendPhoto(news.Pictures, users.Select(u => u.ChatId).ToList());
-                }
+                await BotService.SendPhoto(news, users.Select(u => u.ChatId).ToList());
                 LogService.LogInfo($"|SENDALL| ChatId: {chatId} | Message: {news.Message} | NeedToSend: {news.NeedToSend}");
                 await bot.SendMessage($"Сообщение отправлено!");
             }
