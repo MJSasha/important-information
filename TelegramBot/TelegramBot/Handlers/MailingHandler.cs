@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
+using TelegramBot.Data.CustomExceptions;
 using TelegramBot.Data.Models;
 using TelegramBot.Services;
 using TelegramBot.Services.ApiServices;
@@ -12,10 +13,10 @@ namespace TelegramBot.Handlers
     public class MailingHandler : BaseSpecialHandler
     {
         private readonly long chatId;
-        private string sendingText;
-        private string caption;
-        private PhotoSize[] photo;
-        private readonly News news = new News();
+        private string messageText;
+        private bool messageIsStartSending;
+        private readonly News news = new();
+
         public MailingHandler(long chatId) : base(new BotService(chatId))
         {
             this.chatId = chatId;
@@ -24,53 +25,43 @@ namespace TelegramBot.Handlers
         [Obsolete]
         public override async Task ProcessMessage(Message sendingMessage)
         {
-            if (sendingMessage.Caption == null) sendingText = sendingMessage.Text;
-            else caption = sendingMessage.Caption;
-            photo = sendingMessage.Photo;
+            messageText ??= sendingMessage.Caption ?? sendingMessage.Text;
             await base.ProcessMessage(sendingMessage);
+
+            if (sendingMessage.Photo != null) news.AddPicture(sendingMessage.Photo[^1].FileId);
+            else if (!messageIsStartSending)
+            {
+                messageIsStartSending = true;
+                await SendAll();
+            }
         }
 
         [Obsolete]
         protected override void RegistrateProcessing()
         {
-            AddProcessing("Напишите сообщение которое хотите отправить", int.MaxValue, () =>
-            {
-                news.Message += sendingText;
-                var dtn = DateTime.Now;
-                while ((DateTime.Now - dtn).Seconds < 3)
-                {
-                        MailingProcessing(photo);
-                    if (photo != null) { news.AddPicture(photo[^1].FileId); }
-                };
-            });
-            SendAll();
-        }
-        protected void MailingProcessing(PhotoSize[] photo, Action completeAction = null)
-        {
-            сancellationToken = new();
-            currentTask = new Task(() =>
-            {
-                if (photo != null) news.AddPicture(photo[^1].FileId);
-                сancellationToken.Cancel();
-            });
-            currentTask.Wait(10);
+            AddProcessing("Напишите сообщение которое хотите отправить (ВНИМАНИЕ: не больше 10 картинок", null);
         }
 
         [Obsolete]
-        private async void SendAll()
+        private async Task SendAll()
         {
+            var newsService = new NewsService();
+            var userService = new UsersService();
+
             try
             {
-                var newsService = new NewsService();
-                var userService = new UsersService();
-                news.NeedToSend = false;
-                if (caption != null) news.Message = caption;
+                news.Message = messageText;
                 await newsService.Create(news);
-                var users = await userService.Get();
+                var chatIds = (await userService.Get()).Select(u => u.ChatId).Where(id => id != chatId).ToList();
 
-                await BotService.SendPhoto(news, users.Select(u => u.ChatId).ToList());
+                await BotService.SendNews(news, chatIds);
                 LogService.LogInfo($"|SENDALL| ChatId: {chatId} | Message: {news.Message} | NeedToSend: {news.NeedToSend}");
                 await bot.SendMessage($"Сообщение отправлено!");
+            }
+            catch (ChatNotFoundException ex)
+            {
+                LogService.LogError($"Chat not found | ChatId: {ex.ChatId}");
+                await bot.SendMessage($"Не найден пользователь с ChatId {ex.ChatId}. Необходимо удалить данного пользователя для продолжения работы");
             }
             catch (HttpRequestException)
             {

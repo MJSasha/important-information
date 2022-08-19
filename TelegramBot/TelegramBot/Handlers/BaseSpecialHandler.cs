@@ -32,7 +32,7 @@ namespace TelegramBot.Handlers
             сancellationToken = new();
             currentTask = new Task(() =>
             {
-                action();
+                action?.Invoke();
                 сancellationToken.Cancel();
             });
             bot.SendMessage(message);

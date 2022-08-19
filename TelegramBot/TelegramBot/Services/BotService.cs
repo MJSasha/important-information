@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -37,32 +38,25 @@ namespace TelegramBot.Services
         }
 
         [Obsolete]
-        public static async Task SendPhoto(News news, List<long> chatIds)
+        public static async Task SendNews(News news, List<long> chatIds)
         {
             foreach (var chatId in chatIds)
             {
                 try
                 {
-                    if (news.Message != null)
-                    {
-                        await client.SendTextMessageAsync(chatId, news.Message);
-                    }
-
-                    if (news.Pictures != null)
+                    if (!string.IsNullOrWhiteSpace(news.Pictures))
                     {
                         string[] media;
                         media = news.GetPictures();
-                        IAlbumInputMedia[] albumInputMedias = new IAlbumInputMedia[media.Length];
-                        for (int i = 0; i < media.Length; i++)
-                        {
-                            albumInputMedias[i] = new InputMediaPhoto(media[i]);
-                        }
+                        List<InputMediaPhoto> albumInputMedias = news.GetPictures().Select(p => new InputMediaPhoto(p)).ToList();
                         await client.SendMediaGroupAsync(chatId, albumInputMedias);
                     }
+
+                    if (!string.IsNullOrWhiteSpace(news.Message)) await client.SendTextMessageAsync(chatId, news.Message);
                 }
                 catch (Telegram.Bot.Exceptions.ChatNotFoundException)
                 {
-                    throw new ChatNotFoundException(news.Pictures.ToString(), chatId);
+                    throw new ChatNotFoundException(news?.Message, chatId);
                 }
             }
         }
