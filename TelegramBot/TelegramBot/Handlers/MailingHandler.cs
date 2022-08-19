@@ -15,7 +15,7 @@ namespace TelegramBot.Handlers
         private string sendingText;
         private string caption;
         private PhotoSize[] photo;
-        private News news = new News();
+        private readonly News news = new News();
         public MailingHandler(long chatId) : base(new BotService(chatId))
         {
             this.chatId = chatId;
@@ -24,27 +24,25 @@ namespace TelegramBot.Handlers
         [Obsolete]
         public override async Task ProcessMessage(Message sendingMessage)
         {
-            if (sendingMessage.Caption == null) { this.sendingText = sendingMessage.Text; }
-            else { this.caption = sendingMessage.Caption; }
-            this.photo = sendingMessage.Photo;
+            if (sendingMessage.Caption == null) sendingText = sendingMessage.Text;
+            else caption = sendingMessage.Caption;
+            photo = sendingMessage.Photo;
             await base.ProcessMessage(sendingMessage);
         }
 
         [Obsolete]
         protected override void RegistrateProcessing()
         {
-            AddProcessing("Напишите сообщение которое хотите отправить", int.MaxValue,
-            () =>
+            AddProcessing("Напишите сообщение которое хотите отправить", int.MaxValue, () =>
             {
                 news.Message += sendingText;
                 var dtn = DateTime.Now;
                 while ((DateTime.Now - dtn).Seconds < 3)
                 {
-                    AddProcessing("", 10,
-                        () =>
-                        {
-                            if (photo != null) { news.AddPicture(photo[photo.Length - 1].FileId); }
-                        });
+                    AddProcessing("", 10, () =>
+                    {
+                        if (photo != null) { news.AddPicture(photo[photo.Length - 1].FileId); }
+                    });
                 };
             });
             SendAll();
@@ -58,7 +56,7 @@ namespace TelegramBot.Handlers
                 var newsService = new NewsService();
                 var userService = new UsersService();
                 news.NeedToSend = false;
-                if (caption != null) { news.Message = caption; }
+                if (caption != null) news.Message = caption;
                 await newsService.Create(news);
                 var users = await userService.Get();
 
