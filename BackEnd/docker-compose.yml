@@ -3,7 +3,7 @@ version: "3"
 services:
 
   backend-api:
-    image: mjsasha/backend_important-information:3.0.6
+    image: mjsasha/backend_important-information:3.1.0
     container_name: backend-api
     restart: always
     ports:
