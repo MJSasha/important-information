@@ -25,7 +25,10 @@ public class News {
     private String pictures;
     private boolean needToSend;
 
+    @ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+    @JoinColumn(name = "lesson_id")
+    private Lesson lesson;
+
     // TODO: 10.08.2022 Add author
-//    @ManyToOne
 //    private User author;
 }
