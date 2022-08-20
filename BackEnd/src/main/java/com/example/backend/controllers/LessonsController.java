@@ -5,6 +5,7 @@ import com.example.backend.baseClasses.BaseController;
 import com.example.backend.data.models.Lesson;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,7 +19,7 @@ public class LessonsController extends BaseController<Lesson, Integer> {
 
     @Override
     @PatchMapping("/{id}")
-    public ResponseEntity<String> update(Lesson lesson, Integer id) {
+    public ResponseEntity<String> update(Lesson lesson, @PathVariable Integer id) {
         lesson.setId(id);
         return super.update(lesson, id);
     }

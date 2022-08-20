@@ -5,7 +5,7 @@ services:
 
 # BackEnd
   backend-api:
-    image: mjsasha/backend_important-information:3.0.4
+    image: mjsasha/backend_important-information:3.0.6
     container_name: backend-api
     restart: always
     ports:

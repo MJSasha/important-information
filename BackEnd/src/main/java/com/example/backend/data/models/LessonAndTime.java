@@ -7,7 +7,6 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.sql.Time;
-import java.util.Date;
 
 @Getter
 @Setter
@@ -23,8 +22,7 @@ public class LessonAndTime {
     @JsonFormat(pattern = "HH:mm:ss")
     private Time time;
 
-    // TODO: 6/26/2022 one to many
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "lesson_id", referencedColumnName = "id")
+    @ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+    @JoinColumn(name = "lesson_id")
     private Lesson lesson;
 }

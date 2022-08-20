@@ -17,6 +17,7 @@ public class BaseController<TEntity, TKey> {
     @GetMapping
     public ResponseEntity<List<TEntity>> readAll() {
         var result = service.read();
+        if (result.isEmpty()) return ResponseEntity.noContent().build();
         result.forEach(this::RemoveUnnecessaryLinks);
         return ResponseEntity.ok(result);
     }
@@ -24,6 +25,7 @@ public class BaseController<TEntity, TKey> {
     @GetMapping("/{id}")
     public ResponseEntity<TEntity> readById(@PathVariable TKey id) {
         var result = service.read(id);
+        if (result == null) return ResponseEntity.noContent().build();
         RemoveUnnecessaryLinks(result);
         return ResponseEntity.ok(result);
     }

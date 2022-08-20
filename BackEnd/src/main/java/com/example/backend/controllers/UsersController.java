@@ -1,7 +1,6 @@
 package com.example.backend.controllers;
 
 import com.example.backend.baseClasses.BaseController;
-import com.example.backend.data.exceptions.NotAuthException;
 import com.example.backend.data.models.User;
 import com.example.backend.services.UsersService;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +31,7 @@ public class UsersController extends BaseController<User, Integer> {
     }
 
     @GetMapping("/current")
-    public ResponseEntity<User> getCurrentUser(HttpServletRequest request) throws NotAuthException {
+    public ResponseEntity<User> getCurrentUser(HttpServletRequest request) {
         String token = Arrays.stream(request.getCookies())
                 .filter(c -> Objects.equals(c.getName(), "token"))
                 .findFirst().get().getValue();
@@ -50,10 +49,11 @@ public class UsersController extends BaseController<User, Integer> {
     }
 
     @GetMapping("/byChatId/{chatId}")
-    public User getByChatId(@PathVariable Long chatId) {
+    public ResponseEntity<User> getByChatId(@PathVariable Long chatId) {
         var user = usersService.readByChatId(chatId);
+        if (user == null) return ResponseEntity.noContent().build();
         RemoveUnnecessaryLinks(user);
-        return user;
+        return ResponseEntity.ok(user);
     }
 
     @Override
