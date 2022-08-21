@@ -37,17 +37,28 @@ namespace TelegramBot.Handlers
                 "/start" => message.SendStartMenu(),
                 "/reg" => Task.Run(() => DistributionService.BusyUsersIdAndService.Add(eventArgs.Message.Chat.Id, new RegistrationHandler(eventArgs.Message.Chat.Id))),
                 "/passChange" => Task.Run(() => DistributionService.BusyUsersIdAndService.Add(eventArgs.Message.Chat.Id, new PasswordChangeHandler(eventArgs.Message.Chat.Id))),
-                _ => message.UnknownMessage()
+                _ => ProcessSpecialMessage(eventArgs.Message.Text, message)
             };
 
             await response;
         }
 
-        private static Task ProcessSpecialCallback(string callback, MessageCollector message)
+        private static Task ProcessSpecialCallback(string callback, MessageCollector messageCollector)
         {
-            if (Regex.IsMatch(callback, @"^(@lessonId:)[0-9]{1,}")) return message.EditToLesson(Convert.ToInt32(callback[10..]));
-            else if (Regex.IsMatch(callback, @"^(@newsShift:)(-){0,1}[0-9]{1,}")) return message.EditToWeekNews(Convert.ToInt32(callback[11..]));
-            return message.UnknownMessage();
+            if (Regex.IsMatch(callback, @"^(@lessonId:)[0-9]{1,}")) return messageCollector.EditToLesson(Convert.ToInt32(callback[10..]));
+            else if (Regex.IsMatch(callback, @"^(@newsShift:)(-){0,1}[0-9]{1,}")) return messageCollector.EditToWeekNews(Convert.ToInt32(callback[11..]));
+            return messageCollector.UnknownMessage();
+        }
+
+        [Obsolete]
+        private static Task ProcessSpecialMessage(string callback, MessageCollector messageCollector)
+        {
+            if (Regex.IsMatch(callback, @"^(/news)[0-9]{1,}(I)[0-9]{1,}"))
+            {
+                var data = callback[5..].Split('I');
+                return messageCollector.SendDetailedNews(Convert.ToInt32(data[0]), Convert.ToInt32(data[1]));
+            }
+            return messageCollector.UnknownMessage();
         }
     }
 }

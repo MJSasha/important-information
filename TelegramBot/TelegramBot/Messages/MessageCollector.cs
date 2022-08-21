@@ -137,6 +137,20 @@ namespace TelegramBot.Messages
                 $"information: {lesson.Information}", messageId, buttonsGenerator.GetButtons());
         }
 
+        [Obsolete]
+        public async Task SendDetailedNews(int newsId, int previewMessageId)
+        {
+            await bot.DeleteMessage(messageId);
+            await bot.DeleteMessage(previewMessageId);
+
+            NewsService newsService = new();
+            var news = await newsService.Get(newsId);
+            ButtonsGenerator buttonsGenerator = new();
+            buttonsGenerator.SetGoBackButton("Новости");
+
+            await BotService.SendNews(news, new List<long> { chatId }, buttonsGenerator.GetButtons());
+        }
+
         public async Task SendNewsForLesson(int lessonId)
         {
             LessonsService lessonsService = new();
@@ -155,8 +169,9 @@ namespace TelegramBot.Messages
             foreach (var oneNews in news)
             {
                 outputString += $"date time: {oneNews.DateTimeOfCreate}\n" +
-                    $"text: {oneNews.Message}\n" +
-                    $"pictures: {oneNews.Pictures}\n\n";
+                    $"text: {oneNews.Message}\n";
+
+                outputString += oneNews.Pictures == null ? "\n\n" : $"Новость с картинками. Для просмотра картинок нажмите /news{oneNews.Id}I{messageId}\n\n";
             }
 
             await bot.EditMessage(outputString + caption, messageId, buttons);

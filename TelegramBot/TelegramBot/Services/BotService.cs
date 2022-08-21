@@ -38,7 +38,7 @@ namespace TelegramBot.Services
         }
 
         [Obsolete]
-        public static async Task SendNews(News news, List<long> chatIds)
+        public static async Task SendNews(News news, List<long> chatIds, IReplyMarkup buttons = null)
         {
             foreach (var chatId in chatIds)
             {
@@ -52,13 +52,22 @@ namespace TelegramBot.Services
                         await client.SendMediaGroupAsync(chatId, albumInputMedias);
                     }
 
-                    if (!string.IsNullOrWhiteSpace(news.Message)) await client.SendTextMessageAsync(chatId, news.Message);
+                    if (!string.IsNullOrWhiteSpace(news.Message)) await client.SendTextMessageAsync(chatId, news.Message, replyMarkup: buttons);
                 }
                 catch (Telegram.Bot.Exceptions.ChatNotFoundException)
                 {
                     throw new ChatNotFoundException(news?.Message, chatId);
                 }
             }
+        }
+
+        public async Task DeleteMessage(int messageId)
+        {
+            try
+            {
+                await client.DeleteMessageAsync(chatId, messageId);
+            }
+            catch { /*ignore*/}
         }
 
         [Obsolete]
