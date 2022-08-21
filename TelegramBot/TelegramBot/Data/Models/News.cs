@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text.Json.Serialization;
+using TelegramBot.Data.ViewModels;
 using TelegramBot.Utils;
 using JsonConverterAttribute = Newtonsoft.Json.JsonConverterAttribute;
 
@@ -19,6 +20,9 @@ namespace TelegramBot.Data.Models
 
         [JsonPropertyName("needToSend")]
         public bool NeedToSend { get; set; } = false;
+
+        [JsonPropertyName("lesson")]
+        public Lesson Lesson { get; set; }
 
         /// <summary>
         /// Get публичный для сериализации, для получения массива картинок используйте метод <see cref="GetPictures"/>.
