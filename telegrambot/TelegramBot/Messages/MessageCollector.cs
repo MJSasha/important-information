@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TelegramBot.Data;
+using TelegramBot.Data.Definitions;
 using TelegramBot.Data.Models;
 using TelegramBot.Data.ViewModels;
 using TelegramBot.Interfaces;
@@ -131,6 +132,20 @@ namespace TelegramBot.Messages
             var lesson = await lessonsService.Get(lessonId);
 
             await bot.EditMessage(lesson.GetLessonCard(), messageId, buttonsGenerator.GetButtons());
+        }
+
+        [Obsolete]
+        public async Task SendDetailedNews(int newsId, int previewMessageId)
+        {
+            await bot.DeleteMessage(messageId);
+            await bot.DeleteMessage(previewMessageId);
+
+            NewsService newsService = new();
+            var news = await newsService.Get(newsId);
+            ButtonsGenerator buttonsGenerator = new();
+            buttonsGenerator.SetGoBackButton("Новости");
+
+            await BotService.SendNews(news, new List<long> { chatId }, buttonsGenerator.GetButtons());
         }
 
         public async Task SendNewsForLesson(int lessonId)

@@ -37,7 +37,7 @@ namespace TelegramBot.Handlers
                 "/start" => message.SendStartMenu(),
                 "/reg" => Task.Run(() => DistributionService.BusyUsersIdAndService.Add(eventArgs.Message.Chat.Id, new RegistrationHandler(eventArgs.Message.Chat.Id))),
                 "/passChange" => Task.Run(() => DistributionService.BusyUsersIdAndService.Add(eventArgs.Message.Chat.Id, new PasswordChangeHandler(eventArgs.Message.Chat.Id))),
-                _ => message.UnknownMessage()
+                _ => ProcessSpecialMessage(eventArgs.Message.Text, message)
             };
 
             await response;
