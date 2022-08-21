@@ -29,6 +29,13 @@ public class NewsController extends BaseController<News, Integer> {
         return super.update(news, id);
     }
 
+    @GetMapping("/byLessonId/{lessonId}")
+    public ResponseEntity<News> readBeLessonId(@PathVariable Integer lessonId){
+        var news = newsService.readByLessonId(lessonId);
+        if (news == null) return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(news);
+    }
+
     @GetMapping("/byDates")
     public ResponseEntity<List<News>> readByDates(@RequestBody StartEndDate startEndDate, HttpServletRequest request) {
         var news = newsService.read().stream().filter(d ->
