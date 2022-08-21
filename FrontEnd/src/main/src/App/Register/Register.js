@@ -59,7 +59,7 @@ function Register(){
     return (
         <div className="text-center">
             <div className="form-wrapper form-signin">
-                <img className='mb-4' src={logo} alt="lookbook" />
+                <img className='mb-4 reg-logo' src={logo} alt="lookbook" />
                 <Form onSubmit={submitCheckin}>
                     <Form.Group className="mb-3" controlId="formGroupLogin">
                         <Form.Label className='h3 mb-3 font-weight-normal text-light'>Login</Form.Label>
