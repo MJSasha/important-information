@@ -8,6 +8,7 @@ using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBot.Data.CustomExceptions;
 using TelegramBot.Data.Models;
 using TelegramBot.Interfaces;
+using TelegramBot.Utils;
 
 namespace TelegramBot.Services
 {
@@ -44,15 +45,19 @@ namespace TelegramBot.Services
             {
                 try
                 {
-                    if (!string.IsNullOrWhiteSpace(news.Pictures))
+                    try
                     {
-                        string[] media;
-                        media = news.GetPictures();
-                        List<InputMediaPhoto> albumInputMedias = news.GetPictures().Select(p => new InputMediaPhoto(p)).ToList();
-                        await client.SendMediaGroupAsync(chatId, albumInputMedias);
+                        if (!string.IsNullOrWhiteSpace(news.Pictures))
+                        {
+                            string[] media;
+                            media = news.GetPictures();
+                            List<InputMediaPhoto> albumInputMedias = news.GetPictures().Select(p => new InputMediaPhoto(p)).ToList();
+                            await client.SendMediaGroupAsync(chatId, albumInputMedias);
+                        }
                     }
+                    catch { /*ignore invalid pictures*/}
 
-                    if (!string.IsNullOrWhiteSpace(news.Message)) await client.SendTextMessageAsync(chatId, news.Message, replyMarkup: buttons);
+                    if (!string.IsNullOrWhiteSpace(news.Message)) await client.SendTextMessageAsync(chatId, news.GetNewsCard(), replyMarkup: buttons);
                 }
                 catch (Telegram.Bot.Exceptions.ChatNotFoundException)
                 {

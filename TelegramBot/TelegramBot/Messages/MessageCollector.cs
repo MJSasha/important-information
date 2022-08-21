@@ -150,8 +150,15 @@ namespace TelegramBot.Messages
 
         public async Task SendNewsForLesson(int lessonId)
         {
-            LessonsService lessonsService = new();
-            var lesson = await lessonsService.Get(lessonId);
+            await bot.DeleteMessage(messageId);
+            await bot.DeleteMessage(previewMessageId);
+
+            NewsService newsService = new();
+            var news = await newsService.Get(newsId);
+            ButtonsGenerator buttonsGenerator = new();
+            buttonsGenerator.SetGoBackButton("Новости");
+
+            await BotService.SendNews(news, new List<long> { chatId }, buttonsGenerator.GetButtons());
         }
 
         public async Task UnknownMessage()
