@@ -151,12 +151,6 @@ namespace TelegramBot.Messages
             await BotService.SendNews(news, new List<long> { chatId }, buttonsGenerator.GetButtons());
         }
 
-        public async Task SendNewsForLesson(int lessonId)
-        {
-            LessonsService lessonsService = new();
-            var lesson = await lessonsService.Get(lessonId);
-        }
-
         public async Task UnknownMessage()
         {
             await bot.SendMessage("Пока я не понимаю данное сообщение, но скоро научусь");
@@ -168,10 +162,9 @@ namespace TelegramBot.Messages
 
             foreach (var oneNews in news)
             {
-                outputString += $"date time: {oneNews.DateTimeOfCreate}\n" +
-                    $"text: {oneNews.Message}\n";
+                outputString += oneNews.GetNewsCard();
 
-                outputString += oneNews.Pictures == null ? "\n\n" : $"Новость с картинками. Для просмотра картинок нажмите /news{oneNews.Id}I{messageId}\n\n";
+                outputString += string.IsNullOrWhiteSpace(oneNews.Pictures) ? "\n" : $"Новость с картинками. Для просмотра картинок нажмите /news{oneNews.Id}I{messageId}\n\n";
             }
 
             await bot.EditMessage(outputString + caption, messageId, buttons);

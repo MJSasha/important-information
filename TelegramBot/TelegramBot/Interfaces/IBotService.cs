@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Telegram.Bot.Types.ReplyMarkups;
-using TelegramBot.Data.Models;
 
 namespace TelegramBot.Interfaces
 {
