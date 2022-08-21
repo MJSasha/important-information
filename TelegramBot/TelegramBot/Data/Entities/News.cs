@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text.Json.Serialization;
 using TelegramBot.Data.ViewModels;
 using TelegramBot.Utils;
@@ -13,7 +14,7 @@ namespace TelegramBot.Data.Models
 
         [JsonPropertyName("dateTimeOfCreate")]
         [JsonConverter(typeof(CustomDateTimeConverter), "yyyy-MM-dd HH:mm:ss")]
-        public DateTime DateTimeOfCreate { get; }
+        public DateTime DateTimeOfCreate { get; set; }
 
         [JsonPropertyName("message")]
         public string Message { get; set; }
@@ -32,6 +33,7 @@ namespace TelegramBot.Data.Models
 
         public string[] GetPictures() => Pictures?.Split("|", StringSplitOptions.RemoveEmptyEntries);
         public void CleanPictures() => Pictures = "";
+        public void AddPictures(string[] pictures) => pictures.ToList().ForEach(picture => this.Pictures += $"{picture}|");
         public void AddPicture(string picture) => Pictures += $"{picture}|";
     }
 }

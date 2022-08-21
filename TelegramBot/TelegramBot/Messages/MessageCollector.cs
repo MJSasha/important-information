@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBot.Data;
+using TelegramBot.Data.Definitions;
 using TelegramBot.Data.Models;
 using TelegramBot.Data.ViewModels;
 using TelegramBot.Interfaces;
@@ -69,7 +71,7 @@ namespace TelegramBot.Messages
             await bot.EditMessage(Texts.AboutUs, messageId, buttonsGenerator.GetButtons());
         }
 
-        public async Task SendWeekNews(int newsShift = 0)
+        public async Task EditToWeekNews(int newsShift = 0)
         {
             DateTime weekStartDate = DateTime.Now.AddDays(-(DateTime.Now.DayOfWeek - DayOfWeek.Monday)).AddDays(7 * newsShift);
             DateTime weekEndDate = weekStartDate.AddDays(6);
@@ -77,7 +79,6 @@ namespace TelegramBot.Messages
             var allNewsInSelectedWeek = await GetWeekNews(weekStartDate);
             ButtonsGenerator buttonsGenerator = new();
 
-            await SendNews(allNewsInSelectedWeek);
 
             if (weekEndDate < DateTime.Now && await CheckAnyNewsBefore(weekEndDate))
             {
@@ -90,8 +91,8 @@ namespace TelegramBot.Messages
             }
             buttonsGenerator.SetGoBackButton();
 
-            await bot.SendMessage($"Новости, созданные в промежуток С {weekStartDate:dd-MM-yyyy} ДО {weekEndDate:dd-MM-yyyy}\n" +
-                    $"Для перехода к другой неделе нажмите на кнопку", buttonsGenerator.GetButtons());
+            await SendNews(allNewsInSelectedWeek, buttonsGenerator.GetButtons(), $"Новости, созданные в промежуток С {weekStartDate:dd-MM-yyyy} ДО {weekEndDate:dd-MM-yyyy}\n" +
+                    $"Для перехода к другой неделе нажмите на кнопку");
         }
 
         public async Task EditToLessonsMenu()
@@ -147,14 +148,18 @@ namespace TelegramBot.Messages
             await bot.SendMessage("Пока я не понимаю данное сообщение, но скоро научусь");
         }
 
-        private async Task SendNews(IOrderedEnumerable<News> news)
+        private async Task SendNews(IOrderedEnumerable<News> news, IReplyMarkup buttons = null, string caption = null)
         {
+            string outputString = "";
+
             foreach (var oneNews in news)
             {
-                await bot.SendMessage($"date time: {oneNews.DateTimeOfCreate}\n" +
+                outputString += $"date time: {oneNews.DateTimeOfCreate}\n" +
                     $"text: {oneNews.Message}\n" +
-                    $"pictures: {oneNews.Pictures}");
+                    $"pictures: {oneNews.Pictures}\n\n";
             }
+
+            await bot.EditMessage(outputString + caption, messageId, buttons);
         }
         private async Task<IOrderedEnumerable<News>> GetWeekNews(DateTime weekStartDate)
         {

@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using TelegramBot.Data.Definitions;
+using TelegramBot.Data.Entities;
 
 namespace TelegramBot.Data.Models
 {
@@ -28,19 +30,5 @@ namespace TelegramBot.Data.Models
 
         [JsonPropertyName("notes")]
         public List<Note> Notes { get; set; }
-    }
-
-    public enum Role
-    {
-        USER,
-        ADMIN
-    }
-
-    public class Password
-    {
-        [JsonPropertyName("id")]
-        public int Id { get; set; }
-        [JsonPropertyName("value")]
-        public string Value { get; set; }
     }
 }
