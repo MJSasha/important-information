@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBot.Data;
+using TelegramBot.Data.Definitions;
 using TelegramBot.Data.Models;
 using TelegramBot.Data.ViewModels;
 using TelegramBot.Interfaces;
