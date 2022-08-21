@@ -21,6 +21,12 @@ namespace TelegramBot.Services.ApiServices
             return await Deserialize<List<News>>(httpResponse);
         }
 
+        public async Task<News> GetByLessonId(int lessonId)
+        {
+            HttpResponseMessage httpResponse = await httpClient.GetAsync($"{Root}/byLessonId/{lessonId}");
+            return await Deserialize<News>(httpResponse);
+        }
+
         public async Task<List<News>> Get(StartEndTime startEndTime)
         {
             HttpRequestMessage httpRequest = new HttpRequestMessage
