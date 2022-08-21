@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Telegram.Bot.Types;
+using TelegramBot.Data;
 using TelegramBot.Services;
 using TelegramBot.Services.ApiServices;
-
 
 namespace TelegramBot.Handlers
 {
@@ -19,15 +19,14 @@ namespace TelegramBot.Handlers
         }
 
         [Obsolete]
-        public override async Task ProcessMessage(string newPassword)
+        public override async Task ProcessMessage(Message newPassword)
         {
-            this.newPassword = newPassword;
-
-            if (сancellationToken == null) await Task.Run(() => ChangePassword());
-            if (!сancellationToken.IsCancellationRequested) currentTask.Start();
+            this.newPassword = newPassword.Text;
+            await base.ProcessMessage(newPassword);
         }
+
         [Obsolete]
-        private void ChangePassword()
+        protected override void RegistrateProcessing()
         {
             AddProcessing("Придумайте новый пароль", CompleteChange);
         }
@@ -37,8 +36,8 @@ namespace TelegramBot.Handlers
             try
             {
                 var usersService = new UsersService();
-                var currentUser = (await usersService.Get()).FirstOrDefault(u => u.ChatId == chatId);
-                if (currentUser == null) { await bot.SendMessage($"Не могу найти пользователя, возможно вы ещё не зарегистрированы (/reg)"); }
+                var currentUser = await usersService.GetByChatId(chatId);
+                if (currentUser == null) { await bot.SendMessage($"Не могу найти пользователя, возможно вы ещё не зарегестрированны (/reg)"); }
                 else
                 {
                     currentUser.Password.Value = newPassword;
@@ -50,7 +49,7 @@ namespace TelegramBot.Handlers
             catch (HttpRequestException)
             {
                 LogService.LogServerNotFound("PasswordChange");
-                await bot.SendMessage("Упс, что-то пошло не так...");
+                await bot.SendMessage(Texts.Oops);
             }
             finally
             {

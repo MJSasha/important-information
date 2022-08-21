@@ -4,11 +4,10 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using TelegramBot.Data.CustomExceptions;
 using TelegramBot.Data.ViewModels;
-using TelegramBot.Interfaces;
 
 namespace TelegramBot.Services.ApiServices
 {
-    public class AuthService : BaseService, IAuthService
+    public class AuthService : BaseService
     {
         public AuthService() : base(AppSettings.AuthRoot) { }
 
