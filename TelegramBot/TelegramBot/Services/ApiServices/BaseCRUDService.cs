@@ -13,19 +13,19 @@ namespace TelegramBot.Services.ApiServices
     {
         public BaseCRUDService(string entityRoot) : base(entityRoot) { }
 
-        public async Task<TEntity> Get(TKey key)
+        public virtual async Task<TEntity> Get(TKey key)
         {
             HttpResponseMessage httpResponse = await httpClient.GetAsync(Root + "/" + key);
             return await Deserialize<TEntity>(httpResponse);
         }
 
-        public async Task<List<TEntity>> Get()
+        public virtual async Task<List<TEntity>> Get()
         {
             HttpResponseMessage httpResponse = await httpClient.GetAsync(Root);
             return await Deserialize<List<TEntity>>(httpResponse);
         }
 
-        public async Task Create(TEntity item)
+        public virtual async Task Create(TEntity item)
         {
             var json = JsonConvert.SerializeObject(item);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
@@ -33,7 +33,7 @@ namespace TelegramBot.Services.ApiServices
             if (!httpResponse.IsSuccessStatusCode) throw new ErrorResponseException(httpResponse.StatusCode, await httpResponse.Content.ReadAsStringAsync());
         }
 
-        public async Task Create(List<TEntity> item)
+        public virtual async Task Create(List<TEntity> item)
         {
             var json = JsonConvert.SerializeObject(item);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
@@ -41,7 +41,7 @@ namespace TelegramBot.Services.ApiServices
             if (!httpResponse.IsSuccessStatusCode) throw new ErrorResponseException(httpResponse.StatusCode, await httpResponse.Content.ReadAsStringAsync());
         }
 
-        public async Task Update(TKey key, TEntity item)
+        public virtual async Task Update(TKey key, TEntity item)
         {
             TEntity entity = await Get(key);
             if (entity == null) throw new ErrorResponseException(HttpStatusCode.NotFound);
@@ -52,13 +52,13 @@ namespace TelegramBot.Services.ApiServices
             if (!httpResponse.IsSuccessStatusCode) throw new ErrorResponseException(httpResponse.StatusCode, await httpResponse.Content.ReadAsStringAsync());
         }
 
-        public async Task Delete(TKey key)
+        public virtual async Task Delete(TKey key)
         {
             HttpResponseMessage httpResponse = await httpClient.DeleteAsync(Root + "/" + key);
             if (!httpResponse.IsSuccessStatusCode) throw new ErrorResponseException(httpResponse.StatusCode, await httpResponse.Content.ReadAsStringAsync());
         }
 
-        public async Task Delete(List<TKey> key)
+        public virtual async Task Delete(List<TKey> key)
         {
             HttpRequestMessage httpRequest = new HttpRequestMessage
             {

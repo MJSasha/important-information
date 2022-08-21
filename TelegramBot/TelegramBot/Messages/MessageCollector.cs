@@ -124,6 +124,7 @@ namespace TelegramBot.Messages
         public async Task EditToLesson(int lessonId)
         {
             ButtonsGenerator buttonsGenerator = new();
+            buttonsGenerator.SetInlineButton(("Новости по предмету", $"getNewsForLes:{lessonId}"));
             buttonsGenerator.SetGoBackButton("Предметы");
 
             LessonsService lessonsService = new();
@@ -132,9 +133,10 @@ namespace TelegramBot.Messages
             await bot.EditMessage(lesson.GetLessonCard(), messageId, buttonsGenerator.GetButtons());
         }
 
-        public async Task EditToText(string text)
+        public async Task SendNewsForLesson(int lessonId)
         {
-            await bot.EditMessage(text, messageId);
+            LessonsService lessonsService = new();
+            var lesson = await lessonsService.Get(lessonId);
         }
 
         public async Task UnknownMessage()
