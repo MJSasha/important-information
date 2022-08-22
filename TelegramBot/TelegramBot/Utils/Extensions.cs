@@ -10,24 +10,24 @@ namespace TelegramBot.Utils
     {
 
         public static string GetLessonCallback(this Lesson lesson) => $"lessonId:{lesson.Id}";
-        //public static string GetDayId(this Day day) => $"dayId:{day.Id}";
-        public static string GetLessonCard(this Lesson lesson) => $"📚 {lesson.Name}\n" +
-            $"Преподователь: {lesson.Teacher}.\n" +
-            $"Информация: {lesson.Information}";
+        public static string GetLessonCard(this Lesson lesson) =>
+            lesson.Information != null ? $"📚 {lesson.Name}\n Преподователь: {lesson.Teacher}\n " +
+            $"Информация: {lesson.Information}" : $"📚 {lesson.Name}" +
+            $"Преподаватель: {lesson.Teacher}.";
         public static string GetDayCard(this Day day)
         {
-            string timetable = "";
+            string schedule = "";
             foreach (var item in day.LessonsAndTimes)
             {
-                timetable += $"{item.Lesson.Name} {item.Time}\n";
+                schedule += $"{item.Lesson.Name} - {item.Time}\n";
             }
                 return $"🗓{ day.Date}\n" +
                  $"{day.Information}\n\n" +
-                 $"🕑 Расписание занятий:\n{timetable}";
+                 $"🕑 Расписание занятий:\n{schedule}";
         }
-        public static string GetNewsByDate(this News oneNews) => $"🕓{oneNews.DateTimeOfCreate}\n" +
-            $"‼{oneNews.Message}\n\n" +
-            $"{oneNews.Pictures}";
+        public static string GetNews(this News oneNews) => 
+            oneNews.Message != null ? $"🕓{oneNews.DateTimeOfCreate}\n\n‼{oneNews.Message}\n" +
+            $"{oneNews.Pictures}" : $"🕓{oneNews.DateTimeOfCreate}\n {oneNews.Pictures}" ;
         public static void SetGoBackButton(this ButtonsGenerator buttonsGenerator, string callback = "/start") => buttonsGenerator.SetInlineButtons(new List<(string, string)> { ("↪ Назад", callback) });
     }
 }
