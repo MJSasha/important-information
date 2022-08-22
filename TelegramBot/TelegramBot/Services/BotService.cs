@@ -22,21 +22,6 @@ namespace TelegramBot.Services
             this.chatId = chatId;
         }
 
-        public static async Task SendMessage(string message, List<long> chatIds)
-        {
-            foreach (var chatId in chatIds)
-            {
-                try
-                {
-                    await client.SendTextMessageAsync(chatId, message);
-                }
-                catch (Telegram.Bot.Exceptions.ChatNotFoundException)
-                {
-                    throw new ChatNotFoundException(message, chatId);
-                }
-            }
-        }
-
         public static async Task SendNews(News news, List<long> chatIds, IReplyMarkup buttons = null)
         {
             foreach (var chatId in chatIds)
