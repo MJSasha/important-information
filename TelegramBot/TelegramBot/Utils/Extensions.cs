@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TelegramBot.Data.Models;
 using TelegramBot.Data.ViewModels;
 using TelegramBot.Services;
@@ -10,10 +9,13 @@ namespace TelegramBot.Utils
     {
 
         public static string GetLessonCallback(this Lesson lesson) => $"lessonId:{lesson.Id}";
-        public static string GetLessonCard(this Lesson lesson) =>
-            lesson.Information != null ? $"📚 {lesson.Name}\n Преподователь: {lesson.Teacher}\n " +
-            $"Информация: {lesson.Information}" : $"📚 {lesson.Name}" +
-            $"Преподаватель: {lesson.Teacher}.";
+
+        public static string GetLessonCard(this Lesson lesson)
+        {
+            var card = $"📚 {lesson.Name}\nПреподователь: {lesson.Teacher}\n";
+            return card + lesson.Information != null ? "" : $"Информация: {lesson.Information}";
+        }
+
         public static string GetDayCard(this Day day)
         {
             string schedule = "";
@@ -21,12 +23,17 @@ namespace TelegramBot.Utils
             {
                 schedule += $"{item.Lesson.Name} - {item.Time}\n";
             }
-                return $"🗓{ day.Date}\n" +
-                 $"{day.Information}\n\n" +
-                 $"🕑 Расписание занятий:\n{schedule}";
+            return $"🗓{day.Date}\n" +
+                $"{day.Information}\n\n" +
+                $"🕑 Расписание занятий:\n{schedule}";
         }
-        public static string GetNewsCard(this News oneNews) => 
-            oneNews.Message != null ? $"🕓{oneNews.DateTimeOfCreate}\n\n‼{oneNews.Message}" : $"🕓{oneNews.DateTimeOfCreate}" ;
+
+        public static string GetNewsCard(this News oneNews)
+        {
+            var card = $"🕓{oneNews.DateTimeOfCreate}\n";
+            return card + oneNews.Message != null ? "" : $"‼️ {oneNews.Message}";
+        }
+
         public static void SetGoBackButton(this ButtonsGenerator buttonsGenerator, string callback = "/start") => buttonsGenerator.SetInlineButtons(new List<(string, string)> { ("↪ Назад", callback) });
     }
 }

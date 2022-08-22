@@ -146,7 +146,7 @@ namespace TelegramBot.Messages
         {
             foreach (var oneNews in news)
             {
-                await bot.SendMessage(oneNews.GetNews());
+                await bot.SendMessage(oneNews.GetNewsCard());
             }
         }
         private async Task<IOrderedEnumerable<News>> GetWeekNews(DateTime weekStartDate)
