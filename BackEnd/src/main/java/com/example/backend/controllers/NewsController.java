@@ -24,7 +24,7 @@ public class NewsController extends BaseController<News, Integer> {
 
     @Override
     @PatchMapping("/{id}")
-    public ResponseEntity<String> update(News news, @PathVariable Integer id) {
+    public ResponseEntity<String> update(@RequestBody News news, @PathVariable Integer id) {
         news.setId(id);
         return super.update(news, id);
     }
