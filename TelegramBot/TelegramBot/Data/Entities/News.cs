@@ -1,33 +1,33 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Text.Json.Serialization;
 using TelegramBot.Data.ViewModels;
 using TelegramBot.Utils;
-using JsonConverterAttribute = Newtonsoft.Json.JsonConverterAttribute;
 
 namespace TelegramBot.Data.Models
 {
     public class News
     {
-        [JsonPropertyName("id")]
+        [JsonProperty("id")]
         public int Id { get; set; }
 
-        [JsonPropertyName("dateTimeOfCreate")]
+        [JsonProperty("dateTimeOfCreate")]
         [JsonConverter(typeof(CustomDateTimeConverter), "yyyy-MM-dd HH:mm:ss")]
         public DateTime DateTimeOfCreate { get; }
 
-        [JsonPropertyName("message")]
+        [JsonProperty("message")]
         public string Message { get; set; }
 
-        [JsonPropertyName("needToSend")]
+        [JsonProperty("needToSend")]
         public bool NeedToSend { get; set; } = false;
 
-        [JsonPropertyName("lesson")]
+        [JsonProperty("lesson")]
         public Lesson Lesson { get; set; }
 
         /// <summary>
         /// Get публичный для сериализации, для получения массива картинок используйте метод <see cref="GetPictures"/>.
         /// </summary>
-        [JsonPropertyName("pictures")]
+        [JsonProperty("pictures")]
         public string Pictures { get; set; }
 
         public string[] GetPictures() => Pictures?.Split("|", StringSplitOptions.RemoveEmptyEntries);
