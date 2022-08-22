@@ -45,6 +45,11 @@ namespace TelegramBot.Handlers
         {
             if (Regex.IsMatch(callback, @"^(@lessonId:)[0-9]{1,}")) return messageCollector.EditToLesson(Convert.ToInt32(callback[10..]));
             else if (Regex.IsMatch(callback, @"^(@newsShift:)(-){0,1}[0-9]{1,}")) return messageCollector.EditToWeekNews(Convert.ToInt32(callback[11..]));
+            else if (Regex.IsMatch(callback, @"^(@getNewsForLes)[0-9]{1,}(I)[0-9]{1,}"))
+            {
+                var data = callback[14..].Split('I');
+                return messageCollector.SendNewsForLesson(Convert.ToInt32(data[0]), Convert.ToInt32(data[1]));
+            }
             return messageCollector.UnknownMessage();
         }
 

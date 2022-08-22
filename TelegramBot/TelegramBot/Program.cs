@@ -24,11 +24,7 @@ namespace TelegramBot
                 client.OnCallbackQuery += DistributionService.DistributeCallbacks;
                 client.OnCallbackQuery += LogService.LogCallbacks;
 
-                //Console.ReadLine();
-                while (true)
-                {
-                    Thread.Sleep(int.MaxValue);
-                }
+                while (true) Thread.Sleep(int.MaxValue);
             }
             catch (Exception ex)
             {
