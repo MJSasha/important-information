@@ -22,7 +22,6 @@ namespace TelegramBot.Services
             this.chatId = chatId;
         }
 
-        [Obsolete]
         public static async Task SendMessage(string message, List<long> chatIds)
         {
             foreach (var chatId in chatIds)
@@ -38,7 +37,6 @@ namespace TelegramBot.Services
             }
         }
 
-        [Obsolete]
         public static async Task SendNews(News news, List<long> chatIds, IReplyMarkup buttons = null)
         {
             foreach (var chatId in chatIds)
@@ -75,7 +73,6 @@ namespace TelegramBot.Services
             catch { /*ignore*/}
         }
 
-        [Obsolete]
         public async Task SendMessage(string message, IReplyMarkup buttons = null)
         {
             try
@@ -88,7 +85,6 @@ namespace TelegramBot.Services
             }
         }
 
-        [Obsolete]
         public async Task EditMessage(string message, int messageId, IReplyMarkup buttons = null)
         {
             try

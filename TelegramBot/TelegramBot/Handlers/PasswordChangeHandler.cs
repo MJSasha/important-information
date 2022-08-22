@@ -18,14 +18,12 @@ namespace TelegramBot.Handlers
             this.chatId = chatId;
         }
 
-        [Obsolete]
         public override async Task ProcessMessage(Message newPassword)
         {
             this.newPassword = newPassword.Text;
             await base.ProcessMessage(newPassword);
         }
 
-        [Obsolete]
         protected override void RegistrateProcessing()
         {
             AddProcessing("Придумайте новый пароль", CompleteChange);

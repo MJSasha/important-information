@@ -9,7 +9,6 @@ namespace TelegramBot.Handlers
 {
     public class MainHandler
     {
-        [Obsolete]
         public static async Task OnCallback(object sender, CallbackQueryEventArgs queryEventArgs)
         {
             MessageCollector message = new(queryEventArgs.CallbackQuery.Message.Chat.Id, queryEventArgs.CallbackQuery.Message.MessageId);
@@ -27,7 +26,6 @@ namespace TelegramBot.Handlers
             await response;
         }
 
-        [Obsolete]
         public static async Task OnMessage(object sender, MessageEventArgs eventArgs)
         {
             MessageCollector message = new(eventArgs.Message.Chat.Id, eventArgs.Message.MessageId);
@@ -50,7 +48,6 @@ namespace TelegramBot.Handlers
             return messageCollector.UnknownMessage();
         }
 
-        [Obsolete]
         private static Task ProcessSpecialMessage(string callback, MessageCollector messageCollector)
         {
             if (Regex.IsMatch(callback, @"^(/news)[0-9]{1,}(I)[0-9]{1,}"))
