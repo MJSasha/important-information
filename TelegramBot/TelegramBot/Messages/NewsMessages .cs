@@ -10,7 +10,6 @@ namespace TelegramBot.Messages
 {
     public class NewsMessages
     {
-        [Obsolete]
         public static async void StartMailing()
         {
             while (true)
@@ -20,7 +19,6 @@ namespace TelegramBot.Messages
             }
         }
 
-        [Obsolete]
         private static async Task SendNews()
         {
             try
@@ -35,7 +33,7 @@ namespace TelegramBot.Messages
 
                     foreach (var news in unsentNews)
                     {
-                        await BotService.SendMessage(news.Message, users.Select(u => u.ChatId).ToList());
+                        await BotService.SendNews(news, users.Select(u => u.ChatId).ToList());
                         news.NeedToSend = false;
                         await newsService.Update(news.Id, news);
                     }

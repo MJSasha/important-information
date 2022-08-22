@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface NewsRepository extends CrudRepository<News, Integer> {
+    News findByLessonId(Integer lessonId);
 }

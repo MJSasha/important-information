@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot;
@@ -8,6 +7,7 @@ using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBot.Data.CustomExceptions;
 using TelegramBot.Data.Models;
 using TelegramBot.Interfaces;
+using TelegramBot.Utils;
 
 namespace TelegramBot.Services
 {
@@ -21,38 +21,25 @@ namespace TelegramBot.Services
             this.chatId = chatId;
         }
 
-        [Obsolete]
-        public static async Task SendMessage(string message, List<long> chatIds)
+        public static async Task SendNews(News news, List<long> chatIds, IReplyMarkup buttons = null)
         {
             foreach (var chatId in chatIds)
             {
                 try
                 {
-                    await client.SendTextMessageAsync(chatId, message);
-                }
-                catch (Telegram.Bot.Exceptions.ChatNotFoundException)
-                {
-                    throw new ChatNotFoundException(message, chatId);
-                }
-            }
-        }
-
-        [Obsolete]
-        public static async Task SendNews(News news, List<long> chatIds)
-        {
-            foreach (var chatId in chatIds)
-            {
-                try
-                {
-                    if (!string.IsNullOrWhiteSpace(news.Pictures))
+                    try
                     {
-                        string[] media;
-                        media = news.GetPictures();
-                        List<InputMediaPhoto> albumInputMedias = news.GetPictures().Select(p => new InputMediaPhoto(p)).ToList();
-                        await client.SendMediaGroupAsync(chatId, albumInputMedias);
+                        if (!string.IsNullOrWhiteSpace(news.Pictures))
+                        {
+                            string[] media;
+                            media = news.GetPictures();
+                            List<InputMediaPhoto> albumInputMedias = news.GetPictures().Select(p => new InputMediaPhoto(p)).ToList();
+                            await client.SendMediaGroupAsync(chatId, albumInputMedias);
+                        }
                     }
+                    catch { /*ignore invalid pictures*/}
 
-                    if (!string.IsNullOrWhiteSpace(news.Message)) await client.SendTextMessageAsync(chatId, news.Message);
+                    if (!string.IsNullOrWhiteSpace(news.Message)) await client.SendTextMessageAsync(chatId, news.GetNewsCard(), replyMarkup: buttons);
                 }
                 catch (Telegram.Bot.Exceptions.ChatNotFoundException)
                 {
@@ -61,7 +48,15 @@ namespace TelegramBot.Services
             }
         }
 
-        [Obsolete]
+        public async Task DeleteMessage(int messageId)
+        {
+            try
+            {
+                await client.DeleteMessageAsync(chatId, messageId);
+            }
+            catch { /*ignore*/}
+        }
+
         public async Task SendMessage(string message, IReplyMarkup buttons = null)
         {
             try
@@ -74,7 +69,6 @@ namespace TelegramBot.Services
             }
         }
 
-        [Obsolete]
         public async Task EditMessage(string message, int messageId, IReplyMarkup buttons = null)
         {
             try

@@ -9,7 +9,6 @@ namespace TelegramBot.Handlers
 {
     public class MainHandler
     {
-        [Obsolete]
         public static async Task OnCallback(object sender, CallbackQueryEventArgs queryEventArgs)
         {
             MessageCollector message = new(queryEventArgs.CallbackQuery.Message.Chat.Id, queryEventArgs.CallbackQuery.Message.MessageId);
@@ -27,7 +26,6 @@ namespace TelegramBot.Handlers
             await response;
         }
 
-        [Obsolete]
         public static async Task OnMessage(object sender, MessageEventArgs eventArgs)
         {
             MessageCollector message = new(eventArgs.Message.Chat.Id, eventArgs.Message.MessageId);
@@ -37,17 +35,34 @@ namespace TelegramBot.Handlers
                 "/start" => message.SendStartMenu(),
                 "/reg" => Task.Run(() => DistributionService.BusyUsersIdAndService.Add(eventArgs.Message.Chat.Id, new RegistrationHandler(eventArgs.Message.Chat.Id))),
                 "/passChange" => Task.Run(() => DistributionService.BusyUsersIdAndService.Add(eventArgs.Message.Chat.Id, new PasswordChangeHandler(eventArgs.Message.Chat.Id))),
-                _ => message.UnknownMessage()
+                _ => ProcessSpecialMessage(eventArgs.Message.Text, message)
             };
 
             await response;
         }
 
-        private static Task ProcessSpecialCallback(string callback, MessageCollector message)
+        private static Task ProcessSpecialCallback(string callback, MessageCollector messageCollector)
         {
-            if (Regex.IsMatch(callback, @"^(@lessonId:)[0-9]{1,}")) return message.EditToLesson(Convert.ToInt32(callback[10..]));
-            else if (Regex.IsMatch(callback, @"^(@newsShift:)(-){0,1}[0-9]{1,}")) return message.EditToWeekNews(Convert.ToInt32(callback[11..]));
-            return message.UnknownMessage();
+            if (string.IsNullOrWhiteSpace(callback)) return messageCollector.UnknownMessage();
+            if (Regex.IsMatch(callback, @"^(@lessonId:)[0-9]{1,}")) return messageCollector.EditToLesson(Convert.ToInt32(callback[10..]));
+            else if (Regex.IsMatch(callback, @"^(@newsShift:)(-){0,1}[0-9]{1,}")) return messageCollector.EditToWeekNews(Convert.ToInt32(callback[11..]));
+            else if (Regex.IsMatch(callback, @"^(@getNewsForLes)[0-9]{1,}(I)[0-9]{1,}"))
+            {
+                var data = callback[14..].Split('I');
+                return messageCollector.SendNewsForLesson(Convert.ToInt32(data[0]), Convert.ToInt32(data[1]));
+            }
+            return messageCollector.UnknownMessage();
+        }
+
+        private static Task ProcessSpecialMessage(string message, MessageCollector messageCollector)
+        {
+            if (string.IsNullOrWhiteSpace(message)) return messageCollector.UnknownMessage();
+            if (Regex.IsMatch(message, @"^(/news)[0-9]{1,}(I)[0-9]{1,}"))
+            {
+                var data = message[5..].Split('I');
+                return messageCollector.SendDetailedNews(Convert.ToInt32(data[0]), Convert.ToInt32(data[1]));
+            }
+            return messageCollector.UnknownMessage();
         }
     }
 }

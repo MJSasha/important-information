@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
@@ -22,7 +21,6 @@ namespace TelegramBot.Handlers
             this.chatId = chatId;
         }
 
-        [Obsolete]
         public override async Task ProcessMessage(Message sendingMessage)
         {
             messageText ??= sendingMessage.Caption ?? sendingMessage.Text;
@@ -36,13 +34,11 @@ namespace TelegramBot.Handlers
             }
         }
 
-        [Obsolete]
         protected override void RegistrateProcessing()
         {
             AddProcessing("Напишите сообщение которое хотите отправить (ВНИМАНИЕ: не больше 10 картинок", null);
         }
 
-        [Obsolete]
         private async Task SendAll()
         {
             var newsService = new NewsService();

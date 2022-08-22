@@ -20,7 +20,6 @@ namespace TelegramBot.Messages
         private readonly int messageId;
         private readonly long chatId;
 
-        [Obsolete]
         public MessageCollector(long chatId, int messageId)
         {
             bot = new BotService(chatId);
@@ -28,6 +27,7 @@ namespace TelegramBot.Messages
             this.chatId = chatId;
         }
 
+        #region Menus
         public async Task SendStartMenu()
         {
             ButtonsGenerator buttonsGenerator = new();
@@ -71,30 +71,6 @@ namespace TelegramBot.Messages
             await bot.EditMessage(Texts.AboutUs, messageId, buttonsGenerator.GetButtons());
         }
 
-        public async Task EditToWeekNews(int newsShift = 0)
-        {
-            DateTime weekStartDate = DateTime.Now.AddDays(-(DateTime.Now.DayOfWeek - DayOfWeek.Monday)).AddDays(7 * newsShift);
-            DateTime weekEndDate = weekStartDate.AddDays(6);
-
-            var allNewsInSelectedWeek = await GetWeekNews(weekStartDate);
-            ButtonsGenerator buttonsGenerator = new();
-
-
-            if (weekEndDate < DateTime.Now && await CheckAnyNewsBefore(weekEndDate))
-            {
-                buttonsGenerator.SetInlineButtons(new List<(string, string)> { ("⬅ Предыдущая", $"newsShift:{newsShift - 1}"), ("Следующая ➡", $"newsShift:{newsShift + 1}") });
-            }
-            else
-            {
-                if (weekEndDate < DateTime.Now) buttonsGenerator.SetInlineButton(("Следующая ➡", $"newsShift:{newsShift + 1}"));
-                else if (await CheckAnyNewsBefore(weekEndDate)) buttonsGenerator.SetInlineButton(("⬅ Предыдущая", $"newsShift:{newsShift - 1}"));
-            }
-            buttonsGenerator.SetGoBackButton();
-
-            await SendNews(allNewsInSelectedWeek, buttonsGenerator.GetButtons(), $"Новости, созданные в промежуток С {weekStartDate:dd-MM-yyyy} ДО {weekEndDate:dd-MM-yyyy}\n" +
-                    $"Для перехода к другой неделе нажмите на кнопку");
-        }
-
         public async Task EditToLessonsMenu()
         {
             LessonsService lessonsService = new();
@@ -122,9 +98,36 @@ namespace TelegramBot.Messages
             await bot.EditMessage("Для просмотра детальной информации по предмету, нажмите на кнопку", messageId, buttonsGenerator.GetButtons());
         }
 
+        public async Task EditToWeekNews(int newsShift = 0)
+        {
+            DateTime weekStartDate = DateTime.Now.AddDays(-(DateTime.Now.DayOfWeek - DayOfWeek.Monday)).AddDays(7 * newsShift);
+            DateTime weekEndDate = weekStartDate.AddDays(6);
+
+            var allNewsInSelectedWeek = await GetWeekNews(weekStartDate);
+            ButtonsGenerator buttonsGenerator = new();
+
+
+            if (weekEndDate < DateTime.Now && await CheckAnyNewsBefore(weekEndDate))
+            {
+                buttonsGenerator.SetInlineButtons(new List<(string, string)> { ("⬅ Предыдущая", $"newsShift:{newsShift - 1}"), ("Следующая ➡", $"newsShift:{newsShift + 1}") });
+            }
+            else
+            {
+                if (weekEndDate < DateTime.Now) buttonsGenerator.SetInlineButton(("Следующая ➡", $"newsShift:{newsShift + 1}"));
+                else if (await CheckAnyNewsBefore(weekEndDate)) buttonsGenerator.SetInlineButton(("⬅ Предыдущая", $"newsShift:{newsShift - 1}"));
+            }
+            buttonsGenerator.SetGoBackButton();
+
+            await SendNews(allNewsInSelectedWeek, buttonsGenerator.GetButtons(), $"Новости, созданные в промежуток С {weekStartDate:dd-MM-yyyy} ДО {weekEndDate:dd-MM-yyyy}\n" +
+                    $"Для перехода к другой неделе нажмите на кнопку");
+        }
+        #endregion
+
+
         public async Task EditToLesson(int lessonId)
         {
             ButtonsGenerator buttonsGenerator = new();
+            buttonsGenerator.SetInlineButton(("Новости по предмету", $"getNewsForLes{lessonId}I{messageId}"));
             buttonsGenerator.SetGoBackButton("Предметы");
 
             LessonsService lessonsService = new();
@@ -136,9 +139,31 @@ namespace TelegramBot.Messages
                 $"information: {lesson.Information}", messageId, buttonsGenerator.GetButtons());
         }
 
-        public async Task EditToText(string text)
+        public async Task SendNewsForLesson(int lessonId, int previewMessageId)
         {
-            await bot.EditMessage(text, messageId);
+            await bot.DeleteMessage(messageId);
+            await bot.DeleteMessage(previewMessageId);
+
+            NewsService newsService = new();
+            var news = await newsService.GetByLessonId(lessonId);
+
+            ButtonsGenerator buttonsGenerator = new();
+            buttonsGenerator.SetGoBackButton($"lessonId:{lessonId}");
+
+            await BotService.SendNews(news, new List<long> { chatId }, buttonsGenerator.GetButtons());
+        }
+
+        public async Task SendDetailedNews(int newsId, int previewMessageId)
+        {
+            await bot.DeleteMessage(messageId);
+            await bot.DeleteMessage(previewMessageId);
+
+            NewsService newsService = new();
+            var news = await newsService.Get(newsId);
+            ButtonsGenerator buttonsGenerator = new();
+            buttonsGenerator.SetGoBackButton("Новости");
+
+            await BotService.SendNews(news, new List<long> { chatId }, buttonsGenerator.GetButtons());
         }
 
         public async Task UnknownMessage()
@@ -146,15 +171,16 @@ namespace TelegramBot.Messages
             await bot.SendMessage("Пока я не понимаю данное сообщение, но скоро научусь");
         }
 
+        #region Utils
         private async Task SendNews(IOrderedEnumerable<News> news, IReplyMarkup buttons = null, string caption = null)
         {
             string outputString = "";
 
             foreach (var oneNews in news)
             {
-                outputString += $"date time: {oneNews.DateTimeOfCreate}\n" +
-                    $"text: {oneNews.Message}\n" +
-                    $"pictures: {oneNews.Pictures}\n\n";
+                outputString += oneNews.GetNewsCard();
+
+                outputString += string.IsNullOrWhiteSpace(oneNews.Pictures) ? "\n" : $"Новость с картинками. Для просмотра картинок нажмите /news{oneNews.Id}I{messageId}\n\n";
             }
 
             await bot.EditMessage(outputString + caption, messageId, buttons);
@@ -175,5 +201,6 @@ namespace TelegramBot.Messages
             var newsBefore = await newsService.Get(new StartEndTime { End = date });
             return newsBefore.Any();
         }
+        #endregion
     }
 }

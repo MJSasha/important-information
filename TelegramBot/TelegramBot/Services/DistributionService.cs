@@ -10,7 +10,6 @@ namespace TelegramBot.Services
     {
         public static Dictionary<long, BaseSpecialHandler> BusyUsersIdAndService { get; set; } = new();
 
-        [Obsolete]
         public static async void DistributeMessages(object sender, MessageEventArgs eventArgs)
         {
             var chatId = eventArgs.Message.Chat.Id;
@@ -20,7 +19,6 @@ namespace TelegramBot.Services
             if (BusyUsersIdAndService.Keys.Contains(chatId)) await BusyUsersIdAndService[chatId].ProcessMessage(eventArgs.Message);
         }
 
-        [Obsolete]
         public static async void DistributeCallbacks(object sender, CallbackQueryEventArgs queryEventArgs)
         {
             var chatId = queryEventArgs.CallbackQuery.Message.Chat.Id;

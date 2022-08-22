@@ -30,13 +30,11 @@ namespace TelegramBot.Services
             LogError($"Server not found (404). {actionName} - Not completed");
         }
 
-        [Obsolete]
         public static void LogMessages(object sender, MessageEventArgs e)
         {
             LogInfo($"ChatId: {e.Message.Chat.Id} | Message: {e.Message.Text}");
         }
 
-        [Obsolete]
         public static void LogCallbacks(object sender, CallbackQueryEventArgs e)
         {
             LogInfo($"ChatId: {e.CallbackQuery.Message.Chat.Id} | Callback: {e.CallbackQuery.Data}");

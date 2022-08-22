@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
@@ -21,11 +22,17 @@ namespace TelegramBot.Services.ApiServices
             return await Deserialize<List<News>>(httpResponse);
         }
 
+        public async Task<News> GetByLessonId(int lessonId)
+        {
+            HttpResponseMessage httpResponse = await httpClient.GetAsync($"{Root}/byLessonId/{lessonId}");
+            return await Deserialize<News>(httpResponse);
+        }
+
         public async Task<List<News>> Get(StartEndTime startEndTime)
         {
             HttpRequestMessage httpRequest = new HttpRequestMessage
             {
-                Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(startEndTime), Encoding.UTF8, "application/json"),
+                Content = new StringContent(JsonConvert.SerializeObject(startEndTime), Encoding.UTF8, "application/json"),
                 Method = HttpMethod.Get,
                 RequestUri = new Uri(Root.ToString() + "/byDates")
             };
