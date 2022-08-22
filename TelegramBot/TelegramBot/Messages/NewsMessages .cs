@@ -10,7 +10,6 @@ namespace TelegramBot.Messages
 {
     public class NewsMessages
     {
-        [Obsolete]
         public static async void StartMailing()
         {
             while (true)
@@ -20,7 +19,6 @@ namespace TelegramBot.Messages
             }
         }
 
-        [Obsolete]
         private static async Task SendNews()
         {
             try

@@ -8,8 +8,7 @@ namespace TelegramBot
 {
     internal class Program
     {
-        [Obsolete]
-        static async Task Main(string[] args)
+        static void Main(string[] args)
         {
             try
             {

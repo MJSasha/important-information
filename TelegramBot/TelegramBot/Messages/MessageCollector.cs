@@ -19,7 +19,6 @@ namespace TelegramBot.Messages
         private readonly int messageId;
         private readonly long chatId;
 
-        [Obsolete]
         public MessageCollector(long chatId, int messageId)
         {
             bot = new BotService(chatId);
@@ -134,7 +133,6 @@ namespace TelegramBot.Messages
             await bot.EditMessage(lesson.GetLessonCard(), messageId, buttonsGenerator.GetButtons());
         }
 
-        [Obsolete]
         public async Task SendDetailedNews(int newsId, int previewMessageId)
         {
             await bot.DeleteMessage(messageId);
