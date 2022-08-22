@@ -35,9 +35,9 @@ VALUES (1, 1),
        (3, 6);
 
 INSERT INTO news (id, date_time_of_create, message, need_to_send, pictures, lesson_id)
-VALUES (1, NOW(), 'Is sent message (1)', 0, 'test|', NULL),
-       (2, DATE_SUB(NOW(), INTERVAL 1 DAY), 'Not sent message (2)', 1, 'test|test|', 1),
-       (3, DATE_SUB(NOW(), INTERVAL 2 DAY), 'Is sent message (3)', 0, 'test|test|test|', NULL),
+VALUES (1, NOW(), 'Is sent message (1)', 0, '	AgACAgIAAxkBAAIlkWMDoQHfUcJ3etHjknt9gVJbhbfiAALwwDEbaqYZSPDIOrUM_D0GAQADAgADeQADKQQ|', NULL),
+       (2, DATE_SUB(NOW(), INTERVAL 1 DAY), 'Not sent message (2)', 1, 'AgACAgIAAxkBAAIllmMDoRUJrB3uJhwyr_iyHl3uvCK0AALwwDEbaqYZSPDIOrUM_D0GAQADAgADeQADKQQ|', 1),
+       (3, DATE_SUB(NOW(), INTERVAL 2 DAY), 'Is sent message (3)', 0, 'AgACAgIAAxkBAAIlnGMDoRqziSxhmzz2m1UtqjCUar_cAALwwDEbaqYZSPDIOrUM_D0GAQADAgADeQADKQQ|', NULL),
        (4, DATE_SUB(NOW(), INTERVAL 3 DAY), 'Not sent message (4)', 1, '', 2),
        (5, DATE_SUB(NOW(), INTERVAL 4 DAY), 'Is sent message (5)', 0, '', NULL),
        (6, DATE_SUB(NOW(), INTERVAL 5 DAY), 'Not sent message (6)', 1, '', 3),
@@ -61,7 +61,7 @@ INSERT INTO passwords (id, value)
 VALUES (1, 'admin');
 
 INSERT INTO users (id, chat_id, login, name, role, token, password_id)
-VALUES (1, 1234567, 'admin', 'admin', 1, '', 1);
+VALUES (1, 987821012, 'admin', 'admin', 1, '', 1);
 
 INSERT INTO note (id, description, day_id, user_id)
 VALUES (1, 'Admin note', 1, 1);
