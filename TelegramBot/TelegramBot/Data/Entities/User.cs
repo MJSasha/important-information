@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using TelegramBot.Data.Definitions;
 using TelegramBot.Data.Entities;
 
@@ -7,28 +7,28 @@ namespace TelegramBot.Data.Models
 {
     public class User
     {
-        [JsonPropertyName("id")]
+        [JsonProperty("id")]
         public int Id { get; set; }
 
-        [JsonPropertyName("name")]
+        [JsonProperty("name")]
         public string Name { get; set; }
 
-        [JsonPropertyName("login")]
+        [JsonProperty("login")]
         public string Login { get; set; }
 
-        [JsonPropertyName("password")]
+        [JsonProperty("password")]
         public Password Password { get; set; }
 
-        [JsonPropertyName("token")]
+        [JsonProperty("token")]
         public string Token { get; set; }
 
-        [JsonPropertyName("chatId")]
+        [JsonProperty("chatId")]
         public long ChatId { get; set; }
 
-        [JsonPropertyName("role")]
+        [JsonProperty("role")]
         public Role Role { get; set; }
 
-        [JsonPropertyName("notes")]
+        [JsonProperty("notes")]
         public List<Note> Notes { get; set; }
     }
 }

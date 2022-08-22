@@ -1,12 +1,12 @@
-﻿using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace TelegramBot.Data.Entities
 {
     public class Password
     {
-        [JsonPropertyName("id")]
+        [JsonProperty("id")]
         public int Id { get; set; }
-        [JsonPropertyName("value")]
+        [JsonProperty("value")]
         public string Value { get; set; }
     }
 }

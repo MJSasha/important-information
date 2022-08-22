@@ -1,14 +1,14 @@
-﻿using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace TelegramBot.Data.ViewModels
 {
     public class RegistrationModel
     {
-        [JsonPropertyName("name")]
+        [JsonProperty("name")]
         public string Name { get; set; }
-        [JsonPropertyName("login")]
+        [JsonProperty("login")]
         public string Login { get; set; }
-        [JsonPropertyName("password")]
+        [JsonProperty("password")]
         public string Password { get; set; }
     }
 }

@@ -69,7 +69,7 @@ namespace TelegramBot.Messages
             buttonsGenerator.SetGoBackButton();
 
             await bot.EditMessage(Texts.AboutUs, messageId, buttonsGenerator.GetButtons());
-        } 
+        }
 
         public async Task EditToLessonsMenu()
         {
@@ -200,7 +200,7 @@ namespace TelegramBot.Messages
             NewsService newsService = new();
             var newsBefore = await newsService.Get(new StartEndTime { End = date });
             return newsBefore.Any();
-        } 
+        }
         #endregion
     }
 }
