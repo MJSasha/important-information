@@ -25,9 +25,8 @@ namespace TelegramBot.Utils
                  $"{day.Information}\n\n" +
                  $"🕑 Расписание занятий:\n{schedule}";
         }
-        public static string GetNews(this News oneNews) => 
-            oneNews.Message != null ? $"🕓{oneNews.DateTimeOfCreate}\n\n‼{oneNews.Message}\n" +
-            $"{oneNews.Pictures}" : $"🕓{oneNews.DateTimeOfCreate}\n {oneNews.Pictures}" ;
+        public static string GetNewsCard(this News oneNews) => 
+            oneNews.Message != null ? $"🕓{oneNews.DateTimeOfCreate}\n\n‼{oneNews.Message}" : $"🕓{oneNews.DateTimeOfCreate}" ;
         public static void SetGoBackButton(this ButtonsGenerator buttonsGenerator, string callback = "/start") => buttonsGenerator.SetInlineButtons(new List<(string, string)> { ("↪ Назад", callback) });
     }
 }
