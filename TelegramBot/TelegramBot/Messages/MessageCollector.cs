@@ -129,7 +129,7 @@ namespace TelegramBot.Messages
             LessonsService lessonsService = new();
             var lesson = await lessonsService.Get(lessonId);
 
-            await bot.EditMessage(lesson.GetLessonInfo(), messageId, buttonsGenerator.GetButtons());
+            await bot.EditMessage(lesson.GetLessonCard(), messageId, buttonsGenerator.GetButtons());
         }
 
         public async Task EditToText(string text)
@@ -146,7 +146,7 @@ namespace TelegramBot.Messages
         {
             foreach (var oneNews in news)
             {
-                await bot.SendMessage(oneNews.GetNewsInfo());
+                await bot.SendMessage(oneNews.GetNews());
             }
         }
         private async Task<IOrderedEnumerable<News>> GetWeekNews(DateTime weekStartDate)
