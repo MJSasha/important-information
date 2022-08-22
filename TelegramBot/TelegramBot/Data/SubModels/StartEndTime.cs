@@ -1,16 +1,16 @@
-﻿using System;
-using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
+using System;
 using TelegramBot.Utils;
 
 namespace TelegramBot.Data.ViewModels
 {
     public class StartEndTime
     {
-        [JsonPropertyName("start")]
+        [JsonProperty("start")]
         [Newtonsoft.Json.JsonConverter(typeof(CustomDateTimeConverter), "yyyy-MM-dd")]
         public DateTime Start { get; set; }
 
-        [JsonPropertyName("end")]
+        [JsonProperty("end")]
         [Newtonsoft.Json.JsonConverter(typeof(CustomDateTimeConverter), "yyyy-MM-dd")]
         public DateTime End { get; set; }
     }

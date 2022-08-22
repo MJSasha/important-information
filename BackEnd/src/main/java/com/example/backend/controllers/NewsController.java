@@ -24,9 +24,16 @@ public class NewsController extends BaseController<News, Integer> {
 
     @Override
     @PatchMapping("/{id}")
-    public ResponseEntity<String> update(News news, @PathVariable Integer id) {
+    public ResponseEntity<String> update(@RequestBody News news, @PathVariable Integer id) {
         news.setId(id);
         return super.update(news, id);
+    }
+
+    @GetMapping("/byLessonId/{lessonId}")
+    public ResponseEntity<News> readBeLessonId(@PathVariable Integer lessonId){
+        var news = newsService.readByLessonId(lessonId);
+        if (news == null) return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(news);
     }
 
     @GetMapping("/byDates")

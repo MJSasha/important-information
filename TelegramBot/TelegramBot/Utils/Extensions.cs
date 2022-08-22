@@ -13,7 +13,8 @@ namespace TelegramBot.Utils
         public static string GetLessonCard(this Lesson lesson)
         {
             var card = $"📚 {lesson.Name}\nПреподователь: {lesson.Teacher}\n";
-            return card + lesson.Information != null ? "" : $"Информация: {lesson.Information}";
+            card += lesson.Information == null ? "" : $"Информация: {lesson.Information}";
+            return card;
         }
 
         public static string GetDayCard(this Day day)
@@ -31,7 +32,8 @@ namespace TelegramBot.Utils
         public static string GetNewsCard(this News oneNews)
         {
             var card = $"🕓{oneNews.DateTimeOfCreate}\n";
-            return card + oneNews.Message != null ? "" : $"‼️ {oneNews.Message}";
+            card += oneNews.Message == null ? "" : $"‼️ {oneNews.Message}";
+            return card;
         }
 
         public static void SetGoBackButton(this ButtonsGenerator buttonsGenerator, string callback = "/start") => buttonsGenerator.SetInlineButtons(new List<(string, string)> { ("↪ Назад", callback) });

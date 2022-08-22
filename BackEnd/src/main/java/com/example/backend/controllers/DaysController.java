@@ -31,7 +31,7 @@ public class DaysController extends BaseController<Day, Integer> {
 
     @Override
     @PatchMapping("/{id}")
-    public ResponseEntity<String> update(Day day, Integer id) {
+    public ResponseEntity<String> update(@RequestBody Day day,@PathVariable Integer id) {
         day.setId(id);
         return super.update(day, id);
     }

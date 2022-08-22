@@ -1,19 +1,19 @@
-﻿using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace TelegramBot.Data.Models
 {
     public class Note
     {
-        [JsonPropertyName("id")]
+        [JsonProperty("id")]
         public int Id { get; set; }
 
-        [JsonPropertyName("description")]
+        [JsonProperty("description")]
         public string Description { get; set; }
 
-        [JsonPropertyName("day")]
+        [JsonProperty("day")]
         public Day Day { get; set; }
 
-        [JsonPropertyName("user")]
+        [JsonProperty("user")]
         public User User { get; set; }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
 using TelegramBot.Data;
@@ -21,14 +20,12 @@ namespace TelegramBot.Handlers
             this.chatId = chatId;
         }
 
-        [Obsolete]
         public override async Task ProcessMessage(Message registrationMassage)
         {
             this.registrationMassage = registrationMassage.Text;
             await base.ProcessMessage(registrationMassage);
         }
 
-        [Obsolete]
         protected override void RegistrateProcessing()
         {
             AddProcessing("Введите ваше имя и фамилию", () => registrationModel.Name = registrationMassage);

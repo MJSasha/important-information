@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
 using TelegramBot.Data;
@@ -18,14 +17,12 @@ namespace TelegramBot.Handlers
             this.chatId = chatId;
         }
 
-        [Obsolete]
         public override async Task ProcessMessage(Message newPassword)
         {
             this.newPassword = newPassword.Text;
             await base.ProcessMessage(newPassword);
         }
 
-        [Obsolete]
         protected override void RegistrateProcessing()
         {
             AddProcessing("Придумайте новый пароль", CompleteChange);
