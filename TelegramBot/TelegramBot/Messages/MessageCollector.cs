@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBot.Data;
 using TelegramBot.Data.Definitions;
 using TelegramBot.Data.Models;
@@ -68,7 +69,7 @@ namespace TelegramBot.Messages
             buttonsGenerator.SetGoBackButton();
 
             await bot.EditMessage(Texts.AboutUs, messageId, buttonsGenerator.GetButtons());
-        } 
+        }
 
         public async Task SendWeekNews(int newsShift = 0)
         {
@@ -207,10 +208,14 @@ namespace TelegramBot.Messages
 
         private async Task SendNews(IOrderedEnumerable<News> news)
         {
+            string outputString = "";
+
             foreach (var oneNews in news)
             {
                 await bot.SendMessage(oneNews.GetNewsCard());
             }
+
+            await bot.EditMessage(outputString + caption, messageId, buttons);
         }
         private async Task<IOrderedEnumerable<News>> GetWeekNews(DateTime weekStartDate)
         {
@@ -227,7 +232,7 @@ namespace TelegramBot.Messages
             NewsService newsService = new();
             var newsBefore = await newsService.Get(new StartEndTime { End = date });
             return newsBefore.Any();
-        } 
+        }
         #endregion
     }
 }
