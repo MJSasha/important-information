@@ -40,7 +40,7 @@ namespace TelegramBot.Messages
 
             var usersService = new UsersService();
             var currentUser = await usersService.GetByChatId(chatId);
-            if (currentUser?.Role == Role.ADMIN) buttonsGenerator.SetInlineButtons(new List<string>() { "Отправить всем" });
+            if (currentUser?.Role == Role.ADMIN) buttonsGenerator.SetInlineButtons(new List<string>() { "Панель администратора" });
 
             await bot.SendMessage(Texts.StartMenu, buttonsGenerator.GetButtons());
         }
@@ -57,11 +57,22 @@ namespace TelegramBot.Messages
 
             var usersService = new UsersService();
             var currentUser = await usersService.GetByChatId(chatId);
-            if (currentUser?.Role == Role.ADMIN) buttonsGenerator.SetInlineButtons(new List<string>() { "Отправить всем" });
+            if (currentUser?.Role == Role.ADMIN) buttonsGenerator.SetInlineButtons(new List<string>() { "Панель администратора" });
 
             await bot.EditMessage(Texts.StartMenu, messageId, buttonsGenerator.GetButtons());
         }
+        public async Task EditToAdminPanel()
+        {
+            ButtonsGenerator buttonsGenerator = new();
+            buttonsGenerator.SetInlineButtons(new List<List<string>>()
+            {
+                new List<string>{ "Создать рассылку" },
+            });
 
+            buttonsGenerator.SetGoBackButton();
+
+            await bot.EditMessage(Texts.AdminPanel, messageId, buttonsGenerator.GetButtons());
+        }
         public async Task EditToAboutUsMenu()
         {
             ButtonsGenerator buttonsGenerator = new();
