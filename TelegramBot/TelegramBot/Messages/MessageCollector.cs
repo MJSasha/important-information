@@ -36,6 +36,7 @@ namespace TelegramBot.Messages
                 new List<string>{ "Предметы" },
                 new List<string>{ "Новости" },
                 new List<string>{ "О нас" },
+                new List<string>{ "Календарь" },
             });
 
             var usersService = new UsersService();
@@ -53,6 +54,7 @@ namespace TelegramBot.Messages
                 new List<string>{ "Предметы" },
                 new List<string>{ "Новости" },
                 new List<string>{ "О нас" },
+                new List<string>{ "Календарь" },
             });
 
             var usersService = new UsersService();
@@ -98,6 +100,47 @@ namespace TelegramBot.Messages
             await bot.EditMessage("Для просмотра детальной информации по предмету, нажмите на кнопку", messageId, buttonsGenerator.GetButtons());
         }
 
+        public async Task EditToDateMenu()
+        {
+
+            ButtonsGenerator buttonsGenerator = new();
+            DaysServices daysServices = new();
+            var days = await daysServices.Get();
+
+            var year = DateTime.Now.Year;
+            var month = DateTime.Now.Month;
+            var startDay = new DateTime(year, month, 1);
+            var endDay = startDay.AddMonths(1);
+            int k = 0;
+            for (var date = startDay; date.Month != endDay.Month; date = date.AddDays(7))
+            {
+
+                if (date.Day == 29)
+                {
+                    for (var endMounth = date; endMounth.Month != endDay.Month; endMounth = endMounth.AddDays(1))
+                    {
+                        k++;
+                    }
+
+                    if (k == 1) buttonsGenerator.SetInlineButtons(new List<string> { $"{date.Day}" });
+                    if (k == 2) buttonsGenerator.SetInlineButtons(new List<string> { $"{date.Day}", $"{date.Day + 1}" });
+                    if (k == 3) buttonsGenerator.SetInlineButtons(new List<string> { $"{date.Day}", $"{date.Day + 1}", $"{date.Day + 2}" });
+                }
+                else
+                {
+                    buttonsGenerator.SetInlineButtons(new List<string>
+                    {
+                        $"{date.Day}", $"{date.Day + 1}" , $"{date.Day + 2}" , $"{date.Day + 3}" , $"{date.Day + 4}" , $"{date.Day + 5}", $"{date.Day + 6}"
+                    });
+                }
+
+            }
+
+
+            buttonsGenerator.SetGoBackButton();
+            await bot.EditMessage("Для просмотра детальной информации по дате, нажмите на кнопку", messageId, buttonsGenerator.GetButtons());
+
+        }
         public async Task EditToWeekNews(int newsShift = 0)
         {
             DateTime weekStartDate = DateTime.Now.AddDays(-(DateTime.Now.DayOfWeek - DayOfWeek.Monday)).AddDays(7 * newsShift);
