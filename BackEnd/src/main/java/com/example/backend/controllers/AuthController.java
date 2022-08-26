@@ -1,11 +1,11 @@
 package com.example.backend.controllers;
 
 import com.example.backend.configurations.ApiConfig;
+import com.example.backend.data.SubModels.AuthModel;
+import com.example.backend.data.SubModels.RegistrationModel;
 import com.example.backend.data.exceptions.NotAuthException;
 import com.example.backend.data.models.Password;
 import com.example.backend.data.models.User;
-import com.example.backend.data.viewModels.AuthModel;
-import com.example.backend.data.viewModels.RegistrationModel;
 import com.example.backend.services.AuthService;
 import com.example.backend.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;

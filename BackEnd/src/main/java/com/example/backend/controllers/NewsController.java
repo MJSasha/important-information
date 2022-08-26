@@ -1,8 +1,8 @@
 package com.example.backend.controllers;
 
 import com.example.backend.baseClasses.BaseController;
+import com.example.backend.data.SubModels.StartEndDate;
 import com.example.backend.data.models.News;
-import com.example.backend.data.viewModels.StartEndDate;
 import com.example.backend.services.NewsService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
