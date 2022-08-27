@@ -39,5 +39,17 @@ namespace TelegramBot.Services.ApiServices
             var httpResponse = await base.httpClient.SendAsync(httpRequest);
             return await Deserialize<List<News>>(httpResponse);
         }
+
+        public async Task<bool> CheckNewsBefore(DateTime date)
+        {
+            HttpRequestMessage httpRequest = new HttpRequestMessage
+            {
+                Content = new StringContent(JsonConvert.SerializeObject(new StartEndTime { End = date }), Encoding.UTF8, "application/json"),
+                Method = HttpMethod.Get,
+                RequestUri = new Uri(Root.ToString() + "/anyNewsBefore")
+            };
+            var httpResponse = await base.httpClient.SendAsync(httpRequest);
+            return await Deserialize<bool>(httpResponse);
+        }
     }
 }

@@ -198,8 +198,7 @@ namespace TelegramBot.Messages
         {
             date = date.AddDays(-7);
             NewsService newsService = new();
-            var newsBefore = await newsService.Get(new StartEndTime { End = date });
-            return newsBefore.Any();
+            return await newsService.CheckNewsBefore(date);
         }
         #endregion
     }

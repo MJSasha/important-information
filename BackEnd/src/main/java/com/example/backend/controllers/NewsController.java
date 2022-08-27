@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -49,5 +50,13 @@ public class NewsController extends BaseController<News, Integer> {
         var unsentNews = newsService.read().stream().filter(News::isNeedToSend).toList();
         if (unsentNews == null) return ResponseEntity.noContent().build();
         return ResponseEntity.ok(unsentNews);
+    }
+
+    @GetMapping("/anyNewsBefore")
+    public Boolean isAnyNewsBefore(@RequestBody StartEndDate startEndDate){
+        var news = newsService.read().stream().filter(d ->
+                d.getDateTimeOfCreate().before(startEndDate.getEnd())).toList();
+
+        return news.size() != 0;
     }
 }
