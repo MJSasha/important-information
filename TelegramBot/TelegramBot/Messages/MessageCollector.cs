@@ -34,9 +34,7 @@ namespace TelegramBot.Messages
             buttonsGenerator.SetInlineButtons(
                 new List<string>{ "Предметы" },
                 new List<string>{ "Новости" },
-                new List<string>{ "О нас" },
                 new List<string>{ "Календарь" },
-            });
                 new List<string>{ "О нас" });
 
             var usersService = new UsersService();
@@ -52,9 +50,7 @@ namespace TelegramBot.Messages
             buttonsGenerator.SetInlineButtons(
                 new List<string>{ "Предметы" },
                 new List<string>{ "Новости" },
-                new List<string>{ "О нас" },
                 new List<string>{ "Календарь" },
-            });
                 new List<string>{ "О нас" });
 
             var usersService = new UsersService();
@@ -110,30 +106,67 @@ namespace TelegramBot.Messages
             var year = DateTime.Now.Year;
             var month = DateTime.Now.Month;
             var startDay = new DateTime(year, month, 1);
+            startDay = startDay.AddMonths(2);
             var endDay = startDay.AddMonths(1);
+            string temp;
+            int tempi;
             int k = 0;
-            for (var date = startDay; date.Month != endDay.Month; date = date.AddDays(7))
+            string[] tempweek = { "Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб" }; //Sunday first
+            int[] keys = { 0, 1, 2, 3, 4, 5, 6 };
+            string[] tempweekeng = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
+
+            
+
+            for (int i = 0; i < tempweekeng.Length; i++)
+            {
+                if (tempweekeng[i] == startDay.DayOfWeek.ToString())
+                {
+                    for (int j = 0; j < tempweek.Length - 1; j++)
+                    {
+                        temp = tempweek[j];
+                        tempweek[j] = tempweek[i];
+                        tempweek[i] = temp;
+
+                        tempi = keys[j];
+                        keys[j] = keys[i];
+                        keys[i] = tempi;
+                        Array.Sort(keys, tempweek, j + 1, keys.Length - j - 1);
+                        if (i == tempweek.Length - 1)
+                        {
+                            Array.Sort(keys, tempweek, j + 1, keys.Length - j - 2);
+                            break;
+                        }
+                        else i++;
+                    }
+                    
+
+                    break;
+                }
+            }
+
+            while (startDay.Month != endDay.Month)
             {
 
-                if (date.Day == 29)
+
+                if (startDay.Day == 29)
                 {
-                    for (var endMounth = date; endMounth.Month != endDay.Month; endMounth = endMounth.AddDays(1))
+                    for (var endMounth = startDay; endMounth.Month != endDay.Month; endMounth = endMounth.AddDays(1))
                     {
                         k++;
                     }
 
-                    if (k == 1) buttonsGenerator.SetInlineButtons(new List<string> { $"{date.Day}" });
-                    if (k == 2) buttonsGenerator.SetInlineButtons(new List<string> { $"{date.Day}", $"{date.Day + 1}" });
-                    if (k == 3) buttonsGenerator.SetInlineButtons(new List<string> { $"{date.Day}", $"{date.Day + 1}", $"{date.Day + 2}" });
+                    if (k == 1) buttonsGenerator.SetInlineButtons(new List<(string, string)> { ($"{tempweek[0]}{startDay.Day}", days[0].GetDayCard()) });
+                    if (k == 2) buttonsGenerator.SetInlineButtons(new List<string> { $"{tempweek[0]}{startDay.Day}", $"{tempweek[1]}{startDay.Day + 1}" });
+                    if (k == 3) buttonsGenerator.SetInlineButtons(new List<string> { $"{tempweek[0]}{startDay.Day}", $"{tempweek[1]}{startDay.Day + 1}", $"{tempweek[2]}{startDay.Day + 2}" });
                 }
                 else
                 {
                     buttonsGenerator.SetInlineButtons(new List<string>
                     {
-                        $"{date.Day}", $"{date.Day + 1}" , $"{date.Day + 2}" , $"{date.Day + 3}" , $"{date.Day + 4}" , $"{date.Day + 5}", $"{date.Day + 6}"
+                        $"{tempweek[0]}{startDay.Day}", $"{tempweek[1]}{startDay.Day + 1}" , $"{tempweek[2]}{startDay.Day + 2}" , $"{tempweek[3]}{startDay.Day + 3}" , $"{tempweek[4]}{startDay.Day + 4}" , $"{tempweek[5]}{startDay.Day + 5}", $"{tempweek[6]}{startDay.Day + 6}"
                     });
                 }
-
+                startDay = startDay.AddDays(7);
             }
 
 
