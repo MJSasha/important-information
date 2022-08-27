@@ -32,10 +32,10 @@ namespace TelegramBot.Messages
         {
             ButtonsGenerator buttonsGenerator = new();
             buttonsGenerator.SetInlineButtons(
-                new List<string>{ "Предметы" },
-                new List<string>{ "Новости" },
-                new List<string>{ "Календарь" },
-                new List<string>{ "О нас" });
+                new List<string> { "Предметы" },
+                new List<string> { "Новости" },
+                new List<string> { "Календарь" },
+                new List<string> { "О нас" });
 
             var usersService = new UsersService();
             var currentUser = await usersService.GetByChatId(chatId);
@@ -48,10 +48,10 @@ namespace TelegramBot.Messages
         {
             ButtonsGenerator buttonsGenerator = new();
             buttonsGenerator.SetInlineButtons(
-                new List<string>{ "Предметы" },
-                new List<string>{ "Новости" },
-                new List<string>{ "Календарь" },
-                new List<string>{ "О нас" });
+                new List<string> { "Предметы" },
+                new List<string> { "Новости" },
+                new List<string> { "Календарь" },
+                new List<string> { "О нас" });
 
             var usersService = new UsersService();
             var currentUser = await usersService.GetByChatId(chatId);
@@ -96,84 +96,33 @@ namespace TelegramBot.Messages
             await bot.EditMessage("Для просмотра детальной информации по предмету, нажмите на кнопку", messageId, buttonsGenerator.GetButtons());
         }
 
-        public async Task EditToDateMenu()
+        public async Task EditToCalendar()
         {
-
             ButtonsGenerator buttonsGenerator = new();
-            DaysServices daysServices = new();
-            var days = await daysServices.Get();
+            var dayDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
 
-            var year = DateTime.Now.Year;
-            var month = DateTime.Now.Month;
-            var startDay = new DateTime(year, month, 1);
-            startDay = startDay.AddMonths(2);
-            var endDay = startDay.AddMonths(1);
-            string temp;
-            int tempi;
-            int k = 0;
-            string[] tempweek = { "Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб" }; //Sunday first
-            int[] keys = { 0, 1, 2, 3, 4, 5, 6 };
-            string[] tempweekeng = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
-
-            
-
-            for (int i = 0; i < tempweekeng.Length; i++)
+            while (dayDate.Day <= 28)
             {
-                if (tempweekeng[i] == startDay.DayOfWeek.ToString())
-                {
-                    for (int j = 0; j < tempweek.Length - 1; j++)
-                    {
-                        temp = tempweek[j];
-                        tempweek[j] = tempweek[i];
-                        tempweek[i] = temp;
+                List<(string, string)> buttonsLine = new();
+                for (int i = 0; i < 7; i++) buttonsLine.Add((dayDate.AddDays(i).DayOfWeek.ToRusDay() + dayDate.AddDays(i).Day.Above(), dayDate.AddDays(i).GetDayCallback()));
+                buttonsGenerator.SetInlineButtons(buttonsLine.ToArray());
+                dayDate = dayDate.AddDays(7);
+            }
+            dayDate = dayDate.AddDays(-1);
 
-                        tempi = keys[j];
-                        keys[j] = keys[i];
-                        keys[i] = tempi;
-                        Array.Sort(keys, tempweek, j + 1, keys.Length - j - 1);
-                        if (i == tempweek.Length - 1)
-                        {
-                            Array.Sort(keys, tempweek, j + 1, keys.Length - j - 2);
-                            break;
-                        }
-                        else i++;
-                    }
-                    
-
-                    break;
-                }
+            List<(string, string)> completedButtonsLine = new();
+            while (dayDate.Day < DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month))
+            {
+                dayDate = dayDate.AddDays(1);
+                completedButtonsLine.Add((dayDate.DayOfWeek.ToRusDay() + dayDate.Day.Above(), dayDate.GetDayCallback()));
             }
 
-            while (startDay.Month != endDay.Month)
-            {
-
-
-                if (startDay.Day == 29)
-                {
-                    for (var endMounth = startDay; endMounth.Month != endDay.Month; endMounth = endMounth.AddDays(1))
-                    {
-                        k++;
-                    }
-
-                    if (k == 1) buttonsGenerator.SetInlineButtons(new List<(string, string)> { ($"{tempweek[0]}{startDay.Day}", days[0].GetDayCard()) });
-                    if (k == 2) buttonsGenerator.SetInlineButtons(new List<string> { $"{tempweek[0]}{startDay.Day}", $"{tempweek[1]}{startDay.Day + 1}" });
-                    if (k == 3) buttonsGenerator.SetInlineButtons(new List<string> { $"{tempweek[0]}{startDay.Day}", $"{tempweek[1]}{startDay.Day + 1}", $"{tempweek[2]}{startDay.Day + 2}" });
-                }
-                else
-                {
-                    buttonsGenerator.SetInlineButtons(new List<string>
-                    {
-                        $"{tempweek[0]}{startDay.Day}", $"{tempweek[1]}{startDay.Day + 1}" , $"{tempweek[2]}{startDay.Day + 2}" , $"{tempweek[3]}{startDay.Day + 3}" , $"{tempweek[4]}{startDay.Day + 4}" , $"{tempweek[5]}{startDay.Day + 5}", $"{tempweek[6]}{startDay.Day + 6}"
-                    });
-                }
-                startDay = startDay.AddDays(7);
-            }
-
-
+            buttonsGenerator.SetInlineButtons(completedButtonsLine.ToArray());
             buttonsGenerator.SetGoBackButton();
             await bot.EditMessage("Для просмотра детальной информации по дате, нажмите на кнопку", messageId, buttonsGenerator.GetButtons());
 
         }
+
         public async Task EditToWeekNews(int newsShift = 0)
         {
             DateTime weekStartDate = DateTime.Now.AddDays(-(DateTime.Now.DayOfWeek - DayOfWeek.Monday)).AddDays(7 * newsShift);
