@@ -6,6 +6,35 @@ html {
 *, ::after, ::before {
     box-sizing: border-box;
 }
+.header{
+  background: #5449A8;
+}
+/* header btns */
+.btn:focus {
+  outline: none;
+  box-shadow: none;
+}
+.news-btn{
+  color: #B7ADFF;
+  border-color: #B7ADFF;
+}
+.news-btn:hover{
+  background: #5449A8;
+  border-color: #B7ADFF;
+}
+.logout-btn{
+  border-color: #B7ADFF;
+  background: #B7ADFF;
+}
+.logout-btn:hover{
+  background: #5449A8;
+  border-color: #B7ADFF;
+}
+.logout-btn:focus{
+  background: #5449A8;
+  border-color: #B7ADFF
+}
+/* header btns */
 .content-wrapper{
     display: flex;
 }
@@ -64,17 +93,63 @@ html {
 
 /* cards styles */
 .shadow-outline{
-  /* -webkit-box-shadow: 0px 0px 2px 5px rgba(0, 0, 0, 0.4);
+  -webkit-box-shadow: 0px 0px 2px 5px rgba(0, 0, 0, 0.4);
   -moz-box-shadow: 0px 0px 2px 5px rgba(0, 0, 0, 0.4);
-  box-shadow: 0px 0px 2px 5px rgba(0, 0, 0, 0.4); */
+  box-shadow: 0px 0px 1px 2px rgba(0, 0, 0, 0.2);
 }
 .cards-wrapper{
   margin-top: 1%;
 }
 .card{
-  width: 65%;
-  height: 310px;
+  border-radius: 12%;
+  --bs-bg-opacity: 0.7;
+  width: 80%;
+  height: 340px;
 }
-.col{
+.card::after{ /*????????????????*/
+  filter: blur(5px);
+}
+.card-body{
+  text-align: center;
+}
 
+/* imgs */
+.pinkPlanet, .orangePlanet, .orangeAsteroid, .bluePlanet, .astronaut{
+  position: fixed;
 }
+.pinkPlanet{
+  object-fit: none;
+  height: 150px;
+  left: 1450px;
+  top: 520px;
+}
+.orangePlanet{
+  object-fit: none;
+  width: 400px;
+  height: 300px;
+  left: 0px;
+  top: 550px;
+}
+.orangeAsteroid{
+  object-fit: none;
+  width: 160px;
+  height: 164px;
+  left: 50px;
+  top: 110px;
+}
+.bluePlanet{
+  object-fit: none;
+  width: 253px;
+  height: 260px;
+  left: 1040px;
+  top: 180px;
+}
+.astronaut{
+  object-fit: none;
+  width: 300px;
+  height: 332px;
+  left: 470px;
+  top: 370px;
+}
+
+/* imgs */

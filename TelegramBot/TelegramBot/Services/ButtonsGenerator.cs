@@ -14,16 +14,14 @@ namespace TelegramBot.Services
             return new InlineKeyboardMarkup(returnsButtons);
         }
 
-        public void SetInlineButton(string markup) => SetInlineButtons(new List<string> { markup });
-        public void SetInlineButtons(List<string> markup) => SetInlineButtons(new List<List<string>> { markup });
-        public void SetInlineButtons(List<List<string>> markup) => AddButtons(markup, (lineMarkup) => lineMarkup.Select(text => InlineKeyboardButton.WithCallbackData(text, "@" + text)).ToList());
+        public void SetInlineButtons(params string[] markup) => SetInlineButtons(new List<string>[] { markup.ToList() });
+        public void SetInlineButtons(params List<string>[] markup) => AddButtons(markup.ToList(), (lineMarkup) => lineMarkup.Select(text => InlineKeyboardButton.WithCallbackData(text, "@" + text)).ToList());
 
-        public void SetInlineButton((string, string) markup) => SetInlineButtons(new List<(string, string)> { markup });
-        public void SetInlineButtons(List<(string name, string callback)> markup) => SetInlineButtons(new List<List<(string name, string callback)>> { markup });
-        public void SetInlineButtons(List<List<(string name, string callback)>> markup) => AddButtons(markup, (lineMarkup) => lineMarkup.Select(b => InlineKeyboardButton.WithCallbackData(b.name, "@" + b.callback)).ToList());
+        public void SetInlineButtons(params (string name, string callback)[] markup) => SetInlineButtons(new List<(string name, string callback)>[] { markup.ToList() });
+        public void SetInlineButtons(params List<(string name, string callback)>[] markup) => AddButtons(markup.ToList(), (lineMarkup) => lineMarkup.Select(b => InlineKeyboardButton.WithCallbackData(b.name, "@" + b.callback)).ToList());
 
-        public void SetInlineUrlButtons(List<List<(string name, string url)>> markup) => AddButtons(markup, (lineMarkup) => lineMarkup.Select(b => InlineKeyboardButton.WithUrl(b.name, b.url)).ToList());
-        public void SetInlineUrlButtons(List<(string name, string url)> markup) => SetInlineUrlButtons(new List<List<(string, string)>> { markup });
+        public void SetInlineUrlButtons(params (string name, string url)[] markup) => SetInlineUrlButtons(new List<(string, string)>[] { markup.ToList() });
+        public void SetInlineUrlButtons(params List<(string name, string url)>[] markup) => AddButtons(markup.ToList(), (lineMarkup) => lineMarkup.Select(b => InlineKeyboardButton.WithUrl(b.name, b.url)).ToList());
 
         private void AddButtons<T>(List<List<T>> markup, Func<List<T>, List<InlineKeyboardButton>> createLine)
         {
