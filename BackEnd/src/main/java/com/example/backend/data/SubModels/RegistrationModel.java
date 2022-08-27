@@ -1,4 +1,4 @@
-package com.example.backend.data.viewModels;
+package com.example.backend.data.SubModels;
 
 
 import lombok.Getter;

@@ -1,12 +1,9 @@
-package com.example.backend.data.viewModels;
+package com.example.backend.data.SubModels;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.persistence.Entity;
-import javax.persistence.Table;
 
 @Getter
 @Setter
