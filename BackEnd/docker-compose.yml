@@ -3,7 +3,7 @@ version: "3"
 services:
 
   backend-api:
-    image: mjsasha/backend_important-information:3.1.1
+    image: mjsasha/backend_important-information:3.1.2
     container_name: backend-api
     restart: always
     ports:
@@ -15,6 +15,7 @@ services:
       MYSQL_USER: admin
       MYSQL_PASSWORD: admin
       API_TOKEN: Fp9u5dsvcdM3XIm
+      RECREATE_DB: true
 
   imp-inf-db:
     image: mysql
