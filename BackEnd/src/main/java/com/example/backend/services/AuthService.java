@@ -1,8 +1,8 @@
 package com.example.backend.services;
 
 import com.example.backend.configurations.ApiConfig;
+import com.example.backend.data.SubModels.AuthModel;
 import com.example.backend.data.exceptions.NotAuthException;
-import com.example.backend.data.viewModels.AuthModel;
 import com.example.backend.helpers.TokenGenerator;
 import org.springframework.stereotype.Service;
 

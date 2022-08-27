@@ -1,8 +1,8 @@
 package com.example.backend.controllers;
 
 import com.example.backend.baseClasses.BaseController;
+import com.example.backend.data.SubModels.StartEndDate;
 import com.example.backend.data.models.Day;
-import com.example.backend.data.viewModels.StartEndDate;
 import com.example.backend.services.DaysService;
 import com.example.backend.services.UsersService;
 import org.springframework.http.ResponseEntity;
