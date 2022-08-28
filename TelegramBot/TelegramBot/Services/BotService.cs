@@ -4,10 +4,11 @@ using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
-using TelegramBot.Data.CustomExceptions;
-using TelegramBot.Data.Models;
-using TelegramBot.Interfaces;
+using TelegramBot.Data.Entities;
 using TelegramBot.Utils;
+using TgBotLib.Exceptions;
+using TgBotLib.Interfaces;
+using TgBotLib.Services;
 
 namespace TelegramBot.Services
 {

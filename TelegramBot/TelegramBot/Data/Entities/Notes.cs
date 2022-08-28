@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace TelegramBot.Data.Models
+namespace TelegramBot.Data.Entities
 {
     public class Note
     {
