@@ -27,8 +27,7 @@ namespace TelegramBot.Messages
             this.chatId = chatId;
         }
 
-        #region Menus
-        public async Task SendStartMenu()
+        private async Task<IReplyMarkup> ButtonsForStartMenu()
         {
             ButtonsGenerator buttonsGenerator = new();
             buttonsGenerator.SetInlineButtons(
@@ -39,8 +38,13 @@ namespace TelegramBot.Messages
             var usersService = new UsersService();
             var currentUser = await usersService.GetByChatId(chatId);
             if (currentUser?.Role == Role.ADMIN) buttonsGenerator.SetInlineButtons("Панель администратора");
+            return buttonsGenerator.GetButtons();
+        }
 
-            await bot.SendMessage(Texts.StartMenu, buttonsGenerator.GetButtons());
+        #region Menus
+        public async Task SendStartMenu()
+        {
+            await bot.SendMessage(Texts.StartMenu, await ButtonsForStartMenu());
         }
 
         public async Task EditToStartMenu()
@@ -101,7 +105,7 @@ namespace TelegramBot.Messages
 
             buttonsGenerator.SetGoBackButton();
 
-            await bot.EditMessage("Для просмотра детальной информации по предмету, нажмите на кнопку", messageId, buttonsGenerator.GetButtons());
+            await bot.EditMessage(Texts.DetailLessonInfo, messageId, buttonsGenerator.GetButtons());
         }
 
         public async Task EditToWeekNews(int newsShift = 0)
@@ -124,8 +128,8 @@ namespace TelegramBot.Messages
             }
             buttonsGenerator.SetGoBackButton();
 
-            await SendNews(allNewsInSelectedWeek, buttonsGenerator.GetButtons(), $"Новости, созданные в промежуток С {weekStartDate:dd-MM-yyyy} ДО {weekEndDate:dd-MM-yyyy}\n" +
-                    $"Для перехода к другой неделе нажмите на кнопку");
+            await SendNews(allNewsInSelectedWeek, buttonsGenerator.GetButtons(), $"Новости, созданные в промежуток с {weekStartDate:dd-MM-yyyy} по {weekEndDate:dd-MM-yyyy}\n" +
+                    Texts.NextWeek);
         }
         #endregion
 
@@ -171,7 +175,7 @@ namespace TelegramBot.Messages
 
         public async Task UnknownMessage()
         {
-            await bot.SendMessage("Пока я не понимаю данное сообщение, но скоро научусь");
+            await bot.SendMessage(Texts.UnknownMessage);
         }
 
         #region Utils
