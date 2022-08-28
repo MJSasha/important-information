@@ -2,6 +2,7 @@
 using System.Threading;
 using TelegramBot.Messages;
 using TelegramBot.Services;
+using TgBotLib.Services;
 
 namespace TelegramBot
 {

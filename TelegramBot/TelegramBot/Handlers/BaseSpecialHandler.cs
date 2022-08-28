@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
-using TelegramBot.Interfaces;
+using TgBotLib.Interfaces;
 
 namespace TelegramBot.Handlers
 {

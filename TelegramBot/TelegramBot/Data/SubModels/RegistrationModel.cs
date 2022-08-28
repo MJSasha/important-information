@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace TelegramBot.Data.ViewModels
+namespace TelegramBot.Data.SubModels
 {
     public class RegistrationModel
     {

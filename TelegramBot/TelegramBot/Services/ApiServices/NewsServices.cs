@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using TelegramBot.Data.Models;
-using TelegramBot.Data.ViewModels;
+using TelegramBot.Data.Entities;
+using TelegramBot.Data.SubModels;
+using TgBotLib.Services;
 
 namespace TelegramBot.Services.ApiServices
 {
