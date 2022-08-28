@@ -25,7 +25,10 @@ namespace TelegramBot.Handlers
         {
             var usersService = new UsersService();
             var currentUser = await usersService.GetByChatId(chatId);
-            if (currentUser != null) { await bot.SendMessage("Вы уже зарегистрированны"); }; 
+            if (currentUser != null) 
+            { await bot.SendMessage("Вы уже зарегистрированны");
+              DistributionService.BusyUsersIdAndService.Remove(chatId);
+            }; 
             if (currentUser == null)
             {
             this.registrationMassage = registrationMassage.Text;
