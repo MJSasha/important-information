@@ -27,39 +27,15 @@ namespace TelegramBot.Messages
             this.chatId = chatId;
         }
 
-        private async Task<IReplyMarkup> ButtonsForStartMenu()
-        {
-            ButtonsGenerator buttonsGenerator = new();
-            buttonsGenerator.SetInlineButtons(
-                new List<string> { "Предметы" },
-                new List<string> { "Новости" },
-                new List<string> { "О нас" });
-
-            var usersService = new UsersService();
-            var currentUser = await usersService.GetByChatId(chatId);
-            if (currentUser?.Role == Role.ADMIN) buttonsGenerator.SetInlineButtons("Панель администратора");
-            return buttonsGenerator.GetButtons();
-        }
-
         #region Menus
         public async Task SendStartMenu()
         {
-            await bot.SendMessage(Texts.StartMenu, await ButtonsForStartMenu());
+            await bot.SendMessage(Texts.StartMenu, await GenerateButtonsForStartMenu());
         }
 
         public async Task EditToStartMenu()
         {
-            ButtonsGenerator buttonsGenerator = new();
-            buttonsGenerator.SetInlineButtons(
-                new List<string> { "Предметы" },
-                new List<string> { "Новости" },
-                new List<string> { "О нас" });
-
-            var usersService = new UsersService();
-            var currentUser = await usersService.GetByChatId(chatId);
-            if (currentUser?.Role == Role.ADMIN) buttonsGenerator.SetInlineButtons("Панель администратора");
-
-            await bot.EditMessage(Texts.StartMenu, messageId, buttonsGenerator.GetButtons());
+            await bot.EditMessage(Texts.StartMenu, messageId, await GenerateButtonsForStartMenu());
         }
 
         public async Task EditToAdminPanel()
@@ -207,6 +183,20 @@ namespace TelegramBot.Messages
             NewsService newsService = new();
             return await newsService.CheckNewsBefore(date);
         }
+        private async Task<IReplyMarkup> GenerateButtonsForStartMenu()
+        {
+            ButtonsGenerator buttonsGenerator = new();
+            buttonsGenerator.SetInlineButtons(
+                new List<string> { "Предметы" },
+                new List<string> { "Новости" },
+                new List<string> { "О нас" });
+
+            var usersService = new UsersService();
+            var currentUser = await usersService.GetByChatId(chatId);
+            if (currentUser?.Role == Role.ADMIN) buttonsGenerator.SetInlineButtons("Панель администратора");
+            return buttonsGenerator.GetButtons();
+        }
+
         #endregion
     }
 }
