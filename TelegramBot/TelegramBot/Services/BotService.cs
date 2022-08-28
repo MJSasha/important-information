@@ -8,6 +8,7 @@ using TelegramBot.Data.Entities;
 using TelegramBot.Utils;
 using TgBotLib.Exceptions;
 using TgBotLib.Interfaces;
+using TgBotLib.Services;
 
 namespace TelegramBot.Services
 {

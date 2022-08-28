@@ -33,9 +33,9 @@ namespace TelegramBot.Messages
         {
             ButtonsGenerator buttonsGenerator = new();
             buttonsGenerator.SetInlineButtons(
-                new List<string>{ "Предметы" },
-                new List<string>{ "Новости" },
-                new List<string>{ "О нас" });
+                new List<string> { "Предметы" },
+                new List<string> { "Новости" },
+                new List<string> { "О нас" });
 
             var usersService = new UsersService();
             var currentUser = await usersService.GetByChatId(chatId);
@@ -48,9 +48,9 @@ namespace TelegramBot.Messages
         {
             ButtonsGenerator buttonsGenerator = new();
             buttonsGenerator.SetInlineButtons(
-                new List<string>{ "Предметы" },
-                new List<string>{ "Новости" },
-                new List<string>{ "О нас" });
+                new List<string> { "Предметы" },
+                new List<string> { "Новости" },
+                new List<string> { "О нас" });
 
             var usersService = new UsersService();
             var currentUser = await usersService.GetByChatId(chatId);

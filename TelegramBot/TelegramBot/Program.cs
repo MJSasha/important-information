@@ -2,6 +2,7 @@
 using System.Threading;
 using TelegramBot.Messages;
 using TelegramBot.Services;
+using TgBotLib;
 using TgBotLib.Services;
 
 namespace TelegramBot
@@ -12,17 +13,15 @@ namespace TelegramBot
         {
             try
             {
+                BaseBotSettings.SetSettings(AppSettings.BotToken, AppSettings.ApiToken, AppSettings.BackRoot);
                 var client = SingletonService.GetClient();
-                NewsMessages.StartMailing();
 
                 client.StartReceiving();
-
+                NewsMessages.StartMailing();
                 LogService.LogStart();
 
                 client.OnMessage += DistributionService.DistributeMessages;
-                client.OnMessage += LogService.LogMessages;
                 client.OnCallbackQuery += DistributionService.DistributeCallbacks;
-                client.OnCallbackQuery += LogService.LogCallbacks;
 
                 while (true) Thread.Sleep(int.MaxValue);
             }
