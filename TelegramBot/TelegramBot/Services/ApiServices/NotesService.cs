@@ -1,5 +1,5 @@
-﻿using TelegramBot.Data.Models;
-
+﻿using TelegramBot.Data.Entities;
+using TgBotLib.Services;
 
 namespace TelegramBot.Services.ApiServices
 {

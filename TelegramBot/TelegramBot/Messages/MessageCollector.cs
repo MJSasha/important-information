@@ -5,12 +5,13 @@ using System.Threading.Tasks;
 using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBot.Data;
 using TelegramBot.Data.Definitions;
-using TelegramBot.Data.Models;
-using TelegramBot.Data.ViewModels;
-using TelegramBot.Interfaces;
+using TelegramBot.Data.Entities;
+using TelegramBot.Data.SubModels;
 using TelegramBot.Services;
 using TelegramBot.Services.ApiServices;
 using TelegramBot.Utils;
+using TgBotLib.Interfaces;
+using TgBotLib.Utils;
 
 namespace TelegramBot.Messages
 {
@@ -99,7 +100,7 @@ namespace TelegramBot.Messages
         public async Task EditToCalendar()
         {
             ButtonsGenerator buttonsGenerator = new();
-            var dayDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month + 1, 1);
+            var dayDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
 
             while (dayDate.Day <= 28)
             {
@@ -111,7 +112,7 @@ namespace TelegramBot.Messages
             dayDate = dayDate.AddDays(-1);
 
             List<(string, string)> completedButtonsLine = new();
-            while (dayDate.Day < DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month + 1))
+            while (dayDate.Day < DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month))
             {
                 dayDate = dayDate.AddDays(1);
                 completedButtonsLine.Add((dayDate.DayOfWeek.ToRusDay() + dayDate.Day.Above(), dayDate.GetDayCallback()));

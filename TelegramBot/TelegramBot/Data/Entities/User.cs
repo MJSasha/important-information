@@ -1,9 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using TelegramBot.Data.Definitions;
-using TelegramBot.Data.Entities;
 
-namespace TelegramBot.Data.Models
+namespace TelegramBot.Data.Entities
 {
     public class User
     {

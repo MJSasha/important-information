@@ -2,8 +2,9 @@
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using TelegramBot.Data.CustomExceptions;
-using TelegramBot.Data.ViewModels;
+using TelegramBot.Data.SubModels;
+using TgBotLib.Exceptions;
+using TgBotLib.Services;
 
 namespace TelegramBot.Services.ApiServices
 {

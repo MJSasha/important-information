@@ -14,4 +14,8 @@
     <PackageReference Include="Telegram.Bot" Version="16.0.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\tg-bot-lib\TgBotLib\TgBotLib.csproj" />
+  </ItemGroup>
+
 </Project>

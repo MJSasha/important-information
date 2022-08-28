@@ -1,10 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Linq;
-using TelegramBot.Data.ViewModels;
 using TelegramBot.Utils;
 
-namespace TelegramBot.Data.Models
+namespace TelegramBot.Data.Entities
 {
     public class News
     {

@@ -2,10 +2,12 @@
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
 using TelegramBot.Data;
-using TelegramBot.Data.CustomExceptions;
-using TelegramBot.Data.ViewModels;
+using TelegramBot.Data.SubModels;
 using TelegramBot.Services;
 using TelegramBot.Services.ApiServices;
+using TgBotLib.Exceptions;
+using TgBotLib.Handlers;
+using TgBotLib.Services;
 
 namespace TelegramBot.Handlers
 {
