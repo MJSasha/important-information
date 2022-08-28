@@ -6,6 +6,7 @@ using TelegramBot.Data.Entities;
 using TelegramBot.Services;
 using TelegramBot.Services.ApiServices;
 using TgBotLib.Exceptions;
+using TgBotLib.Handlers;
 using TgBotLib.Services;
 
 namespace TelegramBot.Handlers
