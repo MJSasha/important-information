@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using TelegramBot.Data.Models;
 using TelegramBot.Data.ViewModels;
 using TelegramBot.Services;
@@ -46,7 +45,7 @@ namespace TelegramBot.Utils
             };
         }
 
-        public static string GetDayCallback(this DateTime date) => $"dayDate:{date:DD-MM-yyyy}";
+        public static string GetDayCallback(this DateTime date) => $"dayDate:{date:yyyy-MM-dd}";
         public static string GetLessonCallback(this Lesson lesson) => $"lessonId:{lesson.Id}";
 
         public static string GetLessonCard(this Lesson lesson) =>
@@ -58,13 +57,15 @@ namespace TelegramBot.Utils
             string schedule = "";
             foreach (var item in day.LessonsAndTimes)
             {
-                schedule += $"{item.Lesson.Name} - {item.Time}\n";
+                schedule += $"•\t{item.Time:HH:mm} - {item.Lesson.Name}\n";
             }
-                return $"🗓{ day.Date}\n" +
-                 $"{day.Information}\n\n" +
-                 $"🕑 Расписание занятий:\n{schedule}";
+
+            string output = $"🗓{day.Date:dd-MM-yyyy}\n";
+            output += string.IsNullOrWhiteSpace(day.Information) ? "" : $"\n{day.Information}\n";
+            output += string.IsNullOrWhiteSpace(schedule) ? "\n‼️ Выходной ‼️" : $"\nРасписание:\n{schedule}";
+            return output;
         }
-        public static string GetNewsCard(this News oneNews) => oneNews.Message != null ? $"🕓{oneNews.DateTimeOfCreate}\n\n‼{oneNews.Message}" : $"🕓{oneNews.DateTimeOfCreate}" ;
+        public static string GetNewsCard(this News oneNews) => oneNews.Message != null ? $"🕓{oneNews.DateTimeOfCreate}\n\n‼{oneNews.Message}" : $"🕓{oneNews.DateTimeOfCreate}";
 
         public static void SetGoBackButton(this ButtonsGenerator buttonsGenerator, string callback = "/start") => buttonsGenerator.SetInlineButtons(("↪ Назад", callback));
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
@@ -22,6 +23,18 @@ namespace TelegramBot.Services.ApiServices
             };
             var httpResponse = await base.httpClient.SendAsync(httpRequest);
             return await Deserialize<List<Day>>(httpResponse);
+        }
+
+        public async Task<Day> Get(DateTime date)
+        {
+            HttpRequestMessage httpRequest = new HttpRequestMessage
+            {
+                Content = new StringContent(date.ToString("yyyy-MM-dd"), Encoding.UTF8, "application/json"),
+                Method = HttpMethod.Get,
+                RequestUri = new Uri(Root.ToString() + "/byDate")
+            };
+            var httpResponse = await base.httpClient.SendAsync(httpRequest);
+            return await Deserialize<Day>(httpResponse);
         }
     }
 }

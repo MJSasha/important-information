@@ -99,7 +99,7 @@ namespace TelegramBot.Messages
         public async Task EditToCalendar()
         {
             ButtonsGenerator buttonsGenerator = new();
-            var dayDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            var dayDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month + 1, 1);
 
             while (dayDate.Day <= 28)
             {
@@ -111,7 +111,7 @@ namespace TelegramBot.Messages
             dayDate = dayDate.AddDays(-1);
 
             List<(string, string)> completedButtonsLine = new();
-            while (dayDate.Day < DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month))
+            while (dayDate.Day < DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month + 1))
             {
                 dayDate = dayDate.AddDays(1);
                 completedButtonsLine.Add((dayDate.DayOfWeek.ToRusDay() + dayDate.Day.Above(), dayDate.GetDayCallback()));
@@ -161,7 +161,7 @@ namespace TelegramBot.Messages
             await bot.EditMessage(lesson.GetLessonCard(), messageId, buttonsGenerator.GetButtons());
         }
 
-        public async Task EditToDay(int chosenDay)
+        public async Task EditToDay(DateTime chosenDay)
         {
             DaysServices daysServices = new();
             Day day = await daysServices.Get(chosenDay);
@@ -169,12 +169,11 @@ namespace TelegramBot.Messages
             buttonsGenerator.SetGoBackButton("Календарь");
             if (day != null)
             {
-                buttonsGenerator.SetInlineButtons(("Новости на этот день", $"getNewsForDay{chosenDay}I{messageId}"));
                 await bot.EditMessage(day.GetDayCard(), messageId, buttonsGenerator.GetButtons());
             }
             else
             {
-                await bot.EditMessage("Похоже у вас нет новостей на этот день", messageId, buttonsGenerator.GetButtons());
+                await bot.EditMessage($"Отсутствует инормация по дате {chosenDay:dd-MM-yyyy}", messageId, buttonsGenerator.GetButtons());
             }
         }
 
