@@ -11,6 +11,7 @@ docker-compose up
 Проект содержит подмодули, для загрузке подмодулей воспользуйтесь командой
 
 ```bash
+git submodule init
 git submodule update
 ```
 
