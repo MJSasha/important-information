@@ -15,7 +15,6 @@ services:
       MYSQL_USER: admin
       MYSQL_PASSWORD: admin
       API_TOKEN: Fp9u5dsvcdM3XIm
-      RECREATE_DB: true
 
   imp-inf-db:
     image: mysql

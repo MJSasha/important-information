@@ -3,7 +3,7 @@ using System;
 using TelegramBot.Data.Definitions;
 using TelegramBot.Utils;
 
-namespace TelegramBot.Data.ViewModels
+namespace TelegramBot.Data.Entities
 {
     public class LessonsAndTimes
     {

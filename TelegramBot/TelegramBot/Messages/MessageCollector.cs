@@ -5,12 +5,13 @@ using System.Threading.Tasks;
 using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBot.Data;
 using TelegramBot.Data.Definitions;
-using TelegramBot.Data.Models;
-using TelegramBot.Data.ViewModels;
-using TelegramBot.Interfaces;
+using TelegramBot.Data.Entities;
+using TelegramBot.Data.SubModels;
 using TelegramBot.Services;
 using TelegramBot.Services.ApiServices;
 using TelegramBot.Utils;
+using TgBotLib.Interfaces;
+using TgBotLib.Utils;
 
 namespace TelegramBot.Messages
 {
