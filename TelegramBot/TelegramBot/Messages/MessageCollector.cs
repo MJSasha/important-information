@@ -31,38 +31,28 @@ namespace TelegramBot.Messages
         #region Menus
         public async Task SendStartMenu()
         {
-            ButtonsGenerator buttonsGenerator = new();
-            buttonsGenerator.SetInlineButtons(
-                new List<string> { "Предметы" },
-                new List<string> { "Новости" },
-                new List<string> { "О нас" });
-
-            var usersService = new UsersService();
-            var currentUser = await usersService.GetByChatId(chatId);
-            if (currentUser?.Role == Role.ADMIN) buttonsGenerator.SetInlineButtons("Отправить всем");
-
-            await bot.SendMessage(Texts.StartMenu, buttonsGenerator.GetButtons());
+            await bot.SendMessage(Texts.StartMenu, await GenerateButtonsForStartMenu());
         }
 
         public async Task EditToStartMenu()
         {
+            await bot.EditMessage(Texts.StartMenu, messageId, await GenerateButtonsForStartMenu());
+        }
+
+        public async Task EditToAdminPanel()
+        {
             ButtonsGenerator buttonsGenerator = new();
-            buttonsGenerator.SetInlineButtons(
-                new List<string> { "Предметы" },
-                new List<string> { "Новости" },
-                new List<string> { "О нас" });
+            buttonsGenerator.SetInlineButtons("Создать рассылку");
 
-            var usersService = new UsersService();
-            var currentUser = await usersService.GetByChatId(chatId);
-            if (currentUser?.Role == Role.ADMIN) buttonsGenerator.SetInlineButtons("Отправить всем");
+            buttonsGenerator.SetGoBackButton();
 
-            await bot.EditMessage(Texts.StartMenu, messageId, buttonsGenerator.GetButtons());
+            await bot.EditMessage(Texts.AdminPanel, messageId, buttonsGenerator.GetButtons());
         }
 
         public async Task EditToAboutUsMenu()
         {
             ButtonsGenerator buttonsGenerator = new();
-            buttonsGenerator.SetInlineUrlButtons(new List<(string, string)> { ("Наш сайт", AppSettings.FrontRoot) });
+            buttonsGenerator.SetInlineUrlButtons(("Наш сайт", AppSettings.FrontRoot));
             buttonsGenerator.SetGoBackButton();
 
             await bot.EditMessage(Texts.AboutUs, messageId, buttonsGenerator.GetButtons());
@@ -79,20 +69,20 @@ namespace TelegramBot.Messages
             {
                 if (lessons.Count < i + 3)
                 {
-                    if (lessons.Count - i == 2) buttonsGenerator.SetInlineButtons(new List<(string, string)> { (lessons[i].Name, lessons[i].GetLessonCallback()),
-                        (lessons[i + 1].Name, lessons[i + 1].GetLessonCallback()) });
-                    if (lessons.Count - i == 1) buttonsGenerator.SetInlineButtons(new List<(string, string)> { (lessons[i].Name, lessons[i].GetLessonCallback()) });
+                    if (lessons.Count - i == 2) buttonsGenerator.SetInlineButtons((lessons[i].Name, lessons[i].GetLessonCallback()),
+                        (lessons[i + 1].Name, lessons[i + 1].GetLessonCallback()));
+                    if (lessons.Count - i == 1) buttonsGenerator.SetInlineButtons((lessons[i].Name, lessons[i].GetLessonCallback()));
                 }
                 else
                 {
-                    buttonsGenerator.SetInlineButtons(new List<(string, string)> { (lessons[i].Name, lessons[i].GetLessonCallback()),
-                        (lessons[i + 1].Name, lessons[i + 1].GetLessonCallback()), (lessons[i + 2].Name, lessons[i + 2].GetLessonCallback()) });
+                    buttonsGenerator.SetInlineButtons((lessons[i].Name, lessons[i].GetLessonCallback()),
+                        (lessons[i + 1].Name, lessons[i + 1].GetLessonCallback()), (lessons[i + 2].Name, lessons[i + 2].GetLessonCallback()));
                 }
             }
 
             buttonsGenerator.SetGoBackButton();
 
-            await bot.EditMessage("Для просмотра детальной информации по предмету, нажмите на кнопку", messageId, buttonsGenerator.GetButtons());
+            await bot.EditMessage(Texts.DetailLessonInfo, messageId, buttonsGenerator.GetButtons());
         }
 
         public async Task EditToWeekNews(int newsShift = 0)
@@ -106,7 +96,7 @@ namespace TelegramBot.Messages
 
             if (weekEndDate < DateTime.Now && await CheckAnyNewsBefore(weekEndDate))
             {
-                buttonsGenerator.SetInlineButtons(new List<(string, string)> { ("⬅ Предыдущая", $"newsShift:{newsShift - 1}"), ("Следующая ➡", $"newsShift:{newsShift + 1}") });
+                buttonsGenerator.SetInlineButtons(("⬅ Предыдущая", $"newsShift:{newsShift - 1}"), ("Следующая ➡", $"newsShift:{newsShift + 1}"));
             }
             else
             {
@@ -115,8 +105,8 @@ namespace TelegramBot.Messages
             }
             buttonsGenerator.SetGoBackButton();
 
-            await SendNews(allNewsInSelectedWeek, buttonsGenerator.GetButtons(), $"Новости, созданные в промежуток С {weekStartDate:dd-MM-yyyy} ДО {weekEndDate:dd-MM-yyyy}\n" +
-                    $"Для перехода к другой неделе нажмите на кнопку");
+            await SendNews(allNewsInSelectedWeek, buttonsGenerator.GetButtons(), $"Новости, созданные в промежуток с {weekStartDate:dd-MM-yyyy} по {weekEndDate:dd-MM-yyyy}\n" +
+                    Texts.NextWeek);
         }
         #endregion
 
@@ -162,7 +152,7 @@ namespace TelegramBot.Messages
 
         public async Task UnknownMessage()
         {
-            await bot.SendMessage("Пока я не понимаю данное сообщение, но скоро научусь");
+            await bot.SendMessage(Texts.UnknownMessage);
         }
 
         #region Utils
@@ -194,6 +184,20 @@ namespace TelegramBot.Messages
             NewsService newsService = new();
             return await newsService.CheckNewsBefore(date);
         }
+        private async Task<IReplyMarkup> GenerateButtonsForStartMenu()
+        {
+            ButtonsGenerator buttonsGenerator = new();
+            buttonsGenerator.SetInlineButtons(
+                new List<string> { "Предметы" },
+                new List<string> { "Новости" },
+                new List<string> { "О нас" });
+
+            var usersService = new UsersService();
+            var currentUser = await usersService.GetByChatId(chatId);
+            if (currentUser?.Role == Role.ADMIN) buttonsGenerator.SetInlineButtons("Панель администратора");
+            return buttonsGenerator.GetButtons();
+        }
+
         #endregion
     }
 }
