@@ -7,7 +7,6 @@ namespace TelegramBot.Services
     {
         public static void LogStart()
         {
-            Console.ResetColor();
             Console.WriteLine($"{DateTime.Now} BOT START" +
                 $"\n-----------------------------------------------------" +
                 $"\nToken: {AppSettings.BotToken}" +
@@ -45,7 +44,7 @@ namespace TelegramBot.Services
             Console.Write(DateTime.Now);
             Console.ForegroundColor = logType.GetCollor();
             Console.Write($" {logType}");
-            Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine($" --- {message}");
         }
 

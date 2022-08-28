@@ -46,7 +46,6 @@ namespace TelegramBot.Services.ApiServices
             TEntity entity = await Get(key);
             if (entity == null) throw new ErrorResponseException(HttpStatusCode.NotFound);
 
-            var test = JsonConvert.SerializeObject(item);
             var json = new StringContent(JsonConvert.SerializeObject(item), Encoding.UTF8, "application/json");
 
             var httpResponse = await httpClient.PatchAsync(Root + "/" + key, json);
