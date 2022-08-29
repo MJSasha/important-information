@@ -8,7 +8,7 @@ services:
     restart: always
     container_name: "bot"
     environment:
-      API_TOKEN: 2065215367:AAHxs51AowRJAqefe3tvV7d5jn5nsC_-xDc #Тут свой ставьте
-      BOT_TOKEN: Fp9u5dsvcdM3XIm
+      BOT_TOKEN: 2065215367:AAHxs51AowRJAqefe3tvV7d5jn5nsC_-xDc #Тут свой ставьте
+      API_TOKEN: Fp9u5dsvcdM3XIm
       BACK_ROOT: http://localhost:8080/api
       FRONT_ROOT: http://localhost:3000
