@@ -105,8 +105,7 @@ namespace TelegramBot.Messages
             }
             buttonsGenerator.SetGoBackButton();
 
-            await SendNews(allNewsInSelectedWeek, buttonsGenerator.GetButtons(), $"Новости, созданные в промежуток с {weekStartDate:dd-MM-yyyy} по {weekEndDate:dd-MM-yyyy}\n" +
-                    Texts.NextWeek);
+            await SendNews(allNewsInSelectedWeek, buttonsGenerator.GetButtons(), string.Format(Texts.NextWeek, weekStartDate.ToString("dd-MM-yyyy"), weekEndDate.ToString("dd-MM-yyyy")));
         }
         #endregion
 

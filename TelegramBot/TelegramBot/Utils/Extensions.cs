@@ -12,7 +12,7 @@ namespace TelegramBot.Utils
         public static string GetLessonCard(this Lesson lesson)
         {
             var card = $"📚 {lesson.Name}\nПреподователь: {lesson.Teacher}\n";
-            card += lesson.Information == null ? "" : $"Информация: {lesson.Information}";
+            card += string.IsNullOrWhiteSpace(lesson.Information) ? "" : $"Информация: {lesson.Information}";
             return card;
         }
 
@@ -31,7 +31,7 @@ namespace TelegramBot.Utils
         public static string GetNewsCard(this News oneNews)
         {
             var card = $"🕓{oneNews.DateTimeOfCreate}\n";
-            card += oneNews.Message == null ? "" : $"‼️ {oneNews.Message}";
+            card += string.IsNullOrWhiteSpace(oneNews.Message) ? "" : $"‼️ {oneNews.Message}";
             return card;
         }
 

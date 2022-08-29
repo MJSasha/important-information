@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBot.Data.Entities;
 using TelegramBot.Utils;
@@ -40,7 +41,7 @@ namespace TelegramBot.Services
                     }
                     catch { /*ignore invalid pictures*/}
 
-                    if (!string.IsNullOrWhiteSpace(news.Message)) await client.SendTextMessageAsync(chatId, news.GetNewsCard(), replyMarkup: buttons);
+                    if (!string.IsNullOrWhiteSpace(news.Message)) await client.SendTextMessageAsync(chatId, news.GetNewsCard(), replyMarkup: buttons, parseMode: ParseMode.Markdown);
                 }
                 catch (Telegram.Bot.Exceptions.ChatNotFoundException)
                 {
@@ -62,7 +63,7 @@ namespace TelegramBot.Services
         {
             try
             {
-                await client.SendTextMessageAsync(chatId, message, replyMarkup: buttons);
+                await client.SendTextMessageAsync(chatId, message, replyMarkup: buttons, parseMode: ParseMode.Markdown);
             }
             catch (Telegram.Bot.Exceptions.ChatNotFoundException)
             {
@@ -74,7 +75,7 @@ namespace TelegramBot.Services
         {
             try
             {
-                await client.EditMessageTextAsync(chatId, messageId, message, replyMarkup: (InlineKeyboardMarkup)buttons);
+                await client.EditMessageTextAsync(chatId, messageId, message, replyMarkup: (InlineKeyboardMarkup)buttons, parseMode: ParseMode.Markdown);
             }
             catch (Telegram.Bot.Exceptions.ChatNotFoundException)
             {
