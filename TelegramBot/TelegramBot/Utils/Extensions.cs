@@ -21,7 +21,7 @@ namespace TelegramBot.Utils
             string schedule = "";
             foreach (var item in day.LessonsAndTimes)
             {
-                schedule += $"{item.Lesson.Name} - {item.Time}\n";
+                schedule += $"{item.Lesson.Name} ({item.Type.GetName()}) - {item.Time}\n";
             }
             return $"🗓{day.Date}\n" +
                 $"{day.Information}\n\n" +

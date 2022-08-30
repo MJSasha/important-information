@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using TelegramBot.Data.SubModels;
@@ -14,7 +13,7 @@ namespace TelegramBot.Services.ApiServices
 
         public async Task Registrate(RegistrationModel registrationModel, long chatId)
         {
-            var json = JsonConvert.SerializeObject(registrationModel);
+            var json = Serialize(registrationModel);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
             var httpResponse = await httpClient.PostAsync(Root.ToString() + "/" + chatId.ToString(), data);
             if (!httpResponse.IsSuccessStatusCode) throw new ErrorResponseException(httpResponse.StatusCode,
