@@ -4,11 +4,15 @@ using System.Threading.Tasks;
 using Telegram.Bot.Args;
 using TelegramBot.Messages;
 using TelegramBot.Services;
+using TelegramBot.Services.ApiServices;
 
 namespace TelegramBot.Handlers
 {
     public class MainHandler
     {
+        private static readonly long chatId;
+        private static BotService bot;
+
         public static async Task OnCallback(object sender, CallbackQueryEventArgs queryEventArgs)
         {
             MessageCollector message = new(queryEventArgs.CallbackQuery.Message.Chat.Id, queryEventArgs.CallbackQuery.Message.MessageId);
@@ -29,11 +33,25 @@ namespace TelegramBot.Handlers
         public static async Task OnMessage(object sender, MessageEventArgs eventArgs)
         {
             MessageCollector message = new(eventArgs.Message.Chat.Id, eventArgs.Message.MessageId);
+            var chatId = eventArgs.Message.Chat.Id;
+            var usersService = new UsersService();
+            var currentUser = await usersService.GetByChatId(chatId);
+            bot = new BotService(chatId);
+
+            if (eventArgs.Message.Text == "/reg" && currentUser != null)
+            {
+                await bot.SendMessage("Вы уже зарегистрированны");
+                return;
+            }
+            if (eventArgs.Message.Text == "/reg" && currentUser == null)
+            {
+                await Task.Run(() => DistributionService.BusyUsersIdAndService.Add(eventArgs.Message.Chat.Id, new RegistrationHandler(eventArgs.Message.Chat.Id)));
+                return;
+            }
 
             Task response = eventArgs.Message.Text switch
             {
                 "/start" => message.SendStartMenu(),
-                "/reg" => Task.Run(() => DistributionService.BusyUsersIdAndService.Add(eventArgs.Message.Chat.Id, new RegistrationHandler(eventArgs.Message.Chat.Id))),
                 "/passChange" => Task.Run(() => DistributionService.BusyUsersIdAndService.Add(eventArgs.Message.Chat.Id, new PasswordChangeHandler(eventArgs.Message.Chat.Id))),
                 _ => ProcessSpecialMessage(eventArgs.Message.Text, message)
             };

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
 using TelegramBot.Data;
@@ -23,17 +22,8 @@ namespace TelegramBot.Handlers
 
         public override async Task ProcessMessage(Message registrationMassage)
         {
-            var usersService = new UsersService();
-            var currentUser = await usersService.GetByChatId(chatId);
-            if (currentUser != null) 
-            { await bot.SendMessage("Вы уже зарегистрированны");
-              DistributionService.BusyUsersIdAndService.Remove(chatId);
-            }; 
-            if (currentUser == null)
-            {
             this.registrationMassage = registrationMassage.Text;
             await base.ProcessMessage(registrationMassage);
-            };
         }
 
         protected override void RegistrateProcessing()
