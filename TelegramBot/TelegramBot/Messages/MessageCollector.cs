@@ -186,10 +186,9 @@ namespace TelegramBot.Messages
         private async Task<IReplyMarkup> GenerateButtonsForStartMenu()
         {
             ButtonsGenerator buttonsGenerator = new();
-            buttonsGenerator.SetInlineButtons(
-                new List<string> { "Предметы" },
-                new List<string> { "Новости" },
-                new List<string> { "О нас" });
+            buttonsGenerator.SetInlineButtons(new[] { "Предметы" },
+                                              new[] { "Новости" },
+                                              new[] { "О нас" });
 
             var usersService = new UsersService();
             var currentUser = await usersService.GetByChatId(chatId);
