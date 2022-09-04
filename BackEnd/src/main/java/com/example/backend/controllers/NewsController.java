@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -28,6 +29,20 @@ public class NewsController extends BaseController<News, Integer> {
     public ResponseEntity<String> update(@RequestBody News news, @PathVariable Integer id) {
         news.setId(id);
         return super.update(news, id);
+    }
+
+    @Override
+    @PostMapping("/createAll")
+    public ResponseEntity<String> create(@RequestBody ArrayList<News> news) {
+        news.forEach(n->n.setDateTimeOfCreate(Date.from(java.time.ZonedDateTime.now().toInstant())));
+        return super.create(news);
+    }
+
+    @Override
+    @PostMapping
+    public ResponseEntity<String> create(@RequestBody News news) {
+        news.setDateTimeOfCreate(Date.from(java.time.ZonedDateTime.now().toInstant()));
+        return super.create(news);
     }
 
     @GetMapping("/byLessonId/{lessonId}")

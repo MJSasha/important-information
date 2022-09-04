@@ -47,22 +47,30 @@ namespace TelegramBot.Utils
         public static string GetDayCallback(this DateTime date) => $"dayDate:{date:yyyy-MM-dd}";
         public static string GetLessonCallback(this Lesson lesson) => $"lessonId:{lesson.Id}";
 
-        public static string GetLessonCard(this Lesson lesson) =>
-            lesson.Information != null ? $"📚 {lesson.Name}\n Преподователь: {lesson.Teacher}\n " +
-            $"Информация: {lesson.Information}" : $"📚 {lesson.Name}" +
-            $"Преподаватель: {lesson.Teacher}.";
+        public static string GetLessonCard(this Lesson lesson)
+        {
+            var card = $"📚 {lesson.Name}\nПреподователь: {lesson.Teacher}\n";
+            card += string.IsNullOrWhiteSpace(lesson.Information) ? "" : $"Информация: {lesson.Information}";
+            return card;
+        }
+
         public static string GetDayCard(this Day day)
         {
             string schedule = "";
             foreach (var item in day.LessonsAndTimes)
             {
-                schedule += $"•\t{item.Time:HH:mm} - {item.Lesson.Name}\n";
+                schedule += $"{item.Lesson.Name} ({item.Type.GetName()}) - {item.Time}\n";
             }
+            return $"🗓{day.Date}\n" +
+                $"{day.Information}\n\n" +
+                $"🕑 Расписание занятий:\n{schedule}";
+        }
 
-            string output = $"🗓{day.Date:dd-MM-yyyy}\n";
-            output += string.IsNullOrWhiteSpace(day.Information) ? "" : $"\n{day.Information}\n";
-            output += string.IsNullOrWhiteSpace(schedule) ? "\n‼️ Выходной ‼️" : $"\nРасписание:\n{schedule}";
-            return output;
+        public static string GetNewsCard(this News oneNews)
+        {
+            var card = $"🕓{oneNews.DateTimeOfCreate}\n";
+            card += string.IsNullOrWhiteSpace(oneNews.Message) ? "" : $"‼️ {oneNews.Message}";
+            return card;
         }
         public static string GetNewsCard(this News oneNews) => oneNews.Message != null ? $"🕓{oneNews.DateTimeOfCreate}\n\n‼{oneNews.Message}" : $"🕓{oneNews.DateTimeOfCreate}";
 
