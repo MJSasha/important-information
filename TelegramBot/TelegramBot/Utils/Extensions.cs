@@ -72,8 +72,7 @@ namespace TelegramBot.Utils
             card += string.IsNullOrWhiteSpace(oneNews.Message) ? "" : $"‼️ {oneNews.Message}";
             return card;
         }
-        public static string GetNewsCard(this News oneNews) => oneNews.Message != null ? $"🕓{oneNews.DateTimeOfCreate}\n\n‼{oneNews.Message}" : $"🕓{oneNews.DateTimeOfCreate}";
-
+        
         public static void SetGoBackButton(this ButtonsGenerator buttonsGenerator, string callback = "/start") => buttonsGenerator.SetInlineButtons(("↪ Назад", callback));
     }
 }

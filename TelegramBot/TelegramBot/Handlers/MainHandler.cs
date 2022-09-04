@@ -48,16 +48,12 @@ namespace TelegramBot.Handlers
             if (string.IsNullOrWhiteSpace(callback)) return messageCollector.UnknownMessage();
             if (Regex.IsMatch(callback, @"^(@lessonId:)\d{1,}")) return messageCollector.EditToLesson(Convert.ToInt32(callback[10..]));
             else if (Regex.IsMatch(callback, @"^(@newsShift:)(-){0,1}\d{1,}")) return messageCollector.EditToWeekNews(Convert.ToInt32(callback[11..]));
+            else if (Regex.IsMatch(callback, @"^(@monthShift:)(-){0,1}\d{1,}")) return messageCollector.EditToCalendar(Convert.ToInt32(callback[12..]));
             else if (Regex.IsMatch(callback, @"^(@dayDate:)\d{4}-\d{2}-\d{2}")) return messageCollector.EditToDay(DateTime.Parse(callback[9..]));
             else if (Regex.IsMatch(callback, @"^(@getNewsForLes)\d{1,}(I)\d{1,}"))
             {
                 var data = callback[14..].Split('I');
                 return messageCollector.SendNewsForLesson(Convert.ToInt32(data[0]), Convert.ToInt32(data[1]));
-            }
-            else if (Regex.IsMatch(callback, @"^(@getNewsForDay)\d{1,}(I)\d{1,}"))
-            {
-                var data = callback[15..].Split('I');
-                return messageCollector.SendNewsForDay(Convert.ToInt32(data[0]), Convert.ToInt32(data[1]));
             }
             return messageCollector.UnknownMessage();
         }

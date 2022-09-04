@@ -85,13 +85,14 @@ namespace TelegramBot.Messages
             await bot.EditMessage(Texts.DetailLessonInfo, messageId, buttonsGenerator.GetButtons());
         }
 
-        public async Task EditToCalendar()
+        public async Task EditToCalendar(int monthShift = 0)
         {
             ButtonsGenerator buttonsGenerator = new();
             var dayDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            dayDate = dayDate.AddMonths(monthShift);
 
-            while (dayDate.Day <= 28)
-            {
+            for (int k = 0; k < 4; k++)
+            { 
                 List<(string, string)> buttonsLine = new();
                 for (int i = 0; i < 7; i++) buttonsLine.Add((dayDate.AddDays(i).DayOfWeek.ToRusDay() + dayDate.AddDays(i).Day.Above(), dayDate.AddDays(i).GetDayCallback()));
                 buttonsGenerator.SetInlineButtons(buttonsLine.ToArray());
@@ -100,15 +101,16 @@ namespace TelegramBot.Messages
             dayDate = dayDate.AddDays(-1);
 
             List<(string, string)> completedButtonsLine = new();
-            while (dayDate.Day < DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month))
+            while (dayDate.Day < DateTime.DaysInMonth(dayDate.Year, dayDate.Month))
             {
                 dayDate = dayDate.AddDays(1);
                 completedButtonsLine.Add((dayDate.DayOfWeek.ToRusDay() + dayDate.Day.Above(), dayDate.GetDayCallback()));
             }
-
             buttonsGenerator.SetInlineButtons(completedButtonsLine.ToArray());
+            buttonsGenerator.SetInlineButtons(("⬅ Предыдущий", $"monthShift:{monthShift - 1}"), ("Следующий ➡", $"monthShift:{monthShift + 1}"));
+
             buttonsGenerator.SetGoBackButton();
-            await bot.EditMessage("Для просмотра детальной информации по дате, нажмите на кнопку", messageId, buttonsGenerator.GetButtons());
+            await bot.EditMessage($"Для просмотра детальной информации по дате, нажмите на кнопку\nТекущий месяц: {dayDate.Month} {dayDate.Year}", messageId, buttonsGenerator.GetButtons());
 
         }
 
@@ -179,22 +181,6 @@ namespace TelegramBot.Messages
             await BotService.SendNews(news, new List<long> { chatId }, buttonsGenerator.GetButtons());
         }
 
-        public async Task SendNewsForDay(int chosenDay, int previewMessageId)
-        {
-            await bot.DeleteMessage(messageId);
-            await bot.DeleteMessage(previewMessageId);
-
-            DaysServices daysServices = new();
-            var day = await daysServices.Get(chosenDay);
-
-            ButtonsGenerator buttonsGenerator = new();
-            buttonsGenerator.SetGoBackButton($"dayDate:{chosenDay}");
-
-            await bot.SendMessage(day.CurrentUserNote, buttonsGenerator.GetButtons());
-
-
-        }
-
         public async Task SendDetailedNews(int newsId, int previewMessageId)
         {
             await bot.DeleteMessage(messageId);
@@ -247,6 +233,7 @@ namespace TelegramBot.Messages
             ButtonsGenerator buttonsGenerator = new();
             buttonsGenerator.SetInlineButtons(new[] { "Предметы" },
                                               new[] { "Новости" },
+                                              new[] { "Календарь" },
                                               new[] { "О нас" });
 
             var usersService = new UsersService();
