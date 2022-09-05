@@ -61,9 +61,10 @@ namespace TelegramBot.Utils
             {
                 schedule += $"•\t{item.Time:HH:mm} - {item.Lesson.Name}\n";
             }
-            return $"🗓{day.Date:yyyy-MM-dd}\n" +
-                $"{day.Information}\n\n" +
-                $"🕑 Расписание занятий:\n{schedule}";
+            string output = $"🗓{day.Date:dd-MM-yyyy}\n";
+            output += string.IsNullOrWhiteSpace(day.Information) ? "" : $"\n{day.Information}\n";
+            output += string.IsNullOrWhiteSpace(schedule) ? "\n‼️ Выходной ‼️" : $"\nРасписание:\n{schedule}";
+            return output;
         }
 
         public static string GetNewsCard(this News oneNews)
