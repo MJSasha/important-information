@@ -49,9 +49,8 @@ namespace TelegramBot.Utils
 
         public static string GetLessonCard(this Lesson lesson)
         {
-            var card = $"📚 {lesson.Name}\nПреподователь: {lesson.Teacher}\n";
-            card += string.IsNullOrWhiteSpace(lesson.Information) ? "" : $"Информация: {lesson.Information}";
-            return card;
+            return $"📚 {lesson.Name}\nПреподователь: {lesson.Teacher}\n" +
+                $"{(string.IsNullOrWhiteSpace(lesson.Information) ? "" : $"Информация: {lesson.Information}")}";
         }
 
         public static string GetDayCard(this Day day)
@@ -59,21 +58,19 @@ namespace TelegramBot.Utils
             string schedule = "";
             foreach (var item in day.LessonsAndTimes)
             {
-                schedule += $"•\t{item.Time:HH:mm} - {item.Lesson.Name}\n";
+                schedule += $"•\t{item.Time:HH:mm} - {item.Lesson.Name} ({item.Type.GetName()})\n";
             }
-            string output = $"🗓{day.Date:dd-MM-yyyy}\n";
-            output += string.IsNullOrWhiteSpace(day.Information) ? "" : $"\n{day.Information}\n";
-            output += string.IsNullOrWhiteSpace(schedule) ? "\n‼️ Выходной ‼️" : $"\nРасписание:\n{schedule}";
-            return output;
+            return $"🗓{day.Date:dd-MM-yyyy}\n" +
+                $"{(string.IsNullOrWhiteSpace(day.Information) ? "" : $"\n{day.Information}\n")}" +
+                $"\n{(string.IsNullOrWhiteSpace(schedule) ? "‼️ Выходной ‼️" : $"Расписание:\n{schedule}")}";
         }
 
         public static string GetNewsCard(this News oneNews)
         {
-            var card = $"🕓{oneNews.DateTimeOfCreate}\n";
-            card += string.IsNullOrWhiteSpace(oneNews.Message) ? "" : $"‼️ {oneNews.Message}";
-            return card;
+            return $"🕓{oneNews.DateTimeOfCreate}\n" +
+                $"{(string.IsNullOrWhiteSpace(oneNews.Message) ? "" : $"‼️ {oneNews.Message}")}";
         }
-        
+
         public static void SetGoBackButton(this ButtonsGenerator buttonsGenerator, string callback = "/start") => buttonsGenerator.SetInlineButtons(("↪ Назад", callback));
     }
 }
