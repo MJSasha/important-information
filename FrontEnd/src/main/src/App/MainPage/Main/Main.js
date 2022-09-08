@@ -16,8 +16,8 @@ import astronaut from './img/astronaut.png';
 
 
 
-
 function Main(){
+    
     const [showSB, setShowSB] = useState(false);
     const navigate = useNavigate();
 
@@ -53,52 +53,52 @@ function Main(){
                         </div>
                         {/* date */}
                         {/* cards */}
-                        <div class="row row-cols-1 row-cols-md-3 g-4 cards-wrapper">
-                            <div class="col">
-                                <div class="card text-dark bg-light mb-3 shadow-outline">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Заголовок карточки</h5>
-                                        <p class="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту. Этот контент немного длиннее.</p>
+                        <div className="row row-cols-1 row-cols-md-3 g-4 cards-wrapper">
+                            <div className="col">
+                                <div className="card text-dark bg-light mb-3 shadow-outline">
+                                    <div className="card-body">
+                                        <h5 className="card-title">Заголовок карточки</h5>
+                                        <p className="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту. Этот контент немного длиннее.</p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col ">
-                                <div class="card text-dark bg-light mb-3 shadow-outline">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Заголовок карточки</h5>
-                                        <p class="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту. Этот контент немного длиннее.</p>
+                            <div className="col ">
+                                <div className="card text-dark bg-light mb-3 shadow-outline">
+                                    <div className="card-body">
+                                        <h5 className="card-title">Заголовок карточки</h5>
+                                        <p className="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту. Этот контент немного длиннее.</p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col ">
-                                <div class="card text-dark bg-light mb-3 shadow-outline">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Заголовок карточки</h5>
-                                        <p class="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту. Этот контент немного длиннее.</p>
+                            <div className="col ">
+                                <div className="card text-dark bg-light mb-3 shadow-outline">
+                                    <div className="card-body">
+                                        <h5 className="card-title">Заголовок карточки</h5>
+                                        <p className="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту. Этот контент немного длиннее.</p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col ">
-                                <div class="card text-dark bg-light mb-3 shadow-outline">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Заголовок карточки</h5>
-                                        <p class="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту. Этот контент немного длиннее.</p>
+                            <div className="col ">
+                                <div className="card text-dark bg-light mb-3 shadow-outline">
+                                    <div className="card-body">
+                                        <h5 className="card-title">Заголовок карточки</h5>
+                                        <p className="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту. Этот контент немного длиннее.</p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col ">
-                                <div class="card text-dark bg-light mb-3 shadow-outline">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Заголовок карточки</h5>
-                                        <p class="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту.</p>
+                            <div className="col ">
+                                <div className="card text-dark bg-light mb-3 shadow-outline">
+                                    <div className="card-body">
+                                        <h5 className="card-title">Заголовок карточки</h5>
+                                        <p className="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту.</p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col ">
-                                <div class="card text-dark bg-light mb-3 shadow-outline">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Заголовок карточки</h5>
-                                        <p class="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту. Этот контент немного длиннее.</p>
+                            <div className="col ">
+                                <div className="card text-dark bg-light mb-3 shadow-outline">
+                                    <div className="card-body">
+                                        <h5 className="card-title">Заголовок карточки</h5>
+                                        <p className="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту. Этот контент немного длиннее.</p>
                                     </div>
                                 </div>
                             </div>

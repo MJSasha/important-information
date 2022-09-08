@@ -3,28 +3,40 @@ import axios from 'axios';
 import { useState, useEffect} from 'react'; // https://www.youtube.com/watch?v=pQibzAjverE&t=226s
 import './SideBar.modules.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Cookies from 'js-cookie';
 
 const DOMEN_SERVER = process.env.REACT_APP_BACK_ROOT ?? 'http://localhost:8080/api';
+
+
+axios.defaults.withCredentials = true;
+
 
 function SideBar(){
     const [news, setNews] = useState([])
 
     useEffect(() => {
-        axios.get(DOMEN_SERVER + "/?")
+        axios.get(DOMEN_SERVER + "/news")
         .then(res => {
-            // News output
-        }).catch(err => console.log(err))
+
+           console.log('результат гет---'+ res) // News output
+
+        }).catch(err => console.log('гет кэтч эрор---'+err))
     })
 
-    const postNews = (event) => {
+    const postNews = event => {
         event.preventDefault();
-        axios.post(DOMEN_SERVER + "/?", {
-            text: news.text,
-        }).then(res => console.log("posting news... ", res)).catch(err => console.log(err))
+        // console.log('содержимое---'+news.text)
+        // console.log('куки в пост---- '+Cookies.get('token'))
+        axios.post(DOMEN_SERVER + "/news",{
+            message: 'qwerty',
+            headers: {'Cookie': 'token=Fp9u5dsvcdM3XIm'}
+        })
+        .then(res => console.log("отправка новостей--- ", res))
+        .catch(err => console.log('пост кэтч эрор---'+err))
     }
 
     return(
-            <div className="d-flex flex-column justify-content-between flex-shrink-0 bg-white" style={{width: 380, height: 820}}>
+            <div className="d-flex flex-column justify-content-between flex-shrink-0 bg-white" style={{width: 380, height: '80vh'}}>
 
                 <div className="username-wrapper">
                     <h1>UserName</h1>
@@ -32,36 +44,35 @@ function SideBar(){
 
                 <div className="news-wrapper">
                     <div className="news">
-                        <div class="list-group list-group-flush border-bottom scrollarea">
-                            <p class="list-group-item list-group-item py-3 lh-tight">
-                                <div class="d-flex w-100 align-items-center justify-content-between">
-                                <strong class="mb-1">Новость 1</strong>
-                                <small class="text-muted">Mon</small>
+                        <div className="list-group list-group-flush border-bottom scrollarea">
+                            <div className="list-group-item list-group-item py-3 lh-tight">
+                                <div className="d-flex w-100 align-items-center justify-content-between">
+                                    <strong className="mb-1">Новость 1</strong>
+                                    <small className="text-muted">Mon</small>
                                 </div>
-                                <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-                            </p>
-
-                            <p class="list-group-item list-group-item py-3 lh-tight" aria-current="true">
-                                <div class="d-flex w-100 align-items-center justify-content-between">
-                                <strong class="mb-1">Новость 2</strong>
-                                <small class="text-muted">Wed</small>
+                                <div className="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                            </div>
+                            <div className="list-group-item list-group-item py-3 lh-tight" aria-current="true">
+                                <div className="d-flex w-100 align-items-center justify-content-between">
+                                    <strong className="mb-1">Новость 2</strong>
+                                    <small className="text-muted">Wed</small>
                                 </div>
-                                <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-                            </p>
-                            <p class="list-group-item list-group-item py-3 lh-tight">
-                                <div class="d-flex w-100 align-items-center justify-content-between">
-                                <strong class="mb-1">Новость 3</strong>
-                                <small class="text-muted">Tues</small>
+                                <div className="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                            </div>
+                            <div className="list-group-item list-group-item py-3 lh-tight">
+                                <div className="d-flex w-100 align-items-center justify-content-between">
+                                    <strong className="mb-1">Новость 3</strong>
+                                    <small className="text-muted">Tues</small>
                                 </div>
-                                <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-                            </p>
+                                <div className="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="input-group mb-3">
-                <input type="text" value={news} onChange={(event) => setNews(event.target.value)} class="form-control" placeholder="Запишите новость" aria-label="Имя пользователя получателя" aria-describedby="button-addon2"/>
-                <button class="btn btn-outline-secondary" onClick={postNews} type="button" id="button-addon2">Отправить</button>
+                <div className="input-group mb-3">
+                <input type="text" value={news} onChange={(event) => setNews(event.target.value)} className="form-control" placeholder="Запишите новость" aria-label="Имя пользователя получателя" aria-describedby="button-addon2"/>
+                <button className="btn btn-outline-secondary" onClick={postNews} type="button" id="button-addon2">Отправить</button>
                 </div>
 
             </div>
