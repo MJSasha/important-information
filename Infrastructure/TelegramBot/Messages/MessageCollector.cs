@@ -55,11 +55,13 @@ namespace TelegramBot.Messages
             ButtonsGenerator buttonsGenerator = new();
             UsersService usersService = new();
             var users = await usersService.Get();
+            var message = "";
             foreach (var item in users)
             {
-                await bot.EditMessage(item.GetUserData(), messageId, buttonsGenerator.GetButtons());
+                message += $"{item.GetUserData()}\n\n";
             }
             buttonsGenerator.SetGoBackButton();
+            await bot.EditMessage(message, messageId, buttonsGenerator.GetButtons());
         }
 
         public async Task EditToAboutUsMenu()
