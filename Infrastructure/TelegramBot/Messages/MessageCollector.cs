@@ -44,10 +44,22 @@ namespace TelegramBot.Messages
         {
             ButtonsGenerator buttonsGenerator = new();
             buttonsGenerator.SetInlineButtons("Создать рассылку");
+            buttonsGenerator.SetInlineButtons("Сведения о пользователях");
 
             buttonsGenerator.SetGoBackButton();
 
             await bot.EditMessage(Texts.AdminPanel, messageId, buttonsGenerator.GetButtons());
+        }
+        public async Task EditToUserData()
+        {
+            ButtonsGenerator buttonsGenerator = new();
+            UsersService usersService = new();
+            var users = await usersService.Get();
+            foreach (var item in users)
+            {
+                await bot.EditMessage(item.GetUserData(), messageId, buttonsGenerator.GetButtons());
+            }
+            buttonsGenerator.SetGoBackButton();
         }
 
         public async Task EditToAboutUsMenu()
