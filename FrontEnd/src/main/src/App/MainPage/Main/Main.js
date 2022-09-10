@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState , useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import {CSSTransition} from 'react-transition-group';
@@ -21,11 +21,16 @@ function Main(){
     const [showSB, setShowSB] = useState(false);
     const navigate = useNavigate();
 
-    const UserLogout = () => {
-        Cookies.remove('token');
-        console.log('After logout token is => ' + Cookies.get('token'))
-        navigate('/')
-    }
+    // const UserLogout = () => {
+    //     Cookies.remove('token');
+    //     console.log('After logout token is => ' + Cookies.get('token'))
+    //     navigate('/')
+    // }
+    useEffect(() => {
+        if (!Cookies.get('token')) {
+            navigate('/')
+        }
+    })
 
     return (
         <div className="wrapper">
@@ -33,7 +38,7 @@ function Main(){
                     <h1 className="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">LOGO</h1>
                     <div className="col-md-3 group-btn">
                         <button type="button" className="btn btn-outline-primary me-2 news-btn" onClick={()=>setShowSB(!showSB)}>Новости</button>
-                        <button onClick={UserLogout} className="logout-btn btn btn-primary">Logout</button>
+                        <button onClick={ () => { Cookies.remove('token'); navigate('/') } } className="logout-btn btn btn-primary">Logout</button>
                     </div>
                 </header>
             <div className="hero">
