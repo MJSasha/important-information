@@ -48,7 +48,8 @@ html {
     padding-left: 10%;
 }
 .SideBarWrapper{
-  position: fixed;
+  position: absolute;
+  /* top: 15vh; */
   right: 0;
   z-index: 100;
   /* sidebar height */

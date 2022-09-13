@@ -41,6 +41,7 @@ function SideBar(){
                 <div className="news-wrapper">
                     <div className="news">
                         <div className="list-group list-group-flush border-bottom scrollarea">
+                            {/*  */}
                             <div className="list-group-item list-group-item py-3 lh-tight">
                                 <div className="d-flex w-100 align-items-center justify-content-between">
                                     <strong className="mb-1">Новость 1</strong>
@@ -48,6 +49,7 @@ function SideBar(){
                                 </div>
                                 <div className="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
                             </div>
+                            {/*  */}
                             <div className="list-group-item list-group-item py-3 lh-tight" aria-current="true">
                                 <div className="d-flex w-100 align-items-center justify-content-between">
                                     <strong className="mb-1">Новость 2</strong>
@@ -62,6 +64,7 @@ function SideBar(){
                                 </div>
                                 <div className="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
                             </div>
+                            {/*  */}
                         </div>
                     </div>
                 </div>
