@@ -1,4 +1,4 @@
-﻿using TelegramBot.Data.Entities;
+﻿using ImpInfCommon.Data.Models;
 using TgBotLib.Services;
 
 namespace TelegramBot.Services.ApiServices

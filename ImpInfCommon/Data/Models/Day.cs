@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
-namespace ImpInfApi.Data.Entities
+namespace ImpInfCommon.Data.Models
 {
     public class Day
     {

@@ -1,4 +1,4 @@
-﻿namespace ImpInfApi.Data.Definitions
+﻿namespace ImpInfCommon.Data.Definitions
 {
     public enum Role
     {

@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using System;
 
 namespace ImpInfApi.Migrations
 {
@@ -197,6 +197,16 @@ namespace ImpInfApi.Migrations
                         onDelete: ReferentialAction.Restrict);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.InsertData(
+                table: "Passwords",
+                columns: new[] { "Id", "Value" },
+                values: new object[] { 1, "admin" });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "Name", "Login", "Role", "PasswordId", "ChatId" },
+                values: new object[] { 1, "admin", "admin", "1", "1", "123" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_DayLessonsAndTimes_LessonsAndTimesId",

@@ -1,7 +1,6 @@
-﻿using ImpInfApi.Data.Entities;
-using ImpInfApi.Data.Other;
-using ImpInfApi.Data.SubModels;
-using ImpInfApi.Services;
+﻿using ImpInfApi.Repository;
+using ImpInfCommon.Data.Models;
+using ImpInfCommon.Data.Other;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;

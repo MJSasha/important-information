@@ -1,4 +1,6 @@
-﻿namespace ImpInfApi.Data.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ImpInfCommon.Data.Models
 {
     public class Lesson
     {

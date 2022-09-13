@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using TelegramBot.Data.Entities;
+﻿using ImpInfCommon.Data.Models;
 using TgBotLib.Utils;
 
 namespace TelegramBot.Utils

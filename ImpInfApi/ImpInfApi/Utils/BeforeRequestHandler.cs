@@ -1,4 +1,4 @@
-﻿using ImpInfApi.Data.Definitions;
+﻿using ImpInfCommon.Data.Definitions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -23,7 +23,7 @@ namespace ImpInfApi.Utils
 
         public async Task Invoke(HttpContext context)
         {
-            if (context.Request.Cookies["token"] == appSettings.StaticToken)
+            if (string.IsNullOrWhiteSpace(context.Request.Headers["Authorization"]) && context.Request.Cookies["token"] == appSettings.StaticToken)
             {
                 var identity = GetIdentity();
 

@@ -1,4 +1,4 @@
-﻿namespace ImpInfApi.Data.Entities
+﻿namespace ImpInfCommon.Data.Models
 {
     public class Password
     {

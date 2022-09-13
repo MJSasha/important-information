@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ImpInfApi.Data.SubModels
+namespace ImpInfCommon.Data.Other
 {
     public class StartEndTime
     {

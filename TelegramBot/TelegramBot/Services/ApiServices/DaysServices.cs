@@ -1,10 +1,9 @@
-﻿using System;
+﻿using ImpInfCommon.Data.Models;
+using ImpInfCommon.Data.Other;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using TelegramBot.Data.Entities;
-using TelegramBot.Data.SubModels;
 using TgBotLib.Services;
 
 namespace TelegramBot.Services.ApiServices
@@ -15,13 +14,8 @@ namespace TelegramBot.Services.ApiServices
 
         public async Task<List<Day>> Get(StartEndTime startEndTime)
         {
-            HttpRequestMessage httpRequest = new HttpRequestMessage
-            {
-                Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(startEndTime), Encoding.UTF8, "application/json"),
-                Method = HttpMethod.Get,
-                RequestUri = new Uri(Root.ToString() + "/byDates")
-            };
-            var httpResponse = await base.httpClient.SendAsync(httpRequest);
+            var data = new StringContent(Serialize(startEndTime), Encoding.UTF8, "application/json");
+            var httpResponse = await httpClient.PostAsync(Root.ToString() + "/ByDates", data);
             return await Deserialize<List<Day>>(httpResponse);
         }
     }

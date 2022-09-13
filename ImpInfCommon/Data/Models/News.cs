@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace ImpInfApi.Data.Entities
+namespace ImpInfCommon.Data.Models
 {
     public class News
     {

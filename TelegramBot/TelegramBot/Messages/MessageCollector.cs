@@ -1,12 +1,12 @@
-﻿using System;
+﻿using ImpInfCommon.Data.Definitions;
+using ImpInfCommon.Data.Models;
+using ImpInfCommon.Data.Other;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBot.Data;
-using TelegramBot.Data.Definitions;
-using TelegramBot.Data.Entities;
-using TelegramBot.Data.SubModels;
 using TelegramBot.Services;
 using TelegramBot.Services.ApiServices;
 using TelegramBot.Utils;

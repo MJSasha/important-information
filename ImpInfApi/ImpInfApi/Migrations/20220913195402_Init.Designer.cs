@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ImpInfApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220911104630_Init")]
+    [Migration("20220913195402_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,7 +34,7 @@ namespace ImpInfApi.Migrations
                     b.ToTable("DayLessonsAndTimes");
                 });
 
-            modelBuilder.Entity("ImpInfApi.Data.Entities.Day", b =>
+            modelBuilder.Entity("ImpInfCommon.Data.Models.Day", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -59,7 +59,7 @@ namespace ImpInfApi.Migrations
                     b.ToTable("Days");
                 });
 
-            modelBuilder.Entity("ImpInfApi.Data.Entities.Lesson", b =>
+            modelBuilder.Entity("ImpInfCommon.Data.Models.Lesson", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -79,7 +79,7 @@ namespace ImpInfApi.Migrations
                     b.ToTable("Lessons");
                 });
 
-            modelBuilder.Entity("ImpInfApi.Data.Entities.LessonsAndTimes", b =>
+            modelBuilder.Entity("ImpInfCommon.Data.Models.LessonsAndTimes", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -101,7 +101,7 @@ namespace ImpInfApi.Migrations
                     b.ToTable("LessonsAndTimes");
                 });
 
-            modelBuilder.Entity("ImpInfApi.Data.Entities.News", b =>
+            modelBuilder.Entity("ImpInfCommon.Data.Models.News", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -129,7 +129,7 @@ namespace ImpInfApi.Migrations
                     b.ToTable("News");
                 });
 
-            modelBuilder.Entity("ImpInfApi.Data.Entities.Note", b =>
+            modelBuilder.Entity("ImpInfCommon.Data.Models.Note", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -153,7 +153,7 @@ namespace ImpInfApi.Migrations
                     b.ToTable("Notes");
                 });
 
-            modelBuilder.Entity("ImpInfApi.Data.Entities.Password", b =>
+            modelBuilder.Entity("ImpInfCommon.Data.Models.Password", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -167,7 +167,7 @@ namespace ImpInfApi.Migrations
                     b.ToTable("Passwords");
                 });
 
-            modelBuilder.Entity("ImpInfApi.Data.Entities.User", b =>
+            modelBuilder.Entity("ImpInfCommon.Data.Models.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -197,51 +197,51 @@ namespace ImpInfApi.Migrations
 
             modelBuilder.Entity("DayLessonsAndTimes", b =>
                 {
-                    b.HasOne("ImpInfApi.Data.Entities.Day", null)
+                    b.HasOne("ImpInfCommon.Data.Models.Day", null)
                         .WithMany()
                         .HasForeignKey("DaysId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ImpInfApi.Data.Entities.LessonsAndTimes", null)
+                    b.HasOne("ImpInfCommon.Data.Models.LessonsAndTimes", null)
                         .WithMany()
                         .HasForeignKey("LessonsAndTimesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ImpInfApi.Data.Entities.Day", b =>
+            modelBuilder.Entity("ImpInfCommon.Data.Models.Day", b =>
                 {
-                    b.HasOne("ImpInfApi.Data.Entities.LessonsAndTimes", null)
+                    b.HasOne("ImpInfCommon.Data.Models.LessonsAndTimes", null)
                         .WithMany()
                         .HasForeignKey("LessonsAndTimesId");
                 });
 
-            modelBuilder.Entity("ImpInfApi.Data.Entities.LessonsAndTimes", b =>
+            modelBuilder.Entity("ImpInfCommon.Data.Models.LessonsAndTimes", b =>
                 {
-                    b.HasOne("ImpInfApi.Data.Entities.Lesson", "Lesson")
+                    b.HasOne("ImpInfCommon.Data.Models.Lesson", "Lesson")
                         .WithMany()
                         .HasForeignKey("LessonId");
 
                     b.Navigation("Lesson");
                 });
 
-            modelBuilder.Entity("ImpInfApi.Data.Entities.News", b =>
+            modelBuilder.Entity("ImpInfCommon.Data.Models.News", b =>
                 {
-                    b.HasOne("ImpInfApi.Data.Entities.Lesson", "Lesson")
+                    b.HasOne("ImpInfCommon.Data.Models.Lesson", "Lesson")
                         .WithMany()
                         .HasForeignKey("LessonId");
 
                     b.Navigation("Lesson");
                 });
 
-            modelBuilder.Entity("ImpInfApi.Data.Entities.Note", b =>
+            modelBuilder.Entity("ImpInfCommon.Data.Models.Note", b =>
                 {
-                    b.HasOne("ImpInfApi.Data.Entities.Day", "Day")
+                    b.HasOne("ImpInfCommon.Data.Models.Day", "Day")
                         .WithMany()
                         .HasForeignKey("DayId");
 
-                    b.HasOne("ImpInfApi.Data.Entities.User", "User")
+                    b.HasOne("ImpInfCommon.Data.Models.User", "User")
                         .WithMany("Notes")
                         .HasForeignKey("UserId");
 
@@ -250,16 +250,16 @@ namespace ImpInfApi.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("ImpInfApi.Data.Entities.User", b =>
+            modelBuilder.Entity("ImpInfCommon.Data.Models.User", b =>
                 {
-                    b.HasOne("ImpInfApi.Data.Entities.Password", "Password")
+                    b.HasOne("ImpInfCommon.Data.Models.Password", "Password")
                         .WithMany()
                         .HasForeignKey("PasswordId");
 
                     b.Navigation("Password");
                 });
 
-            modelBuilder.Entity("ImpInfApi.Data.Entities.User", b =>
+            modelBuilder.Entity("ImpInfCommon.Data.Models.User", b =>
                 {
                     b.Navigation("Notes");
                 });

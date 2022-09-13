@@ -1,4 +1,4 @@
-﻿using ImpInfApi.Data.Entities;
+﻿using ImpInfCommon.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace ImpInfApi

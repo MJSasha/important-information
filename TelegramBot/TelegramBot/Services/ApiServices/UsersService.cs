@@ -1,6 +1,6 @@
-﻿using System.Net.Http;
+﻿using ImpInfCommon.Data.Models;
+using System.Net.Http;
 using System.Threading.Tasks;
-using TelegramBot.Data.Entities;
 using TgBotLib.Services;
 
 namespace TelegramBot.Services.ApiServices
@@ -13,7 +13,7 @@ namespace TelegramBot.Services.ApiServices
 
         public async Task<User> GetByChatId(long chatId)
         {
-            HttpResponseMessage httpResponse = await httpClient.GetAsync($"{Root}/byChatId/{chatId}");
+            HttpResponseMessage httpResponse = await httpClient.GetAsync($"{Root}/ByChatId/{chatId}");
             return await Deserialize<User>(httpResponse);
         }
     }

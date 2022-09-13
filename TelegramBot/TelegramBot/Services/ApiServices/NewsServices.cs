@@ -1,10 +1,10 @@
-﻿using System;
+﻿using ImpInfCommon.Data.Models;
+using ImpInfCommon.Data.Other;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using TelegramBot.Data.Entities;
-using TelegramBot.Data.SubModels;
 using TgBotLib.Services;
 
 namespace TelegramBot.Services.ApiServices
@@ -18,37 +18,25 @@ namespace TelegramBot.Services.ApiServices
 
         public async Task<List<News>> GetUnsent()
         {
-            HttpResponseMessage httpResponse = await httpClient.GetAsync(Root + "/unsent");
+            HttpResponseMessage httpResponse = await httpClient.GetAsync(Root + "/Unsent");
             return await Deserialize<List<News>>(httpResponse);
         }
 
         public async Task<News> GetByLessonId(int lessonId)
         {
-            HttpResponseMessage httpResponse = await httpClient.GetAsync($"{Root}/byLessonId/{lessonId}");
+            HttpResponseMessage httpResponse = await httpClient.GetAsync($"{Root}/ByLessonId/{lessonId}");
             return await Deserialize<News>(httpResponse);
         }
 
         public async Task<List<News>> Get(StartEndTime startEndTime)
         {
-            HttpRequestMessage httpRequest = new HttpRequestMessage
-            {
-                Content = new StringContent(Serialize(startEndTime), Encoding.UTF8, "application/json"),
-                Method = HttpMethod.Get,
-                RequestUri = new Uri(Root.ToString() + "/byDates")
-            };
-            var httpResponse = await base.httpClient.SendAsync(httpRequest);
+            var httpResponse = await httpClient.PostAsync(Root.ToString() + "/ByDates", new StringContent(Serialize(startEndTime), Encoding.UTF8, "application/json"));
             return await Deserialize<List<News>>(httpResponse);
         }
 
         public async Task<bool> CheckNewsBefore(DateTime date)
         {
-            HttpRequestMessage httpRequest = new HttpRequestMessage
-            {
-                Content = new StringContent(Serialize(new StartEndTime { End = date }), Encoding.UTF8, "application/json"),
-                Method = HttpMethod.Get,
-                RequestUri = new Uri(Root.ToString() + "/anyNewsBefore")
-            };
-            var httpResponse = await base.httpClient.SendAsync(httpRequest);
+            var httpResponse = await httpClient.PostAsync(Root.ToString() + "/AnyBefore", new StringContent(Serialize(new DateTimeWrap { DateTime = date }), Encoding.UTF8, "application/json"));
             return await Deserialize<bool>(httpResponse);
         }
     }

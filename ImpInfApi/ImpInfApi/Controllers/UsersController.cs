@@ -1,5 +1,5 @@
-﻿using ImpInfApi.Data.Entities;
-using ImpInfApi.Services;
+﻿using ImpInfApi.Repository;
+using ImpInfCommon.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;

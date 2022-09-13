@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ImpInfApi.Data.Other
+namespace ImpInfCommon.Data.Other
 {
     public class AuthModel
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace ImpInfApi.Services
+namespace ImpInfApi.Repository
 {
     public class BaseCrudRepository<TEntity> where TEntity : class
     {

@@ -1,8 +1,8 @@
-﻿using System.Linq;
+﻿using ImpInfCommon.Data.Models;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
-using TelegramBot.Data.Entities;
 using TelegramBot.Services;
 using TelegramBot.Services.ApiServices;
 using TgBotLib.Exceptions;

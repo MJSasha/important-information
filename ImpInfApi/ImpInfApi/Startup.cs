@@ -1,6 +1,6 @@
-using ImpInfApi.Data.Entities;
-using ImpInfApi.Services;
+using ImpInfApi.Repository;
 using ImpInfApi.Utils;
+using ImpInfCommon.Data.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

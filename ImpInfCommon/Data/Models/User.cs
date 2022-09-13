@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using ImpInfCommon.Data.Definitions;
 using System.Collections.Generic;
-using TelegramBot.Data.Definitions;
+using System.ComponentModel.DataAnnotations;
 
-namespace TelegramBot.Data.Entities
+namespace ImpInfCommon.Data.Models
 {
     public class User
     {
@@ -10,7 +10,6 @@ namespace TelegramBot.Data.Entities
         public string Name { get; set; }
         public string Login { get; set; }
         public Password Password { get; set; }
-        public string Token { get; set; }
         public long ChatId { get; set; }
         public Role Role { get; set; }
         public List<Note> Notes { get; set; }
