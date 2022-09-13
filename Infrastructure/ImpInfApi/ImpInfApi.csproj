@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\ImpInfCommon\ImpInfCommon.csproj" />
+    <ProjectReference Include="..\ImpInfCommon\ImpInfCommon.csproj" />
   </ItemGroup>
 
 </Project>
