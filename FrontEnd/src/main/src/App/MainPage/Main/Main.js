@@ -1,6 +1,6 @@
 import React, {useState , useEffect} from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
 import {CSSTransition} from 'react-transition-group';
 import SideBar from '../SideBar/SideBar';
 import './Main.modules.css';
@@ -26,8 +26,9 @@ function Main(){
     //     console.log('After logout token is => ' + Cookies.get('token'))
     //     navigate('/')
     // }
+
     useEffect(() => {
-        if (!Cookies.get('token')) {
+        if (!axios.defaults.headers.common['Authorization']) {
             navigate('/')
         }
     })
@@ -38,7 +39,7 @@ function Main(){
                     <h1 className="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">LOGO</h1>
                     <div className="col-md-3 group-btn">
                         <button type="button" className="btn btn-outline-primary me-2 news-btn" onClick={()=>setShowSB(!showSB)}>Новости</button>
-                        <button onClick={ () => { Cookies.remove('token'); navigate('/') } } className="logout-btn btn btn-primary">Logout</button>
+                        <button onClick={ () => { delete axios.defaults.headers.common["Authorization"]; navigate('/') } } className="logout-btn btn btn-primary">Logout</button>
                     </div>
                 </header>
             <div className="hero">

@@ -3,7 +3,6 @@ import axios from 'axios';
 import { useState, useEffect} from 'react'; // https://www.youtube.com/watch?v=pQibzAjverE&t=226s
 import './SideBar.modules.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Cookies from 'js-cookie';
 
 const DOMEN_SERVER = process.env.REACT_APP_BACK_ROOT ?? 'http://localhost:8080/api';
 
@@ -15,7 +14,7 @@ function SideBar(){
     const [news, setNews] = useState([])
 
     useEffect(() => {
-        axios.get(DOMEN_SERVER + "/news")
+        axios.get(DOMEN_SERVER + "/News")
         .then(res => {
 
            console.log('результат гет---'+ res) // News output
@@ -25,14 +24,11 @@ function SideBar(){
 
     const postNews = event => {
         event.preventDefault();
-        // console.log('содержимое---'+news.text)
-        // console.log('куки в пост---- '+Cookies.get('token'))
-        axios.post(DOMEN_SERVER + "/news",{
-            message: 'qwerty',
-            headers: {'Cookie': 'token=Fp9u5dsvcdM3XIm'}
+        axios.post(DOMEN_SERVER + "/News",{
+            message: news,
         })
         .then(res => console.log("отправка новостей--- ", res))
-        .catch(err => console.log('пост кэтч эрор---'+err))
+        .catch(err => console.log(err))
     }
 
     return(
