@@ -12,18 +12,22 @@ axios.defaults.withCredentials = true;
 
 function SideBar(){
     const [news, setNews] = useState([])
+    const [gotNews, getNews] = useState([])
 
     useEffect(() => {
-        axios.get(DOMEN_SERVER + "/News")
+        axios.post(DOMEN_SERVER + "/News/ByDates",{
+            start: getStartDate(),
+            end: getEndDate()
+        })
         .then(res => {
-
-           console.log('результат гет---'+ res) // News output
-
+           console.log(res.data) // News output
+            getNews(res.data)
         }).catch(err => console.log('гет кэтч эрор---'+err))
-    })
+    }, [])
 
-    const postNews = event => {
-        event.preventDefault();
+
+    const postNews = () => {
+        // event.preventDefault();
         axios.post(DOMEN_SERVER + "/News",{
             message: news,
         })
@@ -31,49 +35,41 @@ function SideBar(){
         .catch(err => console.log(err))
     }
 
-    return(
-            <div className="d-flex flex-column justify-content-between flex-shrink-0 bg-white" style={{width: 380, height: '80vh'}}>
+    const getEndDate = () => {
+        var today = new Date(),
+        endDate = today.getFullYear() + '-' + ('0' + (today.getMonth()+1)).slice(-2)+ '-' +('0' + today.getDate()).slice(-2);
+        return endDate;
+      };
+      const getStartDate = () => {
+        var today = new Date(),
+        startDate = today.getFullYear() + '-' + ('0' + (today.getMonth())).slice(-2)+ '-' +('0' + today.getDate()).slice(-2);
+        return startDate;
+      };
 
+    return(
+            <div className="d-flex flex-column justify-content-between flex-shrink-0 bg-white overflow-auto" style={{width: 380, height: 800}}>
                 <div className="username-wrapper">
                     <h1>UserName</h1>
                 </div>
-
-                <div className="news-wrapper">
                     <div className="news">
-                        <div className="list-group list-group-flush border-bottom scrollarea">
-                            {/*  */}
-                            <div className="list-group-item list-group-item py-3 lh-tight">
-                                <div className="d-flex w-100 align-items-center justify-content-between">
-                                    <strong className="mb-1">Новость 1</strong>
-                                    <small className="text-muted">Mon</small>
-                                </div>
-                                <div className="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-                            </div>
-                            {/*  */}
-                            <div className="list-group-item list-group-item py-3 lh-tight" aria-current="true">
-                                <div className="d-flex w-100 align-items-center justify-content-between">
-                                    <strong className="mb-1">Новость 2</strong>
-                                    <small className="text-muted">Wed</small>
-                                </div>
-                                <div className="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-                            </div>
-                            <div className="list-group-item list-group-item py-3 lh-tight">
-                                <div className="d-flex w-100 align-items-center justify-content-between">
-                                    <strong className="mb-1">Новость 3</strong>
-                                    <small className="text-muted">Tues</small>
-                                </div>
-                                <div className="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
-                            </div>
-                            {/*  */}
+                        <div className="list-group list-group-flush border-bottom overflow-auto" style={{maxHeight: 600}}>
+                            {
+                                gotNews.map(text => (
+                                    <div className="list-group-item list-group-item py-3 lh-tight" aria-current="true">
+                                        <div className="d-flex w-100 align-items-center justify-content-between">
+                                            <strong className="mb-1">{text.message}</strong>
+                                            <small className="text-muted">{(text.dateTimeOfCreate).substring(0, 10)}</small>
+                                        </div>
+                                        <div className="col-10 mb-1 small">------</div>
+                                    </div>
+                                ))
+                            }
+                        </div>
+                        <div className="input-group mb-3">
+                        <input type="text" value={news} onChange={(event) => {setNews(event.target.value); return event.target.reset}} className="form-control" placeholder="Запишите новость" aria-label="Имя пользователя получателя" aria-describedby="button-addon2"/>
+                        <button className="btn btn-outline-secondary" onClick={postNews} type="button" id="button-addon2">Отправить</button>
                         </div>
                     </div>
-                </div>
-
-                <div className="input-group mb-3">
-                <input type="text" value={news} onChange={(event) => setNews(event.target.value)} className="form-control" placeholder="Запишите новость" aria-label="Имя пользователя получателя" aria-describedby="button-addon2"/>
-                <button className="btn btn-outline-secondary" onClick={postNews} type="button" id="button-addon2">Отправить</button>
-                </div>
-
             </div>
     )
 }
