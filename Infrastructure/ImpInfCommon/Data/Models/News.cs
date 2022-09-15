@@ -6,7 +6,7 @@ namespace ImpInfCommon.Data.Models
     public class News
     {
         public int Id { get; set; }
-        public DateTime DateTimeOfCreate { get; set; }
+        public DateTime DateTimeOfCreate { get; set; } = DateTime.Now;
         public string Message { get; set; }
         public bool NeedToSend { get; set; } = false;
         public Lesson Lesson { get; set; }

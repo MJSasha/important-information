@@ -2,6 +2,16 @@ version: "3"
 
 services:
 
+# API
+  api:
+    image: mjsasha/impinfapi:1.0.2
+    container_name: api
+    restart: always
+    depends_on:
+        - imp-inf-db
+    ports:
+      - "8080:80"
+
 # Database
   imp-inf-db:
     image: mysql
