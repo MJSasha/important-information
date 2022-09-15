@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React, {useState , useEffect} from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
 import {CSSTransition} from 'react-transition-group';
 import SideBar from '../SideBar/SideBar';
 import './Main.modules.css';
@@ -16,16 +16,22 @@ import astronaut from './img/astronaut.png';
 
 
 
-
 function Main(){
+    
     const [showSB, setShowSB] = useState(false);
     const navigate = useNavigate();
 
-    const UserLogout = () => {
-        Cookies.remove('token');
-        console.log('After logout token is => ' + Cookies.get('token'))
-        navigate('/')
-    }
+    // const UserLogout = () => {
+    //     Cookies.remove('token');
+    //     console.log('After logout token is => ' + Cookies.get('token'))
+    //     navigate('/')
+    // }
+
+    useEffect(() => {
+        if (!axios.defaults.headers.common['Authorization']) {
+            navigate('/')
+        }
+    })
 
     return (
         <div className="wrapper">
@@ -33,7 +39,7 @@ function Main(){
                     <h1 className="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">LOGO</h1>
                     <div className="col-md-3 group-btn">
                         <button type="button" className="btn btn-outline-primary me-2 news-btn" onClick={()=>setShowSB(!showSB)}>Новости</button>
-                        <button onClick={UserLogout} className="logout-btn btn btn-primary">Logout</button>
+                        <button onClick={ () => { delete axios.defaults.headers.common["Authorization"]; navigate('/') } } className="logout-btn btn btn-primary">Logout</button>
                     </div>
                 </header>
             <div className="hero">
@@ -53,52 +59,52 @@ function Main(){
                         </div>
                         {/* date */}
                         {/* cards */}
-                        <div class="row row-cols-1 row-cols-md-3 g-4 cards-wrapper">
-                            <div class="col">
-                                <div class="card text-dark bg-light mb-3 shadow-outline">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Заголовок карточки</h5>
-                                        <p class="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту. Этот контент немного длиннее.</p>
+                        <div className="row row-cols-1 row-cols-md-3 g-4 cards-wrapper">
+                            <div className="col">
+                                <div className="card text-dark bg-light mb-3 shadow-outline">
+                                    <div className="card-body">
+                                        <h5 className="card-title">Заголовок карточки</h5>
+                                        <p className="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту. Этот контент немного длиннее.</p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col ">
-                                <div class="card text-dark bg-light mb-3 shadow-outline">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Заголовок карточки</h5>
-                                        <p class="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту. Этот контент немного длиннее.</p>
+                            <div className="col ">
+                                <div className="card text-dark bg-light mb-3 shadow-outline">
+                                    <div className="card-body">
+                                        <h5 className="card-title">Заголовок карточки</h5>
+                                        <p className="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту. Этот контент немного длиннее.</p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col ">
-                                <div class="card text-dark bg-light mb-3 shadow-outline">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Заголовок карточки</h5>
-                                        <p class="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту. Этот контент немного длиннее.</p>
+                            <div className="col ">
+                                <div className="card text-dark bg-light mb-3 shadow-outline">
+                                    <div className="card-body">
+                                        <h5 className="card-title">Заголовок карточки</h5>
+                                        <p className="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту. Этот контент немного длиннее.</p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col ">
-                                <div class="card text-dark bg-light mb-3 shadow-outline">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Заголовок карточки</h5>
-                                        <p class="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту. Этот контент немного длиннее.</p>
+                            <div className="col ">
+                                <div className="card text-dark bg-light mb-3 shadow-outline">
+                                    <div className="card-body">
+                                        <h5 className="card-title">Заголовок карточки</h5>
+                                        <p className="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту. Этот контент немного длиннее.</p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col ">
-                                <div class="card text-dark bg-light mb-3 shadow-outline">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Заголовок карточки</h5>
-                                        <p class="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту.</p>
+                            <div className="col ">
+                                <div className="card text-dark bg-light mb-3 shadow-outline">
+                                    <div className="card-body">
+                                        <h5 className="card-title">Заголовок карточки</h5>
+                                        <p className="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту.</p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col ">
-                                <div class="card text-dark bg-light mb-3 shadow-outline">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Заголовок карточки</h5>
-                                        <p class="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту. Этот контент немного длиннее.</p>
+                            <div className="col ">
+                                <div className="card text-dark bg-light mb-3 shadow-outline">
+                                    <div className="card-body">
+                                        <h5 className="card-title">Заголовок карточки</h5>
+                                        <p className="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту. Этот контент немного длиннее.</p>
                                     </div>
                                 </div>
                             </div>

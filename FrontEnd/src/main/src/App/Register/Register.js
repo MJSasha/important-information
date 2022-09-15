@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import axios from 'axios';
-import Cookies from 'js-cookie';
 import './Register_styles.modules.css';
 import logo from './img/logo.svg';
 import { Form, Button} from 'react-bootstrap';
@@ -34,13 +33,13 @@ function Register(){
     const submitCheckin = event => {
         event.preventDefault();
 
-            axios.post(DOMEN_SERVER + "/auth", {
+            axios.post(DOMEN_SERVER + "/Account", {
                 login: register.login,
                 password: register.password,
             })
             .then(token => {
                     console.log('token => '+ token.data)
-                    Cookies.set('token', token.data, {expires: 730});
+                    axios.defaults.headers.common['Authorization'] = 'Bearer '+token.data;
                     navigate('/main')
             })
             .catch(err => {
