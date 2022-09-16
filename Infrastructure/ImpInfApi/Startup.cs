@@ -96,14 +96,11 @@ namespace ImpInfApi
             services.AddTransient<BaseCrudRepository<Note>>();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AppDbContext dbContext, AppSettings appSettings)
+        public async void Configure(IApplicationBuilder app, IWebHostEnvironment env, AppSettings appSettings)
         {
-            //if (env.IsDevelopment())
-            //{
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ImpInfApi"));
             app.UseDeveloperExceptionPage();
-            //}
 
             app.UseRouting();
 
@@ -124,9 +121,12 @@ namespace ImpInfApi
 
             try
             {
+                using var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
+                var dbContext = serviceScope.ServiceProvider.GetService<AppDbContext>();
                 dbContext.Database.Migrate();
+                await dbContext.Database.ExecuteSqlRawAsync(UtilsFunctions.GetInitiallQuery());
             }
-            catch { /*ignore db already exist*/}
+            catch { /*ignore*/}
         }
     }
 }

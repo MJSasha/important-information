@@ -198,16 +198,6 @@ namespace ImpInfApi.Migrations
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
-            migrationBuilder.InsertData(
-                table: "Passwords",
-                columns: new[] { "Id", "Value" },
-                values: new object[] { 1, "admin" });
-
-            migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "Id", "Name", "Login", "Role", "PasswordId", "ChatId" },
-                values: new object[] { 1, "admin", "admin", "1", "1", "123" });
-
             migrationBuilder.CreateIndex(
                 name: "IX_DayLessonsAndTimes_LessonsAndTimesId",
                 table: "DayLessonsAndTimes",
