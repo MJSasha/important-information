@@ -13,9 +13,14 @@ namespace ImpInfApi.Controllers
     {
         private readonly BaseCrudRepository<User> repository;
 
-        public UsersController(BaseCrudRepository<User> repository) : base(repository, (User user, int id) => user.Id == id)
+        public UsersController(BaseCrudRepository<User> repository) : base(repository)
         {
             this.repository = repository;
+        }
+
+        public override Task<User> Get(int id)
+        {
+            return repository.ReadFirst(user => user.Id == id);
         }
 
         [HttpPatch("{id}")]

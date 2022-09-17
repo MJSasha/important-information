@@ -11,8 +11,16 @@ namespace ImpInfApi.Controllers
     [Authorize]
     public class NotesController : BaseCrudController<Note, int>
     {
-        public NotesController(BaseCrudRepository<Note> repository) : base(repository, (Note note, int id) => note.Id == id)
+        private readonly BaseCrudRepository<Note> repository;
+
+        public NotesController(BaseCrudRepository<Note> repository) : base(repository)
         {
+            this.repository = repository;
+        }
+
+        public override Task<Note> Get(int id)
+        {
+            return repository.ReadFirst(note => note.Id == id);
         }
 
         public override Task<ObjectResult> Patch(int id, [FromBody] Note note)

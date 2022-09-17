@@ -1,6 +1,5 @@
 ﻿using ImpInfCommon.Data.Definitions;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace ImpInfCommon.Data.Models
 {

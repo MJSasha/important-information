@@ -47,12 +47,7 @@ namespace ImpInfApi.Migrations
                     b.Property<string>("Information")
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("LessonsAndTimesId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("LessonsAndTimesId");
 
                     b.ToTable("Days");
                 });
@@ -208,13 +203,6 @@ namespace ImpInfApi.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ImpInfCommon.Data.Models.Day", b =>
-                {
-                    b.HasOne("ImpInfCommon.Data.Models.LessonsAndTimes", null)
-                        .WithMany()
-                        .HasForeignKey("LessonsAndTimesId");
-                });
-
             modelBuilder.Entity("ImpInfCommon.Data.Models.LessonsAndTimes", b =>
                 {
                     b.HasOne("ImpInfCommon.Data.Models.Lesson", "Lesson")
@@ -236,8 +224,9 @@ namespace ImpInfApi.Migrations
             modelBuilder.Entity("ImpInfCommon.Data.Models.Note", b =>
                 {
                     b.HasOne("ImpInfCommon.Data.Models.Day", "Day")
-                        .WithMany()
-                        .HasForeignKey("DayId");
+                        .WithMany("Notes")
+                        .HasForeignKey("DayId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("ImpInfCommon.Data.Models.User", "User")
                         .WithMany("Notes")
@@ -255,6 +244,11 @@ namespace ImpInfApi.Migrations
                         .HasForeignKey("PasswordId");
 
                     b.Navigation("Password");
+                });
+
+            modelBuilder.Entity("ImpInfCommon.Data.Models.Day", b =>
+                {
+                    b.Navigation("Notes");
                 });
 
             modelBuilder.Entity("ImpInfCommon.Data.Models.User", b =>

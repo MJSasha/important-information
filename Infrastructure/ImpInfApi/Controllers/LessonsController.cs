@@ -11,8 +11,16 @@ namespace ImpInfApi.Controllers
     [Authorize]
     public class LessonsController : BaseCrudController<Lesson, int>
     {
-        public LessonsController(BaseCrudRepository<Lesson> repository) : base(repository, (Lesson lesson, int id) => lesson.Id == id)
+        private readonly BaseCrudRepository<Lesson> repository;
+
+        public LessonsController(BaseCrudRepository<Lesson> repository) : base(repository)
         {
+            this.repository = repository;
+        }
+
+        public override Task<Lesson> Get(int id)
+        {
+            return repository.ReadFirst(lesson => lesson.Id == id);
         }
 
         public override Task<ObjectResult> Patch(int id, [FromBody] Lesson lesson)

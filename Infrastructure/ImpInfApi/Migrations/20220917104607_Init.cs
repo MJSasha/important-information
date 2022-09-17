@@ -12,6 +12,24 @@ namespace ImpInfApi.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "Days",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Information = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CurrentUserNote = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Days", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Lessons",
                 columns: table => new
                 {
@@ -120,31 +138,6 @@ namespace ImpInfApi.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Days",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Information = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    CurrentUserNote = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    LessonsAndTimesId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Days", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Days_LessonsAndTimes_LessonsAndTimesId",
-                        column: x => x.LessonsAndTimesId,
-                        principalTable: "LessonsAndTimes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "DayLessonsAndTimes",
                 columns: table => new
                 {
@@ -188,7 +181,7 @@ namespace ImpInfApi.Migrations
                         column: x => x.DayId,
                         principalTable: "Days",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Notes_Users_UserId",
                         column: x => x.UserId,
@@ -201,11 +194,6 @@ namespace ImpInfApi.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_DayLessonsAndTimes_LessonsAndTimesId",
                 table: "DayLessonsAndTimes",
-                column: "LessonsAndTimesId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Days_LessonsAndTimesId",
-                table: "Days",
                 column: "LessonsAndTimesId");
 
             migrationBuilder.CreateIndex(
@@ -246,19 +234,19 @@ namespace ImpInfApi.Migrations
                 name: "Notes");
 
             migrationBuilder.DropTable(
+                name: "LessonsAndTimes");
+
+            migrationBuilder.DropTable(
                 name: "Days");
 
             migrationBuilder.DropTable(
                 name: "Users");
 
             migrationBuilder.DropTable(
-                name: "LessonsAndTimes");
+                name: "Lessons");
 
             migrationBuilder.DropTable(
                 name: "Passwords");
-
-            migrationBuilder.DropTable(
-                name: "Lessons");
         }
     }
 }

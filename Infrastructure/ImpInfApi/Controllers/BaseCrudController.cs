@@ -1,6 +1,5 @@
 ﻿using ImpInfApi.Repository;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Threading.Tasks;
 
 namespace ImpInfApi.Controllers
@@ -8,12 +7,10 @@ namespace ImpInfApi.Controllers
     public abstract class BaseCrudController<TEntity, TKey> : ControllerBase where TEntity : class
     {
         private readonly BaseCrudRepository<TEntity> repository;
-        private readonly Func<TEntity, TKey, bool> idSearch;
 
-        public BaseCrudController(BaseCrudRepository<TEntity> repository, Func<TEntity, TKey, bool> idSearch)
+        public BaseCrudController(BaseCrudRepository<TEntity> repository)
         {
             this.repository = repository;
-            this.idSearch = idSearch;
         }
 
         [HttpGet]
@@ -23,10 +20,7 @@ namespace ImpInfApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public Task<TEntity> Get(TKey id)
-        {
-            return repository.ReadFirst(entity => idSearch(entity, id));
-        }
+        public abstract Task<TEntity> Get(TKey id);
 
         [HttpPost]
         public async Task<ObjectResult> Post([FromBody] TEntity entity)
@@ -49,10 +43,10 @@ namespace ImpInfApi.Controllers
             return Ok("Update successful.");
         }
 
-        [HttpDelete("{id}")]
-        public async Task<ObjectResult> Delete(TKey id)
+        [HttpDelete]
+        public async Task<ObjectResult> Delete([FromBody] TEntity entity)
         {
-            await repository.Delete(entity => idSearch(entity, id));
+            await repository.Delete(new[] { entity });
             return Ok("Delete successful.");
         }
     }

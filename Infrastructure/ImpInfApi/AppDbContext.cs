@@ -17,7 +17,7 @@ namespace ImpInfApi
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<LessonsAndTimes>().HasMany<Day>();
+            modelBuilder.Entity<Note>().HasOne(n => n.Day).WithMany(d => d.Notes).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

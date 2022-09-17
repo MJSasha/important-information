@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace ImpInfCommon.Data.Models
+﻿namespace ImpInfCommon.Data.Models
 {
     public class Lesson
     {

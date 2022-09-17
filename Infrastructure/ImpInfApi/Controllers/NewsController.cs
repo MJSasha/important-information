@@ -15,9 +15,14 @@ namespace ImpInfApi.Controllers
     {
         private readonly BaseCrudRepository<News> repository;
 
-        public NewsController(BaseCrudRepository<News> repository) : base(repository, (News news, int id) => news.Id == id)
+        public NewsController(BaseCrudRepository<News> repository) : base(repository)
         {
             this.repository = repository;
+        }
+
+        public override Task<News> Get(int id)
+        {
+            return repository.ReadFirst(news => news.Id == id);
         }
 
         public override Task<ObjectResult> Patch(int id, [FromBody] News news)
