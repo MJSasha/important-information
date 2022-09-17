@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ImpInfCommon.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ImpInfApi.Repository
 {
-    public class BaseCrudRepository<TEntity> where TEntity : class
+    public class BaseCrudRepository<TEntity> where TEntity : class, IEntity
     {
         private readonly AppDbContext dbContext;
         private readonly DbSet<TEntity> dbSet;
@@ -58,10 +59,9 @@ namespace ImpInfApi.Repository
             dbContext.Entry(entity).State = EntityState.Detached;
         }
 
-        public async Task Delete(TEntity[] entities)
+        public Task Delete(int id)
         {
-            dbSet.RemoveRange(entities);
-            await dbContext.SaveChangesAsync();
+            return Delete(entity => entity.Id == id);
         }
 
         public async Task Delete(Func<TEntity, bool> query)

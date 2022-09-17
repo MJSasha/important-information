@@ -1,9 +1,10 @@
-﻿using System;
+﻿using ImpInfCommon.Interfaces;
+using System;
 using System.Linq;
 
 namespace ImpInfCommon.Data.Models
 {
-    public class News
+    public class News : IEntity
     {
         public int Id { get; set; }
         public DateTime DateTimeOfCreate { get; set; } = DateTime.Now;

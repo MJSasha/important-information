@@ -1,6 +1,8 @@
-﻿namespace ImpInfCommon.Data.Models
+﻿using ImpInfCommon.Interfaces;
+
+namespace ImpInfCommon.Data.Models
 {
-    public class Note
+    public class Note : IEntity
     {
         public int Id { get; set; }
         public string Description { get; set; }

@@ -11,24 +11,13 @@ namespace ImpInfApi.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class NewsController : BaseCrudController<News, int>
+    public class NewsController : BaseCrudController<News>
     {
         private readonly BaseCrudRepository<News> repository;
 
         public NewsController(BaseCrudRepository<News> repository) : base(repository)
         {
             this.repository = repository;
-        }
-
-        public override Task<News> Get(int id)
-        {
-            return repository.ReadFirst(news => news.Id == id);
-        }
-
-        public override Task<ObjectResult> Patch(int id, [FromBody] News news)
-        {
-            news.Id = id;
-            return base.Patch(id, news);
         }
 
         [HttpGet("Unsent")]

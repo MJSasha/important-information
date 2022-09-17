@@ -10,24 +10,13 @@ namespace ImpInfApi.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class DaysController : BaseCrudController<Day, int>
+    public class DaysController : BaseCrudController<Day>
     {
         private readonly BaseCrudRepository<Day> repository;
 
         public DaysController(BaseCrudRepository<Day> repository) : base(repository)
         {
             this.repository = repository;
-        }
-
-        public override Task<Day> Get(int id)
-        {
-            return repository.ReadFirst(day => day.Id == id);
-        }
-
-        public override Task<ObjectResult> Patch(int id, [FromBody] Day day)
-        {
-            day.Id = id;
-            return base.Patch(id, day);
         }
 
         [HttpPost("ByDates")]

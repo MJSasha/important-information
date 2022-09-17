@@ -9,25 +9,13 @@ namespace ImpInfApi.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(Roles = "ADMIN")]
-    public class UsersController : BaseCrudController<User, int>
+    public class UsersController : BaseCrudController<User>
     {
         private readonly BaseCrudRepository<User> repository;
 
         public UsersController(BaseCrudRepository<User> repository) : base(repository)
         {
             this.repository = repository;
-        }
-
-        public override Task<User> Get(int id)
-        {
-            return repository.ReadFirst(user => user.Id == id);
-        }
-
-        [HttpPatch("{id}")]
-        public override Task<ObjectResult> Patch(int id, [FromBody] User user)
-        {
-            user.Id = id;
-            return base.Patch(id, user);
         }
 
         [HttpGet("ByChatId/{chatId}")]

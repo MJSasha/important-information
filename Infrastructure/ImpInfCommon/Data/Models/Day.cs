@@ -1,9 +1,10 @@
-﻿using System;
+﻿using ImpInfCommon.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace ImpInfCommon.Data.Models
 {
-    public class Day
+    public class Day : IEntity
     {
         public int Id { get; set; }
         public DateTime Date { get; set; }

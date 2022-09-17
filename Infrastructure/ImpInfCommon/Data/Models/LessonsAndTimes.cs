@@ -1,10 +1,11 @@
 ﻿using ImpInfCommon.Data.Definitions;
+using ImpInfCommon.Interfaces;
 using System;
 using System.Collections.Generic;
 
 namespace ImpInfCommon.Data.Models
 {
-    public class LessonsAndTimes
+    public class LessonsAndTimes : IEntity
     {
         public int Id { get; set; }
         public DateTime Time { get; set; }

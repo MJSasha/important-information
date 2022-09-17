@@ -1,10 +1,11 @@
 ﻿using ImpInfApi.Repository;
+using ImpInfCommon.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace ImpInfApi.Controllers
 {
-    public abstract class BaseCrudController<TEntity, TKey> : ControllerBase where TEntity : class
+    public abstract class BaseCrudController<TEntity> : ControllerBase where TEntity : class, IEntity
     {
         private readonly BaseCrudRepository<TEntity> repository;
 
@@ -20,7 +21,10 @@ namespace ImpInfApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public abstract Task<TEntity> Get(TKey id);
+        public Task<TEntity> Get(int id)
+        {
+            return repository.ReadFirst(entity => entity.Id == id);
+        }
 
         [HttpPost]
         public async Task<ObjectResult> Post([FromBody] TEntity entity)
@@ -37,16 +41,17 @@ namespace ImpInfApi.Controllers
         }
 
         [HttpPatch("{id}")]
-        public virtual async Task<ObjectResult> Patch(TKey id, [FromBody] TEntity entity)
+        public async Task<ObjectResult> Patch(int id, [FromBody] TEntity entity)
         {
+            entity.Id = id;
             await repository.Update(entity);
             return Ok("Update successful.");
         }
 
-        [HttpDelete]
-        public async Task<ObjectResult> Delete([FromBody] TEntity entity)
+        [HttpDelete("{id}")]
+        public async Task<ObjectResult> Delete(int id)
         {
-            await repository.Delete(new[] { entity });
+            await repository.Delete(id);
             return Ok("Delete successful.");
         }
     }
