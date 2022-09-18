@@ -26,18 +26,19 @@ function SideBar(){
     }, [])
 
 
-    const postNews = () => {
-        // event.preventDefault();
+    const postNews = event => {
+        event.preventDefault();
         axios.post(DOMEN_SERVER + "/News",{
             message: news,
         })
         .then(res => console.log("отправка новостей--- ", res))
         .catch(err => console.log(err))
+        setNews([])
     }
 
     const getEndDate = () => {
         var today = new Date(),
-        endDate = today.getFullYear() + '-' + ('0' + (today.getMonth()+1)).slice(-2)+ '-' +('0' + today.getDate()).slice(-2);
+        endDate = today.getFullYear() + '-' + ('0' + (today.getMonth()+1)).slice(-2)+ '-' +('0' + (today.getDate()+1)).slice(-2);
         return endDate;
       };
       const getStartDate = () => {
@@ -65,10 +66,12 @@ function SideBar(){
                                 ))
                             }
                         </div>
-                        <div className="input-group mb-3">
-                        <input type="text" value={news} onChange={(event) => {setNews(event.target.value); return event.target.reset}} className="form-control" placeholder="Запишите новость" aria-label="Имя пользователя получателя" aria-describedby="button-addon2"/>
-                        <button className="btn btn-outline-secondary" onClick={postNews} type="button" id="button-addon2">Отправить</button>
-                        </div>
+                        <form className='postNews' onSubmit={postNews}>
+                            <div className="input-group mb-3">
+                                <input type="text" value={news} onChange={(event) => {setNews(event.target.value)}} className="form-control" placeholder="Запишите новость" aria-label="Имя пользователя получателя" aria-describedby="button-addon2"/>
+                                <button className="btn btn-outline-secondary" type="submit" id="button-addon2">Отправить</button>
+                            </div>
+                        </form>
                     </div>
             </div>
     )

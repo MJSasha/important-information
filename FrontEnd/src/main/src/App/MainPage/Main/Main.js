@@ -21,12 +21,6 @@ function Main(){
     const [showSB, setShowSB] = useState(false);
     const navigate = useNavigate();
 
-    // const UserLogout = () => {
-    //     Cookies.remove('token');
-    //     console.log('After logout token is => ' + Cookies.get('token'))
-    //     navigate('/')
-    // }
-
     useEffect(() => {
         if (!axios.defaults.headers.common['Authorization']) {
             navigate('/')
