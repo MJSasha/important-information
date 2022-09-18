@@ -13,3 +13,5 @@ docker-compose up
 ```bash
 docker-compose up imp-inf-api
 ```
+
+При этом, на порту [8080](http://localhost:8080/swagger/index.html) доступен *swagger*
