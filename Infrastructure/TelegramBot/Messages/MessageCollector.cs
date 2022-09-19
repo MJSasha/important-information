@@ -173,8 +173,8 @@ namespace TelegramBot.Messages
             NewsService newsService = new();
             return (await newsService.Get(new StartEndTime
             {
-                Start = weekStartDate,
-                End = weekStartDate.AddDays(7)
+                Start = weekStartDate.AddDays(-1),
+                End = weekStartDate.AddDays(6)
             })).OrderBy(n => n.DateTimeOfCreate);
         }
         private async Task<bool> CheckAnyNewsBefore(DateTime date)
