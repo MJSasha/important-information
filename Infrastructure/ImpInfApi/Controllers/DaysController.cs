@@ -3,6 +3,7 @@ using ImpInfCommon.Data.Models;
 using ImpInfCommon.Data.Other;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ImpInfApi.Controllers
@@ -28,7 +29,19 @@ namespace ImpInfApi.Controllers
         [HttpPost("ByDate")]
         public Task<Day> GetByDates([FromBody] DateTimeWrap dateWrap)
         {
-            return repository.ReadFirst(d => d.Date.Day == dateWrap.DateTime.Day);
+            return repository.ReadFirst(d => d.Date == dateWrap.DateTime.Date);
+        }
+
+        [HttpPost("AnyBefore")]
+        public async Task<bool> AnyBefore([FromBody] DateTimeWrap date)
+        {
+            return (await repository.Read(d => d.Date < date.DateTime.Date)).Any();
+        }
+
+        [HttpPost("AnyAfter")]
+        public async Task<bool> AnyAfter([FromBody] DateTimeWrap date)
+        {
+            return (await repository.Read(d => d.Date > date.DateTime.Date)).Any();
         }
     }
 }

@@ -41,7 +41,7 @@ namespace ImpInfApi.Controllers
         [HttpPost("AnyBefore")]
         public async Task<bool> CheckAnyNewsBefore([FromBody] DateTimeWrap date)
         {
-            return (await repository.Read(n => n.DateTimeOfCreate < date.DateTime)).Any();
+            return (await repository.Read(n => n.DateTimeOfCreate.Date < date.DateTime.Date)).Any();
         }
     }
 }
