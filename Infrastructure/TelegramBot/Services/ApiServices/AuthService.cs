@@ -15,7 +15,7 @@ namespace TelegramBot.Services.ApiServices
         {
             var json = Serialize(registrationModel);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
-            var httpResponse = await httpClient.PostAsync(Root.ToString() + "/Account" + chatId.ToString(), data);
+            var httpResponse = await httpClient.PostAsync(Root.ToString() + "/Account/" + chatId.ToString(), data);
             if (!httpResponse.IsSuccessStatusCode) throw new ErrorResponseException(httpResponse.StatusCode,
                                                                 await httpResponse.Content.ReadAsStringAsync());
         }
