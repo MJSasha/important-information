@@ -2,12 +2,14 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
 using TelegramBot.Data;
 using TelegramBot.Services;
 using TelegramBot.Services.ApiServices;
 using TgBotLib.Exceptions;
 using TgBotLib.Handlers;
 using TgBotLib.Services;
+using TgBotLib.Utils;
 
 namespace TelegramBot.Handlers
 {
@@ -15,24 +17,26 @@ namespace TelegramBot.Handlers
     {
         private readonly RegistrationModel registrationModel = new();
         private readonly long chatId;
-        private string registrationMassage;
+        private string registrationMessage;
 
         public RegistrationHandler(long chatId) : base(new BotService(chatId))
         {
             this.chatId = chatId;
         }
 
-        public override async Task ProcessMessage(Message registrationMassage)
+        public override async Task ProcessMessage(Message registrationMessage)
         {
-            this.registrationMassage = registrationMassage.Text;
-            await base.ProcessMessage(registrationMassage);
+            this.registrationMessage = registrationMessage.Type == MessageType.Contact ?
+                registrationMessage.Contact.PhoneNumber : registrationMessage.Text;
+            await base.ProcessMessage(registrationMessage);
         }
 
         protected override void RegistrateProcessing()
         {
-            AddProcessing("Введите ваше имя и фамилию", () => registrationModel.Name = registrationMassage);
-            AddProcessing("Придумайте логин", () => registrationModel.Login = registrationMassage);
-            AddProcessing("Придумайте пароль", () => registrationModel.Password = registrationMassage, CompleteRegistration);
+            AddProcessing("Введите ваше имя и фамилию", () => registrationModel.Name = registrationMessage);
+            AddProcessing("Введите ваш телефон", () => registrationModel.Phone = registrationMessage, button: ButtonsGenerator.GetKeyboardButtonWithPhoneRequest("Отправить телефон"));
+            AddProcessing("Придумайте логин", () => registrationModel.Login = registrationMessage);
+            AddProcessing("Придумайте пароль", () => registrationModel.Password = registrationMessage, CompleteRegistration);
         }
 
         private async void CompleteRegistration()

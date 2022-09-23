@@ -13,7 +13,7 @@ namespace TelegramBot
         public static string DaysRoot { get; } = "Days";
         public static string NewsRoot { get; } = "News";
         public static string NotesRoot { get; } = "Notes";
-        public static string AuthRoot { get; } = "Auth";
+        public static string AuthRoot { get; } = "Account";
         public static string LessonsRoot { get; } = "Lessons";
     }
 }
