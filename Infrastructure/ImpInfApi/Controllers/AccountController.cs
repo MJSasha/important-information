@@ -36,6 +36,7 @@ namespace ImpInfApi.Controllers
             User user = new()
             {
                 Name = registrationModel.Name,
+                Phone = registrationModel.Phone,
                 Login = registrationModel.Login,
                 Password = new Password { Value = registrationModel.Password },
                 ChatId = chatId
