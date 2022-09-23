@@ -20,6 +20,17 @@ namespace ImpInfApi.Controllers
             this.repository = repository;
         }
 
+
+        public override Task<News[]> Get()
+        {
+            return repository.Read(includedProperties: n => n.Lesson);
+        }
+
+        public override Task<News> Get(int id)
+        {
+            return repository.ReadFirst(entity => entity.Id == id, n => n.Lesson);
+        }
+
         [HttpGet("Unsent")]
         public Task<News[]> GetUnsent()
         {

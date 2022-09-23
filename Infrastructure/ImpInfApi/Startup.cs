@@ -91,7 +91,7 @@ namespace ImpInfApi
             //DI
             services.AddTransient<BaseCrudRepository<News>>();
             services.AddTransient<BaseCrudRepository<User>>();
-            services.AddTransient<BaseCrudRepository<Day>>();
+            services.AddTransient<BaseCrudRepository<Day>, DaysRepository>();
             services.AddTransient<BaseCrudRepository<Lesson>>();
             services.AddTransient<BaseCrudRepository<Note>>();
         }
@@ -119,14 +119,10 @@ namespace ImpInfApi
                 endpoints.MapControllers();
             });
 
-            try
-            {
-                using var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
-                var dbContext = serviceScope.ServiceProvider.GetService<AppDbContext>();
-                dbContext.Database.Migrate();
-                await dbContext.Database.ExecuteSqlRawAsync(UtilsFunctions.GetInitiallQuery());
-            }
-            catch { /*ignore*/}
+            using var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
+            var dbContext = serviceScope.ServiceProvider.GetService<AppDbContext>();
+            dbContext.Database.Migrate();
+            await dbContext.Database.ExecuteSqlRawAsync(UtilsFunctions.GetInitiallQuery());
         }
     }
 }

@@ -18,12 +18,12 @@ namespace ImpInfApi.Repository
             dbSet = dbContext.Set<TEntity>();
         }
 
-        public Task Create(TEntity entities)
+        public virtual Task Create(TEntity entities)
         {
             return Create(new[] { entities });
         }
 
-        public async Task Create(TEntity[] entities)
+        public virtual async Task Create(TEntity[] entities)
         {
             foreach (var entity in entities)
             {
@@ -40,17 +40,17 @@ namespace ImpInfApi.Repository
             }
         }
 
-        public Task<TEntity> ReadFirst(Expression<Func<TEntity, bool>> query, params Expression<Func<TEntity, object>>[] includedProperties)
+        public virtual Task<TEntity> ReadFirst(Expression<Func<TEntity, bool>> query, params Expression<Func<TEntity, object>>[] includedProperties)
         {
             return IncludProperties(includedProperties).FirstOrDefaultAsync(query);
         }
 
-        public async Task<TEntity[]> Read(Func<TEntity, bool> query = null, params Expression<Func<TEntity, object>>[] includedProperties)
+        public virtual async Task<TEntity[]> Read(Func<TEntity, bool> query = null, params Expression<Func<TEntity, object>>[] includedProperties)
         {
-            return query != null ? IncludProperties(includedProperties).Where(query).ToArray() : dbSet.ToArray();
+            return query != null ? IncludProperties(includedProperties).Where(query).ToArray() : IncludProperties(includedProperties).ToArray();
         }
 
-        public async Task Update(TEntity entity)
+        public virtual async Task Update(TEntity entity)
         {
             dbContext.Attach(entity);
             MarkModified(entity);
@@ -59,19 +59,19 @@ namespace ImpInfApi.Repository
             dbContext.Entry(entity).State = EntityState.Detached;
         }
 
-        public Task Delete(int id)
+        public virtual Task Delete(int id)
         {
             return Delete(entity => entity.Id == id);
         }
 
-        public async Task Delete(Func<TEntity, bool> query)
+        public virtual async Task Delete(Func<TEntity, bool> query)
         {
             dbSet.RemoveRange(dbSet.Where(query));
             await dbContext.SaveChangesAsync();
         }
 
 
-        private void MarkModified(TEntity entity)
+        protected void MarkModified(TEntity entity)
         {
             var collections = dbContext.Entry(entity).Collections;
             foreach (var collection in collections)
@@ -100,7 +100,7 @@ namespace ImpInfApi.Repository
             }
         }
 
-        private IQueryable<TEntity> IncludProperties(Expression<Func<TEntity, object>>[] includeProperties)
+        protected IQueryable<TEntity> IncludProperties(Expression<Func<TEntity, object>>[] includeProperties)
         {
             return includeProperties.Aggregate(dbSet.AsNoTracking(), (query, includeProperty) => query.Include(includeProperty));
         }
