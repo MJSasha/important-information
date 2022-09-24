@@ -107,6 +107,34 @@ namespace TelegramBot.Messages
 
             await SendNews(allNewsInSelectedWeek, buttonsGenerator.GetButtons(), string.Format(Texts.NextWeek, weekStartDate.ToString("dd-MM-yyyy"), weekEndDate.ToString("dd-MM-yyyy")));
         }
+
+        public async Task EditToCalendar(int monthShift = 0)
+        {
+            ButtonsGenerator buttonsGenerator = new();
+            var monthStartDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(monthShift);
+
+            for (int k = 0; k < 4; k++)
+            {
+                List<(string, string)> buttonsLine = new();
+                for (int i = 0; i < 7; i++) buttonsLine.Add((monthStartDate.AddDays(i).DayOfWeek.ToRusDay() + monthStartDate.AddDays(i).Day.Above(), monthStartDate.AddDays(i).GetDayCallback()));
+                buttonsGenerator.SetInlineButtons(buttonsLine.ToArray());
+                monthStartDate = monthStartDate.AddDays(7);
+            }
+            monthStartDate = monthStartDate.AddDays(-1);
+
+            List<(string, string)> completedButtonsLine = new();
+            while (monthStartDate.Day < DateTime.DaysInMonth(monthStartDate.Year, monthStartDate.Month))
+            {
+                monthStartDate = monthStartDate.AddDays(1);
+                completedButtonsLine.Add((monthStartDate.DayOfWeek.ToRusDay() + monthStartDate.Day.Above(), monthStartDate.GetDayCallback()));
+            }
+
+            buttonsGenerator.SetInlineButtons(completedButtonsLine.ToArray());
+            await SetPaginationButtonsForDays(buttonsGenerator, monthShift);
+            buttonsGenerator.SetGoBackButton();
+            await bot.EditMessage($"Для просмотра детальной информации по дате, нажмите на кнопку\nТекущий месяц: {monthStartDate.Month} {monthStartDate.Year}", messageId, buttonsGenerator.GetButtons());
+
+        }
         #endregion
 
 
@@ -120,6 +148,18 @@ namespace TelegramBot.Messages
             var lesson = await lessonsService.Get(lessonId);
 
             await bot.EditMessage(lesson.GetLessonCard(), messageId, buttonsGenerator.GetButtons());
+        }
+
+        public async Task EditToDay(DateTime chosenDay)
+        {
+            DaysServices daysServices = new();
+            var day = await daysServices.Get(new DateTimeWrap() { DateTime = chosenDay });
+
+            ButtonsGenerator buttonsGenerator = new();
+            buttonsGenerator.SetGoBackButton("Календарь");
+
+            if (day != null) await bot.EditMessage(day.GetDayCard(), messageId, buttonsGenerator.GetButtons());
+            else await bot.EditMessage($"Отсутствует инормация по дате {chosenDay:dd-MM-yyyy}", messageId, buttonsGenerator.GetButtons());
         }
 
         public async Task SendNewsForLesson(int lessonId, int previewMessageId)
@@ -183,11 +223,29 @@ namespace TelegramBot.Messages
             NewsService newsService = new();
             return await newsService.CheckNewsBefore(date);
         }
+        private async Task SetPaginationButtonsForDays(ButtonsGenerator buttonsGenerator, int monthShift)
+        {
+            DaysServices daysServices = new();
+            List<(string, string)> paginationButtons = new();
+            var date = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(monthShift);
+
+            if (await daysServices.AnyBefore(new DateTimeWrap { DateTime = date}))
+            {
+                paginationButtons.Add(("⬅ Предыдущий", $"monthShift:{monthShift - 1}"));
+            }
+            if (await daysServices.AnyAfter(new DateTimeWrap { DateTime = date.AddMonths(1)}))
+            {
+                paginationButtons.Add(("Следующий ➡", $"monthShift:{monthShift + 1}"));
+            }
+
+            buttonsGenerator.SetInlineButtons(paginationButtons.ToArray());
+        }
         private async Task<IReplyMarkup> GenerateButtonsForStartMenu()
         {
             ButtonsGenerator buttonsGenerator = new();
             buttonsGenerator.SetInlineButtons(new[] { "Предметы" },
                                               new[] { "Новости" },
+                                              new[] { "Календарь" },
                                               new[] { "О нас" });
 
             var usersService = new UsersService();

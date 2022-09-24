@@ -21,6 +21,7 @@ namespace TelegramBot.Handlers
                 "@Панель администратора" => message.EditToAdminPanel(),
                 "@Создать рассылку" => Task.Run(() => DistributionService.BusyUsersIdAndService.Add(queryEventArgs.CallbackQuery.Message.Chat.Id, new MailingHandler(queryEventArgs.CallbackQuery.Message.Chat.Id))),
                 "@Новости" => message.EditToWeekNews(),
+                "@Календарь" => message.EditToCalendar(),
                 _ => ProcessSpecialCallback(queryEventArgs.CallbackQuery.Data, message)
             };
 
@@ -44,10 +45,11 @@ namespace TelegramBot.Handlers
 
         private static Task ProcessSpecialCallback(string callback, MessageCollector messageCollector)
         {
-            if (string.IsNullOrWhiteSpace(callback)) return messageCollector.UnknownMessage();
-            if (Regex.IsMatch(callback, @"^(@lessonId:)[0-9]{1,}")) return messageCollector.EditToLesson(Convert.ToInt32(callback[10..]));
-            else if (Regex.IsMatch(callback, @"^(@newsShift:)(-){0,1}[0-9]{1,}")) return messageCollector.EditToWeekNews(Convert.ToInt32(callback[11..]));
-            else if (Regex.IsMatch(callback, @"^(@getNewsForLes)[0-9]{1,}(I)[0-9]{1,}"))
+            if (Regex.IsMatch(callback, @"^(@lessonId:)\d{1,}")) return messageCollector.EditToLesson(Convert.ToInt32(callback[10..]));
+            else if (Regex.IsMatch(callback, @"^(@newsShift:)(-){0,1}\d{1,}")) return messageCollector.EditToWeekNews(Convert.ToInt32(callback[11..]));
+            else if (Regex.IsMatch(callback, @"^(@monthShift:)(-){0,1}\d{1,}")) return messageCollector.EditToCalendar(Convert.ToInt32(callback[12..]));
+            else if (Regex.IsMatch(callback, @"^(@dayDate:)\d{4}-\d{2}-\d{2}")) return messageCollector.EditToDay(DateTime.Parse(callback[9..]));
+            else if (Regex.IsMatch(callback, @"^(@getNewsForLes)\d{1,}(I)\d{1,}"))
             {
                 var data = callback[14..].Split('I');
                 return messageCollector.SendNewsForLesson(Convert.ToInt32(data[0]), Convert.ToInt32(data[1]));
@@ -58,7 +60,7 @@ namespace TelegramBot.Handlers
         private static Task ProcessSpecialMessage(string message, MessageCollector messageCollector)
         {
             if (string.IsNullOrWhiteSpace(message)) return messageCollector.UnknownMessage();
-            if (Regex.IsMatch(message, @"^(/news)[0-9]{1,}(I)[0-9]{1,}"))
+            if (Regex.IsMatch(message, @"^(/news)\d{1,}(I)\d{1,}"))
             {
                 var data = message[5..].Split('I');
                 return messageCollector.SendDetailedNews(Convert.ToInt32(data[0]), Convert.ToInt32(data[1]));
