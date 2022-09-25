@@ -92,6 +92,9 @@ namespace TelegramBot.Utils
                 $"{(string.IsNullOrWhiteSpace(oneNews.Message) ? "" : $"‼️ {oneNews.Message}")}";
         }
 
+        public static string GetUserCard(this User oneUser) => $"Имя: {oneUser.Name}\n" +
+            $"Логин: {oneUser.Login}\nРоль: {oneUser.Role.GetName()}";
+
         public static void SetGoBackButton(this ButtonsGenerator buttonsGenerator, string callback = "/start") => buttonsGenerator.SetInlineButtons(("↪ Назад", callback));
     }
 }

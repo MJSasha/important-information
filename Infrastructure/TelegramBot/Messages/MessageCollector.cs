@@ -58,7 +58,7 @@ namespace TelegramBot.Messages
             var message = "";
             foreach (var item in users)
             {
-                message += $"{item.GetUserData()}\n\n";
+                message += $"{item.GetUserCard()}\n\n";
             }
             buttonsGenerator.SetGoBackButton();
             await bot.EditMessage(message, messageId, buttonsGenerator.GetButtons());
