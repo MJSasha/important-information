@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBot.Data;
 using TelegramBot.Services;
 using TelegramBot.Services.ApiServices;
@@ -35,7 +36,7 @@ namespace TelegramBot.Handlers
         {
             AddProcessing("Введите ваше имя и фамилию", () => registrationModel.Name = registrationMessage);
             AddProcessing("Введите ваш телефон", () => registrationModel.Phone = registrationMessage, button: ButtonsGenerator.GetKeyboardButtonWithPhoneRequest("Отправить телефон"));
-            AddProcessing("Придумайте логин", () => registrationModel.Login = registrationMessage);
+            AddProcessing("Придумайте логин", () => registrationModel.Login = registrationMessage, button: new ReplyKeyboardRemove());
             AddProcessing("Придумайте пароль", () => registrationModel.Password = registrationMessage, CompleteRegistration);
         }
 
@@ -44,9 +45,18 @@ namespace TelegramBot.Handlers
             try
             {
                 AuthService authService = new();
-                await authService.Registrate(registrationModel, chatId);
-                LogService.LogInfo($"|REGISTRATION| ChatId: {chatId} | Name: {registrationModel.Name} | Login: {registrationModel.Login}");
-                await bot.SendMessage($"Вы зарегистрированны! Теперь я буду обращаться к вам по имени {registrationModel.Name}");
+                UsersService usersService = new UsersService();
+                var user = await usersService.GetByChatId(chatId);
+                if (user == null)
+                {
+                    await authService.Registrate(registrationModel, chatId);
+                    LogService.LogInfo($"|REGISTRATION| ChatId: {chatId} | Name: {registrationModel.Name} | Login: {registrationModel.Login}");
+                    await bot.SendMessage($"Вы зарегистрированны! Теперь я буду обращаться к вам по имени {registrationModel.Name}");
+                }
+                else
+                {
+                    await bot.SendMessage("Вы уже зареганы, куда повторно лезете?");
+                }
             }
             catch (ErrorResponseException)
             {
