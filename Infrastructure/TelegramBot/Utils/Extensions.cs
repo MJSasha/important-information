@@ -45,6 +45,26 @@ namespace TelegramBot.Utils
             };
         }
 
+        public static string GetMonthName(this int monthNumber)
+        {
+            return monthNumber switch
+            {
+                1 => "Январь",
+                2 => "Февраль",
+                3 => "Март",
+                4 => "Апрель",
+                5 => "Май",
+                6 => "Июнь",
+                7 => "Июль",
+                8 => "Август",
+                9 => "Сентябрь",
+                10 => "Октябрь",
+                11 => "Ноябрь",
+                12 => "Декабрь",
+                _ => "",
+            };
+        }
+
         public static string GetLessonCallback(this Lesson lesson) => $"lessonId:{lesson.Id}";
         public static string GetDayCallback(this DateTime date) => $"dayDate:{date:yyyy-MM-dd}";
 

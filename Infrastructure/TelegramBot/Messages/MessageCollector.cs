@@ -3,6 +3,7 @@ using ImpInfCommon.Data.Models;
 using ImpInfCommon.Data.Other;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -132,7 +133,7 @@ namespace TelegramBot.Messages
             buttonsGenerator.SetInlineButtons(completedButtonsLine.ToArray());
             await SetPaginationButtonsForDays(buttonsGenerator, monthShift);
             buttonsGenerator.SetGoBackButton();
-            await bot.EditMessage($"Для просмотра детальной информации по дате, нажмите на кнопку\nТекущий месяц: {monthStartDate.Month} {monthStartDate.Year}", messageId, buttonsGenerator.GetButtons());
+            await bot.EditMessage($"*{monthStartDate.Month.GetMonthName()} {monthStartDate.Year}-го года*\nДля просмотра детальной информации по дате, нажмите на кнопку", messageId, buttonsGenerator.GetButtons());
 
         }
         #endregion
