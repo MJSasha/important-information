@@ -45,18 +45,9 @@ namespace TelegramBot.Handlers
             try
             {
                 AuthService authService = new();
-                UsersService usersService = new UsersService();
-                var user = await usersService.GetByChatId(chatId);
-                if (user == null)
-                {
-                    await authService.Registrate(registrationModel, chatId);
-                    LogService.LogInfo($"|REGISTRATION| ChatId: {chatId} | Name: {registrationModel.Name} | Login: {registrationModel.Login}");
-                    await bot.SendMessage($"Вы зарегистрированны! Теперь я буду обращаться к вам по имени {registrationModel.Name}");
-                }
-                else
-                {
-                    await bot.SendMessage("Вы уже зареганы, куда повторно лезете?");
-                }
+                await authService.Registrate(registrationModel, chatId);
+                LogService.LogInfo($"|REGISTRATION| ChatId: {chatId} | Name: {registrationModel.Name} | Login: {registrationModel.Login}");
+                await bot.SendMessage($"Вы зарегистрированны! Теперь я буду обращаться к вам по имени {registrationModel.Name}");
             }
             catch (ErrorResponseException)
             {
