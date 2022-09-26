@@ -14,4 +14,4 @@ docker-compose up
 docker-compose up imp-inf-db
 ```
 
-При этом, на порту [8080](http://localhost:8080/swagger/index.html) доступен *swagger*
+При этом, на порту [8080](http://localhost:8080/swagger/index.html) доступен *swagger*, а на порту [5000](http://localhost:5000) будет доступен *adminer*

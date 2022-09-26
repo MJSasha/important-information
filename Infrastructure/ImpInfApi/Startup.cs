@@ -119,10 +119,12 @@ namespace ImpInfApi
                 endpoints.MapControllers();
             });
 
+            // DB initial
             using var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
             var dbContext = serviceScope.ServiceProvider.GetService<AppDbContext>();
             dbContext.Database.Migrate();
-            await dbContext.Database.ExecuteSqlRawAsync(UtilsFunctions.GetInitiallQuery());
+            var startDbData = UtilsFunctions.GetInitiallQuery();
+            if (!string.IsNullOrEmpty(startDbData)) await dbContext.Database.ExecuteSqlRawAsync(UtilsFunctions.GetInitiallQuery());
         }
     }
 }

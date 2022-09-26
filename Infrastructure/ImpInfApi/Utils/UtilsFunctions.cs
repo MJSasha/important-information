@@ -6,8 +6,15 @@ namespace ImpInfApi.Utils
     {
         public static string GetInitiallQuery()
         {
-            var query = File.ReadAllText("Resources/Data.sql");
-            return query;
+            try
+            {
+                var query = File.ReadAllText("Resources/Data.sql");
+                return query;
+            }
+            catch
+            {
+                return "";
+            }
         }
     }
 }
