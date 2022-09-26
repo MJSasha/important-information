@@ -35,7 +35,7 @@ namespace TelegramBot.Handlers
             Task response = eventArgs.Message.Text switch
             {
                 "/start" => message.SendStartMenu(),
-                "/reg" => Task.Run(() => DistributionService.BusyUsersIdAndService.Add(eventArgs.Message.Chat.Id, new RegistrationHandler(eventArgs.Message.Chat.Id))),
+                "/reg" => message.TryToStartRegistration(),
                 "/passChange" => Task.Run(() => DistributionService.BusyUsersIdAndService.Add(eventArgs.Message.Chat.Id, new PasswordChangeHandler(eventArgs.Message.Chat.Id))),
                 _ => ProcessSpecialMessage(eventArgs.Message.Text, message)
             };

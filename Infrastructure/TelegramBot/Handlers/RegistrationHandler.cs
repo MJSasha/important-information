@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBot.Data;
 using TelegramBot.Services;
 using TelegramBot.Services.ApiServices;
@@ -35,7 +36,7 @@ namespace TelegramBot.Handlers
         {
             AddProcessing("Введите ваше имя и фамилию", () => registrationModel.Name = registrationMessage);
             AddProcessing("Введите ваш телефон", () => registrationModel.Phone = registrationMessage, button: ButtonsGenerator.GetKeyboardButtonWithPhoneRequest("Отправить телефон"));
-            AddProcessing("Придумайте логин", () => registrationModel.Login = registrationMessage);
+            AddProcessing("Придумайте логин", () => registrationModel.Login = registrationMessage, button: new ReplyKeyboardRemove());
             AddProcessing("Придумайте пароль", () => registrationModel.Password = registrationMessage, CompleteRegistration);
         }
 
