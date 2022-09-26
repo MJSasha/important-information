@@ -392,8 +392,8 @@ VALUES (1, NOW(), 'Is sent message (1)', 0, '', NULL),
 INSERT IGNORE INTO Passwords (Id, Value)
 VALUES (1, 'admin');
 
-INSERT IGNORE INTO Users (Id, ChatId, Login, Name, Role, PasswordId)
-VALUES (1, 987821012, 'admin', 'admin', 1, 1);
+INSERT IGNORE INTO Users (Id, ChatId, Login, Name, Role, PasswordId, Phone)
+VALUES (1, 987821012, 'admin', 'admin', 1, 1, "88005553535");
 
 INSERT IGNORE INTO Notes (Id, Description, DayId, UserId)
 VALUES (1, 'Admin note', 1, 1);

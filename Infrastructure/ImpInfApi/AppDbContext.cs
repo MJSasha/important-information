@@ -18,6 +18,9 @@ namespace ImpInfApi
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Note>().HasOne(n => n.Day).WithMany(d => d.Notes).OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<User>().HasIndex(u => u.Login).IsUnique();
+            modelBuilder.Entity<User>().HasIndex(u => u.ChatId).IsUnique();
         }
     }
 }
