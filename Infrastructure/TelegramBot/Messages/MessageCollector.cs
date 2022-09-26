@@ -7,9 +7,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBot.Data;
-using TelegramBot.Services;
-using TelegramBot.Services.ApiServices;
 using TelegramBot.Utils;
+using TelegramBot.Services;
+using TelegramBot.Handlers;
+using TelegramBot.Services.ApiServices;
 using TgBotLib.Interfaces;
 using TgBotLib.Utils;
 
@@ -109,7 +110,19 @@ namespace TelegramBot.Messages
         }
         #endregion
 
-
+        public async Task TryToStartRegistration()
+        {
+            UsersService usersService = new UsersService();
+            var user = await usersService.GetByChatId(chatId);
+            if (user == null)
+            {
+                DistributionService.BusyUsersIdAndService.Add(chatId, new RegistrationHandler(chatId));
+            }
+            else
+            {
+                await bot.SendMessage("Ты уже зареган");
+            }
+        }
         public async Task EditToLesson(int lessonId)
         {
             ButtonsGenerator buttonsGenerator = new();
