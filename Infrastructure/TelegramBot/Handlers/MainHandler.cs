@@ -66,7 +66,9 @@ namespace TelegramBot.Handlers
                 var data = message[5..].Split('I');
                 return messageCollector.SendDetailedNews(Convert.ToInt32(data[0]), Convert.ToInt32(data[1]));
             }
+            if (Regex.IsMatch(message, @"^(/changeRole)\d{1,}")) return messageCollector.ChangeUserRole(Convert.ToInt32(message[11..]));
             return messageCollector.UnknownMessage();
         }
+    
     }
 }

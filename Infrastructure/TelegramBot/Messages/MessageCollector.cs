@@ -64,6 +64,29 @@ namespace TelegramBot.Messages
             await bot.EditMessage(message, messageId, buttonsGenerator.GetButtons());
         }
 
+        public async Task ChangeUserRole(int selectedUserChatId)
+        {
+            ButtonsGenerator buttonsGenerator = new();
+            UsersService usersService = new();
+            var currentUser = await usersService.GetByChatId(chatId);
+            if (currentUser?.Role == Role.ADMIN && chatId != selectedUserChatId)
+            {
+                var changedUser = await usersService.GetByChatId(selectedUserChatId);
+                if (changedUser != null)
+                {
+                    changedUser.Role = changedUser?.Role == Role.ADMIN ? Role.USER : Role.ADMIN;
+                    await usersService.Update(changedUser.Id, changedUser);
+                    buttonsGenerator.SetGoBackButton("Сведения о пользователях");
+                    await bot.SendMessage(Texts.ChangeRole, buttonsGenerator.GetButtons());
+                }
+                else
+                {
+                    await bot.SendMessage(Texts.NullUser, buttonsGenerator.GetButtons());
+                }
+            }
+            else await bot.SendMessage(Texts.ErrorAction, buttonsGenerator.GetButtons());
+        }
+
         public async Task EditToAboutUsMenu()
         {
             ButtonsGenerator buttonsGenerator = new();
