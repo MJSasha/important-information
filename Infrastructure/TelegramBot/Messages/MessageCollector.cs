@@ -50,7 +50,8 @@ namespace TelegramBot.Messages
 
             await bot.EditMessage(Texts.AdminPanel, messageId, buttonsGenerator.GetButtons());
         }
-        public async Task EditToUserData()
+
+        public async Task EditToUsersData()
         {
             ButtonsGenerator buttonsGenerator = new();
             UsersService usersService = new();
@@ -60,13 +61,12 @@ namespace TelegramBot.Messages
             {
                 message += $"{item.GetUserCard()}\n\n";
             }
-            buttonsGenerator.SetGoBackButton();
+            buttonsGenerator.SetGoBackButton("Панель администратора");
             await bot.EditMessage(message, messageId, buttonsGenerator.GetButtons());
         }
 
         public async Task ChangeUserRole(int selectedUserChatId)
         {
-            ButtonsGenerator buttonsGenerator = new();
             UsersService usersService = new();
             var currentUser = await usersService.GetByChatId(chatId);
             if (currentUser?.Role == Role.ADMIN && chatId != selectedUserChatId)
@@ -74,17 +74,18 @@ namespace TelegramBot.Messages
                 var changedUser = await usersService.GetByChatId(selectedUserChatId);
                 if (changedUser != null)
                 {
+                    ButtonsGenerator buttonsGenerator = new();
                     changedUser.Role = changedUser?.Role == Role.ADMIN ? Role.USER : Role.ADMIN;
                     await usersService.Update(changedUser.Id, changedUser);
                     buttonsGenerator.SetGoBackButton("Сведения о пользователях");
-                    await bot.SendMessage(Texts.ChangeRole, buttonsGenerator.GetButtons());
+                    await bot.SendMessage(Texts.ChangeOfRole, buttonsGenerator.GetButtons());
                 }
                 else
                 {
-                    await bot.SendMessage(Texts.NullUser, buttonsGenerator.GetButtons());
+                    await bot.SendMessage(Texts.NonExistentUser);
                 }
             }
-            else await bot.SendMessage(Texts.ErrorAction, buttonsGenerator.GetButtons());
+            else await bot.SendMessage(Texts.NoRights);
         }
 
         public async Task EditToAboutUsMenu()
