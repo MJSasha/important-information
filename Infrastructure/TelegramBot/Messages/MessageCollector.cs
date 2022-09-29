@@ -3,15 +3,14 @@ using ImpInfCommon.Data.Models;
 using ImpInfCommon.Data.Other;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBot.Data;
-using TelegramBot.Utils;
-using TelegramBot.Services;
 using TelegramBot.Handlers;
+using TelegramBot.Services;
 using TelegramBot.Services.ApiServices;
+using TelegramBot.Utils;
 using TgBotLib.Interfaces;
 using TgBotLib.Utils;
 
@@ -281,11 +280,11 @@ namespace TelegramBot.Messages
             List<(string, string)> paginationButtons = new();
             var date = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(monthShift);
 
-            if (await daysServices.AnyBefore(new DateTimeWrap { DateTime = date}))
+            if (await daysServices.AnyBefore(new DateTimeWrap { DateTime = date }))
             {
                 paginationButtons.Add(("⬅ Предыдущий", $"monthShift:{monthShift - 1}"));
             }
-            if (await daysServices.AnyAfter(new DateTimeWrap { DateTime = date.AddMonths(1)}))
+            if (await daysServices.AnyAfter(new DateTimeWrap { DateTime = date.AddMonths(1) }))
             {
                 paginationButtons.Add(("Следующий ➡", $"monthShift:{monthShift + 1}"));
             }
@@ -305,7 +304,6 @@ namespace TelegramBot.Messages
             if (currentUser?.Role == Role.ADMIN) buttonsGenerator.SetInlineButtons("Панель администратора");
             return buttonsGenerator.GetButtons();
         }
-
         #endregion
     }
 }

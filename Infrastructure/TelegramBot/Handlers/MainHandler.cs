@@ -68,6 +68,6 @@ namespace TelegramBot.Handlers
             }
             if (Regex.IsMatch(message, @"^(/changeRole)\d{1,}")) return messageCollector.ChangeUserRole(Convert.ToInt32(message[11..]));
             return messageCollector.UnknownMessage();
-        }  
+        }
     }
 }
