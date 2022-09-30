@@ -7,9 +7,7 @@ namespace TelegramBot.Services.ApiServices
 {
     public class UsersService : BaseCRUDService<User, int>
     {
-        public UsersService() : base(AppSettings.UsersRoot)
-        {
-        }
+        public UsersService() { }
 
         public async Task<User> GetByChatId(long chatId)
         {
