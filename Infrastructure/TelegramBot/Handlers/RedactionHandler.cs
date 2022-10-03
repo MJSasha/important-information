@@ -3,15 +3,16 @@ using System;
 using System.Reflection;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
+using TelegramBot.Data;
 using TelegramBot.Services;
 using TgBotLib.Handlers;
 using TgBotLib.Services;
+using TgBotLib.Utils;
 
 namespace TelegramBot.Handlers
 {
     public class RedactionHandler<TEntity> : BaseSpecialHandler where TEntity : class, IEntity
     {
-        private static TEntity entity { get; set; }
         private readonly long chatId;
         private readonly string propertyName;
         private string redactionMessage;
@@ -22,21 +23,39 @@ namespace TelegramBot.Handlers
             this.propertyName = propertyName;
             this.entityId = entityId;
         }
-        public static async Task GetEntityField(string redactionMessage, string propertyName, int entityId)
+        private async Task SetEntityProperty(string redactionMessage)
         {
             BaseCRUDService<TEntity, int> baseCRUDService = new(AppSettings.LessonsRoot);
-            entity = await baseCRUDService.Get(entityId);
+            TEntity entity = await baseCRUDService.Get(entityId);
             PropertyInfo property = entity.GetType().GetProperty(propertyName, BindingFlags.Instance | BindingFlags.Public);
             property.SetValue(entity, Convert.ChangeType(redactionMessage, property.PropertyType));
+            await baseCRUDService.Update(entityId, entity);
         }
         public override async Task ProcessMessage(Message redactionMessage)
         {
             this.redactionMessage = redactionMessage.Text;
             await base.ProcessMessage(redactionMessage);
         }
-        protected override async void RegistrateProcessing()
+        protected override void RegistrateProcessing()
         {
-            AddProcessing("Введите значение", async () => await GetEntityField(redactionMessage, propertyName, entityId));
+            AddProcessing("Введите значение", async () => await SetEntityProperty(redactionMessage), CompleteRedacton);
+        }
+        private async void CompleteRedacton()
+        {
+            try
+            {
+                ButtonsGenerator buttonsGenerator = new ButtonsGenerator();
+                buttonsGenerator.SetInlineButtons(("На главную", "/start"));
+                await bot.SendMessage("Изменения сохранены", buttonsGenerator.GetButtons());
+            }
+            catch
+            {
+                await bot.SendMessage(Texts.Oops);
+            }
+            finally
+            {
+                DistributionService.BusyUsersIdAndService.Remove(chatId);
+            }
         }
     }
 }

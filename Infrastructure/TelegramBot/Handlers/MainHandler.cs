@@ -47,10 +47,12 @@ namespace TelegramBot.Handlers
         private static Task ProcessSpecialCallback(string callback, MessageCollector messageCollector, long chatId)
         {
             if (Regex.IsMatch(callback, @"^(@lessonId:)\d{1,}")) return messageCollector.EditToLesson(Convert.ToInt32(callback[10..]));
-            else if (Regex.IsMatch(callback, @"^(@Редактировать название)(-){0,1}\d{1,}")) return messageCollector.EditNameLesson(chatId, nameof(Lesson.Name), Convert.ToInt32(callback[23..]));
             else if (Regex.IsMatch(callback, @"^(@newsShift:)(-){0,1}\d{1,}")) return messageCollector.EditToWeekNews(Convert.ToInt32(callback[11..]));
             else if (Regex.IsMatch(callback, @"^(@monthShift:)(-){0,1}\d{1,}")) return messageCollector.EditToCalendar(Convert.ToInt32(callback[12..]));
             else if (Regex.IsMatch(callback, @"^(@dayDate:)\d{4}-\d{2}-\d{2}")) return messageCollector.EditToDay(DateTime.Parse(callback[9..]));
+            else if (Regex.IsMatch(callback, @"^(@Редактировать название)(-){0,1}\d{1,}")) return Task.Run(() => DistributionService.BusyUsersIdAndService.Add(chatId, new RedactionHandler<Lesson>(chatId, nameof(Lesson.Name), Convert.ToInt32(callback[23..]))));
+            else if (Regex.IsMatch(callback, @"^(@Редактировать преподавателя)(-){0,1}\d{1,}")) return Task.Run(() => DistributionService.BusyUsersIdAndService.Add(chatId, new RedactionHandler<Lesson>(chatId, nameof(Lesson.Teacher), Convert.ToInt32(callback[28..]))));
+            else if (Regex.IsMatch(callback, @"^(@Редактировать информацию)(-){0,1}\d{1,}")) return Task.Run(() => DistributionService.BusyUsersIdAndService.Add(chatId, new RedactionHandler<Lesson>(chatId, nameof(Lesson.Information), Convert.ToInt32(callback[25..]))));
             else if (Regex.IsMatch(callback, @"^(@getNewsForLes)\d{1,}(I)\d{1,}"))
             {
                 var data = callback[14..].Split('I');

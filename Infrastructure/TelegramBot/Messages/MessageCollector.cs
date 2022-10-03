@@ -161,20 +161,15 @@ namespace TelegramBot.Messages
             var user = await usersService.GetByChatId(chatId);
             if (user.Role == Role.ADMIN)
             {
-                buttonsGenerator.SetInlineButtons($"Редактировать название{lessonId}");
+                buttonsGenerator.SetInlineButtons(("Редактировать название", $"Редактировать название{lessonId}"));
+                buttonsGenerator.SetInlineButtons(("Редактировать преподавателя", $"Редактировать преподавателя{lessonId}"));
+                buttonsGenerator.SetInlineButtons(("Редактировать информацию", $"Редактировать информацию{lessonId}"));
             }
             buttonsGenerator.SetInlineButtons(("Новости по предмету", $"getNewsForLes{lessonId}I{messageId}"));
             buttonsGenerator.SetGoBackButton("Предметы");
 
 
             await bot.EditMessage(lesson.GetLessonCard(), messageId, buttonsGenerator.GetButtons());
-        }
-        public async Task EditNameLesson(long chatId, string fieldName, int lessonId)
-        {
-            DistributionService.BusyUsersIdAndService.Add(chatId, new RedactionHandler<Lesson>(
-                    chatId,
-                    nameof(Lesson.Name),
-                    Convert.ToInt32(lessonId)));
         }
         public async Task EditToDay(DateTime chosenDay)
         {
