@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ImpInfCommon.Data.Models;
+using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Telegram.Bot.Args;
@@ -23,7 +24,7 @@ namespace TelegramBot.Handlers
                 "@Создать рассылку" => Task.Run(() => DistributionService.BusyUsersIdAndService.Add(queryEventArgs.CallbackQuery.Message.Chat.Id, new MailingHandler(queryEventArgs.CallbackQuery.Message.Chat.Id))),
                 "@Новости" => message.EditToWeekNews(),
                 "@Календарь" => message.EditToCalendar(),
-                _ => ProcessSpecialCallback(queryEventArgs.CallbackQuery.Data, message)
+                _ => ProcessSpecialCallback(queryEventArgs.CallbackQuery.Data, message, queryEventArgs.CallbackQuery.Message.Chat.Id)
             };
 
             await response;
@@ -44,12 +45,16 @@ namespace TelegramBot.Handlers
             await response;
         }
 
-        private static Task ProcessSpecialCallback(string callback, MessageCollector messageCollector)
+        private static Task ProcessSpecialCallback(string callback, MessageCollector messageCollector, long chatId)
         {
             if (Regex.IsMatch(callback, @"^(@lessonId:)\d{1,}")) return messageCollector.EditToLesson(Convert.ToInt32(callback[10..]));
+            else if (Regex.IsMatch(callback, @"^(@redactNews)\d{1,}")) return messageCollector.EditLesson(Convert.ToInt32(callback[11..]));
             else if (Regex.IsMatch(callback, @"^(@newsShift:)(-){0,1}\d{1,}")) return messageCollector.EditToWeekNews(Convert.ToInt32(callback[11..]));
             else if (Regex.IsMatch(callback, @"^(@monthShift:)(-){0,1}\d{1,}")) return messageCollector.EditToCalendar(Convert.ToInt32(callback[12..]));
             else if (Regex.IsMatch(callback, @"^(@dayDate:)\d{4}-\d{2}-\d{2}")) return messageCollector.EditToDay(DateTime.Parse(callback[9..]));
+            else if (Regex.IsMatch(callback, @"^(@editName)(-){0,1}\d{1,}")) return Task.Run(() => DistributionService.BusyUsersIdAndService.Add(chatId, new RedactionHandler<Lesson>(chatId, nameof(Lesson.Name), Convert.ToInt32(callback[9..]))));
+            else if (Regex.IsMatch(callback, @"^(@editTeacher)(-){0,1}\d{1,}")) return Task.Run(() => DistributionService.BusyUsersIdAndService.Add(chatId, new RedactionHandler<Lesson>(chatId, nameof(Lesson.Teacher), Convert.ToInt32(callback[12..]))));
+            else if (Regex.IsMatch(callback, @"^(@editInformation)(-){0,1}\d{1,}")) return Task.Run(() => DistributionService.BusyUsersIdAndService.Add(chatId, new RedactionHandler<Lesson>(chatId, nameof(Lesson.Information), Convert.ToInt32(callback[16..]))));
             else if (Regex.IsMatch(callback, @"^(@getNewsForLes)\d{1,}(I)\d{1,}"))
             {
                 var data = callback[14..].Split('I');
