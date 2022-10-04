@@ -29,40 +29,41 @@ namespace TelegramBot.Handlers
             this.propertyName = propertyName;
             this.entityId = entityId;
         }
+
+
         public override async Task ProcessMessage(Message redactionMessage)
         {
             this.redactionMessage = redactionMessage.Text;
             await base.ProcessMessage(redactionMessage);
         }
+
         protected override void RegistrateProcessing()
         {
             AddProcessing("Введите значение", async () => await SetEntityProperty(), CompleteRedacton);
         }
+
         private async Task SetEntityProperty()
         {
-            BaseCRUDService<TEntity, int> baseCRUDService = new(AppSettings.LessonsRoot);
+            BaseCRUDService<TEntity, int> baseCRUDService = new();
             entity = await baseCRUDService.Get(entityId);
             property = entity.GetType().GetProperty(propertyName, BindingFlags.Instance | BindingFlags.Public);
             property.SetValue(entity, Convert.ChangeType(redactionMessage, property.PropertyType));
         }
+
         private async void CompleteRedacton()
         {
             try
             {
                 ButtonsGenerator buttonsGenerator = new ButtonsGenerator();
-                BaseCRUDService<TEntity, int> baseCRUDService = new(AppSettings.LessonsRoot);
+                BaseCRUDService<TEntity, int> baseCRUDService = new();
                 await baseCRUDService.Update(entityId, entity);
                 LogService.LogInfo($"|REDACTION| {propertyName}: {property}");
                 buttonsGenerator.SetInlineButtons(("На главную", "/start"));
                 await bot.SendMessage("Изменения сохранены", buttonsGenerator.GetButtons());
             }
-            catch (ErrorResponseException)
+            catch (Exception ex)
             {
-                await bot.SendMessage(Texts.Oops);
-            }
-            catch (HttpRequestException)
-            {
-                LogService.LogServerNotFound("Registration");
+                LogService.LogError(ex.ToString());
                 await bot.SendMessage(Texts.Oops);
             }
             finally
