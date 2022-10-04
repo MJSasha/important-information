@@ -155,19 +155,28 @@ namespace TelegramBot.Messages
         public async Task EditToLesson(int lessonId)
         {
             ButtonsGenerator buttonsGenerator = new();
-            LessonsService lessonsService = new();
             UsersService usersService = new();
-            var lesson = await lessonsService.Get(lessonId);
             var user = await usersService.GetByChatId(chatId);
-            if (user.Role == Role.ADMIN)
-            {
-                buttonsGenerator.SetInlineButtons(("Редактировать название", $"Редактировать название{lessonId}"));
-                buttonsGenerator.SetInlineButtons(("Редактировать преподавателя", $"Редактировать преподавателя{lessonId}"));
-                buttonsGenerator.SetInlineButtons(("Редактировать информацию", $"Редактировать информацию{lessonId}"));
-            }
+
+            if (user.Role == Role.ADMIN) buttonsGenerator.SetInlineButtons(("Редактировать", $"Redaction{lessonId}"));
+
             buttonsGenerator.SetInlineButtons(("Новости по предмету", $"getNewsForLes{lessonId}I{messageId}"));
             buttonsGenerator.SetGoBackButton("Предметы");
 
+            LessonsService lessonsService = new();
+            var lesson = await lessonsService.Get(lessonId);
+
+            await bot.EditMessage(lesson.GetLessonCard(), messageId, buttonsGenerator.GetButtons());
+        }
+        public async Task EditLesson(int lessonId)
+        {
+            ButtonsGenerator buttonsGenerator = new();
+            LessonsService lessonsService = new();
+            var lesson = await lessonsService.Get(lessonId);
+
+            buttonsGenerator.SetInlineButtons(("Редактировать название", $"EditName{lessonId}"));
+            buttonsGenerator.SetInlineButtons(("Редактировать преподавателя", $"EditTeacher{lessonId}"));
+            buttonsGenerator.SetInlineButtons(("Редактировать информацию", $"EditInformation{lessonId}"));
 
             await bot.EditMessage(lesson.GetLessonCard(), messageId, buttonsGenerator.GetButtons());
         }
