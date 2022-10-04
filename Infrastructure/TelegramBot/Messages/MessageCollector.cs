@@ -158,7 +158,7 @@ namespace TelegramBot.Messages
             UsersService usersService = new();
             var user = await usersService.GetByChatId(chatId);
 
-            if (user.Role == Role.ADMIN) buttonsGenerator.SetInlineButtons(("Редактировать", $"Redaction{lessonId}"));
+            if (user.Role == Role.ADMIN) buttonsGenerator.SetInlineButtons(("Редактировать", $"redactNews{lessonId}"));
 
             buttonsGenerator.SetInlineButtons(("Новости по предмету", $"getNewsForLes{lessonId}I{messageId}"));
             buttonsGenerator.SetGoBackButton("Предметы");
@@ -174,9 +174,9 @@ namespace TelegramBot.Messages
             LessonsService lessonsService = new();
             var lesson = await lessonsService.Get(lessonId);
 
-            buttonsGenerator.SetInlineButtons(("Редактировать название", $"EditName{lessonId}"));
-            buttonsGenerator.SetInlineButtons(("Редактировать преподавателя", $"EditTeacher{lessonId}"));
-            buttonsGenerator.SetInlineButtons(("Редактировать информацию", $"EditInformation{lessonId}"));
+            buttonsGenerator.SetInlineButtons(new[] { ("Редактировать название", $"editName{lessonId}") },
+                                              new[] {("Редактировать преподавателя", $"editTeacher{lessonId}") },
+                                              new[] {("Редактировать информацию", $"editInformation{lessonId}") });
 
             await bot.EditMessage(lesson.GetLessonCard(), messageId, buttonsGenerator.GetButtons());
         }
