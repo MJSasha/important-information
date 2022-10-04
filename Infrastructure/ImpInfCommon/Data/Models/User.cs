@@ -1,9 +1,11 @@
 ﻿using ImpInfCommon.Data.Definitions;
 using ImpInfCommon.Interfaces;
 using System.Collections.Generic;
+using TgBotLib.Utils.Attributes;
 
 namespace ImpInfCommon.Data.Models
 {
+    [EntityRoot("Users")]
     public class User : IEntity
     {
         public int Id { get; set; }

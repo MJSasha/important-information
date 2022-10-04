@@ -1,9 +1,11 @@
 ﻿using ImpInfCommon.Interfaces;
 using System;
 using System.Linq;
+using TgBotLib.Utils.Attributes;
 
 namespace ImpInfCommon.Data.Models
 {
+    [EntityRoot("News")]
     public class News : IEntity
     {
         public int Id { get; set; }

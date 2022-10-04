@@ -19,6 +19,7 @@ namespace TelegramBot.Handlers
                 "@/start" => message.EditToStartMenu(),
                 "@О нас" => message.EditToAboutUsMenu(),
                 "@Предметы" => message.EditToLessonsMenu(),
+                "@Сведения о пользователях" => message.EditToUsersData(),
                 "@Панель администратора" => message.EditToAdminPanel(),
                 "@Создать рассылку" => Task.Run(() => DistributionService.BusyUsersIdAndService.Add(queryEventArgs.CallbackQuery.Message.Chat.Id, new MailingHandler(queryEventArgs.CallbackQuery.Message.Chat.Id))),
                 "@Новости" => message.EditToWeekNews(),
@@ -70,6 +71,7 @@ namespace TelegramBot.Handlers
                 var data = message[5..].Split('I');
                 return messageCollector.SendDetailedNews(Convert.ToInt32(data[0]), Convert.ToInt32(data[1]));
             }
+            if (Regex.IsMatch(message, @"^(/changeRole)\d{1,}")) return messageCollector.ChangeUserRole(Convert.ToInt32(message[11..]));
             return messageCollector.UnknownMessage();
         }
     }

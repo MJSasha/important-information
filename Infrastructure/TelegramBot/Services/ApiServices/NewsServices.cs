@@ -11,10 +11,7 @@ namespace TelegramBot.Services.ApiServices
 {
     public class NewsService : BaseCRUDService<News, int>
     {
-        public NewsService() : base(AppSettings.NewsRoot)
-        {
-
-        }
+        public NewsService() { }
 
         public async Task<List<News>> GetUnsent()
         {

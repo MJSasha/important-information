@@ -1,7 +1,9 @@
 ﻿using ImpInfCommon.Interfaces;
+using TgBotLib.Utils.Attributes;
 
 namespace ImpInfCommon.Data.Models
 {
+    [EntityRoot("Notes")]
     public class Note : IEntity
     {
         public int Id { get; set; }
