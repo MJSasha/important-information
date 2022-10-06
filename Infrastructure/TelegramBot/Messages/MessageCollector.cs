@@ -43,8 +43,8 @@ namespace TelegramBot.Messages
         public async Task EditToAdminPanel()
         {
             ButtonsGenerator buttonsGenerator = new();
-            buttonsGenerator.SetInlineButtons("Создать рассылку");
-            buttonsGenerator.SetInlineButtons("Сведения о пользователях");
+            buttonsGenerator.SetInlineButtons(new[] { "Создать рассылку" },
+                                              new[] { "Сведения о пользователях" });
 
             buttonsGenerator.SetGoBackButton();
 
@@ -53,16 +53,25 @@ namespace TelegramBot.Messages
 
         public async Task EditToUsersData()
         {
-            ButtonsGenerator buttonsGenerator = new();
             UsersService usersService = new();
-            var users = await usersService.Get();
-            var message = "";
-            foreach (var item in users)
-            {
-                message += $"{item.GetUserCard()}\n\n";
-            }
+            ButtonsGenerator buttonsGenerator = new();
             buttonsGenerator.SetGoBackButton("Панель администратора");
-            await bot.EditMessage(message, messageId, buttonsGenerator.GetButtons());
+
+            var users = (await usersService.Get());
+            users.RemoveAll(u => u.ChatId == chatId);
+
+            if (!users.Any()) await bot.EditMessage("Пока нет зарегестрированных пользователей", messageId, buttonsGenerator.GetButtons());
+            else
+            {
+                var message = "";
+                foreach (var item in users)
+                {
+                    message += $"{item.GetUserCard()}\n\n";
+                }
+
+                await bot.EditMessage(message, messageId, buttonsGenerator.GetButtons());
+            }
+
         }
 
         public async Task ChangeUserRole(int selectedUserChatId)
@@ -176,19 +185,7 @@ namespace TelegramBot.Messages
         }
         #endregion
 
-        public async Task TryToStartRegistration()
-        {
-            UsersService usersService = new UsersService();
-            var user = await usersService.GetByChatId(chatId);
-            if (user == null)
-            {
-                DistributionService.BusyUsersIdAndService.Add(chatId, new RegistrationHandler(chatId));
-            }
-            else
-            {
-                await bot.SendMessage("Ты уже зареган");
-            }
-        }
+        #region Cards
         public async Task EditToLesson(int lessonId)
         {
             ButtonsGenerator buttonsGenerator = new();
@@ -204,20 +201,8 @@ namespace TelegramBot.Messages
 
             await bot.EditMessage(lesson.GetLessonCard(), messageId, buttonsGenerator.GetButtons());
         }
-        public async Task EditLesson(int lessonId)
-        {
-            ButtonsGenerator buttonsGenerator = new();
-            LessonsService lessonsService = new();
-            var lesson = await lessonsService.Get(lessonId);
 
-            buttonsGenerator.SetInlineButtons(new[] { ("Название", $"editName{lessonId}") },
-                                              new[] {("Преподавателя", $"editTeacher{lessonId}"), ("Информацию", $"editInformation{lessonId}") });
-
-            buttonsGenerator.SetGoBackButton(lesson.GetLessonCallback());
-
-            await bot.EditMessage(lesson.GetLessonCard() + "\n\n_Выберите, что будете редактировать_", messageId, buttonsGenerator.GetButtons());
-        }
-        public async Task EditToDay(DateTime chosenDay)
+        public async Task EditToDayCard(DateTime chosenDay)
         {
             DaysServices daysServices = new();
             var day = await daysServices.Get(new DateTimeWrap() { DateTime = chosenDay });
@@ -227,6 +212,55 @@ namespace TelegramBot.Messages
 
             if (day != null) await bot.EditMessage(day.GetDayCard(), messageId, buttonsGenerator.GetButtons());
             else await bot.EditMessage($"Отсутствует инормация по дате {chosenDay:dd-MM-yyyy}", messageId, buttonsGenerator.GetButtons());
+        }
+
+        public async Task EditToLessonRedactionCard(int lessonId)
+        {
+            ButtonsGenerator buttonsGenerator = new();
+            LessonsService lessonsService = new();
+            var lesson = await lessonsService.Get(lessonId);
+
+            buttonsGenerator.SetInlineButtons(new[] { ("Название", $"editName{lessonId}") },
+                                              new[] { ("Преподавателя", $"editTeacher{lessonId}"), ("Информацию", $"editInformation{lessonId}") });
+
+            buttonsGenerator.SetGoBackButton(lesson.GetLessonCallback());
+
+            await bot.EditMessage(lesson.GetLessonCard() + "\n\n_Выберите, что будете редактировать_", messageId, buttonsGenerator.GetButtons());
+        }
+        #endregion
+
+        public async Task TryToStartRegistration()
+        {
+            UsersService usersService = new UsersService();
+            var user = await usersService.GetByChatId(chatId);
+            if (user == null)
+            {
+                DistributionService.BusyUsersIdAndService.Add(chatId, new RegistrationHandler(chatId));
+            }
+            else
+            {
+                await bot.SendMessage("Ты уже зареган");
+            }
+        }
+
+        public async Task UnknownMessage()
+        {
+            await bot.SendMessage(Texts.UnknownMessage);
+        }
+
+        #region Utils
+        private async Task SendNews(IOrderedEnumerable<News> news, IReplyMarkup buttons = null, string caption = null)
+        {
+            string outputString = "";
+
+            foreach (var oneNews in news)
+            {
+                outputString += oneNews.GetNewsCard();
+
+                outputString += string.IsNullOrWhiteSpace(oneNews.Pictures) ? "\n\n" : $"Новость с картинками. Для просмотра картинок нажмите /news{oneNews.Id}I{messageId}\n\n";
+            }
+
+            await bot.EditMessage(outputString + caption, messageId, buttons);
         }
 
         public async Task SendNewsForLesson(int lessonId, int previewMessageId)
@@ -256,25 +290,6 @@ namespace TelegramBot.Messages
             await BotService.SendNews(news, new List<long> { chatId }, buttonsGenerator.GetButtons());
         }
 
-        public async Task UnknownMessage()
-        {
-            await bot.SendMessage(Texts.UnknownMessage);
-        }
-
-        #region Utils
-        private async Task SendNews(IOrderedEnumerable<News> news, IReplyMarkup buttons = null, string caption = null)
-        {
-            string outputString = "";
-
-            foreach (var oneNews in news)
-            {
-                outputString += oneNews.GetNewsCard();
-
-                outputString += string.IsNullOrWhiteSpace(oneNews.Pictures) ? "\n\n" : $"Новость с картинками. Для просмотра картинок нажмите /news{oneNews.Id}I{messageId}\n\n";
-            }
-
-            await bot.EditMessage(outputString + caption, messageId, buttons);
-        }
         private async Task<IOrderedEnumerable<News>> GetWeekNews(DateTime weekStartDate)
         {
             NewsService newsService = new();
@@ -284,12 +299,14 @@ namespace TelegramBot.Messages
                 End = weekStartDate.AddDays(6)
             })).OrderBy(n => n.DateTimeOfCreate);
         }
+
         private async Task<bool> CheckAnyNewsBefore(DateTime date)
         {
             date = date.AddDays(-7);
             NewsService newsService = new();
             return await newsService.CheckNewsBefore(date);
         }
+
         private async Task SetPaginationButtonsForDays(ButtonsGenerator buttonsGenerator, int monthShift)
         {
             DaysServices daysServices = new();
@@ -307,13 +324,13 @@ namespace TelegramBot.Messages
 
             buttonsGenerator.SetInlineButtons(paginationButtons.ToArray());
         }
+
         private async Task<IReplyMarkup> GenerateButtonsForStartMenu()
         {
             ButtonsGenerator buttonsGenerator = new();
-            buttonsGenerator.SetInlineButtons(new[] { "Предметы" },
-                                              new[] { "Новости" },
-                                              new[] { "Календарь" },
-                                              new[] { "О нас" });
+            buttonsGenerator.SetInlineButtons(new[] { ("📚 Предметы", "Предметы") },
+                                              new[] { ("🗞 Новости", "Новости"), ("📆 Календарь", "Календарь") },
+                                              new[] { ("О нас", "О нас") });
 
             var usersService = new UsersService();
             var currentUser = await usersService.GetByChatId(chatId);
