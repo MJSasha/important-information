@@ -240,7 +240,10 @@ namespace TelegramBot.Messages
             ButtonsGenerator buttonsGenerator = new();
             buttonsGenerator.SetGoBackButton($"lessonId:{lessonId}");
 
-            await BotService.SendNews(news, new List<long> { chatId }, buttonsGenerator.GetButtons());
+            foreach (var oneNews in news)
+            {
+                await BotService.SendNews(oneNews, new List<long> { chatId }, buttonsGenerator.GetButtons());
+            }
         }
 
         public async Task SendDetailedNews(int newsId, int previewMessageId)
