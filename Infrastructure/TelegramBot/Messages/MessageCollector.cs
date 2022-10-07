@@ -223,12 +223,19 @@ namespace TelegramBot.Messages
             var day = await daysServices.Get(new DateTimeWrap() { DateTime = chosenDay });
 
             ButtonsGenerator buttonsGenerator = new();
+            buttonsGenerator.SetInlineButtons(("Добавить заметку", $"addNote{chosenDay}"));
             buttonsGenerator.SetGoBackButton("Календарь");
 
             if (day != null) await bot.EditMessage(day.GetDayCard(), messageId, buttonsGenerator.GetButtons());
             else await bot.EditMessage($"Отсутствует инормация по дате {chosenDay:dd-MM-yyyy}", messageId, buttonsGenerator.GetButtons());
         }
+        public async Task EditDay(DateTime chosenDay)
+        {
+            DaysServices daysServices = new();
+            var day = await daysServices.Get(new DateTimeWrap() { DateTime= chosenDay });
 
+
+        }
         public async Task SendNewsForLesson(int lessonId, int previewMessageId)
         {
             await bot.DeleteMessage(messageId);
