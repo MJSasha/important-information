@@ -231,16 +231,11 @@ namespace TelegramBot.Messages
 
         public async Task TryToStartRegistration()
         {
-            UsersService usersService = new UsersService();
+            UsersService usersService = new();
             var user = await usersService.GetByChatId(chatId);
-            if (user == null)
-            {
-                DistributionService.BusyUsersIdAndService.Add(chatId, new RegistrationHandler(chatId));
-            }
-            else
-            {
-                await bot.SendMessage("Ты уже зареган");
-            }
+            
+            if (user == null) DistributionService.BusyUsersIdAndService.Add(chatId, new RegistrationHandler(chatId));
+            else await bot.SendMessage("Ты уже зареган");
         }
 
         public async Task UnknownMessage()
@@ -249,20 +244,6 @@ namespace TelegramBot.Messages
         }
 
         #region Utils
-        private async Task SendNews(IOrderedEnumerable<News> news, IReplyMarkup buttons = null, string caption = null)
-        {
-            string outputString = "";
-
-            foreach (var oneNews in news)
-            {
-                outputString += oneNews.GetNewsCard();
-
-                outputString += string.IsNullOrWhiteSpace(oneNews.Pictures) ? "\n\n" : $"Новость с картинками. Для просмотра картинок нажмите /news{oneNews.Id}I{messageId}\n\n";
-            }
-
-            await bot.EditMessage(outputString + caption, messageId, buttons);
-        }
-
         public async Task SendNewsForLesson(int lessonId, int previewMessageId)
         {
             await bot.DeleteMessage(messageId);
@@ -288,6 +269,20 @@ namespace TelegramBot.Messages
             buttonsGenerator.SetGoBackButton("Новости");
 
             await BotService.SendNews(news, new List<long> { chatId }, buttonsGenerator.GetButtons());
+        }
+
+        private async Task SendNews(IOrderedEnumerable<News> news, IReplyMarkup buttons = null, string caption = null)
+        {
+            string outputString = "";
+
+            foreach (var oneNews in news)
+            {
+                outputString += oneNews.GetNewsCard();
+
+                outputString += string.IsNullOrWhiteSpace(oneNews.Pictures) ? "\n\n" : $"Новость с картинками. Для просмотра картинок нажмите /news{oneNews.Id}I{messageId}\n\n";
+            }
+
+            await bot.EditMessage(outputString + caption, messageId, buttons);
         }
 
         private async Task<IOrderedEnumerable<News>> GetWeekNews(DateTime weekStartDate)
