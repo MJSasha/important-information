@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { useState, useEffect} from 'react'; // https://www.youtube.com/watch?v=pQibzAjverE&t=226s
+import { useState, useEffect, useRef} from 'react'; // https://www.youtube.com/watch?v=pQibzAjverE&t=226s
 import './SideBar.modules.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -13,39 +13,21 @@ axios.defaults.withCredentials = true;
 function SideBar(props){
     const [news, setNews] = useState([])
     const [gotNews, getNews] = useState([])
-
+    const divRef = useRef(null);
     
     if (props.SBIsOpen){
-        console.log('Сайдбар открыт')
         var getData = setInterval(() => {
-            console.log('Запуск интервала')
                 axios.post(DOMEN_SERVER + "/News/ByDates",{
                     start: getStartDate(),
                     end: getEndDate()
                 })
                 .then(res => {
-                    //    console.log(res.data)
-                    console.log('clearInt')
                     clearInterval(getData)
                     getNews(res.data)
+                    divRef.current.scrollIntoView({ behavior: 'smooth' });
                 }).catch(err => console.log('гет кэтч эрор---'+err));
         }, 1000)
-    } else {
-        console.log('Сайдбар закрыт')
     }
-
-
-    useEffect(() => {
-        axios.post(DOMEN_SERVER + "/News/ByDates",{
-            start: getStartDate(),
-            end: getEndDate()
-        })
-        .then(res => {
-        //    console.log(res.data)
-            getNews(res.data)
-        }).catch(err => console.log('гет кэтч эрор---'+err))
-    }, [])
-
 
     const postNews = event => {
         event.preventDefault();
@@ -77,15 +59,16 @@ function SideBar(props){
                         <div className="list-group list-group-flush border-bottom overflow-auto" style={{maxHeight: 600}}>
                             {
                                 gotNews.map(text => (
-                                    <div className="list-group-item list-group-item py-3 lh-tight" aria-current="true">
+                                    <div className="list-group-item list-group-item py-3 lh-tight border border-secondary my-1 ms-1" aria-current="true">
                                         <div className="d-flex w-100 align-items-center justify-content-between">
                                             <strong className="mb-1">{text.message}</strong>
-                                            <small className="text-muted">{(text.dateTimeOfCreate).substring(0, 10)}</small>
+                                            <small className="badge bg-primary rounded-pill">{(text.dateTimeOfCreate).substring(0, 10)}</small>
                                         </div>
-                                        <div className="col-10 mb-1 small">------</div>
+                                        {/* <div className="col-10 mb-1 small">------</div> */}
                                     </div>
                                 ))
                             }
+                            <div ref={divRef} />
                         </div>
                         <form className='postNews' onSubmit={postNews}>
                             <div className="input-group mb-3">
