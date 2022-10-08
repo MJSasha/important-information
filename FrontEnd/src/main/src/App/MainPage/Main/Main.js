@@ -20,7 +20,7 @@ function Main(){
     
     const [showSB, setShowSB] = useState(false);
     const navigate = useNavigate();
-
+    
     useEffect(() => {
         if (!axios.defaults.headers.common['Authorization']) {
             navigate('/')
@@ -107,7 +107,7 @@ function Main(){
                     </div>
                     <CSSTransition in={showSB} timeout={300} classNames='fade' unmountOnExit>
                         <div className="SideBarWrapper">
-                            <SideBar/>
+                            <SideBar SBIsOpen={showSB}/>
                         </div>
                     </CSSTransition>
                 </div>

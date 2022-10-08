@@ -10,9 +10,30 @@ const DOMEN_SERVER = process.env.REACT_APP_BACK_ROOT ?? 'http://localhost:8080/a
 axios.defaults.withCredentials = true;
 
 
-function SideBar(){
+function SideBar(props){
     const [news, setNews] = useState([])
     const [gotNews, getNews] = useState([])
+
+    
+    if (props.SBIsOpen){
+        console.log('Сайдбар открыт')
+        var getData = setInterval(() => {
+            console.log('Запуск интервала')
+                axios.post(DOMEN_SERVER + "/News/ByDates",{
+                    start: getStartDate(),
+                    end: getEndDate()
+                })
+                .then(res => {
+                    //    console.log(res.data)
+                    console.log('clearInt')
+                    clearInterval(getData)
+                    getNews(res.data)
+                }).catch(err => console.log('гет кэтч эрор---'+err));
+        }, 1000)
+    } else {
+        console.log('Сайдбар закрыт')
+    }
+
 
     useEffect(() => {
         axios.post(DOMEN_SERVER + "/News/ByDates",{
@@ -20,7 +41,7 @@ function SideBar(){
             end: getEndDate()
         })
         .then(res => {
-           console.log(res.data) // News output
+        //    console.log(res.data)
             getNews(res.data)
         }).catch(err => console.log('гет кэтч эрор---'+err))
     }, [])
@@ -68,7 +89,7 @@ function SideBar(){
                         </div>
                         <form className='postNews' onSubmit={postNews}>
                             <div className="input-group mb-3">
-                                <input type="text" value={news} onChange={(event) => {setNews(event.target.value)}} className="form-control" placeholder="Запишите новость" aria-label="Имя пользователя получателя" aria-describedby="button-addon2"/>
+                                <input autoFocus type="text" value={news} onChange={(event) => {setNews(event.target.value)}} className="form-control" placeholder="Запишите новость" aria-label="Имя пользователя получателя" aria-describedby="button-addon2"/>
                                 <button className="btn btn-outline-secondary" type="submit" id="button-addon2">Отправить</button>
                             </div>
                         </form>
