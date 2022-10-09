@@ -33,6 +33,7 @@ function SideBar(props){
         event.preventDefault();
         axios.post(DOMEN_SERVER + "/News",{
             message: news,
+            "needToSend": true,
         })
         .then(res => console.log("отправка новостей--- ", res))
         .catch(err => console.log(err))
