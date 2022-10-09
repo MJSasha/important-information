@@ -10,7 +10,7 @@ function ReactDatePicker(){
   return (
     <div className='datepicker-wrapper'>
       <DatePicker
-        dateFormat="dd/MM/yyyy"
+        dateFormat="yyyy-MM-dd"
         selected={startDate}
         onChange={(date) => setStartDate(date)}
         selectsStart
@@ -19,7 +19,7 @@ function ReactDatePicker(){
       />
       <h1>-</h1>
       <DatePicker
-        dateFormat="dd/MM/yyyy"
+        dateFormat="yyyy-MM-dd"
         selected={endDate}
         onChange={(date) => setEndDate(date)}
         selectsEnd
