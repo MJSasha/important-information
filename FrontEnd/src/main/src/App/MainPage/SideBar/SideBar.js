@@ -13,8 +13,19 @@ axios.defaults.withCredentials = true;
 function SideBar(props){
     const [news, setNews] = useState([])
     const [gotNews, getNews] = useState([])
-    const divRef = useRef(null);
+    const divRef = useRef();
     
+    const scrollToBottom = () => {
+        divRef.current.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+            })
+      }
+    
+      useEffect(() => {
+        setTimeout((() => (scrollToBottom())), 1200)
+      }, []);
+
     if (props.SBIsOpen){
         var getData = setInterval(() => {
                 axios.post(DOMEN_SERVER + "/News/ByDates",{
@@ -24,7 +35,6 @@ function SideBar(props){
                 .then(res => {
                     clearInterval(getData)
                     getNews(res.data)
-                    divRef.current.scrollIntoView({ behavior: 'smooth' });
                 }).catch(err => console.log('гет кэтч эрор---'+err));
         }, 1000)
     }
@@ -52,17 +62,17 @@ function SideBar(props){
       };
 
     return(
-            <div className="d-flex flex-column justify-content-between flex-shrink-0 bg-white overflow-auto" style={{width: 380, height: 800}}>
+            <div className="d-flex flex-column justify-content-between flex-shrink-0 bg-white overflow-auto SB-main-wrapper" style={{width: 380}}>
                 <div className="username-wrapper">
                     <h1>UserName</h1>
                 </div>
                     <div className="news">
-                        <div className="list-group list-group-flush border-bottom overflow-auto" style={{maxHeight: 600}}>
+                        <div className="list-group list-group-flush border-bottom overflow-auto news-scrollarea">
                             {
                                 gotNews.map(text => (
-                                    <div className="list-group-item list-group-item py-3 lh-tight border border-secondary my-1 ms-1" aria-current="true">
+                                    <div className="list-group-item list-group-item py-3 lh-tight border border-secondary my-1 ms-1 rounded-pill" aria-current="true">
                                         <div className="d-flex w-100 align-items-center justify-content-between">
-                                            <strong className="mb-1">{text.message}</strong>
+                                            <strong className="mb-1 news-txt">{text.message}</strong>
                                             <small className="badge bg-primary rounded-pill">{(text.dateTimeOfCreate).substring(0, 10)}</small>
                                         </div>
                                         {/* <div className="col-10 mb-1 small">------</div> */}

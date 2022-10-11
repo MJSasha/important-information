@@ -5,6 +5,23 @@
 .SideBarWrapper{
     background: rgb(255, 255, 255);
 }
+.SB-main-wrapper {
+    height: 90vh; 
+}
 .username-wrapper{
     text-align: center;
+}
+.news{
+    height: auto;
+}
+.news-scrollarea {
+    max-height: 600px;
+}
+.news-txt {
+    word-break: break-all;
+}
+@media (max-height: 768px) {
+  .news-scrollarea {
+    max-height: 65vh;
+  }
 }

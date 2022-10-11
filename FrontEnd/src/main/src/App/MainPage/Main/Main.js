@@ -29,17 +29,17 @@ function Main(){
 
     return (
         <div className="wrapper">
-                <header className="header d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
-                    <h1 className="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">LOGO</h1>
-                    <div className="col-md-3 group-btn">
-                        <button type="button" className="btn btn-outline-primary me-2 news-btn" onClick={()=>setShowSB(!showSB)}>Новости</button>
-                        <button onClick={ () => { delete axios.defaults.headers.common["Authorization"]; navigate('/') } } className="logout-btn btn btn-primary">Logout</button>
-                    </div>
-                </header>
+        
+            <header className="header container-fluid d-flex flex-wrap align-items-center justify-content-center justify-content-md-between mb-1 border-bottom">
+                <h1 className=" align-items-center col-md-3 mb-md-0 text-dark text-decoration-none">LOGO</h1>
+                <div className="col-md-3 text-end group-btn">
+                    <button type="button" className="btn btn-outline-primary me-2 news-btn" onClick={()=>setShowSB(!showSB)}>Новости</button>
+                    <button onClick={ () => { delete axios.defaults.headers.common["Authorization"]; navigate('/') } } className="logout-btn btn btn-primary">Logout</button>
+                </div>
+            </header>
+
             <div className="hero">
-
-
-                <div className="content-wrapper">
+                <div className="d-flex flex-row">
                     <img className='pinkPlanet' src={pinkPlanet} alt="pinkPlanet"/>
                     <img className='orangePlanet' src={orangePlanet} alt="orangePlanet"/>
                     <img className='orangeAsteroid' src={orangeAsteroid} alt="orangeAsteroid"/>
@@ -55,7 +55,7 @@ function Main(){
                         {/* cards */}
                         <div className="row row-cols-1 row-cols-md-3 g-4 cards-wrapper">
                             <div className="col">
-                                <div className="card text-dark bg-light mb-3 shadow-outline">
+                                <div className="card text-dark bg-light shadow-outline">
                                     <div className="card-body">
                                         <h5 className="card-title">Заголовок карточки</h5>
                                         <p className="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту. Этот контент немного длиннее.</p>
@@ -63,7 +63,7 @@ function Main(){
                                 </div>
                             </div>
                             <div className="col ">
-                                <div className="card text-dark bg-light mb-3 shadow-outline">
+                                <div className="card text-dark bg-light shadow-outline">
                                     <div className="card-body">
                                         <h5 className="card-title">Заголовок карточки</h5>
                                         <p className="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту. Этот контент немного длиннее.</p>
@@ -71,7 +71,7 @@ function Main(){
                                 </div>
                             </div>
                             <div className="col ">
-                                <div className="card text-dark bg-light mb-3 shadow-outline">
+                                <div className="card text-dark bg-light shadow-outline">
                                     <div className="card-body">
                                         <h5 className="card-title">Заголовок карточки</h5>
                                         <p className="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту. Этот контент немного длиннее.</p>
@@ -79,7 +79,7 @@ function Main(){
                                 </div>
                             </div>
                             <div className="col ">
-                                <div className="card text-dark bg-light mb-3 shadow-outline">
+                                <div className="card text-dark bg-light shadow-outline">
                                     <div className="card-body">
                                         <h5 className="card-title">Заголовок карточки</h5>
                                         <p className="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту. Этот контент немного длиннее.</p>
@@ -87,7 +87,7 @@ function Main(){
                                 </div>
                             </div>
                             <div className="col ">
-                                <div className="card text-dark bg-light mb-3 shadow-outline">
+                                <div className="card text-dark bg-light shadow-outline">
                                     <div className="card-body">
                                         <h5 className="card-title">Заголовок карточки</h5>
                                         <p className="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту.</p>
@@ -95,7 +95,7 @@ function Main(){
                                 </div>
                             </div>
                             <div className="col ">
-                                <div className="card text-dark bg-light mb-3 shadow-outline">
+                                <div className="card text-dark bg-light shadow-outline">
                                     <div className="card-body">
                                         <h5 className="card-title">Заголовок карточки</h5>
                                         <p className="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту. Этот контент немного длиннее.</p>
