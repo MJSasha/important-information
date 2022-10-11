@@ -58,7 +58,7 @@ function Main(){
                                 <div className="card text-dark bg-light shadow-outline">
                                     <div className="card-body">
                                         <h5 className="card-title">Заголовок карточки</h5>
-                                        <p className="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту. Этот контент немного длиннее.</p>
+                                        <p className="card-text"></p>
                                     </div>
                                 </div>
                             </div>
