@@ -24,7 +24,7 @@ function SideBar(props){
     
       useEffect(() => {
         setTimeout((() => (scrollToBottom())), 1200)
-      }, []);
+      }, [news]);
 
     if (props.SBIsOpen){
         var getData = setInterval(() => {
