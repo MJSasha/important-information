@@ -1,5 +1,6 @@
 ﻿using ImpInfCommon.Data.Models;
 using System;
+using System.Linq;
 using TgBotLib.Utils;
 
 namespace TelegramBot.Utils
@@ -77,13 +78,28 @@ namespace TelegramBot.Utils
         public static string GetDayCard(this Day day)
         {
             string schedule = "";
+            string note = "";
             foreach (var item in day.LessonsAndTimes)
             {
                 schedule += $"•\t{item.Time:HH:mm} - {item.Lesson.Name} ({item.Type.GetName()})\n";
             }
-            return $"🗓{day.Date:dd-MM-yyyy}\n" +
+            if (day.Notes.Any())
+            {
+                foreach (var item in day.Notes)
+                {
+                    note = Convert.ToString(item);
+                }
+                return $"🗓{day.Date:dd-MM-yyyy}\n" +
+                $"{(string.IsNullOrWhiteSpace(day.Information) ? "" : $"\n{day.Information}\n")}" +
+                $"\n{(string.IsNullOrWhiteSpace(schedule) ? "‼️ Выходной ‼️" : $"Расписание:\n{schedule}")}" +
+                $"\n{(string.IsNullOrWhiteSpace(note) ? "Заметок нет" : $"Заметка:\n{note}")}";
+            }
+            else
+            {
+                return $"🗓{day.Date:dd-MM-yyyy}\n" +
                 $"{(string.IsNullOrWhiteSpace(day.Information) ? "" : $"\n{day.Information}\n")}" +
                 $"\n{(string.IsNullOrWhiteSpace(schedule) ? "‼️ Выходной ‼️" : $"Расписание:\n{schedule}")}";
+            }
         }
 
         public static string GetNewsCard(this News oneNews)

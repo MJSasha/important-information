@@ -39,7 +39,7 @@ namespace TelegramBot.Handlers
         {
             description = Convert.ToString(chosenDay.GetType().GetField("Description"));
             description = redactionMessage;
-            Console.WriteLine(description);
+
         }
     }
 }
