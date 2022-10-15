@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Telegram.Bot.Types;
 using TelegramBot.Data;
 using TelegramBot.Services;
-using TelegramBot.Services.ApiServices;
 using TgBotLib.Handlers;
 using TgBotLib.Services;
 
@@ -34,7 +33,7 @@ namespace TelegramBot.Handlers
         {
             try
             {
-                var usersService = new UsersService();
+                var usersService = TransientService.GetUsersService();
                 var currentUser = await usersService.GetByChatId(chatId);
                 if (currentUser == null) { await bot.SendMessage($"Не могу найти пользователя, возможно вы ещё не зарегестрированны (/reg)"); }
                 else

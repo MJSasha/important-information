@@ -4,13 +4,12 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using TgBotLib.Services;
 
-namespace TelegramBot.Services.ApiServices
+namespace ImpInfCommon.ApiServices
 {
     public class DaysServices : BaseCRUDService<Day, int>
     {
-        public DaysServices() { }
+        public DaysServices(string backRoot, string token = "") : base(backRoot, token: token) { }
 
         public async Task<List<Day>> Get(StartEndTime startEndTime)
         {

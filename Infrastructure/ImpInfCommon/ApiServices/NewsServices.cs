@@ -5,13 +5,12 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using TgBotLib.Services;
 
-namespace TelegramBot.Services.ApiServices
+namespace ImpInfCommon.ApiServices
 {
     public class NewsService : BaseCRUDService<News, int>
     {
-        public NewsService() { }
+        public NewsService(string backRoot, string token = "") : base(backRoot, token: token) { }
 
         public async Task<List<News>> GetUnsent()
         {

@@ -1,13 +1,12 @@
 ﻿using ImpInfCommon.Data.Models;
 using System.Net.Http;
 using System.Threading.Tasks;
-using TgBotLib.Services;
 
-namespace TelegramBot.Services.ApiServices
+namespace ImpInfCommon.ApiServices
 {
     public class UsersService : BaseCRUDService<User, int>
     {
-        public UsersService() { }
+        public UsersService(string backRoot, string token = "") : base(backRoot, token: token) { }
 
         public async Task<User> GetByChatId(long chatId)
         {

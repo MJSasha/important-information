@@ -4,7 +4,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
 using TelegramBot.Services;
-using TelegramBot.Services.ApiServices;
 using TgBotLib.Exceptions;
 using TgBotLib.Handlers;
 using TgBotLib.Services;
@@ -43,8 +42,8 @@ namespace TelegramBot.Handlers
 
         private async Task SendAll()
         {
-            var newsService = new NewsService();
-            var userService = new UsersService();
+            var newsService = TransientService.GetNewsService();
+            var userService = TransientService.GetUsersService();
 
             try
             {

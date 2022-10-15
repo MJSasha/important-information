@@ -3,13 +3,12 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using TgBotLib.Exceptions;
-using TgBotLib.Services;
 
-namespace TelegramBot.Services.ApiServices
+namespace ImpInfCommon.ApiServices
 {
     public class AuthService : BaseService
     {
-        public AuthService() : base(AppSettings.AuthRoot) { }
+        public AuthService(string backRoot, string entityRoot = null, string token = "") : base(entityRoot, backRoot, token) { }
 
         public async Task Registrate(RegistrationModel registrationModel, long chatId)
         {
