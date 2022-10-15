@@ -10,5 +10,6 @@ namespace ImpInfCommon.Data.Models
         public string Name { get; set; }
         public string Teacher { get; set; }
         public string Information { get; set; }
+        public bool IsChange { get; set; } = false;
     }
 }

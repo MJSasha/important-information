@@ -42,11 +42,15 @@ namespace ImpInfApi.Controllers
         {
             return repository.Read(n => n.Lesson?.Id == lessonId, n => n.Lesson);
         }
-
+        
         [HttpPost("ByDates")]
         public Task<News[]> GetByDates([FromBody] StartEndTime startEndTime)
         {
             return repository.Read(n => n.DateTimeOfCreate > startEndTime.Start && n.DateTimeOfCreate < startEndTime.End);
+        }
+        public override Task<ObjectResult> Patch(int id, [FromBody] News entity)
+        {
+            return base.Patch(id, entity);
         }
 
         [HttpPost("AnyBefore")]

@@ -2,6 +2,7 @@
 using ImpInfCommon.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace ImpInfApi.Controllers
 {
@@ -16,5 +17,12 @@ namespace ImpInfApi.Controllers
         {
             this.repository = repository;
         }
+
+        [HttpGet("Changed")]
+        public Task<Lesson[]> GetChanged()
+        {
+            return repository.Read(n => n.IsChange);
+        }
+
     }
 }
