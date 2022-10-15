@@ -17,12 +17,16 @@ namespace ImpInfCommon.ApiServices
         {
             Root = new Uri(backRoot + entityRoot);
 
-            HttpClientHandler handler = new()
+            if (!string.IsNullOrWhiteSpace(token))
             {
-                CookieContainer = new CookieContainer()
-            };
-            if (!string.IsNullOrWhiteSpace(token)) handler.CookieContainer.Add(Root, new Cookie("token", token));
-            httpClient = new HttpClient(handler);
+                HttpClientHandler handler = new()
+                {
+                    CookieContainer = new CookieContainer()
+                };
+                handler.CookieContainer.Add(Root, new Cookie("token", token));
+                httpClient = new HttpClient(handler);
+            }
+            httpClient = new HttpClient();
         }
 
         protected string Serialize<T>(T item)
