@@ -1,10 +1,20 @@
 ﻿<div class="card bg-light h-100">
-    <div class="card-header">День недели</div>
+    <div class="card-header">@($"{Day.Date.DayOfWeek} ({Day.Date:dd.MM.yyyy})")</div>
     <div class="card-body">
-        <h5 class="card-title">Тут типо расписание</h5>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        <h5 class="card-title">Тут информация</h5>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        @if (Day.LessonsAndTimes.Any())
+        {
+            <div class="card-title">Расписание</div>
+            @foreach (var item in Day.LessonsAndTimes)
+            {
+                <div class="card-text ml-2">@($"•\t{item.Time:HH:mm} - {item.Lesson.Name} ({item.Type.GetName()})\n")</div>
+            }
+        }
+        else
+        {
+            <div class="card-title">Выходной</div>
+        }
+        <div class="second-card-title mt-3">Тут информация</div>
+        <div class="card-text fst-italic">Some quick example text to build on the card title and make up the bulk of the card's content.</div>
     </div>
 </div>
 

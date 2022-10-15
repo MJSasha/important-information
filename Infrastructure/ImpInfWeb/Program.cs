@@ -1,5 +1,4 @@
 using ImpInfCommon.ApiServices;
-using ImpInfCommon.Data.Models;
 using ImpInfWeb;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
