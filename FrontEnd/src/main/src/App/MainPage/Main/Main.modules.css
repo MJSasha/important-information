@@ -1,7 +1,7 @@
 
 html {
   overflow: -moz-scrollbars-vertical; 
-  overflow-y: scroll;
+  overflow-y: hidden;
 }
 
 .header{
@@ -77,7 +77,7 @@ html {
 
 /* datepicker styles */
 .parent-datepicker-wrapper{
-  margin-left: 5%;
+  /* margin-left: 5%; */
   display: flex;
   justify-content: center;
 }
@@ -147,9 +147,6 @@ html {
   .header{
     max-height: clamp(70px, 5vh, 80px);
   }
-  /* .marg-help{
-    margin-bottom: 2%;
-  } */
 }
 @media (min-height: 860px) {
   .cards-wrapper{

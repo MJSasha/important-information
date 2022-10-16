@@ -12,7 +12,7 @@
     text-align: center;
 }
 .news{
-    height: auto;
+    /* height: auto; */
 }
 .news-scrollarea {
     max-height: 600px;
@@ -20,8 +20,20 @@
 .news-txt {
     word-break: break-all;
 }
+.transition {
+    /* opacity:0;
+    transition: 1s;
+    animation: show 3s 1;
+    animation-fill-mode: forwards;
+    animation-delay: 1s; */
+}
 @media (max-height: 768px) {
   .news-scrollarea {
     max-height: 65vh;
   }
 }
+/* @media (max-width: 500px) {
+    .SideBarWrapper {
+        width: 200px;
+    }
+} */

@@ -18,7 +18,8 @@ function SideBar(props){
     const scrollToBottom = () => {
         divRef.current.scrollIntoView({
             behavior: "smooth",
-            block: "start",
+            block: "end", 
+            inline: "nearest",
             })
       }
     
@@ -62,32 +63,32 @@ function SideBar(props){
       };
 
     return(
-            <div className="d-flex flex-column justify-content-between flex-shrink-0 bg-white overflow-auto SB-main-wrapper" style={{width: 380}}>
+            <div className="d-flex flex-column justify-content-between flex-shrink-0 bg-white overflow-auto SB-main-wrapper" style={{width: 320}}>
                 <div className="username-wrapper">
                     <h1>UserName</h1>
                 </div>
-                    <div className="news">
-                        <div className="list-group list-group-flush border-bottom overflow-auto news-scrollarea">
-                            {
-                                gotNews.map(text => (
-                                    <div className="list-group-item list-group-item py-3 lh-tight border border-secondary my-1 ms-1 rounded-pill" aria-current="true">
-                                        <div className="d-flex w-100 align-items-center justify-content-between">
-                                            <strong className="mb-1 news-txt">{text.message}</strong>
-                                            <small className="badge bg-primary rounded-pill">{(text.dateTimeOfCreate).substring(0, 10)}</small>
-                                        </div>
-                                        {/* <div className="col-10 mb-1 small">------</div> */}
+                <div className="news">
+                    <div className="list-group list-group-flush border border-dark overflow-auto news-scrollarea transition">
+                        {
+                            gotNews.map(text => (
+                                <div className="list-group-item list-group-item py-3 lh-tight border border-secondary my-1 ms-1 rounded" aria-current="true">
+                                    <div className="d-flex w-100 align-items-center justify-content-between">
+                                        <strong className="mb-1 news-txt">{text.message}</strong>
+                                        <small className="badge bg-primary rounded-pill">{(text.dateTimeOfCreate).substring(0, 10)}</small>
                                     </div>
-                                ))
-                            }
-                            <div ref={divRef} />
-                        </div>
-                        <form className='postNews' onSubmit={postNews}>
-                            <div className="input-group mb-3">
-                                <input autoFocus type="text" value={news} onChange={(event) => {setNews(event.target.value)}} className="form-control" placeholder="Запишите новость" aria-label="Имя пользователя получателя" aria-describedby="button-addon2"/>
-                                <button className="btn btn-outline-secondary" type="submit" id="button-addon2">Отправить</button>
-                            </div>
-                        </form>
+                                    {/* <div className="col-10 mb-1 small">------</div> */}
+                                </div>
+                            ))
+                        }
+                        <div ref={divRef} />
                     </div>
+                </div>
+                <form className='postNews' onSubmit={postNews}>
+                    <div className="input-group mb-3">
+                        <input autoFocus type="text" value={news} onChange={(event) => {setNews(event.target.value)}} className="form-control" placeholder="Запишите новость" aria-label="Имя пользователя получателя" aria-describedby="button-addon2"/>
+                        <button className="btn btn-outline-secondary" type="submit" id="button-addon2">Отправить</button>
+                    </div>
+                </form>
             </div>
     )
 }
