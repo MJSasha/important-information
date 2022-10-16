@@ -1,15 +1,44 @@
 ﻿@page "/"
 @page "/Scheldue"
 
+@using BlazorDateRangePicker
+
 <PageTitle>Index</PageTitle>
 
 <div class="d-flex flex-column h-100">
+    <div class="d-sm-flex flex-sm-row justify-content-between align-items-center ems- m-3">
+        <div class="header">Расписание</div>
+
+        <div class="d-flex flex-column align-items-start">
+            <div class="text-black-50">Выберите неделю</div>
+            <DateRangePicker
+                @bind-StartDate="StartDate"
+                ShowWeekNumbers="true"
+                SingleDatePicker="true"
+                ShowOnlyOneCalendar="true"
+                />
+        </div>
+    </div>
+
     <div class="overflow-hidden align-items-center">
         @foreach (var day in Days)
         {
-            <div class="col-sm p-3 h-100">
+            <div id="@($"day{day.Date.DayOfWeek}")" class="col-sm p-3 h-100">
                 <DayCard Day="day"/>
             </div>
         }
     </div>
 </div>
+
+@code{
+
+    [Inject]
+    private IJSRuntime jSRuntime { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await jSRuntime.InvokeVoidAsync("scrollToElementId", $"day{StartDate.Value.Date.DayOfWeek}");
+
+        base.OnAfterRender(firstRender);
+    }
+}
