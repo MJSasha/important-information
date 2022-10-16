@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -8,6 +8,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\index.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\index.html" />
+  </ItemGroup>
+	
+	
+  <ItemGroup>
     <PackageReference Include="BlazorDateRangePicker" Version="4.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.10" PrivateAssets="all" />
@@ -15,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ImpInfCommon\ImpInfCommon.csproj" />
+    <ProjectReference Include="..\ImpInfFrontCommon\ImpInfFrontCommon.csproj" />
   </ItemGroup>
 
   <ItemGroup>

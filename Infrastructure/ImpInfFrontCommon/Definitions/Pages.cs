@@ -1,4 +1,4 @@
-﻿namespace ImpInfWeb.Definitions
+﻿namespace ImpInfFrontCommon.Definitions
 {
     public static class Pages
     {

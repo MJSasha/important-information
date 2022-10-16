@@ -3,7 +3,7 @@ using ImpInfCommon.Data.Models;
 using ImpInfCommon.Data.Other;
 using Microsoft.AspNetCore.Components;
 
-namespace ImpInfWeb.Pages
+namespace ImpInfFrontCommon.Pages
 {
     public partial class Scheldue
     {
