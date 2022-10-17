@@ -18,7 +18,7 @@ namespace ImpInfApp
 #if DEBUG
             builder.Services.AddBlazorWebViewDeveloperTools();
 #endif
-            string backRoot = "http://localhost:8080/api/";
+            string backRoot = "http://192.168.1.56:8080/api/";
 
             builder.Services.AddTransient(sp => new AuthService(backRoot, "Account"));
             builder.Services.AddTransient(sp => new DaysServices(backRoot));

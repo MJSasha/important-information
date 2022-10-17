@@ -37,7 +37,11 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await jSRuntime.InvokeVoidAsync("scrollToElementId", $"day{StartDate.Value.Date.DayOfWeek}");
+        try
+        {
+            await jSRuntime.InvokeVoidAsync("scrollToElementId", $"day{StartDate.Value.Date.DayOfWeek}");
+        }
+        catch {/*ignore*/}
 
         base.OnAfterRender(firstRender);
     }
