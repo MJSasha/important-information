@@ -16,7 +16,7 @@ namespace ImpInfApp
 
             builder.Services.AddMauiBlazorWebView();
 #if DEBUG
-		builder.Services.AddBlazorWebViewDeveloperTools();
+            builder.Services.AddBlazorWebViewDeveloperTools();
 #endif
             string backRoot = "http://localhost:8080/api/";
 

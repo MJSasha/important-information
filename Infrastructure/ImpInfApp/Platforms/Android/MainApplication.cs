@@ -3,11 +3,11 @@ using Android.Runtime;
 
 namespace ImpInfApp
 {
-    #if DEBUG
+#if DEBUG
     [Application(UsesCleartextTraffic = true)]
-    #else
+#else
     [Application]
-    #endif
+#endif
     public class MainApplication : MauiApplication
     {
         public MainApplication(IntPtr handle, JniHandleOwnership ownership)
