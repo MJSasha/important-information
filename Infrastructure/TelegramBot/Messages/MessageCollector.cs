@@ -233,8 +233,9 @@ namespace TelegramBot.Messages
         {
             DaysServices daysServices = new();
             var day = await daysServices.Get(new DateTimeWrap() { DateTime= chosenDay });
+            var dayId = day.Id;
 
-            DistributionService.BusyUsersIdAndService.Add(chatId, new NoteHandler(chatId, day));
+            DistributionService.BusyUsersIdAndService.Add(chatId, new NoteHandler(chatId, day, dayId));
         }
         public async Task SendNewsForLesson(int lessonId, int previewMessageId)
         {

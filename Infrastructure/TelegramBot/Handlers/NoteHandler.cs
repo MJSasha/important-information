@@ -1,27 +1,28 @@
 ﻿using ImpInfCommon.Data.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
+using TelegramBot.Data;
 using TelegramBot.Services;
+using TelegramBot.Services.ApiServices;
 using TgBotLib.Handlers;
+using TgBotLib.Services;
 
 namespace TelegramBot.Handlers
 {
-    public class NoteHandler: BaseSpecialHandler
+    public class NoteHandler : BaseSpecialHandler
     {
         private readonly long chatId;
+        private readonly int dayId;
         private string redactionMessage;
         private Day chosenDay;
-        private string description;
 
-        public NoteHandler(long chatId, Day chosenDay) : base(new BotService(chatId))
+        public NoteHandler(long chatId, Day chosenDay, int dayId) : base(new BotService(chatId))
         {
             this.chatId = chatId;
             this.chosenDay = chosenDay;
+            this.dayId = dayId;
         }
 
         public override async Task ProcessMessage(Message redactionMessage)
@@ -37,9 +38,27 @@ namespace TelegramBot.Handlers
 
         private async void AddNote()
         {
-            description = Convert.ToString(chosenDay.GetType().GetField("Description"));
-            description = redactionMessage;
+            try
+            {
+                BaseCRUDService<Day, int> baseCRUDService = new();
+                Note note = new Note();
+                List<Note> notes = new List<Note>();
 
+                note.Description = redactionMessage;
+                notes.Add(note);
+                chosenDay.Notes = notes;
+
+                await baseCRUDService.Update(dayId, chosenDay);
+            }
+            catch (Exception ex)
+            {
+                LogService.LogError(ex.ToString());
+                await bot.SendMessage(Texts.Oops);
+            }
+            finally
+            {
+                DistributionService.BusyUsersIdAndService.Remove(chatId);
+            }
         }
     }
 }

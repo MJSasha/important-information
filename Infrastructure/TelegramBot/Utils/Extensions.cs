@@ -78,27 +78,27 @@ namespace TelegramBot.Utils
         public static string GetDayCard(this Day day)
         {
             string schedule = "";
-            string note = "";
+            string description = "";
             foreach (var item in day.LessonsAndTimes)
             {
                 schedule += $"•\t{item.Time:HH:mm} - {item.Lesson.Name} ({item.Type.GetName()})\n";
             }
-            if (day.Notes.Any())
-            {
-                foreach (var item in day.Notes)
-                {
-                    note = Convert.ToString(item);
-                }
-                return $"🗓{day.Date:dd-MM-yyyy}\n" +
-                $"{(string.IsNullOrWhiteSpace(day.Information) ? "" : $"\n{day.Information}\n")}" +
-                $"\n{(string.IsNullOrWhiteSpace(schedule) ? "‼️ Выходной ‼️" : $"Расписание:\n{schedule}")}" +
-                $"\n{(string.IsNullOrWhiteSpace(note) ? "Заметок нет" : $"Заметка:\n{note}")}";
-            }
-            else
+            if ((day.Notes == null) || (!day.Notes.Any()))
             {
                 return $"🗓{day.Date:dd-MM-yyyy}\n" +
                 $"{(string.IsNullOrWhiteSpace(day.Information) ? "" : $"\n{day.Information}\n")}" +
                 $"\n{(string.IsNullOrWhiteSpace(schedule) ? "‼️ Выходной ‼️" : $"Расписание:\n{schedule}")}";
+            }
+            else
+            {
+                foreach (var item in day.Notes)
+                {
+                    description = item.Description;
+                }
+                return $"🗓{day.Date:dd-MM-yyyy}\n" +
+                $"{(string.IsNullOrWhiteSpace(day.Information) ? "" : $"\n{day.Information}\n")}" +
+                $"\n{(string.IsNullOrWhiteSpace(schedule) ? "‼️ Выходной ‼️" : $"Расписание:\n{schedule}")}" +
+                $"\n{(string.IsNullOrWhiteSpace(description) ? "Заметок нет" : $"Заметка:\n{description}")}";
             }
         }
 
