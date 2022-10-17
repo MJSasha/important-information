@@ -1,0 +1,13 @@
+﻿@page "/Logout"
+@using ImpInfFrontCommon.Services
+@inject AuthenticationStateProvider Provider
+
+
+@code
+{
+    protected override Task OnInitializedAsync()
+    {
+        ((TokenAuthStateProvider)Provider).SetLogoutState();
+        return base.OnInitializedAsync();
+    }
+}

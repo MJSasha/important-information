@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Telegram.Bot.Types;
 using TgBotLib.Exceptions;
 
 namespace ImpInfCommon.ApiServices
@@ -17,6 +18,18 @@ namespace ImpInfCommon.ApiServices
             var httpResponse = await httpClient.PostAsync(Root.ToString() + "/" + chatId.ToString(), data);
             if (!httpResponse.IsSuccessStatusCode) throw new ErrorResponseException(httpResponse.StatusCode,
                                                                 await httpResponse.Content.ReadAsStringAsync());
+        }
+
+        public async Task<string> Login(AuthModel authModel)
+        {
+            var json = Serialize(authModel);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+            var httpResponse = await httpClient.PostAsync(Root.ToString() + "/", data);
+            if (!httpResponse.IsSuccessStatusCode) throw new ErrorResponseException(httpResponse.StatusCode,
+                                                                await httpResponse.Content.ReadAsStringAsync());
+            var token = await httpResponse.Content.ReadAsStringAsync();
+
+            return token;
         }
     }
 }

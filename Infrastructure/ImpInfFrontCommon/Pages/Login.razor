@@ -1,0 +1,40 @@
+﻿@page "/Account"
+@using ImpInfCommon.ApiServices
+@using ImpInfCommon.Data.Other
+@using System.Net
+
+<AuthorizeView>
+    <Authorized>
+        auth
+    </Authorized>
+
+    <NotAuthorized>
+        notAuth
+    </NotAuthorized>
+</AuthorizeView>
+
+
+<div class="align-content-center col-5">
+    <h3>Вход</h3>
+
+    <EditForm Model="@AuthModel" OnValidSubmit="@LoginAsync">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="alert-danger text-center">
+            @if (IsBad)  
+            {
+                <p> пароль неверен</p>
+            } 
+        </div>
+        <div class="mb-3">
+            <InputText id="name" class="form-control" @bind-Value="AuthModel.Login" />
+        </div>
+
+        <div class="mb-3">
+            <InputText id="password" class="form-control" @bind-Value="AuthModel.Password" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Вход</button>
+    </EditForm>
+</div>
+
