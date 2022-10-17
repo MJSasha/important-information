@@ -7,7 +7,6 @@ namespace ImpInfApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class NotesController : BaseCrudController<Note>
     {
         public NotesController(BaseCrudRepository<Note> repository) : base(repository) { }

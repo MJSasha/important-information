@@ -8,7 +8,6 @@ namespace ImpInfApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "ADMIN")]
     public class UsersController : BaseCrudController<User>
     {
         private readonly BaseCrudRepository<User> repository;
