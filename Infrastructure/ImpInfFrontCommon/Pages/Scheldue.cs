@@ -11,15 +11,7 @@ namespace ImpInfFrontCommon.Pages
         [Inject]
         private DaysServices DaysServices { get; set; }
 
-        private List<Day> Days
-        {
-            get => days;
-            set
-            {
-                days = value;
-                StateHasChanged();
-            }
-        }
+        private List<Day> Days { get; set; } = new();
         private DateTimeOffset? StartDate
         {
             get => startDate;
@@ -31,7 +23,6 @@ namespace ImpInfFrontCommon.Pages
         }
 
         private DateTimeOffset? startDate = DateTime.Now;
-        private List<Day> days = new();
 
         protected override async Task OnInitializedAsync()
         {
@@ -45,6 +36,7 @@ namespace ImpInfFrontCommon.Pages
             DateTime weekEndDate = weekStartDate.AddDays(8);
 
             Days = (await DaysServices.Get(new StartEndTime { Start = weekStartDate, End = weekEndDate })).OrderBy(d => d.Date.Day).ToList();
+            StateHasChanged();
         }
     }
 }

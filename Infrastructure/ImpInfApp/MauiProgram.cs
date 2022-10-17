@@ -18,7 +18,7 @@ namespace ImpInfApp
 #if DEBUG
             builder.Services.AddBlazorWebViewDeveloperTools();
 #endif
-            string backRoot = "http://192.168.1.56:8080/api/";
+            string backRoot = "https://eb86-94-45-199-229.eu.ngrok.io/api/";  //https://ngrok.com/
 
             builder.Services.AddTransient(sp => new AuthService(backRoot, "Account"));
             builder.Services.AddTransient(sp => new DaysServices(backRoot));
