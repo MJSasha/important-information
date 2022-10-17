@@ -35,7 +35,7 @@ namespace ImpInfFrontCommon.Pages
             DateTime weekStartDate = StartDate.Value.Date.AddDays(delta);
             DateTime weekEndDate = weekStartDate.AddDays(8);
 
-            Days = (await DaysServices.Get(new StartEndTime { Start = weekStartDate, End = weekEndDate })).OrderBy(d => d.Date.Day).ToList();
+            Days = (await DaysServices.Get(new StartEndTime { Start = weekStartDate, End = weekEndDate })).OrderBy(d => d.Date.Month).ThenBy(d => d.Date.Day).ToList();
             StateHasChanged();
         }
     }
