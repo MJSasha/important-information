@@ -22,6 +22,12 @@ csharp_space_around_binary_operators = before_and_after
 # CS0618: Type or member is obsolete
 dotnet_diagnostic.CS0618.severity = silent
 
+# CS8629: Nullable value type may be null.
+dotnet_diagnostic.CS8629.severity = silent
+
+# CS8618: Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+dotnet_diagnostic.CS8618.severity = none
+
 [*.{cs,vb}]
 #### Naming styles ####
 
