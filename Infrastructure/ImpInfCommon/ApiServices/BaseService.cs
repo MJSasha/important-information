@@ -16,7 +16,7 @@ namespace ImpInfCommon.ApiServices
         public BaseService(string entityRoot, string backRoot, string token = "")
         {
             Root = new Uri(backRoot + entityRoot);
-
+            //HttpWebRequest
             if (!string.IsNullOrWhiteSpace(token))
             {
                 HttpClientHandler handler = new()

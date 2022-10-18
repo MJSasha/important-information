@@ -16,8 +16,7 @@ namespace ImpInfCommon.ApiServices
             var json = Serialize(registrationModel);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
             var httpResponse = await httpClient.PostAsync(Root.ToString() + "/" + chatId.ToString(), data);
-            if (!httpResponse.IsSuccessStatusCode) throw new ErrorResponseException(httpResponse.StatusCode,
-                                                                await httpResponse.Content.ReadAsStringAsync());
+            if (!httpResponse.IsSuccessStatusCode) throw new ErrorResponseException(httpResponse.StatusCode, await httpResponse.Content.ReadAsStringAsync());
         }
 
         public async Task<string> Login(AuthModel authModel)
@@ -25,11 +24,17 @@ namespace ImpInfCommon.ApiServices
             var json = Serialize(authModel);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
             var httpResponse = await httpClient.PostAsync(Root.ToString() + "/", data);
-            if (!httpResponse.IsSuccessStatusCode) throw new ErrorResponseException(httpResponse.StatusCode,
-                                                                await httpResponse.Content.ReadAsStringAsync());
+            if (!httpResponse.IsSuccessStatusCode) throw new ErrorResponseException(httpResponse.StatusCode, await httpResponse.Content.ReadAsStringAsync());
             var token = await httpResponse.Content.ReadAsStringAsync();
 
             return token;
+        }
+        public async Task<bool> CheckToken(string token)
+        {
+            var httpResponse = await httpClient.GetAsync(Root.ToString() + "/CheckToken/" + token);
+            if (!httpResponse.IsSuccessStatusCode) throw new ErrorResponseException(httpResponse.StatusCode, await httpResponse.Content.ReadAsStringAsync());
+            
+            return await Deserialize<bool>(httpResponse);
         }
     }
 }

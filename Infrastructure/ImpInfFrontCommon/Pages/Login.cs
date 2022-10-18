@@ -14,7 +14,7 @@ namespace ImpInfFrontCommon.Pages
         }
 
         [Inject]
-        public ILocalStorageService LocalStorageService { get; set; }
+        public CookieService CookieService { get; set; }
 
         [Inject]
         public NavigationManager NavigationManager { get; set; }
@@ -36,12 +36,13 @@ namespace ImpInfFrontCommon.Pages
                     Name = AuthModel.Login,
                     Token = await AuthService.Login(AuthModel)
                 };
-                await LocalStorageService.SetAsync("imp-inf", claim);
-                NavigationManager.NavigateTo("/", true);
+                await CookieService.WriteCookies("token", claim.Token);
+                NavigationManager.NavigateTo("/");
             }
             catch (Exception)
             {
                 IsBad = true;
+                throw;
             }
         }
 
