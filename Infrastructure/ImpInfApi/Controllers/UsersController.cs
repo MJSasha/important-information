@@ -19,9 +19,11 @@ namespace ImpInfApi.Controllers
         }
 
         [HttpGet("ByChatId/{chatId}")]
-        public Task<User> GetByChatId(long chatId)
+        public async Task<User> GetByChatId(long chatId)
         {
-            return repository.ReadFirst(u => u.ChatId == chatId);
+            var user = await repository.ReadFirst(u => u.ChatId == chatId, u => u.Notes);
+            if (user?.Notes != null) user.Notes.ForEach(n => n.User = null);
+            return user;
         }
     }
 }

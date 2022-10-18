@@ -1,6 +1,5 @@
 ﻿using ImpInfCommon.Data.Models;
 using System;
-using System.Linq;
 using TgBotLib.Utils;
 
 namespace TelegramBot.Utils
@@ -88,18 +87,15 @@ namespace TelegramBot.Utils
                 foreach (var item in day.Notes)
                 {
                     description = item.Description;
+                    return $"🗓{day.Date:dd-MM-yyyy}\n" +
+                    $"{(string.IsNullOrWhiteSpace(day.Information) ? "" : $"\n{day.Information}\n")}" +
+                    $"\n{(string.IsNullOrWhiteSpace(schedule) ? "‼️ Выходной ‼️" : $"Расписание:\n{schedule}")}" +
+                    $"\n{(string.IsNullOrWhiteSpace(description) ? "Заметок нет" : $"Заметка:\n•\t{description}")}";
                 }
-                return $"🗓{day.Date:dd-MM-yyyy}\n" +
-                $"{(string.IsNullOrWhiteSpace(day.Information) ? "" : $"\n{day.Information}\n")}" +
-                $"\n{(string.IsNullOrWhiteSpace(schedule) ? "‼️ Выходной ‼️" : $"Расписание:\n{schedule}")}" +
-                $"\n{(string.IsNullOrWhiteSpace(description) ? "Заметок нет" : $"Заметка:\n{description}")}";
             }
-            else
-            {
-                return $"🗓{day.Date:dd-MM-yyyy}\n" +
+            return $"🗓{day.Date:dd-MM-yyyy}\n" +
                 $"{(string.IsNullOrWhiteSpace(day.Information) ? "" : $"\n{day.Information}\n")}" +
-                $"\n{(string.IsNullOrWhiteSpace(schedule) ? "‼️ Выходной ‼️" : $"Расписание:\n{schedule}")}";              
-            }
+                $"\n{(string.IsNullOrWhiteSpace(schedule) ? "‼️ Выходной ‼️" : $"Расписание:\n{schedule}")}";
         }
 
         public static string GetNewsCard(this News oneNews)

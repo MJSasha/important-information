@@ -55,7 +55,7 @@ namespace TelegramBot.Handlers
             else if (Regex.IsMatch(callback, @"^(@editName)(-){0,1}\d{1,}")) return Task.Run(() => DistributionService.BusyUsersIdAndService.Add(chatId, new RedactionHandler<Lesson>(chatId, nameof(Lesson.Name), Convert.ToInt32(callback[9..]))));
             else if (Regex.IsMatch(callback, @"^(@editTeacher)(-){0,1}\d{1,}")) return Task.Run(() => DistributionService.BusyUsersIdAndService.Add(chatId, new RedactionHandler<Lesson>(chatId, nameof(Lesson.Teacher), Convert.ToInt32(callback[12..]))));
             else if (Regex.IsMatch(callback, @"^(@editInformation)(-){0,1}\d{1,}")) return Task.Run(() => DistributionService.BusyUsersIdAndService.Add(chatId, new RedactionHandler<Lesson>(chatId, nameof(Lesson.Information), Convert.ToInt32(callback[16..]))));
-            else if (Regex.IsMatch(callback, @"^(@addNote)(-){0,1}\d{1,}")) return messageCollector.EditDay(DateTime.Parse(callback[8..])); 
+            else if (Regex.IsMatch(callback, @"^(@addNote)(-){0,1}\d{1,}")) return messageCollector.StartNoteAdding(DateTime.Parse(callback[8..])); 
             else if (Regex.IsMatch(callback, @"^(@getNewsForLes)\d{1,}(I)\d{1,}"))
             {
                 var data = callback[14..].Split('I');

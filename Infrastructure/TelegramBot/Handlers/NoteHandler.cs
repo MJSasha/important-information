@@ -1,11 +1,11 @@
 ﻿using ImpInfCommon.Data.Models;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
 using TelegramBot.Data;
 using TelegramBot.Services;
 using TelegramBot.Services.ApiServices;
+using TelegramBot.Utils;
 using TgBotLib.Handlers;
 using TgBotLib.Services;
 using TgBotLib.Utils;
@@ -15,15 +15,13 @@ namespace TelegramBot.Handlers
     public class NoteHandler : BaseSpecialHandler
     {
         private readonly long chatId;
-        private readonly int dayId;
         private string redactionMessage;
         private Day chosenDay;
 
-        public NoteHandler(long chatId, Day chosenDay, int dayId) : base(new BotService(chatId))
+        public NoteHandler(long chatId, Day chosenDay) : base(new BotService(chatId))
         {
             this.chatId = chatId;
             this.chosenDay = chosenDay;
-            this.dayId = dayId;
         }
 
         public override async Task ProcessMessage(Message redactionMessage)
@@ -34,7 +32,7 @@ namespace TelegramBot.Handlers
 
         protected override void RegistrateProcessing()
         {
-            AddProcessing("Введите значение", AddNote);
+            AddProcessing("Введите заметку", AddNote);
         }
 
         private async void AddNote()
@@ -55,7 +53,7 @@ namespace TelegramBot.Handlers
                 await notesService.Create(note);
 
                 ButtonsGenerator buttonsGenerator = new();
-                buttonsGenerator.SetInlineButtons(("На главную", "/start"));
+                buttonsGenerator.SetGoBackButton(chosenDay.Date.GetDayCallback());
                 await bot.SendMessage("Изменения сохранены", buttonsGenerator.GetButtons());
             }
             catch (Exception ex)
