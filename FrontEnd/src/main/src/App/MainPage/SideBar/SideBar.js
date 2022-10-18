@@ -68,7 +68,7 @@ function SideBar(props){
                     <h1>UserName</h1>
                 </div>
                 <div className="news">
-                    <div className="list-group list-group-flush border border-dark overflow-auto news-scrollarea transition">
+                    <div className="list-group list-group-flush overflow-auto news-scrollarea transition">
                         {
                             gotNews.map(text => (
                                 <div className="list-group-item list-group-item py-3 lh-tight border border-secondary my-1 ms-1 rounded" aria-current="true">
