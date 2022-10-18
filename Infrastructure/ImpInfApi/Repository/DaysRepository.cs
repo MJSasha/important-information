@@ -18,20 +18,26 @@ namespace ImpInfApi.Repository
 
         public override async Task<Day[]> Read(Func<Day, bool> query = null, params Expression<Func<Day, object>>[] includedProperties)
         {
-            var days = query != null ? dbSet.Include(d => d.LessonsAndTimes).ThenInclude(lt => lt.Lesson).Where(query).ToArray() : dbSet.Include(d => d.LessonsAndTimes).ThenInclude(lt => lt.Lesson).ToArray();
+            var days = query != null ? dbSet.Include(d => d.LessonsAndTimes).ThenInclude(lt => lt.Lesson).Include(d => d.Notes).Where(query).ToArray() : dbSet.Include(d => d.LessonsAndTimes).ThenInclude(lt => lt.Lesson).Include(d => d.Notes).ToArray();
             if (!days.Any()) return days;
             foreach (var item in days)
             {
                 item.LessonsAndTimes.ForEach(lt => lt.Days = null);
+                item.Notes.ForEach(n => n.Day = null);
             }
             return days;
         }
 
         public override async Task<Day> ReadFirst(Expression<Func<Day, bool>> query, params Expression<Func<Day, object>>[] includedProperties)
         {
-            var day = await dbSet.Include(d => d.LessonsAndTimes).ThenInclude(lt => lt.Lesson).FirstOrDefaultAsync(query);
+            var day = await dbSet
+                .Include(d => d.LessonsAndTimes)
+                    .ThenInclude(lt => lt.Lesson)
+                .Include(d => d.Notes)
+                .FirstOrDefaultAsync(query);
             if (day == null) return day;
             day.LessonsAndTimes.ForEach(lt => lt.Days = null);
+            day.Notes.ForEach(n => n.Day = null);
             return day;
         }
     }

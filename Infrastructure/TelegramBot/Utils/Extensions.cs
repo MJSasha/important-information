@@ -83,13 +83,7 @@ namespace TelegramBot.Utils
             {
                 schedule += $"•\t{item.Time:HH:mm} - {item.Lesson.Name} ({item.Type.GetName()})\n";
             }
-            if ((day.Notes == null) || (!day.Notes.Any()))
-            {
-                return $"🗓{day.Date:dd-MM-yyyy}\n" +
-                $"{(string.IsNullOrWhiteSpace(day.Information) ? "" : $"\n{day.Information}\n")}" +
-                $"\n{(string.IsNullOrWhiteSpace(schedule) ? "‼️ Выходной ‼️" : $"Расписание:\n{schedule}")}";
-            }
-            else
+            if (!(day.Notes == null))
             {
                 foreach (var item in day.Notes)
                 {
@@ -99,6 +93,12 @@ namespace TelegramBot.Utils
                 $"{(string.IsNullOrWhiteSpace(day.Information) ? "" : $"\n{day.Information}\n")}" +
                 $"\n{(string.IsNullOrWhiteSpace(schedule) ? "‼️ Выходной ‼️" : $"Расписание:\n{schedule}")}" +
                 $"\n{(string.IsNullOrWhiteSpace(description) ? "Заметок нет" : $"Заметка:\n{description}")}";
+            }
+            else
+            {
+                return $"🗓{day.Date:dd-MM-yyyy}\n" +
+                $"{(string.IsNullOrWhiteSpace(day.Information) ? "" : $"\n{day.Information}\n")}" +
+                $"\n{(string.IsNullOrWhiteSpace(schedule) ? "‼️ Выходной ‼️" : $"Расписание:\n{schedule}")}";              
             }
         }
 

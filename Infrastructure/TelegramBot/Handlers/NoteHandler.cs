@@ -8,6 +8,7 @@ using TelegramBot.Services;
 using TelegramBot.Services.ApiServices;
 using TgBotLib.Handlers;
 using TgBotLib.Services;
+using TgBotLib.Utils;
 
 namespace TelegramBot.Handlers
 {
@@ -40,15 +41,22 @@ namespace TelegramBot.Handlers
         {
             try
             {
-                BaseCRUDService<Day, int> baseCRUDService = new();
-                Note note = new Note();
-                List<Note> notes = new List<Note>();
+                UsersService usersService = new();
+                var user = await usersService.GetByChatId(chatId);
 
-                note.Description = redactionMessage;
-                notes.Add(note);
-                chosenDay.Notes = notes;
+                Note note = new()
+                {
+                    Description = redactionMessage,
+                    User = user,
+                    Day = chosenDay,
+                };
 
-                await baseCRUDService.Update(dayId, chosenDay);
+                NotesService notesService = new();
+                await notesService.Create(note);
+
+                ButtonsGenerator buttonsGenerator = new();
+                buttonsGenerator.SetInlineButtons(("На главную", "/start"));
+                await bot.SendMessage("Изменения сохранены", buttonsGenerator.GetButtons());
             }
             catch (Exception ex)
             {
