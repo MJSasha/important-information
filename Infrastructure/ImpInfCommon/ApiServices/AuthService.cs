@@ -26,14 +26,13 @@ namespace ImpInfCommon.ApiServices
             var httpResponse = await httpClient.PostAsync(Root.ToString() + "/", data);
             if (!httpResponse.IsSuccessStatusCode) throw new ErrorResponseException(httpResponse.StatusCode, await httpResponse.Content.ReadAsStringAsync());
             var token = await httpResponse.Content.ReadAsStringAsync();
-
             return token;
         }
+
         public async Task<bool> CheckToken(string token)
         {
             var httpResponse = await httpClient.GetAsync(Root.ToString() + "/CheckToken/" + token);
             if (!httpResponse.IsSuccessStatusCode) throw new ErrorResponseException(httpResponse.StatusCode, await httpResponse.Content.ReadAsStringAsync());
-            
             return await Deserialize<bool>(httpResponse);
         }
     }

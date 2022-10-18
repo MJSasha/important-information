@@ -11,12 +11,12 @@ namespace ImpInfFrontCommon.Services
             this.jsRuntime = jsRuntime;
         }
 
-        public async Task WriteCookies(string key, string value)
+        public async Task SetCookies(string key, string value)
         {
             await jsRuntime.InvokeAsync<object>("WriteCookie.WriteCookie", key, value, DateTime.Now.AddMinutes(1));
         }
 
-        public async Task<string> ReadCookies(string key)
+        public async Task<string> GetCookies(string key)
         {
             return await jsRuntime.InvokeAsync<string>("ReadCookie.ReadCookie", key);
         }

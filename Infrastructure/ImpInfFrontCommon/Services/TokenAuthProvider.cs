@@ -17,7 +17,7 @@ namespace ImpInfFrontCommon.Services
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
-            var token = await cookieService.ReadCookies("token");
+            var token = await cookieService.GetCookies("token");
             if (string.IsNullOrWhiteSpace(token) || !await authService.CheckToken(token)) return GetStateAnonymous();
 
             var claims = new List<Claim>()
@@ -34,7 +34,7 @@ namespace ImpInfFrontCommon.Services
 
         public async void SetLogoutState()
         {
-            await cookieService.WriteCookies("token", "");
+            await cookieService.SetCookies("token", "");
 
             NotifyAuthenticationStateChanged(Task.FromResult(GetStateAnonymous()));
         }

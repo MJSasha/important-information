@@ -36,7 +36,7 @@ namespace ImpInfFrontCommon.Pages
                     Name = AuthModel.Login,
                     Token = await AuthService.Login(AuthModel)
                 };
-                await CookieService.WriteCookies("token", claim.Token);
+                await CookieService.SetCookies("token", claim.Token);
                 NavigationManager.NavigateTo("/");
             }
             catch (Exception)

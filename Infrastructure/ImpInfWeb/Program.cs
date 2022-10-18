@@ -18,26 +18,17 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 string backRoot = "http://localhost:8080/api/";
 
 builder.Services.AddTransient(sp => new AuthService(backRoot, "Account"));
-builder.Services.AddTransient(async sp => new DaysServices(backRoot, await getCokkieAsync(sp.GetRequiredService<CookieService>())));
-builder.Services.AddTransient(async sp =>  new LessonsService(backRoot, await getCokkieAsync(sp.GetRequiredService<CookieService>())));
+builder.Services.AddTransient(sp => new DaysServices(backRoot));
+builder.Services.AddTransient(sp => new LessonsService(backRoot));
 builder.Services.AddTransient(sp => new NewsService(backRoot));
 builder.Services.AddTransient(sp => new NotesService(backRoot));
 builder.Services.AddTransient(sp => new UsersService(backRoot));
 
-async Task<string> getCokkieAsync(CookieService service) => await service.ReadCookies("token");
 builder.Services.AddOptions();
 builder.Services.AddAuthorizationCore();
 
 builder.Services.AddScoped<AuthenticationStateProvider, TokenAuthStateProvider>();
-builder.Services.AddScoped<ILocalStorageService, LocalStorageService>();
 builder.Services.AddScoped<CookieService>();
 
 
-var app = builder.Build();
-
-var cs = app.Services.GetRequiredService<CookieService>();
-
-public class CokkieHelper
-{
-    public string Token { get; set; } = "zero";
-}
+var app = builder.Build().RunAsync();
