@@ -1,5 +1,6 @@
 ﻿using ImpInfCommon.Data.Models;
 using ImpInfCommon.Data.Other;
+using ImpInfCommon.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -10,7 +11,7 @@ namespace ImpInfCommon.ApiServices
 {
     public class NewsService : BaseCRUDService<News, int>
     {
-        public NewsService(string backRoot, string token = "") : base(backRoot, token: token) { }
+        public NewsService(string backRoot, ITokenProvider tokenProvider) : base(backRoot, tokenProvider) { }
 
         public async Task<List<News>> GetUnsent()
         {

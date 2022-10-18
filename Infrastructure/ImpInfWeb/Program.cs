@@ -1,13 +1,12 @@
 using ImpInfCommon.ApiServices;
+using ImpInfCommon.Interfaces;
 using ImpInfFrontCommon;
 using ImpInfFrontCommon.Services;
-using Microsoft.AspNetCore.Components;
+using ImpInfWeb;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.JSInterop;
-using System.Net.Http;
+
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -17,12 +16,15 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 
 string backRoot = "http://localhost:8080/api/";
 
-builder.Services.AddTransient(sp => new AuthService(backRoot, "Account"));
-builder.Services.AddTransient(sp => new DaysServices(backRoot));
-builder.Services.AddTransient(sp => new LessonsService(backRoot));
-builder.Services.AddTransient(sp => new NewsService(backRoot));
-builder.Services.AddTransient(sp => new NotesService(backRoot));
-builder.Services.AddTransient(sp => new UsersService(backRoot));
+//builder.Services.AddSingleton<ITokenProvider, TokenProvider>();
+
+builder.Services.AddTransient(sp => new AuthService(backRoot, sp.GetService<TokenProvider>(), "Account"));
+builder.Services.AddTransient(sp => new DaysServices(backRoot, sp.GetService<TokenProvider>()));
+builder.Services.AddTransient(sp => new LessonsService(backRoot, sp.GetService<TokenProvider>()));
+builder.Services.AddTransient(sp => new NewsService(backRoot, sp.GetService<TokenProvider>()));
+builder.Services.AddTransient(sp => new NotesService(backRoot, sp.GetService<TokenProvider>()));
+builder.Services.AddTransient(sp => new UsersService(backRoot, sp.GetService<TokenProvider>()));
+builder.Services.AddTransient(sp => new UsersService(backRoot, sp.GetService<TokenProvider>()));
 
 builder.Services.AddOptions();
 builder.Services.AddAuthorizationCore();

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using ImpInfCommon.Interfaces;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Net;
@@ -10,13 +11,17 @@ namespace ImpInfCommon.ApiServices
 {
     public class BaseService
     {
-        protected readonly HttpClient httpClient;
+        protected HttpClient httpClient;
+        protected readonly ITokenProvider tokenProvider;
         protected Uri Root { get; set; }
 
-        public BaseService(string entityRoot, string backRoot, string token = "")
+        public BaseService(string entityRoot, string backRoot, ITokenProvider tokenProvider)
         {
             Root = new Uri(backRoot + entityRoot);
-            //HttpWebRequest
+            this.tokenProvider = tokenProvider;
+
+            var token = tokenProvider.GetToken();
+
             if (!string.IsNullOrWhiteSpace(token))
             {
                 HttpClientHandler handler = new()

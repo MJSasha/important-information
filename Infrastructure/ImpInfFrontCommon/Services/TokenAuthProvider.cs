@@ -1,4 +1,5 @@
 ﻿using ImpInfCommon.ApiServices;
+using ImpInfCommon.Interfaces;
 using Microsoft.AspNetCore.Components.Authorization;
 using System.Security.Claims;
 
@@ -8,11 +9,13 @@ namespace ImpInfFrontCommon.Services
     {
         private readonly CookieService cookieService;
         private readonly AuthService authService;
+        private readonly ITokenProvider tokenProvider;
 
-        public TokenAuthStateProvider(CookieService cookieService, AuthService authService)
+        public TokenAuthStateProvider(CookieService cookieService, AuthService authService, ITokenProvider tokenProvider)
         {
             this.cookieService = cookieService;
             this.authService = authService;
+            this.tokenProvider = tokenProvider;
         }
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
@@ -28,6 +31,7 @@ namespace ImpInfFrontCommon.Services
 
             var claimsIdentity = new ClaimsIdentity(claims, "Token");
             var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+            await tokenProvider.SetToken();
 
             return new AuthenticationState(claimsPrincipal);
         }

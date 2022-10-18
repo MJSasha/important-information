@@ -1,15 +1,15 @@
 ﻿using ImpInfCommon.Data.Other;
+using ImpInfCommon.Interfaces;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Telegram.Bot.Types;
 using TgBotLib.Exceptions;
 
 namespace ImpInfCommon.ApiServices
 {
     public class AuthService : BaseService
     {
-        public AuthService(string backRoot, string entityRoot = null, string token = "") : base(entityRoot, backRoot, token) { }
+        public AuthService(string backRoot, ITokenProvider tokenProvider, string entityRoot = null) : base(entityRoot, backRoot, tokenProvider) { }
 
         public async Task Registrate(RegistrationModel registrationModel, long chatId)
         {

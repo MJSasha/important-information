@@ -1,5 +1,6 @@
 ﻿using ImpInfCommon.Data.Models;
 using ImpInfCommon.Data.Other;
+using ImpInfCommon.Interfaces;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
@@ -9,7 +10,7 @@ namespace ImpInfCommon.ApiServices
 {
     public class DaysServices : BaseCRUDService<Day, int>
     {
-        public DaysServices(string backRoot, string token = "") : base(backRoot, token: token) { }
+        public DaysServices(string backRoot, ITokenProvider tokenProvider) : base(backRoot, tokenProvider) { }
 
         public async Task<List<Day>> Get(StartEndTime startEndTime)
         {

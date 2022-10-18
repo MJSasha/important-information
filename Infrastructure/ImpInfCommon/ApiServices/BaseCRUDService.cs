@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using ImpInfCommon.Interfaces;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -10,7 +11,7 @@ namespace ImpInfCommon.ApiServices
 {
     public class BaseCRUDService<TEntity, TKey> : BaseService where TEntity : class
     {
-        public BaseCRUDService(string backRoot, string entityRoot = null, string token = "") : base(entityRoot ?? typeof(TEntity).GetRoot(), backRoot, token) { }
+        public BaseCRUDService(string backRoot, ITokenProvider tokenProvider, string entityRoot = null) : base(entityRoot ?? typeof(TEntity).GetRoot(), backRoot, tokenProvider) { }
 
         public virtual async Task<TEntity> Get(TKey key)
         {
