@@ -22,7 +22,7 @@ namespace ImpInfApp
             builder.Services.AddBlazorWebViewDeveloperTools();
 #endif
 
-            string backRoot = "http://localhost:8080/api/";
+            string backRoot = "https://eb86-94-45-199-229.eu.ngrok.io/api/";  //https://ngrok.com/
 
             builder.Services
                 .AddTransient<CookieHandler>()

@@ -78,17 +78,17 @@ namespace ImpInfApi
                 .SetIsOriginAllowed(origin => true)
                 .AllowCredentials());
 
-            app.UseMiddleware<BeforeRequestHandler>(appSettings);
-            app.UseAuthentication();
-            app.UseAuthorization();
+
+            var serviceScopeForPermision = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
+            app.UseMiddleware<CheckPermisionMidleware>(appSettings, serviceScopeForPermision.ServiceProvider.GetService<BaseCrudRepository<User>>());
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
 
-            // DB initial
             using var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
+            // DB initial
             var dbContext = serviceScope.ServiceProvider.GetService<AppDbContext>();
             dbContext.Database.Migrate();
             var startDbData = UtilsFunctions.GetInitiallQuery();
