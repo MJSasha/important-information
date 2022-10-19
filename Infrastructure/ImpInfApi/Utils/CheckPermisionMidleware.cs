@@ -21,12 +21,12 @@ namespace ImpInfApi.Utils
             this.userRepository = userRepository;
 
             allowsPaths = new();
-            allowsPaths.Add("/api/Account", "POST");
+            allowsPaths.Add("/api/Account/", "POST");
         }
 
         public async Task Invoke(HttpContext context)
         {
-            if (allowsPaths.ContainsKey(context.Request.Path) && allowsPaths.ContainsValue(context.Request.Method)) await _next(context);
+            if (allowsPaths.ContainsKey(context.Request.Path.Value) && allowsPaths.ContainsValue(context.Request.Method)) await _next(context);
             else
             {
                 var token = context.Request.Cookies["token"];
