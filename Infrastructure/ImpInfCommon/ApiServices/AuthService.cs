@@ -1,5 +1,4 @@
 ﻿using ImpInfCommon.Data.Other;
-using ImpInfCommon.Interfaces;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +8,7 @@ namespace ImpInfCommon.ApiServices
 {
     public class AuthService : BaseService
     {
-        public AuthService(string backRoot, ITokenProvider tokenProvider, string entityRoot = null) : base(entityRoot, backRoot, tokenProvider) { }
+        public AuthService(string backRoot, HttpClient httpClient, string entityRoot = null) : base(entityRoot, backRoot, httpClient) { }
 
         public async Task Registrate(RegistrationModel registrationModel, long chatId)
         {

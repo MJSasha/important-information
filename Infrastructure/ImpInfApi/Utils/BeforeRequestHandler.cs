@@ -1,9 +1,4 @@
-﻿using ImpInfCommon.Data.Definitions;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Security.Claims;
-using System.Text;
+﻿using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 
 namespace ImpInfApi.Utils
@@ -21,7 +16,7 @@ namespace ImpInfApi.Utils
 
         public async Task Invoke(HttpContext context)
         {
-            
+
 
             await _next(context);
         }

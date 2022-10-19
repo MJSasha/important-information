@@ -50,6 +50,10 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
       <ProjectReference Include="..\ImpInfCommon\ImpInfCommon.csproj" />
       <ProjectReference Include="..\ImpInfFrontCommon\ImpInfFrontCommon.csproj" />
     </ItemGroup>

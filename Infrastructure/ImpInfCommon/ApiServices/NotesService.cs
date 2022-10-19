@@ -1,10 +1,10 @@
 ﻿using ImpInfCommon.Data.Models;
-using ImpInfCommon.Interfaces;
+using System.Net.Http;
 
 namespace ImpInfCommon.ApiServices
 {
     public class NotesService : BaseCRUDService<Note, int>
     {
-        public NotesService(string backRoot, ITokenProvider tokenProvider) : base(backRoot, tokenProvider) { }
+        public NotesService(string backRoot, HttpClient httpClient) : base(backRoot, httpClient) { }
     }
 }
