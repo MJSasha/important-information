@@ -6,8 +6,8 @@
 
 <div class="container" style="height: 100vh;">
     <div class="d-flex justify-content-center w-100 h-100">
-        <div class="frame align-self-center col-md-4 ">
-            <div class="d-flex header mb-3 mx-auto">Вход</div>
+        <div class="frame align-self-center col-md-4">
+            <div class="d-flex header mb-3">Вход</div>
 
             <EditForm Model="@AuthModel" OnValidSubmit="@LoginAsync">
                 <DataAnnotationsValidator />
@@ -19,14 +19,14 @@
                     } 
                 </div>
                 <div class="mb-3">
-                    <InputText id="name" class="form-control" @bind-Value="AuthModel.Login" />
+                    <input placeholder="логин" id="name" class="form-control" @bind="AuthModel.Login" />
                 </div>
 
                 <div class="mb-3">
-                    <InputText id="password" class="form-control" @bind-Value="AuthModel.Password" />
+                    <input placeholder="пароль" type="password" id="password" class="form-control" @bind="AuthModel.Password" />
                 </div>
 
-                <button type="submit" class="btn btn-primary">Вход</button>
+                <button type="submit" class="btn btn-primary">Войти</button>
             </EditForm>
         </div>
     </div>

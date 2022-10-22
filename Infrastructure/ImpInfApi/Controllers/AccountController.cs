@@ -49,7 +49,7 @@ namespace ImpInfApi.Controllers
                 var token = Guid.NewGuid().ToString();
                 user.Token = token;
                 await usersRepository.Update(user);
-                return Ok(token);
+                return Ok(user);
             }
             return StatusCode(401, "User not found.");
         }

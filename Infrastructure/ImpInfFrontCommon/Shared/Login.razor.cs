@@ -1,4 +1,5 @@
 ﻿using ImpInfCommon.ApiServices;
+using ImpInfCommon.Data.Models;
 using ImpInfCommon.Data.Other;
 using ImpInfFrontCommon.Services;
 using Microsoft.AspNetCore.Components;
@@ -8,6 +9,9 @@ namespace ImpInfFrontCommon.Shared
 {
     public partial class Login : ComponentBase
     {
+        [CascadingParameter]
+        public User CurrentUser { get; set; }
+
         [Inject]
         public CookieService CookieService { get; set; }
 
@@ -26,10 +30,11 @@ namespace ImpInfFrontCommon.Shared
         {
             try
             {
+                var CurrentUser = await AuthService.Login(AuthModel);
                 var claim = new UserClaim
                 {
                     Name = AuthModel.Login,
-                    Token = await AuthService.Login(AuthModel)
+                    Token = CurrentUser.Token
                 };
                 await CookieService.SetCookies("token", claim.Token);
                 NavigationManager.NavigateTo("/", true);
