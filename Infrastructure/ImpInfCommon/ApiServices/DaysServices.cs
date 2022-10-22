@@ -9,7 +9,7 @@ namespace ImpInfCommon.ApiServices
 {
     public class DaysServices : BaseCRUDService<Day, int>
     {
-        public DaysServices(string backRoot, string token = "") : base(backRoot, token: token) { }
+        public DaysServices(string backRoot, HttpClient httpClient) : base(backRoot, httpClient) { }
 
         public async Task<List<Day>> Get(StartEndTime startEndTime)
         {

@@ -18,9 +18,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImpInfApi", "ImpInfApi\ImpI
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImpInfWeb", "ImpInfWeb\ImpInfWeb.csproj", "{88CB8FED-59D1-444D-BA1D-06EC2E62FF08}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImpInfFrontCommon", "ImpInfFrontCommon\ImpInfFrontCommon.csproj", "{0E5998DA-B222-4825-801A-9AC6DB5B966B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImpInfFrontCommon", "ImpInfFrontCommon\ImpInfFrontCommon.csproj", "{0E5998DA-B222-4825-801A-9AC6DB5B966B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImpInfApp", "ImpInfApp\ImpInfApp.csproj", "{6DF170B5-1467-4988-8A0E-34B3FF21ADEF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImpInfApp", "ImpInfApp\ImpInfApp.csproj", "{6DF170B5-1467-4988-8A0E-34B3FF21ADEF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

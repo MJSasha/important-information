@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
-using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using TgBotLib.Exceptions;
@@ -10,23 +9,14 @@ namespace ImpInfCommon.ApiServices
 {
     public class BaseService
     {
-        protected readonly HttpClient httpClient;
+        protected HttpClient httpClient;
         protected Uri Root { get; set; }
 
-        public BaseService(string entityRoot, string backRoot, string token = "")
+        public BaseService(string entityRoot, string backRoot, HttpClient httpClient)
         {
             Root = new Uri(backRoot + entityRoot);
 
-            if (!string.IsNullOrWhiteSpace(token))
-            {
-                HttpClientHandler handler = new()
-                {
-                    CookieContainer = new CookieContainer()
-                };
-                handler.CookieContainer.Add(Root, new Cookie("token", token));
-                httpClient = new HttpClient(handler);
-            }
-            httpClient = new HttpClient();
+            this.httpClient = httpClient;
         }
 
         protected string Serialize<T>(T item)
