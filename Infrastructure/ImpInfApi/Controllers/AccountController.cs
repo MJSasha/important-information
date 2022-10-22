@@ -53,5 +53,12 @@ namespace ImpInfApi.Controllers
             }
             return StatusCode(401, "User not found.");
         }
+
+        [HttpGet("CheckToken/{token}")]
+        public async Task<bool> CheckToken(string token)
+        {
+            User user = await usersRepository.ReadFirst(u => u.Token == token);
+            return user != null;
+        }
     }
 }

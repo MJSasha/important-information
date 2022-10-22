@@ -10,7 +10,7 @@ namespace ImpInfCommon.ApiServices
 {
     public class BaseCRUDService<TEntity, TKey> : BaseService where TEntity : class
     {
-        public BaseCRUDService(string backRoot, string entityRoot = null, string token = "") : base(entityRoot ?? typeof(TEntity).GetRoot(), backRoot, token) { }
+        public BaseCRUDService(string backRoot, HttpClient httpClient, string entityRoot = null) : base(entityRoot ?? typeof(TEntity).GetRoot(), backRoot, httpClient) { }
 
         public virtual async Task<TEntity> Get(TKey key)
         {

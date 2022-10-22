@@ -1,3 +1,4 @@
+using ImpInfApi.Models;
 using ImpInfApi.Repository;
 using ImpInfApi.Utils;
 using ImpInfCommon.Data.Models;
@@ -8,7 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using System;
-using System.Text;
+using System.Collections.Generic;
+using System.Net.Http;
 
 namespace ImpInfApi
 {
@@ -63,6 +65,8 @@ namespace ImpInfApi
             services.AddTransient<BaseCrudRepository<Day>, DaysRepository>();
             services.AddTransient<BaseCrudRepository<Lesson>>();
             services.AddTransient<BaseCrudRepository<Note>>();
+
+            RegistratePaths(services);
         }
 
         public async void Configure(IApplicationBuilder app, IWebHostEnvironment env, AppSettings appSettings)
@@ -94,6 +98,17 @@ namespace ImpInfApi
             dbContext.Database.Migrate();
             var startDbData = UtilsFunctions.GetInitiallQuery();
             if (!string.IsNullOrEmpty(startDbData)) await dbContext.Database.ExecuteSqlRawAsync(UtilsFunctions.GetInitiallQuery());
+        }
+
+        private void RegistratePaths(IServiceCollection sc)
+        {
+            List<AvailablePath> availablePaths = new()
+            {
+                new AvailablePath("/api/Account/", HttpMethod.Post),
+                new AvailablePath("/api/Account/CheckToken/...", HttpMethod.Get)
+            };
+
+            sc.AddSingleton(availablePaths);
         }
     }
 }

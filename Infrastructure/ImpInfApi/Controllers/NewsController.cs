@@ -1,7 +1,6 @@
 ﻿using ImpInfApi.Repository;
 using ImpInfCommon.Data.Models;
 using ImpInfCommon.Data.Other;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;

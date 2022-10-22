@@ -4,6 +4,13 @@
     --header-color: #084298;
 }
 
+.frame {
+    border-radius: 0.5rem;
+    padding: 0.8rem;
+    align-items: flex-start;
+    box-shadow: 0px 1px 3px 0px #55555555;
+}
+
 
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;

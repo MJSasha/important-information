@@ -6,7 +6,7 @@ namespace ImpInfCommon.ApiServices
 {
     public class UsersService : BaseCRUDService<User, int>
     {
-        public UsersService(string backRoot, string token = "") : base(backRoot, token: token) { }
+        public UsersService(string backRoot, HttpClient httpClient) : base(backRoot, httpClient) { }
 
         public async Task<User> GetByChatId(long chatId)
         {

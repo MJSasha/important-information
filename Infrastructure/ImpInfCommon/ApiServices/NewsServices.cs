@@ -10,7 +10,7 @@ namespace ImpInfCommon.ApiServices
 {
     public class NewsService : BaseCRUDService<News, int>
     {
-        public NewsService(string backRoot, string token = "") : base(backRoot, token: token) { }
+        public NewsService(string backRoot, HttpClient httpClient) : base(backRoot, httpClient) { }
 
         public async Task<List<News>> GetUnsent()
         {
