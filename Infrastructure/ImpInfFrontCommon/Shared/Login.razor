@@ -4,27 +4,31 @@
 @using System.Net
 
 
-<div class="align-content-center col-5">
-    <h3>Вход</h3>
+<div class="container" style="height: 100vh;">
+    <div class="d-flex justify-content-center w-100 h-100">
+        <div class="frame align-self-center col-md-4 ">
+            <div class="d-flex header mb-3 mx-auto">Вход</div>
 
-    <EditForm Model="@AuthModel" OnValidSubmit="@LoginAsync">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
-        <div class="alert-danger text-center">
-            @if (IsBad)  
-            {
-                <p> пароль неверен</p>
-            } 
-        </div>
-        <div class="mb-3">
-            <InputText id="name" class="form-control" @bind-Value="AuthModel.Login" />
-        </div>
+            <EditForm Model="@AuthModel" OnValidSubmit="@LoginAsync">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <div class="alert-danger text-center">
+                    @if (IsBad)  
+                    {
+                        <p> пароль неверен</p>
+                    } 
+                </div>
+                <div class="mb-3">
+                    <InputText id="name" class="form-control" @bind-Value="AuthModel.Login" />
+                </div>
 
-        <div class="mb-3">
-            <InputText id="password" class="form-control" @bind-Value="AuthModel.Password" />
-        </div>
+                <div class="mb-3">
+                    <InputText id="password" class="form-control" @bind-Value="AuthModel.Password" />
+                </div>
 
-        <button type="submit" class="btn btn-primary">Вход</button>
-    </EditForm>
+                <button type="submit" class="btn btn-primary">Вход</button>
+            </EditForm>
+        </div>
+    </div>
 </div>
 
