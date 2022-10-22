@@ -8,23 +8,18 @@ namespace ImpInfFrontCommon.Pages
 {
     public partial class Login : ComponentBase
     {
-        public Login()
-        {
-            AuthModel = new AuthModel();
-        }
-
         [Inject]
         public CookieService CookieService { get; set; }
 
         [Inject]
-        public NavigationManager NavigationManager { get; set; }
+        protected NavigationManager NavigationManager { get; set; }
 
         [Inject]
-        public AuthService AuthService { get; set; }
+        protected AuthService AuthService { get; set; }
 
-        public AuthModel AuthModel { get; set; }
+        protected AuthModel AuthModel { get; set; } = new();
 
-        public bool IsBad { get; set; } = false; // такой кринж
+        protected bool IsBad { get; set; } = false; // такой кринж
 
 
         protected async Task LoginAsync()
@@ -37,7 +32,7 @@ namespace ImpInfFrontCommon.Pages
                     Token = await AuthService.Login(AuthModel)
                 };
                 await CookieService.SetCookies("token", claim.Token);
-                NavigationManager.NavigateTo("/");
+                NavigationManager.NavigateTo("/", true);
             }
             catch (Exception)
             {
@@ -46,7 +41,7 @@ namespace ImpInfFrontCommon.Pages
             }
         }
 
-        public class UserClaim
+        protected class UserClaim
         {
             public string Name { get; set; }
             public string Token { get; set; }

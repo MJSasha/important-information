@@ -5,9 +5,13 @@
 
 @code
 {
+    [Inject]
+    protected NavigationManager NavigationManager { get; set; }
+
     protected override Task OnInitializedAsync()
     {
         ((TokenAuthStateProvider)Provider).SetLogoutState();
+        NavigationManager.NavigateTo(Pages.Login, true);
         return base.OnInitializedAsync();
     }
 }
