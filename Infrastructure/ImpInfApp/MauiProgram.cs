@@ -45,6 +45,8 @@ namespace ImpInfApp
             builder.Services.AddScoped<AuthenticationStateProvider, TokenAuthStateProvider>();
             builder.Services.AddScoped<CookieService>();
 
+            builder.Services.AddSingleton<ErrorsHandler>();
+
             return builder.Build();
         }
     }

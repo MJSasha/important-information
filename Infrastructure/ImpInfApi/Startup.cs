@@ -1,3 +1,4 @@
+using ImpInfApi.Middlewares;
 using ImpInfApi.Models;
 using ImpInfApi.Repository;
 using ImpInfApi.Utils;
@@ -85,7 +86,7 @@ namespace ImpInfApi
 
 
             var serviceScopeForPermision = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
-            app.UseMiddleware<CheckPermisionMidleware>(appSettings, serviceScopeForPermision.ServiceProvider.GetService<BaseCrudRepository<User>>());
+            app.UseMiddleware<CheckPermisionMiddleware>(appSettings, serviceScopeForPermision.ServiceProvider.GetService<BaseCrudRepository<User>>());
 
             app.UseEndpoints(endpoints =>
             {

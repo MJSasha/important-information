@@ -42,7 +42,6 @@ namespace ImpInfFrontCommon.Shared
             catch (Exception)
             {
                 IsBad = true;
-                throw;
             }
         }
 

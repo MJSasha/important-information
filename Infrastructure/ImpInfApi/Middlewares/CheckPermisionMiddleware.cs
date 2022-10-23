@@ -6,16 +6,16 @@ using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace ImpInfApi.Utils
+namespace ImpInfApi.Middlewares
 {
-    public class CheckPermisionMidleware
+    public class CheckPermisionMiddleware
     {
         private readonly RequestDelegate _next;
         private readonly AppSettings appSettings;
         private readonly BaseCrudRepository<User> userRepository;
         private readonly List<AvailablePath> availablePaths;
 
-        public CheckPermisionMidleware(RequestDelegate next, AppSettings appSettings, BaseCrudRepository<User> userRepository, List<AvailablePath> availablePaths)
+        public CheckPermisionMiddleware(RequestDelegate next, AppSettings appSettings, BaseCrudRepository<User> userRepository, List<AvailablePath> availablePaths)
         {
             _next = next;
             this.appSettings = appSettings;

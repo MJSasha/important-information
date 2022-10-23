@@ -33,5 +33,7 @@ builder.Services.AddAuthorizationCore();
 builder.Services.AddScoped<AuthenticationStateProvider, TokenAuthStateProvider>();
 builder.Services.AddScoped<CookieService>();
 
+builder.Services.AddSingleton<ErrorsHandler>();
+
 
 var app = builder.Build().RunAsync();
