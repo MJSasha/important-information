@@ -19,19 +19,19 @@ builder.Services
         .CreateClient("API"))
     .AddHttpClient("API", client => client.BaseAddress = new Uri(backRoot)).AddHttpMessageHandler<CookieHandler>();
 
-builder.Services.AddTransient(sp => new AuthService(backRoot, sp.GetService<HttpClient>(), "Account"));
-builder.Services.AddTransient(sp => new DaysServices(backRoot, sp.GetService<HttpClient>()));
-builder.Services.AddTransient(sp => new LessonsService(backRoot, sp.GetService<HttpClient>()));
-builder.Services.AddTransient(sp => new NewsService(backRoot, sp.GetService<HttpClient>()));
-builder.Services.AddTransient(sp => new NotesService(backRoot, sp.GetService<HttpClient>()));
-builder.Services.AddTransient(sp => new UsersService(backRoot, sp.GetService<HttpClient>()));
-builder.Services.AddTransient(sp => new UsersService(backRoot, sp.GetService<HttpClient>()));
+builder.Services.AddTransient(sp => new AuthService(backRoot, sp.GetService<HttpClient>(), "Account"))
+                .AddTransient(sp => new DaysServices(backRoot, sp.GetService<HttpClient>()))
+                .AddTransient(sp => new LessonsService(backRoot, sp.GetService<HttpClient>()))
+                .AddTransient(sp => new NewsService(backRoot, sp.GetService<HttpClient>()))
+                .AddTransient(sp => new NotesService(backRoot, sp.GetService<HttpClient>()))
+                .AddTransient(sp => new UsersService(backRoot, sp.GetService<HttpClient>()))
+                .AddTransient(sp => new UsersService(backRoot, sp.GetService<HttpClient>()));
 
 builder.Services.AddOptions();
 builder.Services.AddAuthorizationCore();
 
-builder.Services.AddScoped<AuthenticationStateProvider, TokenAuthStateProvider>();
-builder.Services.AddScoped<CookieService>();
+builder.Services.AddScoped<AuthenticationStateProvider, TokenAuthStateProvider>()
+                .AddScoped<CookieService>();
 
 builder.Services.AddSingleton<ErrorsHandler>();
 
