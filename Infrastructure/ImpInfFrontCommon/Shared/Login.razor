@@ -1,0 +1,34 @@
+﻿@page "/Login"
+@using ImpInfCommon.ApiServices
+@using ImpInfCommon.Data.Other
+@using System.Net
+
+
+<div class="container" style="height: 100vh;">
+    <div class="d-flex justify-content-center w-100 h-100">
+        <div class="frame align-self-center col-md-4">
+            <div class="d-flex header mb-3">Вход</div>
+
+            <EditForm Model="@AuthModel" OnValidSubmit="@LoginAsync">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <div class="alert-danger text-center">
+                    @if (IsBad)  
+                    {
+                        <p> пароль неверен</p>
+                    } 
+                </div>
+                <div class="mb-3">
+                    <input placeholder="логин" id="name" class="form-control" @bind="AuthModel.Login" />
+                </div>
+
+                <div class="mb-3">
+                    <input placeholder="пароль" type="password" id="password" class="form-control" @bind="AuthModel.Password" />
+                </div>
+
+                <button type="submit" class="btn btn-primary">Войти</button>
+            </EditForm>
+        </div>
+    </div>
+</div>
+

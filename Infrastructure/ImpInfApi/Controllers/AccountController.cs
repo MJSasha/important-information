@@ -1,15 +1,9 @@
 ﻿using ImpInfApi.Repository;
 using ImpInfCommon.Data.Models;
 using ImpInfCommon.Data.Other;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
 using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ImpInfApi.Controllers
@@ -30,7 +24,6 @@ namespace ImpInfApi.Controllers
         }
 
         [HttpPost("{chatId}")]
-        [Authorize(Roles = "ADMIN")]
         public async Task<ObjectResult> Registrate([FromBody] RegistrationModel registrationModel, long chatId)
         {
             User user = new()
@@ -50,42 +43,22 @@ namespace ImpInfApi.Controllers
         [HttpPost]
         public async Task<ObjectResult> Auth(AuthModel authModel)
         {
-            try
-            {
-                var identity = await GetIdentity(authModel);
-
-                var jwtToken = new JwtSecurityToken(issuer: appSettings.Jwt.Issuer,
-                                               audience: appSettings.Jwt.Audience,
-                                               notBefore: DateTime.UtcNow,
-                                               claims: identity.Claims,
-                                               expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(appSettings.Jwt.Lifetime)),
-                                               signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.ASCII.GetBytes(appSettings.Jwt.Key)), SecurityAlgorithms.HmacSha256));
-
-                var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwtToken);
-                logger.LogInformation($"User authorized. Login: {authModel.Login}");
-                return Ok(encodedJwt);
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                return StatusCode(401, ex.Message);
-            }
-        }
-
-        private async Task<ClaimsIdentity> GetIdentity(AuthModel authModel)
-        {
             User user = await usersRepository.ReadFirst(u => u.Login == authModel.Login && u.Password.Value == authModel.Password, u => u.Password);
             if (user != null)
             {
-                var claims = new List<Claim>
-                {
-                    new Claim(ClaimsIdentity.DefaultNameClaimType, user.Name),
-                    new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role.ToString())
-                };
-                ClaimsIdentity claimsIdentity = new(claims, "Token", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
-                return claimsIdentity;
+                var token = Guid.NewGuid().ToString();
+                user.Token = token;
+                await usersRepository.Update(user);
+                return Ok(user);
             }
+            return StatusCode(401, "User not found.");
+        }
 
-            throw new UnauthorizedAccessException("Incorrect login or password.");
+        [HttpGet("CheckToken/{token}")]
+        public async Task<bool> CheckToken(string token)
+        {
+            User user = await usersRepository.ReadFirst(u => u.Token == token);
+            return user != null;
         }
     }
 }

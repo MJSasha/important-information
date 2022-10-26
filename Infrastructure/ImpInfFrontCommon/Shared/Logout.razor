@@ -1,0 +1,17 @@
+﻿@page "/Logout"
+@using ImpInfFrontCommon.Services
+@inject AuthenticationStateProvider Provider
+
+
+@code
+{
+    [Inject]
+    protected NavigationManager NavigationManager { get; set; }
+
+    protected override Task OnInitializedAsync()
+    {
+        ((TokenAuthStateProvider)Provider).SetLogoutState();
+        NavigationManager.NavigateTo(PagesRouts.Login, true);
+        return base.OnInitializedAsync();
+    }
+}

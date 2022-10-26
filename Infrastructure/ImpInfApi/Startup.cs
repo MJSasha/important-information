@@ -1,16 +1,17 @@
+using ImpInfApi.Middlewares;
+using ImpInfApi.Models;
 using ImpInfApi.Repository;
 using ImpInfApi.Utils;
 using ImpInfCommon.Data.Models;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
-using System.Text;
+using System.Collections.Generic;
+using System.Net.Http;
 
 namespace ImpInfApi
 {
@@ -45,16 +46,6 @@ namespace ImpInfApi
                     Title = "ImpInfApi"
                 });
 
-                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
-                {
-                    Name = "Authorization",
-                    Type = SecuritySchemeType.ApiKey,
-                    Scheme = "Bearer",
-                    BearerFormat = "JWT",
-                    In = ParameterLocation.Header,
-                    Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: \"Bearer 12345abcdef\"",
-                });
-
                 options.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {{
                     new OpenApiSecurityScheme
@@ -68,25 +59,6 @@ namespace ImpInfApi
                 }});
             });
 
-            services.AddAuthentication(option =>
-            {
-                option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-
-            }).AddJwtBearer(options =>
-            {
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = false,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = Configuration["Jwt:Issuer"],
-                    ValidAudience = Configuration["Jwt:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
-                };
-            });
-
 
             //DI
             services.AddTransient<BaseCrudRepository<News>>();
@@ -94,6 +66,8 @@ namespace ImpInfApi
             services.AddTransient<BaseCrudRepository<Day>, DaysRepository>();
             services.AddTransient<BaseCrudRepository<Lesson>>();
             services.AddTransient<BaseCrudRepository<Note>>();
+
+            RegistratePaths(services);
         }
 
         public async void Configure(IApplicationBuilder app, IWebHostEnvironment env, AppSettings appSettings)
@@ -110,21 +84,32 @@ namespace ImpInfApi
                 .SetIsOriginAllowed(origin => true)
                 .AllowCredentials());
 
-            app.UseMiddleware<BeforeRequestHandler>(appSettings);
-            app.UseAuthentication();
-            app.UseAuthorization();
+
+            var serviceScopeForPermision = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
+            app.UseMiddleware<CheckPermisionMiddleware>(appSettings, serviceScopeForPermision.ServiceProvider.GetService<BaseCrudRepository<User>>());
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
 
-            // DB initial
             using var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
+            // DB initial
             var dbContext = serviceScope.ServiceProvider.GetService<AppDbContext>();
             dbContext.Database.Migrate();
             var startDbData = UtilsFunctions.GetInitiallQuery();
             if (!string.IsNullOrEmpty(startDbData)) await dbContext.Database.ExecuteSqlRawAsync(UtilsFunctions.GetInitiallQuery());
+        }
+
+        private void RegistratePaths(IServiceCollection sc)
+        {
+            List<AvailablePath> availablePaths = new()
+            {
+                new AvailablePath("/api/Account/", HttpMethod.Post),
+                new AvailablePath("/api/Account/CheckToken/...", HttpMethod.Get)
+            };
+
+            sc.AddSingleton(availablePaths);
         }
     }
 }

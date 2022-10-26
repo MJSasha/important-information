@@ -1,4 +1,5 @@
-﻿using ImpInfCommon.Interfaces;
+﻿using ImpInfCommon.ApiServices;
+using ImpInfCommon.Interfaces;
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -41,7 +42,7 @@ namespace TelegramBot.Handlers
         {
             try
             {
-                BaseCRUDService<TEntity, int> baseCRUDService = new();
+                BaseCRUDService<TEntity, int> baseCRUDService = new(AppSettings.BackRoot, TransientService.GetClient());
                 var entity = await baseCRUDService.Get(entityId);
                 var property = entity.GetType().GetProperty(propertyName, BindingFlags.Instance | BindingFlags.Public);
                 property.SetValue(entity, Convert.ChangeType(redactionMessage, property.PropertyType));

@@ -1,4 +1,5 @@
-﻿using ImpInfCommon.Data.Other;
+﻿using ImpInfCommon.ApiServices;
+using ImpInfCommon.Data.Other;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
@@ -6,7 +7,6 @@ using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBot.Data;
 using TelegramBot.Services;
-using TelegramBot.Services.ApiServices;
 using TgBotLib.Exceptions;
 using TgBotLib.Handlers;
 using TgBotLib.Services;
@@ -44,7 +44,7 @@ namespace TelegramBot.Handlers
         {
             try
             {
-                AuthService authService = new();
+                AuthService authService = TransientService.GetAuthService();
                 await authService.Registrate(registrationModel, chatId);
                 LogService.LogInfo($"|REGISTRATION| ChatId: {chatId} | Name: {registrationModel.Name} | Login: {registrationModel.Login}");
                 await bot.SendMessage($"Вы зарегистрированны! Теперь я буду обращаться к вам по имени {registrationModel.Name}");

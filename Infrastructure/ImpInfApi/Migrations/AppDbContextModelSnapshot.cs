@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
+#nullable disable
+
 namespace ImpInfApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
@@ -14,8 +16,8 @@ namespace ImpInfApi.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:MaxIdentifierLength", 64)
-                .HasAnnotation("ProductVersion", "5.0.17");
+                .HasAnnotation("ProductVersion", "6.0.10")
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("DayLessonsAndTimes", b =>
                 {
@@ -183,6 +185,9 @@ namespace ImpInfApi.Migrations
 
                     b.Property<int>("Role")
                         .HasColumnType("int");
+
+                    b.Property<string>("Token")
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 

@@ -1,6 +1,5 @@
 ﻿using ImpInfApi.Repository;
 using ImpInfCommon.Data.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -8,7 +7,6 @@ namespace ImpInfApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "ADMIN")]
     public class UsersController : BaseCrudController<User>
     {
         private readonly BaseCrudRepository<User> repository;

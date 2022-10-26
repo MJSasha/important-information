@@ -8,7 +8,7 @@ namespace TelegramBot
     {
         static void Main(string[] args)
         {
-            BaseBotSettings.SetSettings(AppSettings.BotToken, AppSettings.ApiToken, AppSettings.BackRoot);
+            BaseBotSettings.SetSettings(AppSettings.BotToken, AppSettings.BackRoot);
             BotStarter botStarter = new(DistributionService.DistributeMessages, DistributionService.DistributeCallbacks);
             botStarter.Start(NewsMessages.StartMailing);
         }
