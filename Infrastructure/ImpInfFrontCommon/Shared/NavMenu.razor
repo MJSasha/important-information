@@ -15,15 +15,8 @@
             </NavLink>
             <AuthorizeView>
                 <Authorized>
-                    <NavLink class="nav-link" href="@PagesRouts.Logout" Match="NavLinkMatch.All">
-                        <span class="oi oi-home" aria-hidden="true"></span> Выход
-                    </NavLink>
+                    <a class="hide" href="@PagesRouts.Logout" > Выход </a>
                 </Authorized>
-                <NotAuthorized>
-                    <NavLink class="nav-link" href="@PagesRouts.Login" Match="NavLinkMatch.All">
-                        <span class="oi oi-home" aria-hidden="true"></span> Вход
-                    </NavLink>
-                </NotAuthorized>
             </AuthorizeView>
         </div>
     </nav>

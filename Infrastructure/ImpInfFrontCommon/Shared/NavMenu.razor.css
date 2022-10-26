@@ -55,6 +55,10 @@
         display: none;
     }
 
+    .hide {
+        display: none !important;
+    }
+
     .collapse {
         /* Never collapse the sidebar for wide screens */
         display: block;
