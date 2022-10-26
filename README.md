@@ -40,7 +40,7 @@ npm i
 Запуск приложения
 
 ``` bash
-npm i
+npm start
 ```
 
 ### ImpInfApi
