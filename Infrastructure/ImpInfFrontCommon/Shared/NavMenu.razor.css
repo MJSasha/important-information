@@ -55,8 +55,8 @@
         display: none;
     }
 
-    .hide {
-        display: none !important;
+    .logout-button {
+        display: none;
     }
 
     .collapse {

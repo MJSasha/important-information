@@ -13,11 +13,14 @@
             <NavLink class="nav-link" href="@PagesRouts.Scheldue" Match="NavLinkMatch.All">
                 <span class="oi oi-home" aria-hidden="true"></span> Расписание
             </NavLink>
-            <AuthorizeView>
-                <Authorized>
-                    <a class="hide" href="@PagesRouts.Logout" > Выход </a>
-                </Authorized>
-            </AuthorizeView>
+            <div class="logout-button">
+                <NavLink class="nav-link" href="@PagesRouts.Logout" Match="NavLinkMatch.All">
+                    <div class="l-b-obj">
+                        <object data="/image/logout-button.svg" type="image/svg+xml"></object>
+                    </div>
+                    Выход
+                </NavLink>
+           </div>
         </div>
     </nav>
 </div>

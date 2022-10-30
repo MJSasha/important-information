@@ -80,3 +80,12 @@ a, .btn-link {
     font-weight: bold;
     color: var(--header-color)
 }
+
+
+.logout-button-logo {
+    fill: #084298;
+}
+
+.l-b-obj {
+    margin-right: 1rem;
+}
