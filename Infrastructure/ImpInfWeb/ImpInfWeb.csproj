@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\image\logout-button.svg" />
+    <Resource Include="wwwroot\image\logout-button.svg" />
     <None Include="wwwroot\index.html" />
   </ItemGroup>
 	
