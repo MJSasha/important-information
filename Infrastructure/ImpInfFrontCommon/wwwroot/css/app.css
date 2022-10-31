@@ -80,3 +80,18 @@ a, .btn-link {
     font-weight: bold;
     color: var(--header-color)
 }
+
+.nav-icon {
+    color: white;
+    width: 18px;
+    height: 18px;
+}
+
+.hover:hover {
+    transform: scale(1.1);
+    transition: 300ms;
+}
+
+.hover:not(:hover) {
+    transition: 300ms;
+}

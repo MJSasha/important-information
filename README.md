@@ -1,8 +1,6 @@
 # **<p align="center">Important information</p>**
 
-<img alt="GitHub watchers" src="https://img.shields.io/github/watchers/MJSasha/important-information?style=social">
-<img alt="GitHub contributors" src="https://img.shields.io/github/contributors/MJSasha/important-information">
-<img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/MJSasha/important-information">
+<img alt="GitHub watchers" src="https://img.shields.io/github/watchers/MJSasha/important-information?style=social"> <img alt="GitHub contributors" src="https://img.shields.io/github/contributors/MJSasha/important-information"> <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/MJSasha/important-information">
 
 ## О проекте
 
@@ -42,7 +40,7 @@ npm i
 Запуск приложения
 
 ``` bash
-npm i
+npm start
 ```
 
 ### ImpInfApi
