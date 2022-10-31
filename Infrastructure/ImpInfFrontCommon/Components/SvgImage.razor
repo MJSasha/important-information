@@ -1,0 +1,17 @@
+﻿﻿@((MarkupString)img)
+
+@code {
+    [Parameter]
+    public string Src { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IDictionary<string, object> AdditionalAttributes { get; set; }
+
+    private string img
+    {
+        get {
+            var additionalAttributes = AdditionalAttributes == null || AdditionalAttributes.Count == 0 ? null : string.Join(' ', AdditionalAttributes.Select(k => $"{k.Key}=\"{k.Value}\""));
+            return $"<svg {additionalAttributes}><use href=\"{Src}\" xlink:href=\"{Src}\"></use></svg>";
+        }
+    }
+}

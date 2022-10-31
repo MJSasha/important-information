@@ -2,6 +2,7 @@
 
 :root {
     --header-color: #084298;
+    --secondary-button-color: #431ed1;
 }
 
 .frame {
@@ -79,4 +80,19 @@ a, .btn-link {
     font-size: 26pt;
     font-weight: bold;
     color: var(--header-color)
+}
+
+.nav-icon {
+    color: white;
+    width: 18px;
+    height: 18px;
+}
+
+.hover:hover {
+    transform: scale(1.1);
+    transition: 300ms;
+}
+
+.hover:not(:hover) {
+    transition: 300ms;
 }
