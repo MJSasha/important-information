@@ -15,7 +15,7 @@
                     <div class="card-title">Выходной</div>
                 }
             </div>
-            @if (Day.Information.Any())
+            @if (string.IsNullOrWhiteSpace(Day.Information))
             {
             <div class="d-flex col-lg-1" style="height:auto; color:blue">
                 <div class="vr d-none d-lg-block d-sm-none ms-lg-5"></div>
