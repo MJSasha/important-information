@@ -1,13 +1,23 @@
 
-html {
+body {
   overflow: -moz-scrollbars-vertical; 
   overflow-y: auto;
   overflow-x: hidden;
+  /* background-color: #c4c4c4; */
 }
 
 .header{
   background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
 }
+.head-text {
+  font-size: 250%;
+  color: #084298;
+}
+/* datepicker */
+.react-datepicker__input-container{
+  width: 50%;
+}
+/* datepicker */
 
 /* header btns */
 .btn:focus {
@@ -77,14 +87,6 @@ html {
   transition: opacity 500ms, transform 500ms;
 }
 /* SideBar transition end*/
-
-/* datepicker styles */
-.parent-datepicker-wrapper{
-  /* margin-left: 5%; */
-  display: flex;
-  justify-content: center;
-}
-/* datepicker styles */
 
 /* cards styles */
 .shadow-outline{
