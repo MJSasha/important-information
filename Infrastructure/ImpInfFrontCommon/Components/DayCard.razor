@@ -1,7 +1,7 @@
 ﻿<div class="card bg-light h-100">
     <div class="card-header">@($"{Day.Date.DayOfWeek} ({Day.Date:dd.MM.yyyy})")</div>
         <div class="card-body d-lg-flex">
-            <div class="flex-lg-column col-lg-5 col-xl">
+            <div class="flex-lg-column col-lg-6 col-xl me-lg-2">
                 @if (Day.LessonsAndTimes.Any())
                 {
                     <div class="card-title">Расписание</div>
@@ -17,10 +17,10 @@
             </div>
             @if (!string.IsNullOrWhiteSpace(Day.Information))
             {
-                <div class="d-flex col-lg-1" style="height:auto; color:blue">
-                    <div class="vr d-none d-lg-block d-sm-none ms-lg-5"></div>
+                <div class="d-flex" style="height:auto; color:blue">
+                    <div class="vr d-none d-lg-block d-sm-none"></div>
                 </div>
-                <div class="flex-column col-lg-5">
+                <div class="flex-column col-lg-6 ms-lg-3">
                     <div class="second-card-title">Информация</div>
                     <div class="card-text fst-italic">@($"{Day.Information}\n")</div>
                 </div>

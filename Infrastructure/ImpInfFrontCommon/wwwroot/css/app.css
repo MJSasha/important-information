@@ -87,6 +87,12 @@ a, .btn-link {
     height: 18px;
 }
 
+.git-icon {
+    color: black;
+    width: 50px;
+    height: 50px;
+}
+
 .hover:hover {
     transform: scale(1.1);
     transition: 300ms;

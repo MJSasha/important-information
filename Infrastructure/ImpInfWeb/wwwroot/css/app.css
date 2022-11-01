@@ -83,9 +83,15 @@ a, .btn-link {
 }
 
 .nav-icon {
-    color: white;
+    fill:white;
     width: 18px;
     height: 18px;
+}
+
+.git-icon {
+    fill:black;
+    width: 40px;
+    height: 40px;
 }
 
 .hover:hover {

@@ -1,5 +1,46 @@
-﻿<h3>AboutUs</h3>
+﻿
+@page "/AboutUs"
+@attribute [Authorize]
 
-@code {
+@using Microsoft.AspNetCore.Authorization
+<PageTitle>О нас</PageTitle>
+<div class="container" style="height:200vh">
+    <div class="frame">
+        <div class="text-center col-lg-12" style="font-size:medium">
+            Наша команда постаралась над тем, чтобы ты удобно и быстро получал информацию об учебном процессе.
+            На сайте можно посмотреть расписание занятий на каждый день, узнать домашнее задание, а также получить актуальные новости.
+        </div>
+        <div class=" text-center mt-2" style="font-weight:600; font-size:larger">
+            GitHub репозиторий
+        </div>
+        <nav class="nav justify-content-center">
+          <a class="nav-link active" aria-current="page" href="https://github.com/MJSasha/important-information">
+              <SvgImage Src="image/github.svg#icon" class=" git-icon"/>
+          </a>
+         </nav>
+    </div>
+    <ul>
+        <li class="mt-4" style="font-size:larger">
+            <b class="fst-italic">Александр Ушанков</b> - BackEnd-разработчик, идейный вдохновитель, руководитель проекта.
+        </li>
+        <li class="mt-4" style="font-size:larger">
+            <b class="fst-italic">Данила Самсонов</b> - FrontEnd-разработчик.
+        </li>
+        <li class="mt-4" style="font-size:larger">
+            <b class="fst-italic">Александр Мусалов</b> - разработка Telegram бота, разработка Web приложения.
+        </li>
+        <li class="mt-4" style="font-size:larger">
+            <b class="fst-italic">Ева Пирожкова</b> - разработка Telegram бота, разработка Web приложения.
+        </li>
+        <li class="mt-4" style="font-size:larger">
+            <b class="fst-italic">Виктор Салтыков</b> - разработка Telegram бота, разработка Web приложения.
+        </li>
+        <li class="mt-4" style="font-size:larger">
+            <b class="fst-italic">Владимир Резников</b> - разработка Telegram бота.
+        </li>
+        <li class="mt-4" style="font-size:larger">
+            <b class="fst-italic">Александр Бережной</b> - разработка Telegram бота.
+        </li>
+    </ul>
+</div>
 
-}
