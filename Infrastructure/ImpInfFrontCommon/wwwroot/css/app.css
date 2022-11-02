@@ -11,7 +11,6 @@
     box-shadow: 0px 1px 3px 0px #55555555;
 }
 
-
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
@@ -26,8 +25,9 @@ a, .btn-link {
 
 .btn-primary {
     color: #fff;
-    background-color: #1b6ec2;
+    background-color: #084298;
     border-color: #1861ac;
+    width: 35%;
 }
 
 .content {
@@ -44,6 +44,11 @@ a, .btn-link {
 
 .validation-message {
     color: red;
+}
+
+.danger {
+    color: red;
+    text-align: center;
 }
 
 #blazor-error-ui {

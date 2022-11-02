@@ -11,22 +11,25 @@
 
             <EditForm Model="@AuthModel" OnValidSubmit="@LoginAsync">
                 <DataAnnotationsValidator />
-                <ValidationSummary />
-                <div class="alert-danger text-center">
-                    @if (IsBad)  
+                <div class="mb-3">
+                    @if (IsBad)
                     {
-                        <p> пароль неверен</p>
-                    } 
+                    <div class="danger">Логин или пароль неверны!</div>
+                    }
                 </div>
                 <div class="mb-3">
                     <input placeholder="логин" id="name" class="form-control" @bind="AuthModel.Login" />
+                    <ValidationMessage For="@(() => AuthModel.Login)" />
                 </div>
 
                 <div class="mb-3">
                     <input placeholder="пароль" type="password" id="password" class="form-control" @bind="AuthModel.Password" />
+                    <ValidationMessage For="@(() => AuthModel.Password)" />
                 </div>
 
-                <button type="submit" class="btn btn-primary">Войти</button>
+                <div class="d-flex justify-content-center w-100 h-100">
+                    <button type="submit" class="btn btn-primary">Войти</button>
+                </div>
             </EditForm>
         </div>
     </div>
