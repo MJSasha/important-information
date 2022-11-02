@@ -98,6 +98,11 @@ a, .btn-link {
     transition: 300ms;
 }
 
+.people-list{
+font-size:larger;
+margin-top:20px;
+}
+
 .hover:not(:hover) {
     transition: 300ms;
 }

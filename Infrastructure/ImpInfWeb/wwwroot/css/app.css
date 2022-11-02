@@ -90,8 +90,13 @@ a, .btn-link {
 
 .git-icon {
     fill:black;
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
+}
+
+.people-list {
+    font-size: larger;
+    margin-top: 20px;
 }
 
 .hover:hover {
