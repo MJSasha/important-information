@@ -2,6 +2,7 @@
 
 :root {
     --header-color: #084298;
+    --secondary-button-color: #084298;
 }
 
 .frame {
@@ -25,7 +26,7 @@ a, .btn-link {
 
 .btn-primary {
     color: #fff;
-    background-color: #084298;
+    background-color: var(--secondary-button-color);
     border-color: #1861ac;
     width: 35%;
 }
