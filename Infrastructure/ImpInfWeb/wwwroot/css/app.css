@@ -83,13 +83,13 @@ a, .btn-link {
 }
 
 .nav-icon {
-    fill:white;
+    color: white;
     width: 18px;
     height: 18px;
 }
 
 .git-icon {
-    fill:black;
+    color: black;
     width: 50px;
     height: 50px;
 }
