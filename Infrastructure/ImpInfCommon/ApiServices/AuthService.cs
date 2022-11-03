@@ -23,7 +23,7 @@ namespace ImpInfCommon.ApiServices
         {
             var json = Serialize(authModel);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
-            var httpResponse = await httpClient.PostAsync(Root.ToString() + "/", data);
+            var httpResponse = await httpClient.PostAsync(Root.ToString(), data);
             return await Deserialize<User>(httpResponse);
         }
 

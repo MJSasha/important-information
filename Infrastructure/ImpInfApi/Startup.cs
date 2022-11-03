@@ -105,7 +105,7 @@ namespace ImpInfApi
         {
             List<AvailablePath> availablePaths = new()
             {
-                new AvailablePath("/api/Account/", HttpMethod.Post),
+                new AvailablePath("/api/Account", HttpMethod.Post),
                 new AvailablePath("/api/Account/CheckToken/...", HttpMethod.Get)
             };
 
