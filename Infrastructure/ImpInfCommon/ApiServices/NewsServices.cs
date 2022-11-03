@@ -1,5 +1,6 @@
 ﻿using ImpInfCommon.Data.Models;
 using ImpInfCommon.Data.Other;
+using ImpInfCommon.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ImpInfCommon.ApiServices
 {
-    public class NewsService : BaseCRUDService<News, int>
+    public class NewsService : BaseCRUDService<News, int>, INews
     {
         public NewsService(string backRoot, HttpClient httpClient) : base(backRoot, httpClient) { }
 

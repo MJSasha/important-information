@@ -1,6 +1,6 @@
-﻿using ImpInfCommon.ApiServices;
-using ImpInfCommon.Data.Models;
+﻿using ImpInfCommon.Data.Models;
 using ImpInfCommon.Data.Other;
+using ImpInfCommon.Interfaces;
 using ImpInfFrontCommon.Services;
 using Microsoft.AspNetCore.Components;
 
@@ -9,7 +9,7 @@ namespace ImpInfFrontCommon.Pages
     public partial class Scheldue
     {
         [Inject]
-        private DaysServices DaysServices { get; set; }
+        private IDays DaysServices { get; set; }
 
         [Inject]
         private ErrorsHandler errorsHandler { get; set; }
@@ -39,7 +39,7 @@ namespace ImpInfFrontCommon.Pages
             DateTime weekEndDate = weekStartDate.AddDays(8);
 
             await errorsHandler.SaveExecute(async () =>
-                Days = (await DaysServices.Get(new StartEndTime { Start = weekStartDate, End = weekEndDate })).OrderBy(d => d.Date.Month).ThenBy(d => d.Date.Day).ToList()
+                Days = (await DaysServices.GetByDates(new StartEndTime { Start = weekStartDate, End = weekEndDate })).OrderBy(d => d.Date.Month).ThenBy(d => d.Date.Day).ToList()
             );
 
             StateHasChanged();

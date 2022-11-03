@@ -2,7 +2,7 @@
 
 namespace ImpInfCommon.Interfaces
 {
-    public interface INotesService
+    public interface INotes
     {
     }
 }
