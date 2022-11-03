@@ -2,7 +2,7 @@
 
 namespace ImpInfCommon.Interfaces
 {
-    public interface ILesson
+    public interface ILesson : IBaseCRUD<Lesson>
     {
     }
 }
