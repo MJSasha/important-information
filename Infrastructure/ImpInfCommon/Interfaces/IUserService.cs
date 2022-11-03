@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ImpInfCommon.Interfaces
 {
-    public interface IUserService : IBaseCRUDService<User, int>
+    public interface IUser : ICrud<User>
     {
         Task<User> GetByChatId(long chatId);
     }

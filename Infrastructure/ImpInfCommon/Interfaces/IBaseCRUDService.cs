@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ImpInfCommon.Interfaces
 {
-    public interface IBaseCRUDService<TEntity, TKey> : IBaseService
+    public interface ICrud<TEntity>
     {
-        Task<IEntity> Get(TKey key);
-        Task<List<TEntity>> Get();
-        Task Create(TEntity item);
-        Task Create(List<TEntity> item);
-        Task Update(TKey key, TEntity item);
-        Task Delete(TKey key);
-        Task Delete(List<TKey> key);
+        Task<TEntity[]> Get();
+        Task<TEntity> Get(int id);
+        Task<ObjectResult> Post(TEntity entity);
+        Task<ObjectResult> Post(TEntity[] entities);
+        Task<ObjectResult> Patch(int id, TEntity entity);
+        Task<ObjectResult> Delete(int id);
     }
 }

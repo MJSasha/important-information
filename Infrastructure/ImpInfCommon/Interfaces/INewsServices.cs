@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace ImpInfCommon.Interfaces
 {
-    public interface INewsServices : IBaseCRUDService<News, int>
+    public interface INews //: ICrud<News>
     {
-        Task<List<News>> GetUnsent();
-        Task<News[]> GetByLessonId(int lessonId);
-        Task<List<News>> Get(StartEndTime startEndTime);
-        Task<bool> CheckNewsBefore(DateTime date);
+        //Task<List<News>> GetUnsent();
+        //Task<News[]> GetByLessonId(int lessonId);
+        //Task<List<News>> Get(StartEndTime startEndTime);
+        //Task<bool> CheckNewsBefore(DateTime date);
     }
 }

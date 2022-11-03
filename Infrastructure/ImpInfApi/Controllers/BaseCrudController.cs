@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ImpInfApi.Controllers
 {
-    public abstract class BaseCrudController<TEntity> : ControllerBase where TEntity : class, IEntity
+    public abstract class BaseCrudController<TEntity> : ControllerBase, ICrud<TEntity> where TEntity : class, IEntity 
     {
         private readonly BaseCrudRepository<TEntity> repository;
 
