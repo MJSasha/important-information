@@ -48,11 +48,6 @@ a, .btn-link {
     color: red;
 }
 
-.danger {
-    color: red;
-    text-align: center;
-}
-
 #blazor-error-ui {
     background: lightyellow;
     bottom: 0;
