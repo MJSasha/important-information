@@ -1,6 +1,7 @@
 ﻿using ImpInfApi.Repository;
 using ImpInfCommon.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ImpInfApi.Controllers
@@ -15,7 +16,7 @@ namespace ImpInfApi.Controllers
         }
 
         [HttpGet]
-        public virtual Task<TEntity[]> Get()
+        public virtual Task<List<TEntity>> Get()
         {
             return repository.Read();
         }

@@ -1,6 +1,7 @@
 ﻿using ImpInfCommon.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -45,9 +46,9 @@ namespace ImpInfApi.Repository
             return IncludProperties(includedProperties).FirstOrDefaultAsync(query);
         }
 
-        public virtual async Task<TEntity[]> Read(Func<TEntity, bool> query = null, params Expression<Func<TEntity, object>>[] includedProperties)
+        public virtual async Task<List<TEntity>> Read(Func<TEntity, bool> query = null, params Expression<Func<TEntity, object>>[] includedProperties)
         {
-            return query != null ? IncludProperties(includedProperties).Where(query).ToArray() : IncludProperties(includedProperties).ToArray();
+            return query != null ? IncludProperties(includedProperties).Where(query).ToList() : IncludProperties(includedProperties).ToList();
         }
 
         public virtual async Task Update(TEntity entity)

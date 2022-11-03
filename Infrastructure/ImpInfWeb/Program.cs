@@ -1,10 +1,12 @@
 using ImpInfCommon.ApiServices;
+using ImpInfCommon.Interfaces;
 using ImpInfFrontCommon;
 using ImpInfFrontCommon.Services;
 using ImpInfFrontCommon.Utils;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -24,8 +26,8 @@ builder.Services.AddTransient(sp => new AuthService(backRoot, sp.GetService<Http
                 .AddTransient(sp => new LessonsService(backRoot, sp.GetService<HttpClient>()))
                 .AddTransient(sp => new NewsService(backRoot, sp.GetService<HttpClient>()))
                 .AddTransient(sp => new NotesService(backRoot, sp.GetService<HttpClient>()))
-                .AddTransient(sp => new UsersService(backRoot, sp.GetService<HttpClient>()))
-                .AddTransient(sp => new UsersService(backRoot, sp.GetService<HttpClient>()));
+                //.AddTransient(sp => new UsersService(backRoot, sp.GetService<HttpClient>()));
+                .AddTransient<IUser, UsersService>(sp => new UsersService(backRoot, sp.GetService<HttpClient>()));
 
 builder.Services.AddOptions();
 builder.Services.AddAuthorizationCore();

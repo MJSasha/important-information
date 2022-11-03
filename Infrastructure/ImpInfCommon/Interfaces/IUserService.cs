@@ -1,6 +1,4 @@
 ﻿using ImpInfCommon.Data.Models;
-using System.Net.Http;
-using System;
 using System.Threading.Tasks;
 
 namespace ImpInfCommon.Interfaces
