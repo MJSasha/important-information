@@ -1,6 +1,5 @@
 ﻿using ImpInfCommon.Data.Models;
 using ImpInfCommon.Interfaces;
-using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
