@@ -93,11 +93,6 @@ a, .btn-link {
     height: 50px;
 }
 
-.people-list {
-    font-size: larger;
-    margin-top: 20px;
-}
-
 .hover:hover {
     transform: scale(1.1);
     transition: 300ms;

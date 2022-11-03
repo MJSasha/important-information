@@ -1,0 +1,9 @@
+﻿.person-photo {
+    width: 70px;
+    height: 70px;
+}
+
+.person-position {
+    border-radius: 3rem;
+    background-color: #384566;
+}

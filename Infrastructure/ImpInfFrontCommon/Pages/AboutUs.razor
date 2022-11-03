@@ -5,40 +5,57 @@
 
 <PageTitle>О нас</PageTitle>
 
-<div class="container">
-    <div class="frame">
-        <div class="text-center col-lg-12" style="font-size:medium">
-            Наша команда постаралась над тем, чтобы ты удобно и быстро получал информацию об учебном процессе.
-            На сайте можно посмотреть расписание занятий на каждый день, узнать домашнее задание, а также получить актуальные новости.
+<div class="container mb-5">
+        <div class="d-flex bg-gradient justify-content-evenly">
+            <div class="col-5 text-center fst-italic" style="font-size:medium">
+                Наша команда постаралась над тем, чтобы ты удобно и быстро получал информацию об учебном процессе.
+                На сайте можно посмотреть расписание занятий на каждый день, узнать домашнее задание, а также получить актуальные новости.
+            </div>
+            <div>
+                <NavLink class="nav" href="https://github.com/MJSasha/important-information">
+                    <SvgImage Src="image/github.svg#icon" class="git-icon mt-2" />
+                </NavLink>
+            </div>
+            <div>
+            <NavLink class="nav" href="https://t.me/test208b_bot">
+                    <img src="image/tg.jpg" style="width:70px; height:70px"/>
+                </NavLink>
+            </div>
         </div>
-        <div class="text-center mt-2" style="font-weight:600; font-size:larger">
-            GitHub репозиторий
-        </div>
-        <NavLink class="nav justify-content-center" href="https://github.com/MJSasha/important-information">
-              <SvgImage Src="image/github.svg#icon" class="git-icon"/>
-        </NavLink>
-    </div>
-    <ul>
-        <li class="people-list">
-            <b class="fst-italic">Александр Ушанков</b> - BackEnd-разработчик, идейный вдохновитель, руководитель проекта.
-        </li>
-        <li class="people-list">
-            <b class="fst-italic">Данила Самсонов</b> - FrontEnd-разработчик.
-        </li>
-        <li class="people-list">
-            <b class="fst-italic">Александр Мусалов</b> - разработка Telegram бота, разработка Web приложения.
-        </li>
-        <li class="people-list">
-            <b class="fst-italic">Ева Пирожкова</b> - разработка Telegram бота, разработка Web приложения.
-        </li>
-        <li class="people-list">
-            <b class="fst-italic">Виктор Салтыков</b> - разработка Telegram бота, разработка Web приложения.
-        </li>
-        <li class="people-list">
-            <b class="fst-italic">Владимир Резников</b> - разработка Telegram бота.
-        </li>
-        <li class="people-list">
-            <b class="fst-italic">Александр Бережной</b> - разработка Telegram бота.
-        </li>
-    </ul>
+
+        <PersonCard AvatarSrc="image/SashaU.jpg"
+            Name="Александр Ушанков"
+            Position=".NET"
+            Discription="BackEnd-разработчик, идейный вдохновитель, руководитель"/>
+
+        <PersonCard AvatarSrc="image/Danya.png"
+            Name="Данила Самоснов"
+            Position="React"
+            Discription="FrontEnd-разработчик"/>
+
+        <PersonCard AvatarSrc="image/SashaM.png"
+            Name="Александр Мусалов"
+            Position=".NET"
+            Discription="разработка Telegram бота, разработка Web приложения"/>
+
+        <PersonCard AvatarSrc="image/Eva.png"
+             Name="Ева Пирожкова"
+             Position=".NET"
+             Discription="Разработка Telegram бота, разработка Web приложения"/>
+
+        <PersonCard AvatarSrc="image/Vitya.png"
+              Name="Вкитор Салтыков"
+              Position=".NET"
+              Discription="Разработка Telegram бота, разработка Web приложения"/>
+
+        <PersonCard AvatarSrc="image/Vova.png"
+              Name="Владимир Резников"
+              Position=".NET"
+              Discription="Разработка Telegram бота"/>
+
+        <PersonCard AvatarSrc="image/SashaB.jpg"
+              Name="Александр Бережной"
+              Position=".NET"
+              Discription="Разработка Telegram бота"/>
 </div>
+
