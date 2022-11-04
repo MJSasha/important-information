@@ -8,12 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="wwwroot\image\logout.svg" />
     <Content Remove="wwwroot\index.html" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="wwwroot\image\logout.svg" />
   </ItemGroup>
 
   <ItemGroup>
