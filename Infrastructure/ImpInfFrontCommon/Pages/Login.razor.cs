@@ -5,7 +5,7 @@ using ImpInfFrontCommon.Services;
 using Microsoft.AspNetCore.Components;
 
 
-namespace ImpInfFrontCommon.Shared
+namespace ImpInfFrontCommon.Pages
 {
     public partial class Login : ComponentBase
     {
