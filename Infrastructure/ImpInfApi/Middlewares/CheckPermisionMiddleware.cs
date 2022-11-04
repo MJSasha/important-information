@@ -1,5 +1,4 @@
-﻿using ImpInfApi.Controllers;
-using ImpInfApi.Models;
+﻿using ImpInfApi.Models;
 using ImpInfApi.Repository;
 using ImpInfCommon.Data.Models;
 using Microsoft.AspNetCore.Http;
