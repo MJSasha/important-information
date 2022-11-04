@@ -39,7 +39,7 @@ namespace ImpInfFrontCommon.Pages
             DateTime weekEndDate = weekStartDate.AddDays(8);
 
             await errorsHandler.SaveExecute(async () =>
-                Days = (await DaysServices.Get(new StartEndTime { Start = weekStartDate, End = weekEndDate })).OrderBy(d => d.Date.Month).ThenBy(d => d.Date.Day).ToList()
+                Days = (await DaysServices.Get(new StartEndTime { Start = weekStartDate, End = weekEndDate })).OrderBy(d => d.Date).ToList()
             );
 
             StateHasChanged();
