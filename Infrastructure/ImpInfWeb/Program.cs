@@ -25,7 +25,6 @@ builder.Services.AddTransient(sp => new AuthService(backRoot, sp.GetService<Http
                 .AddTransient<ILesson, LessonsService>(sp => new LessonsService(backRoot, sp.GetService<HttpClient>()))
                 .AddTransient<INews, NewsService>(sp => new NewsService(backRoot, sp.GetService<HttpClient>()))
                 .AddTransient<INotes, NotesService>(sp => new NotesService(backRoot, sp.GetService<HttpClient>()))
-                .AddTransient<INotes, NotesService>(sp => new NotesService(backRoot, sp.GetService<HttpClient>()))
                 .AddTransient<IUser, UsersService>(sp => new UsersService(backRoot, sp.GetService<HttpClient>()));
 
 builder.Services.AddOptions();

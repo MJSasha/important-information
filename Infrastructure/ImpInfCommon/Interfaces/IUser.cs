@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace ImpInfCommon.Interfaces
 {
-    public interface IUser : IBaseCRUD<User>
+    public interface IUser : ICrud<User>
     {
         Task<User> GetByChatId(long chatId);
     }

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace ImpInfCommon.Interfaces
 {
-    public interface IBaseCRUD<TEntity> where TEntity : class, IEntity
+    public interface ICrud<TEntity> where TEntity : class, IEntity
     {
         Task<List<TEntity>> Get();
         Task<TEntity> Get(int id);

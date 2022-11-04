@@ -2,7 +2,7 @@
 
 namespace ImpInfCommon.Interfaces
 {
-    public interface INews : IBaseCRUD<News>
+    public interface INews : ICrud<News>
     {
         //Task<List<News>> GetUnsent();
         //Task<News[]> GetByLessonId(int lessonId);
