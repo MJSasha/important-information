@@ -37,9 +37,8 @@ body {
 }
 
 .btn-primary {
-    color: #fff;
     background-color: var(--secondary-button-color);
-    border-color: #1861ac;
+    border-color: var(--secondary-button-color);
     width: 35%;
 }
 /*--------------------------------------------------------------------------------*/
