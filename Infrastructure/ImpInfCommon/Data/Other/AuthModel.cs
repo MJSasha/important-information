@@ -4,9 +4,9 @@ namespace ImpInfCommon.Data.Other
 {
     public class AuthModel
     {
-        [Required]
+        [Required(ErrorMessage = "Поле логина должно быть заполнено")]
         public string Login { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Поле пароля должно быть заполнено")]
         public string Password { get; set; }
     }
 }

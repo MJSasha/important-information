@@ -23,7 +23,7 @@ namespace ImpInfFrontCommon.Shared
 
         protected AuthModel AuthModel { get; set; } = new();
 
-        protected bool IsBad { get; set; } = false; // такой кринж
+        protected bool IsLoginFailed { get; set; } = false; // такой кринж
 
 
         protected async Task LoginAsync()
@@ -41,7 +41,7 @@ namespace ImpInfFrontCommon.Shared
             }
             catch (Exception)
             {
-                IsBad = true;
+                IsLoginFailed = true;
             }
         }
 
