@@ -1,6 +1,7 @@
 ﻿using ImpInfApi.Repository;
 using ImpInfCommon.Data.Models;
 using ImpInfCommon.Data.Other;
+using ImpInfCommon.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace ImpInfApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class NewsController : BaseCrudController<News>
+    public class NewsController : BaseCrudController<News>, INews
     {
         private readonly BaseCrudRepository<News> repository;
 

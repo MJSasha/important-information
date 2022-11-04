@@ -281,7 +281,7 @@ namespace TelegramBot.Messages
         private async Task<IOrderedEnumerable<News>> GetWeekNews(DateTime weekStartDate)
         {
             NewsService newsService = TransientService.GetNewsService();
-            return (await newsService.Get(new StartEndTime
+            return (await newsService.GetByDates(new StartEndTime
             {
                 Start = weekStartDate.AddDays(-1),
                 End = weekStartDate.AddDays(6)
@@ -291,7 +291,7 @@ namespace TelegramBot.Messages
         {
             date = date.AddDays(-7);
             NewsService newsService = TransientService.GetNewsService();
-            return await newsService.CheckNewsBefore(date);
+            return await newsService.CheckAnyNewsBefore(new DateTimeWrap() { DateTime = date });
         }
         private async Task SetPaginationButtonsForDays(ButtonsGenerator buttonsGenerator, int monthShift)
         {
