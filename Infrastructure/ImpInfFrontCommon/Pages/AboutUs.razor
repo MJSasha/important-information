@@ -1,0 +1,60 @@
+﻿@page "/AboutUs"
+@attribute [Authorize]
+
+@using Microsoft.AspNetCore.Authorization
+
+<PageTitle>О нас</PageTitle>
+
+<div class="container mb-5">
+    <div class="d-flex bg-gradient justify-content-evenly">
+        <div class="col-5 text-center fst-italic mt-2" style="font-size:medium">
+            Наша команда постаралась над тем, чтобы ты удобно и быстро получал информацию об учебном процессе.
+            На сайте можно посмотреть расписание занятий на каждый день, узнать домашнее задание, а также получить актуальные новости.
+        </div>
+        <div>
+            <NavLink class="nav" href="https://github.com/MJSasha/important-information">
+                <SvgImage Src="_content/ImpInfFrontCommon/image/github.svg#icon" class="mt-2" style="width:70px; height:70px" />
+            </NavLink>
+        </div>
+        <div>
+            <NavLink class="nav" href="https://t.me/test208b_bot">
+                <img src="_content/ImpInfFrontCommon/image/Tg.jpg" class="mt-2" style="width:70px; height:70px" />
+            </NavLink>
+        </div>
+    </div>
+
+    <PersonCard AvatarSrc="_content/ImpInfFrontCommon/image/SashaU.jpg"
+                Name="Александр Ушанков"
+                Position=".NET"
+                Discription="BackEnd-разработчик, идейный вдохновитель, руководитель" />
+
+    <PersonCard AvatarSrc="_content/ImpInfFrontCommon/image/Danya.png"
+                Name="Данила Самоснов"
+                Position="React"
+                Discription="FrontEnd-разработчик" />
+
+    <PersonCard AvatarSrc="_content/ImpInfFrontCommon/image/SashaM.png"
+                Name="Александр Мусалов"
+                Position=".NET"
+                Discription="разработка Telegram бота, разработка Web приложения" />
+
+    <PersonCard AvatarSrc="_content/ImpInfFrontCommon/image/Eva.png"
+                Name="Ева Пирожкова"
+                Position=".NET"
+                Discription="Разработка Telegram бота, разработка Web приложения" />
+
+    <PersonCard AvatarSrc="_content/ImpInfFrontCommon/image/Vitya.png"
+                Name="Вкитор Салтыков"
+                Position=".NET"
+                Discription="Разработка Telegram бота, разработка Web приложения" />
+
+    <PersonCard AvatarSrc="_content/ImpInfFrontCommon/image/Vova.png"
+                Name="Владимир Резников"
+                Position=".NET"
+                Discription="Разработка Telegram бота" />
+
+    <PersonCard AvatarSrc="_content/ImpInfFrontCommon/image/SashaB.jpg"
+                Name="Александр Бережной"
+                Position=".NET"
+                Discription="Разработка Telegram бота" />
+</div>
