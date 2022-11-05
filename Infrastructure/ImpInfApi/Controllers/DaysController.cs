@@ -21,7 +21,7 @@ namespace ImpInfApi.Controllers
         [HttpPost("ByDates")]
         public Task<Day[]> GetByDates([FromBody] StartEndTime startEndTime)
         {
-            return repository.Read(d => d.Date > startEndTime.Start && d.Date < startEndTime.End);
+            return repository.Read(d => d.Date >= startEndTime.Start && d.Date <= startEndTime.End);
         }
 
         [HttpPost("ByDate")]

@@ -4,7 +4,7 @@ services:
 
 # API
   api:
-    image: mjsasha/impinfapi:2.0.0
+    image: mjsasha/impinfapi:2.0.1
     container_name: api
     restart: always
     depends_on:
