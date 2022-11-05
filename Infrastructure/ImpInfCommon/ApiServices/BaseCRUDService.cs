@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using ImpInfCommon.Interfaces;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -8,7 +9,7 @@ using TgBotLib.Utils;
 
 namespace ImpInfCommon.ApiServices
 {
-    public class BaseCRUDService<TEntity, TKey> : BaseService where TEntity : class
+    public class BaseCRUDService<TEntity, TKey> : BaseService, ICrud<TEntity, TKey> where TEntity : class, IEntity
     {
         public BaseCRUDService(string backRoot, HttpClient httpClient, string entityRoot = null) : base(entityRoot ?? typeof(TEntity).GetRoot(), backRoot, httpClient) { }
 

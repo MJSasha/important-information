@@ -2,7 +2,7 @@
 
 namespace ImpInfCommon.Interfaces
 {
-    public interface ILesson : ICrud<Lesson>
+    public interface ILesson : ICrud<Lesson, int>
     {
     }
 }

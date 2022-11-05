@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ImpInfCommon.Interfaces
 {
-    public interface INews : ICrud<News>
+    public interface INews : ICrud<News, int>
     {
         Task<List<News>> GetUnsent();
         Task<List<News>> GetByLessonId(int lessonId);
