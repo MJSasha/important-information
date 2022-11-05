@@ -12,6 +12,5 @@ namespace ImpInfCommon.Interfaces
         Task<List<News>> GetByLessonId(int lessonId);
         Task<List<News>> GetByDates(StartEndTime startEndTime);
         Task<bool> CheckAnyNewsBefore(DateTimeWrap date);
-        //Task<bool> CheckAnyNewsBefore(DateTime date);
     }
 }

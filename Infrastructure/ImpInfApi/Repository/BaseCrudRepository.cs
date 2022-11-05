@@ -21,10 +21,10 @@ namespace ImpInfApi.Repository
 
         public virtual Task Create(TEntity entities)
         {
-            return Create(new[] { entities });
+            return Create(new List<TEntity>() { entities });
         }
 
-        public virtual async Task Create(TEntity[] entities)
+        public virtual async Task Create(List<TEntity> entities)
         {
             foreach (var entity in entities)
             {

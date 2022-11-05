@@ -47,7 +47,7 @@ namespace TelegramBot.Handlers
                 var property = entity.GetType().GetProperty(propertyName, BindingFlags.Instance | BindingFlags.Public);
                 property.SetValue(entity, Convert.ChangeType(redactionMessage, property.PropertyType));
 
-                await baseCRUDService.Update(entityId, entity);
+                await baseCRUDService.Patch(entityId, entity);
 
                 LogService.LogInfo($"|REDACTION| {typeof(TEntity).Name}.{propertyName}: {redactionMessage}");
 

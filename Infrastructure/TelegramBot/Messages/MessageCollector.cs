@@ -76,7 +76,7 @@ namespace TelegramBot.Messages
                 {
                     ButtonsGenerator buttonsGenerator = new();
                     changedUser.Role = changedUser?.Role == Role.ADMIN ? Role.USER : Role.ADMIN;
-                    await usersService.Update(changedUser.Id, changedUser);
+                    await usersService.Patch(changedUser.Id, changedUser);
                     buttonsGenerator.SetGoBackButton("Сведения о пользователях");
                     await bot.SendMessage(Texts.ChangeOfRole, buttonsGenerator.GetButtons());
                 }

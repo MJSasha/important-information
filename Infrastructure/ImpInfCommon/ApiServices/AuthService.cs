@@ -1,5 +1,6 @@
 ﻿using ImpInfCommon.Data.Models;
 using ImpInfCommon.Data.Other;
+using ImpInfCommon.Exceptions;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;

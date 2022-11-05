@@ -1,4 +1,5 @@
-﻿using ImpInfCommon.Interfaces;
+﻿using ImpInfCommon.Exceptions;
+using ImpInfCommon.Interfaces;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
@@ -25,7 +26,7 @@ namespace ImpInfCommon.ApiServices
             return await Deserialize<List<TEntity>>(httpResponse);
         }
 
-        public virtual async Task Create(TEntity item)
+        public virtual async Task Post(TEntity item)
         {
             var json = Serialize(item);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
@@ -33,7 +34,7 @@ namespace ImpInfCommon.ApiServices
             if (!httpResponse.IsSuccessStatusCode) throw new ErrorResponseException(httpResponse.StatusCode, await httpResponse.Content.ReadAsStringAsync());
         }
 
-        public virtual async Task Create(List<TEntity> item)
+        public virtual async Task Post(List<TEntity> item)
         {
             var json = Serialize(item);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
@@ -41,7 +42,7 @@ namespace ImpInfCommon.ApiServices
             if (!httpResponse.IsSuccessStatusCode) throw new ErrorResponseException(httpResponse.StatusCode, await httpResponse.Content.ReadAsStringAsync());
         }
 
-        public virtual async Task Update(TKey key, TEntity item)
+        public virtual async Task Patch(TKey key, TEntity item)
         {
             TEntity entity = await Get(key);
             if (entity == null) throw new ErrorResponseException(HttpStatusCode.NotFound, "Entity not found");
@@ -56,19 +57,6 @@ namespace ImpInfCommon.ApiServices
         {
             HttpResponseMessage httpResponse = await httpClient.DeleteAsync(Root + "/" + key);
             if (!httpResponse.IsSuccessStatusCode) throw new ErrorResponseException(httpResponse.StatusCode, await httpResponse.Content.ReadAsStringAsync());
-        }
-
-        public virtual async Task Delete(List<TKey> key)
-        {
-            HttpRequestMessage httpRequest = new HttpRequestMessage
-            {
-                Content = new StringContent(Serialize(key), Encoding.UTF8, "application/json"),
-                Method = HttpMethod.Delete,
-                RequestUri = Root
-            };
-
-            var response = await httpClient.SendAsync(httpRequest);
-            if (!response.IsSuccessStatusCode) throw new ErrorResponseException(response.StatusCode, await response.Content.ReadAsStringAsync());
         }
     }
 }

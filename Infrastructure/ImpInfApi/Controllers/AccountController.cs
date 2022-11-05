@@ -1,9 +1,12 @@
 ﻿using ImpInfApi.Repository;
 using ImpInfCommon.Data.Models;
 using ImpInfCommon.Data.Other;
+using ImpInfCommon.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Net.Http;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace ImpInfApi.Controllers
@@ -24,7 +27,7 @@ namespace ImpInfApi.Controllers
         }
 
         [HttpPost("{chatId}")]
-        public async Task<ObjectResult> Registrate([FromBody] RegistrationModel registrationModel, long chatId)
+        public async Task Registrate([FromBody] RegistrationModel registrationModel, long chatId)
         {
             User user = new()
             {
@@ -37,11 +40,10 @@ namespace ImpInfApi.Controllers
 
             await usersRepository.Create(user);
             logger.LogInformation($"User registrate. Login: {user.Login}; Name: {user.Name}; ChatId: {user.ChatId}");
-            return Ok("Registration successful.");
         }
 
         [HttpPost]
-        public async Task<ObjectResult> Auth(AuthModel authModel)
+        public async Task<User> Auth(AuthModel authModel)
         {
             User user = await usersRepository.ReadFirst(u => u.Login == authModel.Login && u.Password.Value == authModel.Password, u => u.Password);
             if (user != null)
@@ -49,9 +51,24 @@ namespace ImpInfApi.Controllers
                 var token = Guid.NewGuid().ToString();
                 user.Token = token;
                 await usersRepository.Update(user);
-                return Ok(user);
+                return user;
             }
-            return StatusCode(401, "User not found.");
+            throw new HttpResponseException(HttpResponseMessage(HttpStatusCode.Unauthorized));
+
+            public Product GetProduct(int id)
+            {
+                Product item = repository.Get(id);
+                if (item == null)
+                {
+                    var resp = new HttpResponseMessage(HttpStatusCode.NotFound)
+                    {
+                        Content = new StringContent(string.Format("No product with ID = {0}", id)),
+                        ReasonPhrase = "Product ID Not Found"
+                    };
+                    throw new HttpResponseException(resp);
+                }
+                return item;
+            }
         }
 
         [HttpGet("CheckToken/{token}")]

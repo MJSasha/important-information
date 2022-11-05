@@ -35,7 +35,7 @@ namespace TelegramBot.Messages
                     {
                         await BotService.SendNews(news, users.Select(u => u.ChatId).ToList());
                         news.NeedToSend = false;
-                        await newsService.Update(news.Id, news);
+                        await newsService.Patch(news.Id, news);
                     }
                     LogService.LogInfo($"Sent {unsentNews.Count} news to {users.Count} users");
                 }
