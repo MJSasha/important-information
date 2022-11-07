@@ -48,9 +48,8 @@ namespace ImpInfApi.Controllers
                 var token = Guid.NewGuid().ToString();
                 user.Token = token;
                 await usersRepository.Update(user);
-                return user;
             }
-            return null;
+            return user;
         }
 
         [HttpGet("CheckToken/{token}")]
