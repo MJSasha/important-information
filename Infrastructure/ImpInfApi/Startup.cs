@@ -33,7 +33,7 @@ namespace ImpInfApi
             services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseMySql(Configuration.GetConnectionString("DefaultConnection"), ServerVersion.AutoDetect(Configuration.GetConnectionString("DefaultConnection")));
-            });
+            }, contextLifetime: ServiceLifetime.Transient);
 
             services.AddControllers();
             services.AddCors();

@@ -30,21 +30,6 @@ namespace TelegramBot.Utils
             return aboveNumber;
         }
 
-        public static string ToRusDay(this DayOfWeek day)
-        {
-            return day switch
-            {
-                DayOfWeek.Monday => "Пн",
-                DayOfWeek.Tuesday => "Вт",
-                DayOfWeek.Wednesday => "Ср",
-                DayOfWeek.Thursday => "Чт",
-                DayOfWeek.Friday => "Пт",
-                DayOfWeek.Saturday => "Сб",
-                DayOfWeek.Sunday => "Вс",
-                _ => "",
-            };
-        }
-
         public static string GetMonthName(this int monthNumber)
         {
             return monthNumber switch
