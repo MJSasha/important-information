@@ -1,7 +1,6 @@
 ﻿using ImpInfCommon.ApiServices;
 using ImpInfCommon.Data.Models;
 using ImpInfCommon.Data.Other;
-using ImpInfCommon.Exceptions;
 using ImpInfFrontCommon.Services;
 using Microsoft.AspNetCore.Components;
 
@@ -31,9 +30,10 @@ namespace ImpInfFrontCommon.Pages
 
         protected async Task LoginAsync()
         {
-            try
+            CurrentUser = await AuthService.Login(AuthModel);
+
+            if (CurrentUser != null)
             {
-                var CurrentUser = await AuthService.Login(AuthModel);
                 var claim = new UserClaim
                 {
                     Name = AuthModel.Login,
@@ -42,13 +42,9 @@ namespace ImpInfFrontCommon.Pages
                 await CookieService.SetCookies("token", claim.Token);
                 NavigationManager.NavigateTo("/", true);
             }
-            catch (Exception ex) when (ex is ErrorResponseException errorResponse && errorResponse.StatusCode != System.Net.HttpStatusCode.Unauthorized)
+            else
             {
                 IsLoginFailed = true;
-            }
-            catch (Exception ex)
-            {
-                ErrorsHandler.ProcessError(ex);
             }
         }
 
