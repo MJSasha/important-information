@@ -3,7 +3,7 @@ using ImpInfCommon.Data.Models;
 using ImpInfCommon.Data.Other;
 using ImpInfFrontCommon.Services;
 using Microsoft.AspNetCore.Components;
-
+using TgBotLib.Exceptions;
 
 namespace ImpInfFrontCommon.Pages
 {
@@ -21,9 +21,12 @@ namespace ImpInfFrontCommon.Pages
         [Inject]
         protected AuthService AuthService { get; set; }
 
+        [Inject]
+        protected ErrorsHandler ErrorsHandler { get; set; }
+
         protected AuthModel AuthModel { get; set; } = new();
 
-        protected bool IsLoginFailed { get; set; } = false; // такой кринж
+        protected bool IsLoginFailed { get; set; } = false;
 
 
         protected async Task LoginAsync()
@@ -39,9 +42,13 @@ namespace ImpInfFrontCommon.Pages
                 await CookieService.SetCookies("token", claim.Token);
                 NavigationManager.NavigateTo("/", true);
             }
-            catch (Exception)
+            catch (Exception ex) when (ex is ErrorResponseException errorResponse && errorResponse.StatusCode != System.Net.HttpStatusCode.Unauthorized)
             {
                 IsLoginFailed = true;
+            }
+            catch (Exception ex)
+            {
+                ErrorsHandler.ProcessError(ex);
             }
         }
 

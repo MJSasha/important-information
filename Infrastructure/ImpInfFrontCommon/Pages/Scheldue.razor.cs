@@ -35,9 +35,9 @@ namespace ImpInfFrontCommon.Pages
 
         private async void RefreshDays()
         {
-            var delta = DayOfWeek.Monday - StartDate.Value.Date.DayOfWeek - 1;
-            DateTime weekStartDate = StartDate.Value.Date.AddDays(delta);
-            DateTime weekEndDate = weekStartDate.AddDays(8);
+            var delta = DayOfWeek.Monday - StartDate.Value.Date.DayOfWeek;
+            DateTime weekStartDate = StartDate.Value.Date.AddDays(delta == 1 ? -6 : delta);
+            DateTime weekEndDate = weekStartDate.AddDays(6);
 
             await errorsHandler.SaveExecute(async () =>
                 Days = (await DaysServices.GetByDates(new StartEndTime { Start = weekStartDate, End = weekEndDate })).OrderBy(d => d.Date).ToList()

@@ -3,7 +3,7 @@
 
 :root {
     --background-color: #ffffff;
-    --header-color: #e9e9e9;
+    --header-color: #f7f7f7;
     --text-color: #333333;
     --header-text-color: #084298;
     --secondary-button-color: #084298;
@@ -44,17 +44,17 @@ body {
 }
 
 .separator-bottom {
-    border-bottom: 2px solid var(--header-color);
+    border-bottom: 2px solid var(--secondary-button-color);
 }
 
 .separator-horizontal {
-    background-color: var(--header-color);
+    background-color: var(--secondary-button-color);
     height: 2px;
     width: 100%;
 }
 
 .separator-vertical {
-    background-color: var(--header-color);
+    background-color: var(--secondary-button-color);
     width: 2px;
     height: 100%;
 }
@@ -104,3 +104,15 @@ body {
         right: 0.75rem;
         top: 0.5rem;
     }
+
+.valid.modified:not([type=checkbox]) {
+    outline: 1px solid #26b050;
+}
+
+.invalid {
+    outline: 1px solid red;
+}
+
+.validation-message {
+    color: red;
+}
