@@ -1,12 +1,9 @@
 ﻿using ImpInfApi.Repository;
 using ImpInfCommon.Data.Models;
 using ImpInfCommon.Data.Other;
-using ImpInfCommon.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Net.Http;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace ImpInfApi.Controllers

@@ -1,9 +1,9 @@
 ﻿using ImpInfCommon.ApiServices;
 using ImpInfCommon.Data.Models;
 using ImpInfCommon.Data.Other;
+using ImpInfCommon.Exceptions;
 using ImpInfFrontCommon.Services;
 using Microsoft.AspNetCore.Components;
-using TgBotLib.Exceptions;
 
 namespace ImpInfFrontCommon.Pages
 {

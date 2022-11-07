@@ -4,7 +4,6 @@ using ImpInfCommon.Exceptions;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using TgBotLib.Exceptions;
 
 namespace ImpInfCommon.ApiServices
 {
