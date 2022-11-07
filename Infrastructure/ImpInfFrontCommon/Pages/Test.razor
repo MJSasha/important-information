@@ -1,0 +1,19 @@
+﻿@page "/test"
+
+
+<div class="card">
+    <table>
+        <tr>
+            @currentUser.Login
+
+            @currentUser.Role
+        </tr>
+
+    </table>
+</div>
+
+@code {
+    [Parameter]
+    private User currentUser { get; set; }
+
+}
