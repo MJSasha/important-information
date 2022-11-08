@@ -1,4 +1,5 @@
 ﻿using ImpInfCommon.ApiServices;
+using ImpInfCommon.Interfaces;
 using Microsoft.AspNetCore.Components.Authorization;
 using System.Security.Claims;
 
@@ -7,9 +8,9 @@ namespace ImpInfFrontCommon.Services
     public class TokenAuthStateProvider : AuthenticationStateProvider
     {
         private readonly CookieService cookieService;
-        private readonly AuthService authService;
+        private readonly IAuth authService;
 
-        public TokenAuthStateProvider(CookieService cookieService, AuthService authService)
+        public TokenAuthStateProvider(CookieService cookieService, IAuth authService)
         {
             this.cookieService = cookieService;
             this.authService = authService;

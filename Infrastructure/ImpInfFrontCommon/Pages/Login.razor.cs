@@ -1,6 +1,7 @@
 ﻿using ImpInfCommon.ApiServices;
 using ImpInfCommon.Data.Models;
 using ImpInfCommon.Data.Other;
+using ImpInfCommon.Interfaces;
 using ImpInfFrontCommon.Services;
 using Microsoft.AspNetCore.Components;
 
@@ -18,7 +19,7 @@ namespace ImpInfFrontCommon.Pages
         protected NavigationManager NavigationManager { get; set; }
 
         [Inject]
-        protected AuthService AuthService { get; set; }
+        protected IAuth AuthService { get; set; }
 
         [Inject]
         protected ErrorsHandler ErrorsHandler { get; set; }
@@ -30,7 +31,14 @@ namespace ImpInfFrontCommon.Pages
 
         protected async Task LoginAsync()
         {
-            CurrentUser = await AuthService.Login(AuthModel);
+            try
+            {
+                CurrentUser = await AuthService.Login(AuthModel);
+            }
+            catch (Exception ex)
+            {
+                ErrorsHandler.ProcessError(ex);
+            }
 
             if (CurrentUser != null)
             {
