@@ -1,6 +1,7 @@
 ﻿using ImpInfApi.Repository;
 using ImpInfCommon.Data.Models;
 using ImpInfCommon.Data.Other;
+using ImpInfCommon.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -10,7 +11,7 @@ namespace ImpInfApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountController : ControllerBase
+    public class AccountController : ControllerBase, IAuth
     {
         private readonly AppSettings appSettings;
         private readonly BaseCrudRepository<User> usersRepository;
@@ -40,7 +41,7 @@ namespace ImpInfApi.Controllers
         }
 
         [HttpPost]
-        public async Task<User> Auth(AuthModel authModel)
+        public async Task<User> Login(AuthModel authModel)
         {
             User user = await usersRepository.ReadFirst(u => u.Login == authModel.Login && u.Password.Value == authModel.Password, u => u.Password);
             if (user != null)
