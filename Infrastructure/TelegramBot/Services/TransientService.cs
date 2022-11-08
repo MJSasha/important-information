@@ -7,7 +7,7 @@ namespace TelegramBot.Services
 {
     public static class TransientService
     {
-        public static AuthService GetAuthService() => new AuthService(AppSettings.BackRoot, GetClient(), AppSettings.ApiToken);
+        public static AuthService GetAuthService() => new AuthService(AppSettings.BackRoot, GetClient(), "Account");
         public static DaysServices GetDaysServices() => new DaysServices(AppSettings.BackRoot, GetClient());
         public static LessonsService GetLessonsService() => new LessonsService(AppSettings.BackRoot, GetClient());
         public static NewsService GetNewsService() => new NewsService(AppSettings.BackRoot, GetClient());
