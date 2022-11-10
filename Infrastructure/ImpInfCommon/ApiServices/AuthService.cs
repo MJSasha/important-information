@@ -1,13 +1,14 @@
 ﻿using ImpInfCommon.Data.Models;
 using ImpInfCommon.Data.Other;
+using ImpInfCommon.Exceptions;
+using ImpInfCommon.Interfaces;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using TgBotLib.Exceptions;
 
 namespace ImpInfCommon.ApiServices
 {
-    public class AuthService : BaseService
+    public class AuthService : BaseService, IAuth
     {
         public AuthService(string backRoot, HttpClient httpClient, string entityRoot = null) : base(entityRoot, backRoot, httpClient) { }
 

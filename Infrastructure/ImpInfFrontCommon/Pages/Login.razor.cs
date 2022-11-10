@@ -1,9 +1,9 @@
 ﻿using ImpInfCommon.ApiServices;
 using ImpInfCommon.Data.Models;
 using ImpInfCommon.Data.Other;
+using ImpInfCommon.Interfaces;
 using ImpInfFrontCommon.Services;
 using Microsoft.AspNetCore.Components;
-using TgBotLib.Exceptions;
 
 namespace ImpInfFrontCommon.Pages
 {
@@ -19,7 +19,7 @@ namespace ImpInfFrontCommon.Pages
         protected NavigationManager NavigationManager { get; set; }
 
         [Inject]
-        protected AuthService AuthService { get; set; }
+        protected IAuth AuthService { get; set; }
 
         [Inject]
         protected ErrorsHandler ErrorsHandler { get; set; }
@@ -31,9 +31,10 @@ namespace ImpInfFrontCommon.Pages
 
         protected async Task LoginAsync()
         {
-            try
+            await ErrorsHandler.SaveExecute(async () => CurrentUser = await AuthService.Login(AuthModel));
+
+            if (CurrentUser != null)
             {
-                var CurrentUser = await AuthService.Login(AuthModel);
                 var claim = new UserClaim
                 {
                     Name = AuthModel.Login,
@@ -42,13 +43,9 @@ namespace ImpInfFrontCommon.Pages
                 await CookieService.SetCookies("token", claim.Token);
                 NavigationManager.NavigateTo("/", true);
             }
-            catch (Exception ex) when (ex is ErrorResponseException errorResponse && errorResponse.StatusCode != System.Net.HttpStatusCode.Unauthorized)
+            else
             {
                 IsLoginFailed = true;
-            }
-            catch (Exception ex)
-            {
-                ErrorsHandler.ProcessError(ex);
             }
         }
 
