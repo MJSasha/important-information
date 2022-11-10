@@ -31,14 +31,7 @@ namespace ImpInfFrontCommon.Pages
 
         protected async Task LoginAsync()
         {
-            try
-            {
-                CurrentUser = await AuthService.Login(AuthModel);
-            }
-            catch (Exception ex)
-            {
-                ErrorsHandler.ProcessError(ex);
-            }
+            await ErrorsHandler.SaveExecute(async () => CurrentUser = await AuthService.Login(AuthModel));
 
             if (CurrentUser != null)
             {
