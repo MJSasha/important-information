@@ -9,9 +9,6 @@ namespace ImpInfFrontCommon.Pages
 {
     public partial class Login : ComponentBase
     {
-        [CascadingParameter]
-        public User CurrentUser { get; set; }
-
         [Inject]
         public CookieService CookieService { get; set; }
 
@@ -31,14 +28,15 @@ namespace ImpInfFrontCommon.Pages
 
         protected async Task LoginAsync()
         {
-            await ErrorsHandler.SaveExecute(async () => CurrentUser = await AuthService.Login(AuthModel));
+            var user = new User();
+            await ErrorsHandler.SaveExecute(async () => user = await AuthService.Login(AuthModel));
 
-            if (CurrentUser != null)
+            if (user != null)
             {
                 var claim = new UserClaim
                 {
                     Name = AuthModel.Login,
-                    Token = CurrentUser.Token
+                    Token = user.Token
                 };
                 await CookieService.SetCookies("token", claim.Token);
                 NavigationManager.NavigateTo("/", true);
