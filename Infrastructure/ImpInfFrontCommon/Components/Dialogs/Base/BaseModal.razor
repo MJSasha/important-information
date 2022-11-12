@@ -5,9 +5,7 @@
                 <h5 class="modal-title" id="addCompanyModalLabel">@Title</h5>
                 @if (!HideCloseButton)
                 {
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" @onclick="() => OnClose?.Invoke() ">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" aria-label="Close" @onclick="() => OnClose?.Invoke()"/>
                 }
             </div>
             <div class="modal-body">

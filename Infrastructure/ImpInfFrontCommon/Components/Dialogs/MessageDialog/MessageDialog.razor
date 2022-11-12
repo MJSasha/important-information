@@ -3,7 +3,7 @@
 @inherits BaseDialog<MessageDialogParams, object>
 
 <BaseDialogLayout  IsShown="IsShown">
-    <BaseModal Title="@Parameters.Title" OnClose="() => this.Cancel()" OnKeyEnterPressed="OnKeyEnterPressed">
+    <BaseModal Title="@Parameters.Title" OnClose="() => this.Close(null)" OnKeyEnterPressed="OnKeyEnterPressed">
         <Content>
             @(Parameters.Text)
         </Content>
