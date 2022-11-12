@@ -34,6 +34,7 @@ builder.Services.AddScoped<AuthenticationStateProvider, TokenAuthStateProvider>(
                 .AddScoped<CookieService>();
 
 builder.Services.AddSingleton<ErrorsHandler>();
+builder.Services.AddSingleton<DialogService>();
 
 
 var app = builder.Build().RunAsync();

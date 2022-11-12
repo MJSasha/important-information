@@ -47,6 +47,7 @@ namespace ImpInfApp
                             .AddScoped<CookieService>();
 
             builder.Services.AddSingleton<ErrorsHandler>();
+            builder.Services.AddSingleton<DialogService>();
 
             return builder.Build();
         }
