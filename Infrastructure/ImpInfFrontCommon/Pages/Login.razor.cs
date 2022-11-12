@@ -31,21 +31,28 @@ namespace ImpInfFrontCommon.Pages
 
         protected async Task LoginAsync()
         {
-            await ErrorsHandler.SaveExecute(async () => CurrentUser = await AuthService.Login(AuthModel));
+            try
+            {
+                var user = await AuthService.Login(AuthModel);
 
-            if (CurrentUser != null)
-            {
-                var claim = new UserClaim
+                if (user != null)
                 {
-                    Name = AuthModel.Login,
-                    Token = CurrentUser.Token
-                };
-                await CookieService.SetCookies("token", claim.Token);
-                NavigationManager.NavigateTo("/", true);
+                    var claim = new UserClaim
+                    {
+                        Name = AuthModel.Login,
+                        Token = user.Token
+                    };
+                    await CookieService.SetCookies("token", claim.Token);
+                    NavigationManager.NavigateTo("/", true);
+                }
+                else
+                {
+                    IsLoginFailed = true;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                IsLoginFailed = true;
+                ErrorsHandler.ProcessError(ex);
             }
         }
 

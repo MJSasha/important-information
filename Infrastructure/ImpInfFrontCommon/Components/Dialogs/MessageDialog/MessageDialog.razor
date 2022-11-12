@@ -1,0 +1,25 @@
+﻿@using ImpInfFrontCommon.Components.Dialogs.Base;
+
+@inherits BaseDialog<MessageDialogParams, object>
+
+<BaseDialogLayout  IsShown="IsShown">
+    <BaseModal Title="Parameters.Title" OnClose="() => this.Cancel()" OnKeyEnterPressed="OnKeyEnterPressed">
+        <Content>
+            @(Parameters.Text)
+        </Content>
+        <Footer>
+            <ModalButton OnClick="() => this.Close(null)">OK</ModalButton>
+        </Footer>
+    </BaseModal>
+</BaseDialogLayout>
+
+@code {
+    
+    [Parameter]
+    public bool CloseByEnter { get; set; }
+
+    protected void OnKeyEnterPressed()
+    {
+        if (CloseByEnter) this.Close(null);
+    }
+}

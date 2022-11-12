@@ -1,4 +1,8 @@
-﻿@inherits LayoutComponentBase
+﻿@using ImpInfCommon.Interfaces;
+@using ImpInfFrontCommon.Components.Dialogs.Base
+@using ImpInfFrontCommon.Services;
+
+@inherits LayoutComponentBase
 
 <AuthorizeView>
     <Authorized>
@@ -22,3 +26,4 @@
         @Body
     </NotAuthorized>
 </AuthorizeView>
+<DialogsRegistrationForm />
