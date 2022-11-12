@@ -2,6 +2,7 @@
 using ImpInfCommon.Data.Other;
 using ImpInfCommon.Exceptions;
 using ImpInfCommon.Interfaces;
+using Newtonsoft.Json.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,6 +34,13 @@ namespace ImpInfCommon.ApiServices
             var httpResponse = await httpClient.GetAsync(Root.ToString() + "/CheckToken/" + token);
             if (!httpResponse.IsSuccessStatusCode) throw new ErrorResponseException(httpResponse.StatusCode, await httpResponse.Content.ReadAsStringAsync());
             return await Deserialize<bool>(httpResponse);
+        }
+
+        public async Task<User> GetCurrentUser()
+        {
+            var httpResponse = await httpClient.GetAsync(Root.ToString() + "/CurrentUser");
+            if (!httpResponse.IsSuccessStatusCode) throw new ErrorResponseException(httpResponse.StatusCode, await httpResponse.Content.ReadAsStringAsync());
+            return await Deserialize<User>(httpResponse);
         }
     }
 }

@@ -9,9 +9,6 @@ namespace ImpInfFrontCommon.Pages
 {
     public partial class Login : ComponentBase
     {
-        [CascadingParameter]
-        public User CurrentUser { get; set; }
-
         [Inject]
         public CookieService CookieService { get; set; }
 

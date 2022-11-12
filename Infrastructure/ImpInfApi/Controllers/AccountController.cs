@@ -59,5 +59,11 @@ namespace ImpInfApi.Controllers
             User user = await usersRepository.ReadFirst(u => u.Token == token);
             return user != null;
         }
+
+        [HttpGet("CurrentUser")]
+        public Task<User> GetCurrentUser()
+        {
+            return usersRepository.ReadFirst(u => u.Token == HttpContext.Request.Cookies["token"]);
+        }
     }
 }
