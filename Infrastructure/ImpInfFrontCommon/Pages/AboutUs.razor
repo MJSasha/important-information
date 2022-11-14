@@ -5,21 +5,11 @@
 
 <PageTitle>О нас</PageTitle>
 
-<div class="container mb-5">
-    <div class="d-flex bg-gradient justify-content-evenly">
-        <div class="col-5 text-center fst-italic mt-2" style="font-size:medium">
+<div class="container">
+    <div class="frame mt-3" style="background-color: var(--accent-color)">
+        <div class="text-center mt-2" style="font-size:medium">
             Наша команда постаралась над тем, чтобы ты удобно и быстро получал информацию об учебном процессе.
             На сайте можно посмотреть расписание занятий на каждый день, узнать домашнее задание, а также получить актуальные новости.
-        </div>
-        <div>
-            <NavLink class="nav" href="https://github.com/MJSasha/important-information">
-                <SvgImage Src="_content/ImpInfFrontCommon/image/github.svg#icon" class="mt-2" style="width:70px; height:70px" />
-            </NavLink>
-        </div>
-        <div>
-            <NavLink class="nav" href="https://t.me/test208b_bot">
-                <img src="_content/ImpInfFrontCommon/image/Tg.jpg" class="mt-2" style="width:70px; height:70px" />
-            </NavLink>
         </div>
     </div>
 
@@ -44,7 +34,7 @@
                 Discription="Разработка Telegram бота, разработка Web приложения" />
 
     <PersonCard AvatarSrc="_content/ImpInfFrontCommon/image/Vitya.png"
-                Name="Вкитор Салтыков"
+                Name="Виктор Салтыков"
                 Position=".NET"
                 Discription="Разработка Telegram бота, разработка Web приложения" />
 
@@ -57,4 +47,25 @@
                 Name="Александр Бережной"
                 Position=".NET"
                 Discription="Разработка Telegram бота" />
+
+    <div class="d-flex separator-horizontal mt-5"></div>
+    <div class="d-flex justify-content-between">
+        <div class="flex-column">
+        <div class="d-flex">
+            <NavLink class="nav" href="https://github.com/MJSasha/important-information">
+                <SvgImage Src="_content/ImpInfFrontCommon/image/github.svg#icon" class="mt-2" style="width:25px; height:25px"/>
+            </NavLink>
+                <a href="https://github.com/MJSasha/important-information" class="ms-2 mt-2" style="color: var(--text-color)">GitHub</a>
+        </div>
+        <div class="d-flex">
+        <NavLink class="nav" href="https://t.me/test208b_bot">
+            <SvgImage Src="_content/ImpInfFrontCommon/image/tg-icon.svg#icon" class="tg-icon mt-2 rounded-circle" />
+        </NavLink>
+            <a href="https://t.me/test208b_bot" class="ms-2 mt-2" style="color: var(--text-color)">Telegram Bot</a>
+        </div>
+        </div>
+            <NavLink class="nav" href="https://t.me/test208b_bot">
+                <img src="_content/ImpInfFrontCommon/image/Tg.jpg" class="mt-2 mb-2" style="width:70px; height:70px"/>
+            </NavLink>
+    </div>
 </div>
