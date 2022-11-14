@@ -1,24 +1,49 @@
-﻿@inherits LayoutComponentBase
+﻿@using ImpInfCommon.Interfaces;
+@using ImpInfFrontCommon.Components.Dialogs.Base
+@using ImpInfFrontCommon.Services;
 
-<AuthorizeView>
-    <Authorized>
-        <div class="page">
-            <div class="sidebar">
-                <NavMenu />
-            </div>
-            <main>
-                <div class="top-row px-4">
-                    <NavLink class="nav-link" href="@PagesRouts.Logout" Match="NavLinkMatch.All">
-                        <SvgImage Src="_content/ImpInfFrontCommon/image/logout.svg#icon" class="nav-icon hover" style="color:var(--secondary-button-color); " />
-                    </NavLink>
+@inherits LayoutComponentBase
+@inject IAuth authService
+
+<CascadingValue Value="CurrentUser">
+    <AuthorizeView>
+        <Authorized>
+            <div class="page">
+                <div class="sidebar">
+                    <NavMenu />
                 </div>
-                <article class="content px-4">
-                    @Body
-                </article>
-            </main>
-        </div>
-    </Authorized>
-    <NotAuthorized>
-        @Body
-    </NotAuthorized>
-</AuthorizeView>
+                <main>
+                    <div class="top-row px-4">
+                        <NavLink class="nav-link" href="@PagesRouts.Logout" Match="NavLinkMatch.All">
+                            <SvgImage Src="_content/ImpInfFrontCommon/image/logout.svg#icon" class="nav-icon hover" style="color:var(--secondary-button-color); " />
+                        </NavLink>
+                    </div>
+                    <article class="content px-4">
+                        @Body
+                    </article>
+                </main>
+            </div>
+        </Authorized>
+        <NotAuthorized>
+            @Body
+        </NotAuthorized>
+    </AuthorizeView>
+</CascadingValue>
+<DialogsRegistrationForm />
+
+@code{
+
+    public User CurrentUser { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            CurrentUser = await authService.GetCurrentUser();
+        }
+        catch
+        {
+            CurrentUser = new();
+        }
+    }
+}

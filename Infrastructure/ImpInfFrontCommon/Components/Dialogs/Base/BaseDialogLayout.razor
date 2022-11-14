@@ -1,0 +1,18 @@
+﻿@using ImpInfFrontCommon.Services;
+
+@inject DialogService dialogService
+
+@if (IsShown)
+{
+    <div style="background-color: #00000099; height: 100%; width: 100%; display: block; z-index: 10000; position: fixed; top: 0; left: 0; padding-top: 50px;">
+        @ChildContent
+    </div>
+}
+
+@code {
+    [Parameter]
+    public bool IsShown { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+}

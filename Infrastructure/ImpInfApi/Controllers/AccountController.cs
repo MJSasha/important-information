@@ -1,6 +1,7 @@
 ﻿using ImpInfApi.Repository;
 using ImpInfCommon.Data.Models;
 using ImpInfCommon.Data.Other;
+using ImpInfCommon.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -10,7 +11,7 @@ namespace ImpInfApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountController : ControllerBase
+    public class AccountController : ControllerBase, IAuth
     {
         private readonly AppSettings appSettings;
         private readonly BaseCrudRepository<User> usersRepository;
@@ -24,7 +25,7 @@ namespace ImpInfApi.Controllers
         }
 
         [HttpPost("{chatId}")]
-        public async Task<ObjectResult> Registrate([FromBody] RegistrationModel registrationModel, long chatId)
+        public async Task Registrate([FromBody] RegistrationModel registrationModel, long chatId)
         {
             User user = new()
             {
@@ -37,11 +38,10 @@ namespace ImpInfApi.Controllers
 
             await usersRepository.Create(user);
             logger.LogInformation($"User registrate. Login: {user.Login}; Name: {user.Name}; ChatId: {user.ChatId}");
-            return Ok("Registration successful.");
         }
 
         [HttpPost]
-        public async Task<ObjectResult> Auth(AuthModel authModel)
+        public async Task<User> Login(AuthModel authModel)
         {
             User user = await usersRepository.ReadFirst(u => u.Login == authModel.Login && u.Password.Value == authModel.Password, u => u.Password);
             if (user != null)
@@ -49,9 +49,8 @@ namespace ImpInfApi.Controllers
                 var token = Guid.NewGuid().ToString();
                 user.Token = token;
                 await usersRepository.Update(user);
-                return Ok(user);
             }
-            return StatusCode(401, "User not found.");
+            return user;
         }
 
         [HttpGet("CheckToken/{token}")]
@@ -59,6 +58,12 @@ namespace ImpInfApi.Controllers
         {
             User user = await usersRepository.ReadFirst(u => u.Token == token);
             return user != null;
+        }
+
+        [HttpGet("CurrentUser")]
+        public Task<User> GetCurrentUser()
+        {
+            return usersRepository.ReadFirst(u => u.Token == HttpContext.Request.Cookies["token"]);
         }
     }
 }

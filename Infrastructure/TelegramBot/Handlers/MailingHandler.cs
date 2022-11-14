@@ -48,7 +48,7 @@ namespace TelegramBot.Handlers
             try
             {
                 news.Message = messageText;
-                await newsService.Create(news);
+                await newsService.Post(news);
                 var chatIds = (await userService.Get()).Select(u => u.ChatId).Where(id => id != chatId).ToList();
 
                 await BotService.SendNews(news, chatIds);

@@ -1,5 +1,6 @@
 ﻿using ImpInfCommon.ApiServices;
 using ImpInfCommon.Data.Other;
+using ImpInfCommon.Exceptions;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
@@ -7,7 +8,6 @@ using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBot.Data;
 using TelegramBot.Services;
-using TgBotLib.Exceptions;
 using TgBotLib.Handlers;
 using TgBotLib.Services;
 using TgBotLib.Utils;

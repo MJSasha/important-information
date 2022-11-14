@@ -1,0 +1,60 @@
+﻿@typeparam TParam
+@typeparam TResult
+
+@if (IsShown)
+    @ChildContent
+
+
+    @code {
+
+    public bool IsShown { get; set; }
+    TaskCompletionSource<TResult> tcs;
+    private bool dontCloseOnAction;
+
+    public Task<TResult> Show(TParam param, bool dontCloseOnAction = false)
+    {
+        tcs = new TaskCompletionSource<TResult>();
+        this.Parameters = param;
+        this.dontCloseOnAction = dontCloseOnAction;
+        IsShown = true;
+        OnShow();
+        StateHasChanged();
+        return this.tcs.Task;
+    }
+
+    virtual protected void OnShow()
+    {
+
+    }
+
+    virtual protected void OnClose()
+    {
+
+    }
+
+    public void Hide()
+    {
+        IsShown = false;
+        StateHasChanged();
+    }
+
+    public void Close(TResult result)
+    {
+        OnClose();
+        if (!dontCloseOnAction) IsShown = false;
+        tcs.SetResult(result);
+        StateHasChanged();
+    }
+
+    public void Cancel()
+    {
+        IsShown = false;
+        tcs.SetCanceled();
+        StateHasChanged();
+    }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    public TParam Parameters;
+}

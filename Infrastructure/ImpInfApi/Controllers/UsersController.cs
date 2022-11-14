@@ -1,5 +1,6 @@
 ﻿using ImpInfApi.Repository;
 using ImpInfCommon.Data.Models;
+using ImpInfCommon.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -7,7 +8,7 @@ namespace ImpInfApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : BaseCrudController<User>
+    public class UsersController : BaseCrudController<User>, IUser
     {
         private readonly BaseCrudRepository<User> repository;
 
