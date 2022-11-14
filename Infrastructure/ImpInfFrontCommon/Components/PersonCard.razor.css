@@ -5,5 +5,5 @@
 
 .position-background {
     border-radius: 3rem;
-    background-color: #384566;
+    background-color: var(--secondary-button-color);
 }
