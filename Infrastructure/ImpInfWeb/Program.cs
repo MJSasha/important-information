@@ -20,6 +20,8 @@ builder.Services
         .CreateClient("API"))
     .AddHttpClient("API", client => client.BaseAddress = new Uri(backRoot)).AddHttpMessageHandler<CookieHandler>();
 
+//builder.Services.AddSignalR();
+
 builder.Services.AddTransient<IAuth, AuthService>(sp => new AuthService(backRoot, sp.GetService<HttpClient>(), "Account"))
                 .AddTransient<IDays, DaysServices>(sp => new DaysServices(backRoot, sp.GetService<HttpClient>()))
                 .AddTransient<ILesson, LessonsService>(sp => new LessonsService(backRoot, sp.GetService<HttpClient>()))

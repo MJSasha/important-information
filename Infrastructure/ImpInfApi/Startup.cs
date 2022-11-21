@@ -1,3 +1,4 @@
+using ImpInfApi.Hubs;
 using ImpInfApi.Middlewares;
 using ImpInfApi.Models;
 using ImpInfApi.Repository;
@@ -59,6 +60,7 @@ namespace ImpInfApi
                 }});
             });
 
+            services.AddSignalR();
 
             //DI
             services.AddTransient<BaseCrudRepository<News>>();
@@ -86,11 +88,12 @@ namespace ImpInfApi
 
 
             var serviceScopeForPermision = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
-            app.UseMiddleware<CheckPermisionMiddleware>(appSettings, serviceScopeForPermision.ServiceProvider.GetService<BaseCrudRepository<User>>());
+            //app.UseMiddleware<CheckPermisionMiddleware>(appSettings, serviceScopeForPermision.ServiceProvider.GetService<BaseCrudRepository<User>>());
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<ChatHub>("/ChatHub");
             });
 
             using var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();

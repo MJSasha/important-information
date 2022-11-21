@@ -28,8 +28,8 @@ namespace ImpInfFrontCommon.Pages
 
         protected async Task LoginAsync()
         {
-            try
-            {
+            //try
+            //{
                 var user = await AuthService.Login(AuthModel);
 
                 if (user != null)
@@ -46,11 +46,11 @@ namespace ImpInfFrontCommon.Pages
                 {
                     IsLoginFailed = true;
                 }
-            }
-            catch (Exception ex)
-            {
-                ErrorsHandler.ProcessError(ex);
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    ErrorsHandler.ProcessError(ex);
+            //}
         }
 
         protected class UserClaim
