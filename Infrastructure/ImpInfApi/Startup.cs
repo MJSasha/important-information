@@ -1,5 +1,4 @@
 using ImpInfApi.Hubs;
-using ImpInfApi.Middlewares;
 using ImpInfApi.Models;
 using ImpInfApi.Repository;
 using ImpInfApi.Utils;
@@ -93,7 +92,7 @@ namespace ImpInfApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<ChatHub>("/ChatHub");
+                endpoints.MapHub<NotificationsHub>("/Hub/Notifications");
             });
 
             using var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();

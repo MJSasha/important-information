@@ -1,5 +1,6 @@
 ﻿@using ImpInfCommon.Interfaces;
-@using ImpInfFrontCommon.Components.Dialogs.Base
+@using ImpInfFrontCommon.Components.Dialogs.Base;
+@using ImpInfFrontCommon.Components;
 @using ImpInfFrontCommon.Services;
 
 @inherits LayoutComponentBase
@@ -20,6 +21,7 @@
                     </div>
                     <article class="content px-4">
                         @Body
+                        <OffCanvas></OffCanvas>
                     </article>
                 </main>
             </div>
@@ -46,4 +48,9 @@
             CurrentUser = new();
         }
     }
+
+    //public void TriggerOfCanvas()
+    //{
+       
+    //}
 }

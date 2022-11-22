@@ -1,0 +1,50 @@
+﻿@page "/Hub"
+
+@using ImpInfCommon.Interfaces;
+@using Microsoft.AspNetCore.SignalR.Client;
+@inject NavigationManager Navigation
+@implements IAsyncDisposable
+
+<PageTitle>Notifications Hub</PageTitle>
+
+<hr>
+
+<ul id="messagesList">
+    @foreach (var news in allNews)
+    {
+        <li>Message: @news.Message</li>
+        <li>Lesson: @news.Lesson</li>
+        <li></li>
+    }
+</ul>
+
+@code {
+    [Inject]
+    private INews NewsService { get; set; }
+    private HubConnection? hubConnection;
+    private List<News> allNews = new List<News>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        hubConnection = new HubConnectionBuilder().WithUrl("http://localhost:8080/Hub/Notifications/", o =>
+        {
+            o.HttpMessageHandlerFactory = innerHandler => new IncludeRequestCredentialsMessageHandler { InnerHandler = innerHandler };
+        }).Build();
+
+        hubConnection.On<string>("Notify", async (message) =>
+        {
+            var news = await NewsService.Get();
+            allNews = news; //EXAMPLE
+            StateHasChanged();
+        });
+
+        await hubConnection.StartAsync();
+    }
+
+    public bool IsConnected => hubConnection?.State == HubConnectionState.Connected;
+
+    public async ValueTask DisposeAsync()
+    {
+        if (hubConnection is not null) await hubConnection.DisposeAsync();
+    }
+}
