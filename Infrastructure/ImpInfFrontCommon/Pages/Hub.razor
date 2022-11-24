@@ -31,7 +31,7 @@
             o.HttpMessageHandlerFactory = innerHandler => new IncludeRequestCredentialsMessageHandler { InnerHandler = innerHandler };
         }).Build();
 
-        hubConnection.On<string>("Notify", async (message) =>
+        hubConnection.On<string>("NewsCreated", async (message) =>
         {
             var news = await NewsService.Get();
             allNews = news; //EXAMPLE

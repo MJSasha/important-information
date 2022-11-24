@@ -1,5 +1,4 @@
-﻿using ImpInfCommon.ApiServices;
-using ImpInfCommon.Data.Models;
+﻿using ImpInfCommon.Data.Models;
 using ImpInfCommon.Data.Other;
 using ImpInfCommon.Interfaces;
 using ImpInfFrontCommon.Services;
@@ -9,6 +8,9 @@ namespace ImpInfFrontCommon.Pages
 {
     public partial class Login : ComponentBase
     {
+        [CascadingParameter]
+        public User CurrentUser { get; set; }
+
         [Inject]
         public CookieService CookieService { get; set; }
 
@@ -28,29 +30,22 @@ namespace ImpInfFrontCommon.Pages
 
         protected async Task LoginAsync()
         {
-            //try
-            //{
-                var user = await AuthService.Login(AuthModel);
+            await ErrorsHandler.SaveExecute(async () => CurrentUser = await AuthService.Login(AuthModel));
 
-                if (user != null)
+            if (CurrentUser != null)
+            {
+                var claim = new UserClaim
                 {
-                    var claim = new UserClaim
-                    {
-                        Name = AuthModel.Login,
-                        Token = user.Token
-                    };
-                    await CookieService.SetCookies("token", claim.Token);
-                    NavigationManager.NavigateTo("/", true);
-                }
-                else
-                {
-                    IsLoginFailed = true;
-                }
-            //}
-            //catch (Exception ex)
-            //{
-            //    ErrorsHandler.ProcessError(ex);
-            //}
+                    Name = AuthModel.Login,
+                    Token = CurrentUser.Token
+                };
+                await CookieService.SetCookies("token", claim.Token);
+                NavigationManager.NavigateTo("/", true);
+            }
+            else
+            {
+                IsLoginFailed = true;
+            }
         }
 
         protected class UserClaim

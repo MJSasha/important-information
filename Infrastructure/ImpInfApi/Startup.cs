@@ -1,6 +1,7 @@
 using ImpInfApi.Hubs;
 using ImpInfApi.Models;
 using ImpInfApi.Repository;
+using ImpInfApi.Services;
 using ImpInfApi.Utils;
 using ImpInfCommon.Data.Models;
 using Microsoft.AspNetCore.Builder;
@@ -67,6 +68,8 @@ namespace ImpInfApi
             services.AddTransient<BaseCrudRepository<Day>, DaysRepository>();
             services.AddTransient<BaseCrudRepository<Lesson>>();
             services.AddTransient<BaseCrudRepository<Note>>();
+
+            services.AddSingleton<NotificationsService>();
 
             RegistratePaths(services);
         }

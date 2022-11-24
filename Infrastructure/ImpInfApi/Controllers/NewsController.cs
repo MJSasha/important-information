@@ -1,10 +1,9 @@
-﻿using ImpInfApi.Hubs;
-using ImpInfApi.Repository;
+﻿using ImpInfApi.Repository;
+using ImpInfApi.Services;
 using ImpInfCommon.Data.Models;
 using ImpInfCommon.Data.Other;
 using ImpInfCommon.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,19 +15,19 @@ namespace ImpInfApi.Controllers
     public class NewsController : BaseCrudController<News>, INews
     {
         private readonly BaseCrudRepository<News> repository;
-        private readonly IHubContext<NotificationsHub> connectionManager;
+        private readonly NotificationsService notificationsService;
 
-        public NewsController(BaseCrudRepository<News> repository, IHubContext<NotificationsHub> connectionManager) : base(repository)
+        public NewsController(BaseCrudRepository<News> repository, NotificationsService notificationsService) : base(repository)
         {
             this.repository = repository;
-            this.connectionManager = connectionManager;
+            this.notificationsService = notificationsService;
         }
 
 
         public override async Task Post([FromBody] News entity)
         {
             await base.Post(entity);
-            await connectionManager.Clients.All.SendAsync("Notify", entity.Message);
+            await notificationsService.NotifyNewsCreated(entity);
         }
 
 
