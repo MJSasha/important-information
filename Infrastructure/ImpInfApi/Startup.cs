@@ -13,6 +13,7 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Reflection;
 
 namespace ImpInfApi
 {
@@ -47,17 +48,7 @@ namespace ImpInfApi
                     Title = "ImpInfApi"
                 });
 
-                options.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {{
-                    new OpenApiSecurityScheme
-                    {
-                        Reference = new OpenApiReference
-                        {
-                            Type = ReferenceType.SecurityScheme,
-                            Id = "Bearer"
-                        }
-                    },Array.Empty<string>()
-                }});
+                options.AddSignalRSwaggerGen(ssgOptions => ssgOptions.ScanAssemblies(typeof(ImpInfCommon.Interfaces.INotificationsService).Assembly));
             });
 
             services.AddSignalR();
@@ -95,7 +86,7 @@ namespace ImpInfApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<NotificationsHub>("/Hub/Notifications");
+                endpoints.MapHub<NotificationsHub>("/hubs/NotificationsService");
             });
 
             using var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();

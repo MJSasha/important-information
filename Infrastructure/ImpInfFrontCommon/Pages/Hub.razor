@@ -26,15 +26,15 @@
 
     protected override async Task OnInitializedAsync()
     {
-        hubConnection = new HubConnectionBuilder().WithUrl("http://localhost:8080/Hub/Notifications/", o =>
+        hubConnection = new HubConnectionBuilder().WithUrl("http://localhost:8080/hubs/NotificationsService", o =>
         {
             o.HttpMessageHandlerFactory = innerHandler => new IncludeRequestCredentialsMessageHandler { InnerHandler = innerHandler };
         }).Build();
 
-        hubConnection.On<string>("NewsCreated", async (message) =>
+        hubConnection.On<News>(nameof(INotificationsService.NotifyNewsCreated), async (news) =>
         {
-            var news = await NewsService.Get();
-            allNews = news; //EXAMPLE
+            var newsForTest = await NewsService.Get();
+            allNews = newsForTest; //EXAMPLE
             StateHasChanged();
         });
 
