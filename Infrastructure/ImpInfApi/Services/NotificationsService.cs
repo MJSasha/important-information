@@ -2,10 +2,12 @@
 using ImpInfCommon.Data.Models;
 using ImpInfCommon.Interfaces;
 using Microsoft.AspNetCore.SignalR;
+using SignalRSwaggerGen.Attributes;
 using System.Threading.Tasks;
 
 namespace ImpInfApi.Services
 {
+    [SignalRHub]
     public class NotificationsService : INotificationsService
     {
         private readonly IHubContext<NotificationsHub> hubContext;

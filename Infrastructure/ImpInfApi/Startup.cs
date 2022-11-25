@@ -48,7 +48,8 @@ namespace ImpInfApi
                     Title = "ImpInfApi"
                 });
 
-                options.AddSignalRSwaggerGen(ssgOptions => ssgOptions.ScanAssemblies(typeof(ImpInfCommon.Interfaces.INotificationsService).Assembly));
+                //options.AddSignalRSwaggerGen(ssgOptions => ssgOptions.ScanAssemblies(typeof(ImpInfCommon.Interfaces.INotificationsService).Assembly));
+                options.AddSignalRSwaggerGen();
             });
 
             services.AddSignalR();
