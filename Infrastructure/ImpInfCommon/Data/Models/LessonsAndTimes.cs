@@ -10,7 +10,9 @@ namespace ImpInfCommon.Data.Models
         public int Id { get; set; }
         public DateTime Time { get; set; }
         public LessonType Type { get; set; }
+        public int LessonId { get; set; }
         public Lesson Lesson { get; set; }
+        public Importance Importance { get; set; }
 
         public List<Day> Days { get; set; }
     }
