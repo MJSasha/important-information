@@ -2,6 +2,7 @@
 using ImpInfCommon.Data.Models;
 using ImpInfCommon.Data.Other;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,10 +13,12 @@ namespace ImpInfApi.Controllers
     public class DaysController : BaseCrudController<Day>
     {
         private readonly BaseCrudRepository<Day> repository;
+        private readonly BaseCrudRepository<LessonsAndTimes> ltRepository;
 
-        public DaysController(BaseCrudRepository<Day> repository) : base(repository)
+        public DaysController(BaseCrudRepository<Day> repository, BaseCrudRepository<LessonsAndTimes> ltRepository) : base(repository)
         {
             this.repository = repository;
+            this.ltRepository = ltRepository;
         }
 
         [HttpPost("ByDates")]
@@ -40,6 +43,26 @@ namespace ImpInfApi.Controllers
         public async Task<bool> AnyAfter([FromBody] DateTimeWrap date)
         {
             return (await repository.Read(d => d.Date > date.DateTime.Date)).Any();
+        }
+
+        public override async Task<ObjectResult> Post([FromBody] Day entity)
+        {
+            var lessonsAndTimes = await ltRepository.Read(lt => entity.LessonsAndTimes.Any(_lt => _lt.Type == lt.Type && _lt.LessonId == lt.LessonId && _lt.Time.TimeOfDay == lt.Time.TimeOfDay));
+            foreach (var entityLessonsAndTimes in entity.LessonsAndTimes)
+            {
+                try
+                {
+                    entityLessonsAndTimes.Id = lessonsAndTimes.FirstOrDefault(lt => entityLessonsAndTimes.Type == lt.Type && entityLessonsAndTimes.LessonId == lt.LessonId && entityLessonsAndTimes.Time.TimeOfDay == lt.Time.TimeOfDay).Id;
+                }
+                catch (NullReferenceException)
+                {
+                    foreach (var _lessonsAndTimes in lessonsAndTimes)
+                    {
+                        entity.LessonsAndTimes.Add(_lessonsAndTimes);
+                    }
+                }
+            }
+            return await base.Post(entity);   
         }
     }
 }
