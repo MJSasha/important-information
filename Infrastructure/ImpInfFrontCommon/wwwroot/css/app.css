@@ -14,7 +14,13 @@ html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-body {
+.color {
+    border-radius: 10px;
+    width: 100px;
+    height: 100px;
+}
+
+    body {
     background-color: var(--background-color);
     font-family: 'Rubik';
     font-weight: 400;
@@ -104,13 +110,6 @@ body {
         right: 0.75rem;
         top: 0.5rem;
     }
-
-.color{
-    border-radius: 10px;
-    background-color: green;
-    width: 100px;
-    height: 100px;
-}
 
 .valid.modified:not([type=checkbox]) {
     outline: 1px solid #26b050;

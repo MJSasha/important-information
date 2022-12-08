@@ -66,6 +66,7 @@ namespace ImpInfApi
             services.AddTransient<BaseCrudRepository<Day>, DaysRepository>();
             services.AddTransient<BaseCrudRepository<Lesson>>();
             services.AddTransient<BaseCrudRepository<Note>>();
+            services.AddTransient<BaseCrudRepository<LessonsAndTimes>>();
 
             RegistratePaths(services);
         }

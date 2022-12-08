@@ -45,9 +45,9 @@
     {
         return importance switch
         {
-            Importance.Big => "Red",
-            Importance.Middle => "Yellow",
-            Importance.Little => "Green",
+            Importance.VeryImportant => "#DC143C",
+            Importance.Important => "#FFD700",
+            Importance.NotImportant => "#228B22",
             _ => "Gray"
         };
     }

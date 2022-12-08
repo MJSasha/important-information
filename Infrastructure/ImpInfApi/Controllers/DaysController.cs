@@ -50,17 +50,7 @@ namespace ImpInfApi.Controllers
             var lessonsAndTimes = await ltRepository.Read(lt => entity.LessonsAndTimes.Any(_lt => _lt.Type == lt.Type && _lt.LessonId == lt.LessonId && _lt.Time.TimeOfDay == lt.Time.TimeOfDay));
             foreach (var entityLessonsAndTimes in entity.LessonsAndTimes)
             {
-                try
-                {
-                    entityLessonsAndTimes.Id = lessonsAndTimes.FirstOrDefault(lt => entityLessonsAndTimes.Type == lt.Type && entityLessonsAndTimes.LessonId == lt.LessonId && entityLessonsAndTimes.Time.TimeOfDay == lt.Time.TimeOfDay).Id;
-                }
-                catch (NullReferenceException)
-                {
-                    foreach (var _lessonsAndTimes in lessonsAndTimes)
-                    {
-                        entity.LessonsAndTimes.Add(_lessonsAndTimes);
-                    }
-                }
+                entityLessonsAndTimes.Id = lessonsAndTimes.FirstOrDefault(lt => entityLessonsAndTimes.Type == lt.Type && entityLessonsAndTimes.LessonId == lt.LessonId && entityLessonsAndTimes.Time.TimeOfDay == lt.Time.TimeOfDay)?.Id ?? default(int);
             }
             return await base.Post(entity);   
         }

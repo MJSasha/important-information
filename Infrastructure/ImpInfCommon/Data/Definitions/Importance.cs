@@ -2,8 +2,8 @@
 {
     public enum Importance
     {
-        Big,
-        Middle,
-        Little
+        VeryImportant,
+        Important,
+        NotImportant
     }
 }
