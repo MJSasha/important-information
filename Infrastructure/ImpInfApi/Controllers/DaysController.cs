@@ -4,7 +4,6 @@ using ImpInfCommon.Data.Other;
 using ImpInfCommon.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,6 +20,10 @@ namespace ImpInfApi.Controllers
         {
             this.repository = repository;
             this.ltRepository = ltRepository;
+
+            OnBeforePost += FixLTKeysInDay;
+            OnBeforePatch += FixLTKeysInDay;
+            OnBeforePostMany += async (days) => days.ForEach(async d=> await FixLTKeysInDay(d));
         }
 
         [HttpPost("ByDates")]
@@ -47,14 +50,13 @@ namespace ImpInfApi.Controllers
             return (await repository.Read(d => d.Date > date.DateTime.Date)).Any();
         }
 
-        public override async Task<ObjectResult> Post([FromBody] Day entity)
+        private async Task FixLTKeysInDay(Day day)
         {
-            var lessonsAndTimes = await ltRepository.Read(lt => entity.LessonsAndTimes.Any(_lt => _lt.Type == lt.Type && _lt.LessonId == lt.LessonId && _lt.Time.TimeOfDay == lt.Time.TimeOfDay));
-            foreach (var entityLessonsAndTimes in entity.LessonsAndTimes)
+            var lessonsAndTimes = await ltRepository.Read(lt => day.LessonsAndTimes.Any(_lt => _lt.Type == lt.Type && _lt.LessonId == lt.LessonId && _lt.Time.TimeOfDay == lt.Time.TimeOfDay));
+            foreach (var entityLessonsAndTimes in day.LessonsAndTimes)
             {
                 entityLessonsAndTimes.Id = lessonsAndTimes.FirstOrDefault(lt => entityLessonsAndTimes.Type == lt.Type && entityLessonsAndTimes.LessonId == lt.LessonId && entityLessonsAndTimes.Time.TimeOfDay == lt.Time.TimeOfDay)?.Id ?? default(int);
             }
-            return await base.Post(entity);   
         }
     }
 }
