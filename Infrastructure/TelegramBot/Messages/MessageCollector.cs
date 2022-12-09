@@ -77,7 +77,7 @@ namespace TelegramBot.Messages
                 {
                     ButtonsGenerator buttonsGenerator = new();
                     changedUser.Role = changedUser?.Role == Role.ADMIN ? Role.USER : Role.ADMIN;
-                    await usersService.Update(changedUser.Id, changedUser);
+                    await usersService.Patch(changedUser.Id, changedUser);
                     buttonsGenerator.SetGoBackButton("Сведения о пользователях");
                     await bot.SendMessage(Texts.ChangeOfRole, buttonsGenerator.GetButtons());
                 }
@@ -221,7 +221,7 @@ namespace TelegramBot.Messages
         public async Task EditToDay(DateTime chosenDay)
         {
             DaysServices daysServices = TransientService.GetDaysServices();
-            var day = await daysServices.Get(new DateTimeWrap() { DateTime = chosenDay });
+            var day = await daysServices.GetByDates(new DateTimeWrap() { DateTime = chosenDay });
 
             ButtonsGenerator buttonsGenerator = new();
             buttonsGenerator.SetGoBackButton("Календарь");
@@ -282,7 +282,7 @@ namespace TelegramBot.Messages
         private async Task<IOrderedEnumerable<News>> GetWeekNews(DateTime weekStartDate)
         {
             NewsService newsService = TransientService.GetNewsService();
-            return (await newsService.Get(new StartEndTime
+            return (await newsService.GetByDates(new StartEndTime
             {
                 Start = weekStartDate.AddDays(-1),
                 End = weekStartDate.AddDays(6)
@@ -292,7 +292,7 @@ namespace TelegramBot.Messages
         {
             date = date.AddDays(-7);
             NewsService newsService = TransientService.GetNewsService();
-            return await newsService.CheckNewsBefore(date);
+            return await newsService.CheckAnyNewsBefore(new DateTimeWrap() { DateTime = date });
         }
         private async Task SetPaginationButtonsForDays(ButtonsGenerator buttonsGenerator, int monthShift)
         {

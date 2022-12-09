@@ -1,17 +1,14 @@
 ﻿using ImpInfCommon.ApiServices;
 using ImpInfCommon.Data.Models;
 using ImpInfCommon.Data.Other;
+using ImpInfCommon.Interfaces;
 using ImpInfFrontCommon.Services;
 using Microsoft.AspNetCore.Components;
-using TgBotLib.Exceptions;
 
 namespace ImpInfFrontCommon.Pages
 {
     public partial class Login : ComponentBase
     {
-        [CascadingParameter]
-        public User CurrentUser { get; set; }
-
         [Inject]
         public CookieService CookieService { get; set; }
 
@@ -19,7 +16,7 @@ namespace ImpInfFrontCommon.Pages
         protected NavigationManager NavigationManager { get; set; }
 
         [Inject]
-        protected AuthService AuthService { get; set; }
+        protected IAuth AuthService { get; set; }
 
         [Inject]
         protected ErrorsHandler ErrorsHandler { get; set; }
@@ -33,18 +30,22 @@ namespace ImpInfFrontCommon.Pages
         {
             try
             {
-                var CurrentUser = await AuthService.Login(AuthModel);
-                var claim = new UserClaim
+                var user = await AuthService.Login(AuthModel);
+
+                if (user != null)
                 {
-                    Name = AuthModel.Login,
-                    Token = CurrentUser.Token
-                };
-                await CookieService.SetCookies("token", claim.Token);
-                NavigationManager.NavigateTo("/", true);
-            }
-            catch (Exception ex) when (ex is ErrorResponseException errorResponse && errorResponse.StatusCode != System.Net.HttpStatusCode.Unauthorized)
-            {
-                IsLoginFailed = true;
+                    var claim = new UserClaim
+                    {
+                        Name = AuthModel.Login,
+                        Token = user.Token
+                    };
+                    await CookieService.SetCookies("token", claim.Token);
+                    NavigationManager.NavigateTo("/", true);
+                }
+                else
+                {
+                    IsLoginFailed = true;
+                }
             }
             catch (Exception ex)
             {

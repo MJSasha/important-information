@@ -39,7 +39,7 @@ namespace TelegramBot.Handlers
                 else
                 {
                     currentUser.Password.Value = newPassword;
-                    await usersService.Update(currentUser.Id, currentUser);
+                    await usersService.Patch(currentUser.Id, currentUser);
                     LogService.LogInfo($"|CHANGEPASSWORD| ChatId: {chatId} | Name: {currentUser.Name} | Login: {currentUser.Login}");
                     await bot.SendMessage($"Вы успешно сменили пароль! Ваш новый пароль {currentUser.Password.Value}");
                 }

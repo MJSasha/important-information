@@ -1,0 +1,21 @@
+﻿<div class="frame h-80 mt-3">
+    <div class="d-inline-flex">
+        <img src="@AvatarSrc" class="person-photo rounded-circle" />
+        <div class="flex-column">
+            <div class="fw-bolder mt-3 ms-1">@Name</div>
+            <span class="position-background mt-1 ms-1 badge">@Position</span>
+        </div>
+    </div>
+    <div class="mt-2">@Description</div>
+</div>
+@code {
+
+    [Parameter]
+    public string Name { get; set; }
+    [Parameter]
+    public string Position { get; set; }
+    [Parameter]
+    public string AvatarSrc { get; set; }
+    [Parameter]
+    public string Description { get; set; }
+}

@@ -1,7 +1,9 @@
 ﻿using ImpInfApi.Repository;
 using ImpInfCommon.Data.Models;
 using ImpInfCommon.Data.Other;
+using ImpInfCommon.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,7 +12,7 @@ namespace ImpInfApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DaysController : BaseCrudController<Day>
+    public class DaysController : BaseCrudController<Day>, IDays
     {
         private readonly BaseCrudRepository<Day> repository;
         private readonly BaseCrudRepository<LessonsAndTimes> ltRepository;
@@ -22,7 +24,7 @@ namespace ImpInfApi.Controllers
         }
 
         [HttpPost("ByDates")]
-        public Task<Day[]> GetByDates([FromBody] StartEndTime startEndTime)
+        public Task<List<Day>> GetByDates([FromBody] StartEndTime startEndTime)
         {
             return repository.Read(d => d.Date >= startEndTime.Start && d.Date <= startEndTime.End);
         }

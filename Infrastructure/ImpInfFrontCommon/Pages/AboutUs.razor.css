@@ -1,0 +1,6 @@
+﻿::deep .tg-icon {
+    width: 25px;
+    height: 25px;
+    background-color: var(--telegram-icon-color);
+    color: var(--background-color);
+}

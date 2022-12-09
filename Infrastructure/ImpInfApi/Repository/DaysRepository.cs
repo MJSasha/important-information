@@ -1,6 +1,7 @@
 ﻿using ImpInfCommon.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -16,9 +17,9 @@ namespace ImpInfApi.Repository
             dbSet = dbContext.Set<Day>();
         }
 
-        public override async Task<Day[]> Read(Func<Day, bool> query = null, params Expression<Func<Day, object>>[] includedProperties)
+        public override async Task<List<Day>> Read(Func<Day, bool> query = null, params Expression<Func<Day, object>>[] includedProperties)
         {
-            var days = query != null ? dbSet.Include(d => d.LessonsAndTimes).ThenInclude(lt => lt.Lesson).Where(query).ToArray() : dbSet.Include(d => d.LessonsAndTimes).ThenInclude(lt => lt.Lesson).ToArray();
+            var days = query != null ? dbSet.Include(d => d.LessonsAndTimes).ThenInclude(lt => lt.Lesson).Where(query).ToList() : dbSet.Include(d => d.LessonsAndTimes).ThenInclude(lt => lt.Lesson).ToList();
             if (!days.Any()) return days;
             foreach (var item in days)
             {
