@@ -41,14 +41,21 @@ namespace ImpInfApi.Repository
             }
         }
 
-        public virtual Task<TEntity> ReadFirst(Expression<Func<TEntity, bool>> query, params Expression<Func<TEntity, object>>[] includedProperties)
+        public virtual async Task<TEntity> ReadFirst(Expression<Func<TEntity, bool>> query, params Expression<Func<TEntity, object>>[] includedProperties)
         {
-            return IncludProperties(includedProperties).FirstOrDefaultAsync(query);
+            var entity = await IncludProperties(includedProperties).FirstOrDefaultAsync(query);
+            dbContext.Entry(entity).State = EntityState.Detached;
+            return entity;
         }
 
         public virtual async Task<List<TEntity>> Read(Func<TEntity, bool> query = null, params Expression<Func<TEntity, object>>[] includedProperties)
         {
-            return query != null ? IncludProperties(includedProperties).Where(query).ToList() : IncludProperties(includedProperties).ToList();
+            var entities = query != null ? IncludProperties(includedProperties).Where(query).ToList() : IncludProperties(includedProperties).ToList();
+            foreach (var entity in entities)
+            {
+                dbContext.Entry(entity).State = EntityState.Detached;
+            }
+            return entities;
         }
 
         public virtual async Task Update(TEntity entity)

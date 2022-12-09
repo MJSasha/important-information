@@ -14,10 +14,16 @@ namespace ImpInfApi.Controllers
     public class DaysController : BaseCrudController<Day>, IDays
     {
         private readonly BaseCrudRepository<Day> repository;
+        private readonly BaseCrudRepository<LessonsAndTimes> ltRepository;
 
-        public DaysController(BaseCrudRepository<Day> repository) : base(repository)
+        public DaysController(BaseCrudRepository<Day> repository, BaseCrudRepository<LessonsAndTimes> ltRepository) : base(repository)
         {
             this.repository = repository;
+            this.ltRepository = ltRepository;
+
+            OnBeforePost += FixLTKeysInDay;
+            OnBeforePatch += FixLTKeysInDay;
+            OnBeforePostMany += async (days) => days.ForEach(async d=> await FixLTKeysInDay(d));
         }
 
         [HttpPost("ByDates")]
@@ -42,6 +48,15 @@ namespace ImpInfApi.Controllers
         public async Task<bool> AnyAfter([FromBody] DateTimeWrap date)
         {
             return (await repository.Read(d => d.Date > date.DateTime.Date)).Any();
+        }
+
+        private async Task FixLTKeysInDay(Day day)
+        {
+            var lessonsAndTimes = await ltRepository.Read(lt => day.LessonsAndTimes.Any(_lt => _lt.Type == lt.Type && _lt.LessonId == lt.LessonId && _lt.Time.TimeOfDay == lt.Time.TimeOfDay));
+            foreach (var entityLessonsAndTimes in day.LessonsAndTimes)
+            {
+                entityLessonsAndTimes.Id = lessonsAndTimes.FirstOrDefault(lt => entityLessonsAndTimes.Type == lt.Type && entityLessonsAndTimes.LessonId == lt.LessonId && entityLessonsAndTimes.Time.TimeOfDay == lt.Time.TimeOfDay)?.Id ?? default(int);
+            }
         }
     }
 }
