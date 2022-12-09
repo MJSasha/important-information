@@ -11,7 +11,7 @@
                     @foreach (var item in Day.LessonsAndTimes)
                     {
                         <div class="d-flex flex-row align-items-center">
-                            <div class="me-2" style="border-radius: 70%; background-color: @GetImporatanceColor(item.Importance); height: 7.5px; width: 7.5px" />
+                            <div class="imp-lt me-2" style="background-color: @GetImporatanceColor(item.Importance)" />
                             <div>@($"\t{item.Time:HH:mm} - {item.Lesson.Name} ({item.Type.GetName()})\n")</div>
                         </div>
                     }
@@ -45,9 +45,9 @@
     {
         return importance switch
         {
-            Importance.VeryImportant => "#DC143C",
-            Importance.Important => "#FFD700",
-            Importance.NotImportant => "#228B22",
+            Importance.VeryImportant => "var(--veryimportant-color)",
+            Importance.Important => "var(--important-color)",
+            Importance.NotImportant => "var(--notimportant-color)",
             _ => "Gray"
         };
     }

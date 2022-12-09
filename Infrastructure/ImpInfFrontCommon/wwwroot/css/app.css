@@ -8,13 +8,16 @@
     --header-text-color: #084298;
     --secondary-button-color: #084298;
     --accent-color: #e5f4fb;
+    --veryimportant-color: #DC143C;
+    --important-color: #FFD700;
+    --notimportant-color: #228B22;
 }
 
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-    body {
+body {
     background-color: var(--background-color);
     font-family: 'Rubik';
     font-weight: 400;
