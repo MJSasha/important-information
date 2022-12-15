@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ImpInfCommon.ApiServices
 {
-    public class NewsService : BaseCRUDService<News, int>, INews
+    public class NewsService : BaseCRUDService<News, int>, INewsService
     {
         public NewsService(string backRoot, HttpClient httpClient) : base(backRoot, httpClient) { }
 

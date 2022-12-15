@@ -9,7 +9,7 @@ namespace ImpInfFrontCommon.Pages
     public partial class Scheldue
     {
         [Inject]
-        private IDays DaysServices { get; set; }
+        private IDaysService DaysServices { get; set; }
 
         [Inject]
         private ErrorsHandler errorsHandler { get; set; }

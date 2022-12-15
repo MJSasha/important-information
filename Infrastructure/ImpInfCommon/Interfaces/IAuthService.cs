@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace ImpInfCommon.Interfaces
 {
-    public interface IAuth
+    public interface IAuthService
     {
         Task Registrate(RegistrationModel registrationModel, long chatId);
         Task<User> Login(AuthModel authModel);
