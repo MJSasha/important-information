@@ -11,7 +11,7 @@ namespace ImpInfApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountController : ControllerBase, IAuth
+    public class AccountController : ControllerBase, IAuthService
     {
         private readonly AppSettings appSettings;
         private readonly BaseCrudRepository<User> usersRepository;

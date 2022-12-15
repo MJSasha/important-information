@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ImpInfApi.Controllers
 {
-    public abstract class BaseCrudController<TEntity> : ControllerBase, ICrud<TEntity, int> where TEntity : class, IEntity
+    public abstract class BaseCrudController<TEntity> : ControllerBase, ICrudService<TEntity, int> where TEntity : class, IEntity
     {
         protected Func<List<TEntity>, Task> OnAfterGetMany;
         protected Func<TEntity, Task> OnAfterGet;

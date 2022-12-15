@@ -2,7 +2,7 @@
 
 namespace ImpInfCommon.Interfaces
 {
-    public interface INotes : ICrud<Note, int>
+    public interface INotesService : ICrudService<Note, int>
     {
     }
 }

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ImpInfCommon.ApiServices
 {
-    public class UsersService : BaseCRUDService<User, int>, IUser
+    public class UsersService : BaseCRUDService<User, int>, IUserService
     {
         public UsersService(string backRoot, HttpClient httpClient) : base(backRoot, httpClient) { }
 

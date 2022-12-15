@@ -1,0 +1,16 @@
+﻿<div class="frame h-100" style="background-color: var(--accent-color)">
+    <div class="d-lg-flex p-2">
+        <div class="d-flex flex-column justify-content-center col-lg-5 col-xl">
+            <div class="second-header mb-2">@Lesson.Name</div>
+            <div class="ps-2">
+                <div>Преподаватель: @Lesson.Teacher</div>
+                <div>Информация: @Lesson.Information</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public Lesson Lesson { get; set; }
+}

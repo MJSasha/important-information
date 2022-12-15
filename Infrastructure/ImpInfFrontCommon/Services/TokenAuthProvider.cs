@@ -8,10 +8,10 @@ namespace ImpInfFrontCommon.Services
     public class TokenAuthStateProvider : AuthenticationStateProvider
     {
         private readonly CookieService cookieService;
-        private readonly IAuth authService;
+        private readonly IAuthService authService;
         private readonly ErrorsHandler errorsHandler;
 
-        public TokenAuthStateProvider(CookieService cookieService, IAuth authService, ErrorsHandler errorsHandler)
+        public TokenAuthStateProvider(CookieService cookieService, IAuthService authService, ErrorsHandler errorsHandler)
         {
             this.cookieService = cookieService;
             this.authService = authService;

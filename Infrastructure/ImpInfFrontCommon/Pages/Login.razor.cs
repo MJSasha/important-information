@@ -16,7 +16,7 @@ namespace ImpInfFrontCommon.Pages
         protected NavigationManager NavigationManager { get; set; }
 
         [Inject]
-        protected IAuth AuthService { get; set; }
+        protected IAuthService AuthService { get; set; }
 
         [Inject]
         protected ErrorsHandler ErrorsHandler { get; set; }

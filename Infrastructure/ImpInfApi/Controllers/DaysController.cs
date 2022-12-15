@@ -11,7 +11,7 @@ namespace ImpInfApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DaysController : BaseCrudController<Day>, IDays
+    public class DaysController : BaseCrudController<Day>, IDaysService
     {
         private readonly BaseCrudRepository<Day> repository;
         private readonly BaseCrudRepository<LessonsAndTimes> ltRepository;

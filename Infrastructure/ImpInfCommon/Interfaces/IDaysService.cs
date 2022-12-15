@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ImpInfCommon.Interfaces
 {
-    public interface IDays : ICrud<Day, int>
+    public interface IDaysService : ICrudService<Day, int>
     {
         Task<List<Day>> GetByDates(StartEndTime startEndTime);
         Task<Day> GetByDates(DateTimeWrap date);
