@@ -10,14 +10,14 @@
         <div class="header">Расписание занятий</div>
     </div>
 
-    <div class="overflow-hidden align-items-center">
+    <div class="overflow-hidden align-items-center w-100">
         @for (int i = 0; i < lessons.Count(); i = i + 2)
         {
-            <div class="d-sm-flex flex-sm-row w-100">
-                <div class="col-sm-6 p-3 m-3">
+            <div class="d-md-flex flex-md-row">
+                <div class="col-md-6 p-3 m-1">
                     <LessonCard Lesson="lessons[i]"/>
                 </div>
-                <div class="col-sm-6 p-3 m-3">
+                <div class="col-md-6 p-3 m-1">
                     <LessonCard Lesson="lessons[i + 1]"/>
                 </div>
             </div>
