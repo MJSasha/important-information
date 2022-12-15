@@ -1,14 +1,19 @@
 ﻿using ImpInfCommon.Data.Models;
 using ImpInfCommon.Data.Other;
+using Refit;
 using System.Threading.Tasks;
 
 namespace ImpInfCommon.Interfaces
 {
     public interface IAuth
     {
-        Task Registrate(RegistrationModel registrationModel, long chatId);
-        Task<User> Login(AuthModel authModel);
+        [Post("/Account/{chatId}")]
+        Task Registrate([Body] RegistrationModel registrationModel, long chatId);
+        [Post("/Account")]
+        Task<User> Login([Body] AuthModel authModel);
+        [Get("/Account/CheckToken/{token}")]
         Task<bool> CheckToken(string token);
+        [Get("/Account/CurrentUser")]
         Task<User> GetCurrentUser();
     }
 }

@@ -221,7 +221,7 @@ namespace TelegramBot.Messages
         public async Task EditToDay(DateTime chosenDay)
         {
             DaysServices daysServices = TransientService.GetDaysServices();
-            var day = await daysServices.GetByDates(new DateTimeWrap() { DateTime = chosenDay });
+            var day = await daysServices.GetByDate(new DateTimeWrap() { DateTime = chosenDay });
 
             ButtonsGenerator buttonsGenerator = new();
             buttonsGenerator.SetGoBackButton("Календарь");

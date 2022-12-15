@@ -19,7 +19,7 @@ namespace ImpInfCommon.ApiServices
             return await Deserialize<List<Day>>(httpResponse);
         }
 
-        public async Task<Day> GetByDates(DateTimeWrap date)
+        public async Task<Day> GetByDate(DateTimeWrap date)
         {
             var data = new StringContent(Serialize(date), Encoding.UTF8, "application/json");
             var httpResponse = await httpClient.PostAsync(Root.ToString() + "/ByDate", data);

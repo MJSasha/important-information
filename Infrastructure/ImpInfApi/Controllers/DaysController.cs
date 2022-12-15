@@ -27,7 +27,7 @@ namespace ImpInfApi.Controllers
         }
 
         [HttpPost("ByDate")]
-        public Task<Day> GetByDates([FromBody] DateTimeWrap dateWrap)
+        public Task<Day> GetByDate([FromBody] DateTimeWrap dateWrap)
         {
             return repository.ReadFirst(d => d.Date == dateWrap.DateTime.Date);
         }
