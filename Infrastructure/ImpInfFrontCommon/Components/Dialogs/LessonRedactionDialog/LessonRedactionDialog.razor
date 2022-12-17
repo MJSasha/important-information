@@ -1,0 +1,37 @@
+﻿@using ImpInfFrontCommon.Components.Dialogs.Base;
+
+@inherits BaseDialog<LessonRedactionDialogParams, Lesson>
+
+<BaseDialogLayout  IsShown="IsShown">
+    <BaseModal Title="@Parameters.Lesson.Name" OnClose="() => this.Cancel()" OnKeyEnterPressed="OnKeyEnterPressed" DispalyCenter="true">
+        <Content>
+            <div class="d-flex flex-column w-100">
+                <label>Название</label>
+                <input class="mb-2 form-control" @bind="@Parameters.Lesson.Name" />
+
+                <label>Преподаватель</label>
+                <input class="mb-2 form-control" @bind="@Parameters.Lesson.Teacher" />
+
+                <label>Информация</label>
+                <textarea class="form-control" @bind="@Parameters.Lesson.Information" />
+            </div>
+            @*<InputText DisplayName="Название" Value="@Parameters.Lesson.Name" />
+            <InputText DisplayName="Преподаватель" Value="@Parameters.Lesson.Teacher" />
+            <InputText DisplayName="Информация" Value="@Parameters.Lesson.Information" />*@
+        </Content>
+        <Footer>
+            <ModalButton OnClick="() => this.Cancel()">Отмена</ModalButton>
+            <ModalButton OnClick="() => this.Close(Parameters.Lesson)">Сохранить</ModalButton>
+        </Footer>
+    </BaseModal>
+</BaseDialogLayout>
+
+@code {
+    [Parameter]
+    public bool CloseByEnter { get; set; }
+
+    protected void OnKeyEnterPressed()
+    {
+        if (CloseByEnter) this.Close(Parameters.Lesson);
+    }
+}
