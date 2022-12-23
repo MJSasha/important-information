@@ -23,7 +23,7 @@ namespace ImpInfApi.Controllers
 
             OnBeforePost += FixLTKeysInDay;
             OnBeforePatch += FixLTKeysInDay;
-            OnBeforePostMany += async (days) => days.ForEach(async d=> await FixLTKeysInDay(d));
+            OnBeforePostMany += async (days) => days.ForEach(async d => await FixLTKeysInDay(d));
         }
 
         [HttpPost("ByDates")]

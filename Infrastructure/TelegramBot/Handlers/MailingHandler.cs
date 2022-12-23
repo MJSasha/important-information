@@ -42,8 +42,8 @@ namespace TelegramBot.Handlers
 
         private async Task SendAll()
         {
-            var newsService = TransientService.GetNewsService();
-            var userService = TransientService.GetUsersService();
+            var newsService = SingletontService.GetNewsService();
+            var userService = SingletontService.GetUsersService();
 
             try
             {

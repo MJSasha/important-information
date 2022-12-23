@@ -42,7 +42,7 @@ namespace TelegramBot.Handlers
         {
             try
             {
-                BaseCRUDService<TEntity, int> baseCRUDService = new(AppSettings.BackRoot, TransientService.GetClient());
+                BaseCRUDService<TEntity, int> baseCRUDService = new(SingletontService.CreateClient(), SingletontService.ErrorsHandler);
                 var entity = await baseCRUDService.Get(entityId);
                 var property = entity.GetType().GetProperty(propertyName, BindingFlags.Instance | BindingFlags.Public);
                 property.SetValue(entity, Convert.ChangeType(redactionMessage, property.PropertyType));

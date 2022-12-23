@@ -55,7 +55,7 @@ namespace TelegramBot.Messages
         public async Task EditToUsersData()
         {
             ButtonsGenerator buttonsGenerator = new();
-            UsersService usersService = TransientService.GetUsersService();
+            UsersService usersService = SingletontService.GetUsersService();
             var users = await usersService.Get();
             var message = "";
             foreach (var item in users)
@@ -68,7 +68,7 @@ namespace TelegramBot.Messages
 
         public async Task ChangeUserRole(int selectedUserChatId)
         {
-            UsersService usersService = TransientService.GetUsersService();
+            UsersService usersService = SingletontService.GetUsersService();
             var currentUser = await usersService.GetByChatId(chatId);
             if (currentUser?.Role == Role.ADMIN && chatId != selectedUserChatId)
             {
@@ -100,7 +100,7 @@ namespace TelegramBot.Messages
 
         public async Task EditToLessonsMenu()
         {
-            LessonsService lessonsService = TransientService.GetLessonsService();
+            LessonsService lessonsService = SingletontService.GetLessonsService();
             var lessons = await lessonsService.Get();
 
             ButtonsGenerator buttonsGenerator = new();
@@ -179,7 +179,7 @@ namespace TelegramBot.Messages
 
         public async Task TryToStartRegistration()
         {
-            UsersService usersService = TransientService.GetUsersService();
+            UsersService usersService = SingletontService.GetUsersService();
             var user = await usersService.GetByChatId(chatId);
             if (user == null)
             {
@@ -193,14 +193,14 @@ namespace TelegramBot.Messages
         public async Task EditToLesson(int lessonId)
         {
             ButtonsGenerator buttonsGenerator = new();
-            UsersService usersService = TransientService.GetUsersService();
+            UsersService usersService = SingletontService.GetUsersService();
             var user = await usersService.GetByChatId(chatId);
 
             buttonsGenerator.SetInlineButtons(("Новости по предмету", $"getNewsForLes{lessonId}I{messageId}"));
             if (user.Role == Role.ADMIN) buttonsGenerator.SetInlineButtons(("Редактировать", $"redactNews{lessonId}"));
             buttonsGenerator.SetGoBackButton("Предметы");
 
-            LessonsService lessonsService = TransientService.GetLessonsService();
+            LessonsService lessonsService = SingletontService.GetLessonsService();
             var lesson = await lessonsService.Get(lessonId);
 
             await bot.EditMessage(lesson.GetLessonCard(), messageId, buttonsGenerator.GetButtons());
@@ -208,7 +208,7 @@ namespace TelegramBot.Messages
         public async Task EditLesson(int lessonId)
         {
             ButtonsGenerator buttonsGenerator = new();
-            LessonsService lessonsService = TransientService.GetLessonsService();
+            LessonsService lessonsService = SingletontService.GetLessonsService();
             var lesson = await lessonsService.Get(lessonId);
 
             buttonsGenerator.SetInlineButtons(new[] { ("Название", $"editName{lessonId}") },
@@ -220,7 +220,7 @@ namespace TelegramBot.Messages
         }
         public async Task EditToDay(DateTime chosenDay)
         {
-            DaysServices daysServices = TransientService.GetDaysServices();
+            DaysServices daysServices = SingletontService.GetDaysServices();
             var day = await daysServices.GetByDate(new DateTimeWrap() { DateTime = chosenDay });
 
             ButtonsGenerator buttonsGenerator = new();
@@ -235,7 +235,7 @@ namespace TelegramBot.Messages
             await bot.DeleteMessage(messageId);
             await bot.DeleteMessage(previewMessageId);
 
-            NewsService newsService = TransientService.GetNewsService();
+            NewsService newsService = SingletontService.GetNewsService();
             var news = await newsService.GetByLessonId(lessonId);
 
             ButtonsGenerator buttonsGenerator = new();
@@ -252,7 +252,7 @@ namespace TelegramBot.Messages
             await bot.DeleteMessage(messageId);
             await bot.DeleteMessage(previewMessageId);
 
-            NewsService newsService = TransientService.GetNewsService();
+            NewsService newsService = SingletontService.GetNewsService();
             var news = await newsService.Get(newsId);
             ButtonsGenerator buttonsGenerator = new();
             buttonsGenerator.SetGoBackButton("Новости");
@@ -281,7 +281,7 @@ namespace TelegramBot.Messages
         }
         private async Task<IOrderedEnumerable<News>> GetWeekNews(DateTime weekStartDate)
         {
-            NewsService newsService = TransientService.GetNewsService();
+            NewsService newsService = SingletontService.GetNewsService();
             return (await newsService.GetByDates(new StartEndTime
             {
                 Start = weekStartDate.AddDays(-1),
@@ -291,12 +291,12 @@ namespace TelegramBot.Messages
         private async Task<bool> CheckAnyNewsBefore(DateTime date)
         {
             date = date.AddDays(-7);
-            NewsService newsService = TransientService.GetNewsService();
+            NewsService newsService = SingletontService.GetNewsService();
             return await newsService.CheckAnyNewsBefore(new DateTimeWrap() { DateTime = date });
         }
         private async Task SetPaginationButtonsForDays(ButtonsGenerator buttonsGenerator, int monthShift)
         {
-            DaysServices daysServices = TransientService.GetDaysServices();
+            DaysServices daysServices = SingletontService.GetDaysServices();
             List<(string, string)> paginationButtons = new();
             var date = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(monthShift);
 
@@ -319,7 +319,7 @@ namespace TelegramBot.Messages
                                               new[] { "Календарь" },
                                               new[] { "О нас" });
 
-            var usersService = TransientService.GetUsersService();
+            var usersService = SingletontService.GetUsersService();
             var currentUser = await usersService.GetByChatId(chatId);
             if (currentUser?.Role == Role.ADMIN) buttonsGenerator.SetInlineButtons("Панель администратора");
             return buttonsGenerator.GetButtons();

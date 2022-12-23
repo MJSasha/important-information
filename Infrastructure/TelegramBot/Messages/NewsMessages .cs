@@ -23,12 +23,12 @@ namespace TelegramBot.Messages
         {
             try
             {
-                var newsService = TransientService.GetNewsService();
+                var newsService = SingletontService.GetNewsService();
                 var unsentNews = await newsService.GetUnsent();
 
                 if (unsentNews != null)
                 {
-                    var userService = TransientService.GetUsersService();
+                    var userService = SingletontService.GetUsersService();
                     var users = await userService.Get();
 
                     foreach (var news in unsentNews)

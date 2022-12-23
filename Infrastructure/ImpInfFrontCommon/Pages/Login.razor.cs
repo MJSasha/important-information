@@ -1,6 +1,4 @@
-﻿using ImpInfCommon.ApiServices;
-using ImpInfCommon.Data.Models;
-using ImpInfCommon.Data.Other;
+﻿using ImpInfCommon.Data.Other;
 using ImpInfCommon.Interfaces;
 using ImpInfFrontCommon.Services;
 using Microsoft.AspNetCore.Components;
@@ -19,7 +17,7 @@ namespace ImpInfFrontCommon.Pages
         protected IAuthService AuthService { get; set; }
 
         [Inject]
-        protected ErrorsHandler ErrorsHandler { get; set; }
+        protected IErrorsHandler ErrorsHandler { get; set; }
 
         protected AuthModel AuthModel { get; set; } = new();
 
