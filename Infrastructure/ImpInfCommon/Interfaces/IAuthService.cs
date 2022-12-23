@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ImpInfCommon.Interfaces
 {
-    public interface IAuth
+    public interface IAuthService
     {
         [Post("/Account/{chatId}")]
         Task Registrate([Body] RegistrationModel registrationModel, long chatId);

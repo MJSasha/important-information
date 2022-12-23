@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ImpInfCommon.Interfaces
 {
-    public interface IDays : ICrud<Day, int>
+    public interface IDaysService : ICrudService<Day, int>
     {
         [Post("/ByDates")]
         Task<List<Day>> GetByDates([Body] StartEndTime startEndTime);

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ImpInfCommon.ApiServices
 {
-    public class AuthService : BaseService, IAuth
+    public class AuthService : BaseService, IAuthService
     {
         public AuthService(string backRoot, HttpClient httpClient, string entityRoot = null) : base(entityRoot, backRoot, httpClient) { }
 

@@ -1,0 +1,26 @@
+﻿@page "/Lessons"
+@attribute [Authorize]
+
+@using Microsoft.AspNetCore.Authorization;
+
+<PageTitle>Предметы</PageTitle>
+
+<div class="d-flex flex-column h-100">
+    <div class="d-flex align-items-center m-3">
+        <div class="header">Предметы</div>
+    </div>
+
+    <div class="overflow-hidden align-items-center w-100">
+        @for (int i = 0; i < lessons.Count(); i = i + 2)
+        {
+            <div class="d-md-flex flex-md-row">
+                <div class="col-md-6 p-3 m-1">
+                    <LessonCard Lesson="lessons[i]" EditLesson="EditLesson"/>
+                </div>
+                <div class="col-md-6 p-3 m-1">
+                    <LessonCard Lesson="lessons[i + 1]" EditLesson="EditLesson" />
+                </div>
+            </div>
+        }
+    </div>
+</div>

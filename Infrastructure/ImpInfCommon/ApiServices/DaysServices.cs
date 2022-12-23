@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ImpInfCommon.ApiServices
 {
-    public class DaysServices : BaseCRUDService<Day, int>, IDays
+    public class DaysServices : BaseCRUDService<Day, int>, IDaysService
     {
         public DaysServices(string backRoot, HttpClient httpClient) : base(backRoot, httpClient) { }
 

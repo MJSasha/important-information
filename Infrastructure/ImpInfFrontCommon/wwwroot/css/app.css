@@ -3,10 +3,15 @@
 :root {
     --background-color: #ffffff;
     --header-color: #f7f7f7;
+    --separator-color: #e9e9e9;
     --text-color: #333333;
     --header-text-color: #084298;
     --secondary-button-color: #084298;
     --accent-color: #e5f4fb;
+    --telegram-icon-color: #28a8e9;
+    --veryimportant-color: #DC143C;
+    --important-color: #ffab00;
+    --notimportant-color: #228B22;
 }
 
 html, body {
@@ -36,24 +41,24 @@ body {
     height: 18px;
 }
 
-.btn-primary {
+.login-button {
     background-color: var(--secondary-button-color);
     border-color: var(--secondary-button-color);
     width: 35%;
 }
 
 .separator-bottom {
-    border-bottom: 2px solid var(--secondary-button-color);
+    border-bottom: 2px solid var(--separator-color);
 }
 
 .separator-horizontal {
-    background-color: var(--secondary-button-color);
+    background-color: var(--separator-color);
     height: 2px;
     width: 100%;
 }
 
 .separator-vertical {
-    background-color: var(--secondary-button-color);
+    background-color: var(--separator-color);
     width: 2px;
     height: 100%;
 }

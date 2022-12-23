@@ -8,18 +8,27 @@ namespace ImpInfFrontCommon.Services
     public class TokenAuthStateProvider : AuthenticationStateProvider
     {
         private readonly CookieService cookieService;
-        private readonly IAuth authService;
+        private readonly IAuthService authService;
+        private readonly ErrorsHandler errorsHandler;
 
-        public TokenAuthStateProvider(CookieService cookieService, IAuth authService)
+        public TokenAuthStateProvider(CookieService cookieService, IAuthService authService, ErrorsHandler errorsHandler)
         {
             this.cookieService = cookieService;
             this.authService = authService;
+            this.errorsHandler = errorsHandler;
         }
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
             var token = await cookieService.GetCookies("token");
-            if (string.IsNullOrWhiteSpace(token) || !await authService.CheckToken(token)) return GetStateAnonymous();
+            try
+            {
+                if (string.IsNullOrWhiteSpace(token) || !await authService.CheckToken(token)) return GetStateAnonymous();
+            }
+            catch (Exception ex)
+            {
+                errorsHandler.ProcessError(ex);
+            }
 
             var claims = new List<Claim>()
             {

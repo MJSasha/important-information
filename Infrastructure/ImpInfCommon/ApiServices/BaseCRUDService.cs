@@ -9,7 +9,7 @@ using TgBotLib.Utils;
 
 namespace ImpInfCommon.ApiServices
 {
-    public class BaseCRUDService<TEntity, TKey> : BaseService, ICrud<TEntity, TKey> where TEntity : class, IEntity
+    public class BaseCRUDService<TEntity, TKey> : BaseService, ICrudService<TEntity, TKey> where TEntity : class, IEntity
     {
         public BaseCRUDService(string backRoot, HttpClient httpClient, string entityRoot = null) : base(entityRoot ?? typeof(TEntity).GetRoot(), backRoot, httpClient) { }
 

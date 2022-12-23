@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace ImpInfCommon.Interfaces
 {
-    public interface ICrud<TEntity, TKey> where TEntity : class, IEntity
+    public interface ICrudService<TEntity, TKey> where TEntity : class, IEntity
     {
         [Get("")]
         Task<List<TEntity>> Get();
