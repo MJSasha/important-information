@@ -6,6 +6,6 @@ namespace ImpInfCommon.ApiServices
 {
     public class NotesService : BaseCRUDService<Note, int>, INotesService
     {
-        public NotesService(string backRoot, HttpClient httpClient) : base(backRoot, httpClient) { }
+        public NotesService(HttpClient httpClient, IErrorsHandler errorsHandler) : base(httpClient, errorsHandler) { }
     }
 }

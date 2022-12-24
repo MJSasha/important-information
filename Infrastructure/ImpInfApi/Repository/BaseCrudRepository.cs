@@ -44,7 +44,7 @@ namespace ImpInfApi.Repository
         public virtual async Task<TEntity> ReadFirst(Expression<Func<TEntity, bool>> query, params Expression<Func<TEntity, object>>[] includedProperties)
         {
             var entity = await IncludProperties(includedProperties).FirstOrDefaultAsync(query);
-            dbContext.Entry(entity).State = EntityState.Detached;
+            if (entity != null) dbContext.Entry(entity).State = EntityState.Detached;
             return entity;
         }
 

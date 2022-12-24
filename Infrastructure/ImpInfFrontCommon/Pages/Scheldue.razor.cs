@@ -1,7 +1,6 @@
 ﻿using ImpInfCommon.Data.Models;
 using ImpInfCommon.Data.Other;
 using ImpInfCommon.Interfaces;
-using ImpInfFrontCommon.Services;
 using Microsoft.AspNetCore.Components;
 
 namespace ImpInfFrontCommon.Pages
@@ -12,7 +11,7 @@ namespace ImpInfFrontCommon.Pages
         private IDaysService DaysServices { get; set; }
 
         [Inject]
-        private ErrorsHandler errorsHandler { get; set; }
+        private IErrorsHandler errorsHandler { get; set; }
 
         private List<Day> Days { get; set; } = new();
         private DateTimeOffset? StartDate

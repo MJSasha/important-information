@@ -23,7 +23,7 @@ namespace ImpInfApi.Controllers
 
             OnBeforePost += FixLTKeysInDay;
             OnBeforePatch += FixLTKeysInDay;
-            OnBeforePostMany += async (days) => days.ForEach(async d=> await FixLTKeysInDay(d));
+            OnBeforePostMany += async (days) => days.ForEach(async d => await FixLTKeysInDay(d));
         }
 
         [HttpPost("ByDates")]
@@ -33,7 +33,7 @@ namespace ImpInfApi.Controllers
         }
 
         [HttpPost("ByDate")]
-        public Task<Day> GetByDates([FromBody] DateTimeWrap dateWrap)
+        public Task<Day> GetByDate([FromBody] DateTimeWrap dateWrap)
         {
             return repository.ReadFirst(d => d.Date == dateWrap.DateTime.Date);
         }

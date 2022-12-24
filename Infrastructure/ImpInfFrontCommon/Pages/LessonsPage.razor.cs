@@ -12,7 +12,7 @@ namespace ImpInfFrontCommon.Pages
         public ILessonService LessonService { get; set; }
 
         [Inject]
-        public ErrorsHandler ErrorsHandler { get; set; }
+        public IErrorsHandler ErrorsHandler { get; set; }
 
         [Inject]
         public DialogService DialogService { get; set; }
