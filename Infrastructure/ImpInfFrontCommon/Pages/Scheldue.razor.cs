@@ -10,9 +10,6 @@ namespace ImpInfFrontCommon.Pages
         [Inject]
         private IDaysService DaysServices { get; set; }
 
-        [Inject]
-        private IErrorsHandler errorsHandler { get; set; }
-
         private List<Day> Days { get; set; } = new();
         private DateTimeOffset? StartDate
         {
@@ -37,9 +34,7 @@ namespace ImpInfFrontCommon.Pages
             DateTime weekStartDate = StartDate.Value.Date.AddDays(delta == 1 ? -6 : delta);
             DateTime weekEndDate = weekStartDate.AddDays(6);
 
-            await errorsHandler.SaveExecute(async () =>
-                Days = (await DaysServices.GetByDates(new StartEndTime { Start = weekStartDate, End = weekEndDate })).OrderBy(d => d.Date).ToList()
-            );
+            Days = (await DaysServices.GetByDates(new StartEndTime { Start = weekStartDate, End = weekEndDate })).OrderBy(d => d.Date).ToList();
 
             StateHasChanged();
         }

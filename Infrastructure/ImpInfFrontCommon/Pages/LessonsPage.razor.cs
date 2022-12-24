@@ -12,9 +12,6 @@ namespace ImpInfFrontCommon.Pages
         public ILessonService LessonService { get; set; }
 
         [Inject]
-        public IErrorsHandler ErrorsHandler { get; set; }
-
-        [Inject]
         public DialogService DialogService { get; set; }
 
         private List<Lesson> lessons = new();
@@ -29,12 +26,12 @@ namespace ImpInfFrontCommon.Pages
             try
             {
                 var newLesson = await DialogService.Show<LessonRedactionDialog, LessonRedactionDialogParams, Lesson>(new LessonRedactionDialogParams { Lesson = lesson });
-                if (newLesson != null) await ErrorsHandler.SaveExecute(async () => await LessonService.Patch(newLesson.Id, newLesson));
+                if (newLesson != null) await LessonService.Patch(newLesson.Id, newLesson);
                 await RefreshLessons();
             }
             catch { /*ignore*/ }
         }
 
-        private async Task RefreshLessons() => await ErrorsHandler.SaveExecute(async () => lessons = await LessonService.Get());
+        private async Task RefreshLessons() => lessons = await LessonService.Get();
     }
 }

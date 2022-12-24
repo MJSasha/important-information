@@ -39,9 +39,7 @@ namespace ImpInfCommon.ApiServices
 
         public async Task<User> GetCurrentUser()
         {
-            User result = default;
-            await errorsHandler.SaveExecute(async () => result = await authService.GetCurrentUser());
-            return result;
+            return await authService.GetCurrentUser();
         }
     }
 }
