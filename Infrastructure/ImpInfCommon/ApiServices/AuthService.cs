@@ -1,6 +1,7 @@
 ﻿using ImpInfCommon.Data.Models;
 using ImpInfCommon.Data.Other;
 using ImpInfCommon.Interfaces;
+using ImpInfCommon.Utils;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -13,7 +14,7 @@ namespace ImpInfCommon.ApiServices
 
         public AuthService(HttpClient httpClient, IErrorsHandler errorsHandler)
         {
-            authService = authService;
+            authService = UtilsFunctions.GetRefitService<IAuthService>(httpClient);
             this.errorsHandler = errorsHandler;
         }
 

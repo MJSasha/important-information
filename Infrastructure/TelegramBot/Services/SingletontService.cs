@@ -32,9 +32,15 @@ namespace TelegramBot.Services
                     CookieContainer = new CookieContainer()
                 };
                 handler.CookieContainer.Add(new Uri(AppSettings.BackRoot), new Cookie("token", AppSettings.ApiToken));
-                return new HttpClient(handler);
+                return new HttpClient(handler)
+                {
+                    BaseAddress= new Uri(AppSettings.BackRoot)
+                };
             }
-            return new HttpClient();
+            return new HttpClient()
+            {
+                BaseAddress= new Uri(AppSettings.BackRoot)
+            };
         }
     }
 }

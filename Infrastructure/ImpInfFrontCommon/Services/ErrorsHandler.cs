@@ -20,11 +20,11 @@ namespace ImpInfFrontCommon.Services
 
         public async void ProcessError(Exception ex)
         {
-            if (ex is ErrorResponseException errorResponse)
-            {
-                if (errorResponse.StatusCode == HttpStatusCode.Unauthorized) NavigationManager.NavigateTo(PagesRouts.Logout);
-            }
-            else await DialogService.Show<MessageDialog, MessageDialogParams, object>(new MessageDialogParams("Упс...", "Произошла ошибочка"));
+            //if (ex is ErrorResponseException errorResponse)
+            //{
+            //    if (errorResponse.StatusCode == HttpStatusCode.Unauthorized) NavigationManager.NavigateTo(PagesRouts.Logout);
+            //}
+            //else await DialogService.Show<MessageDialog, MessageDialogParams, object>(new MessageDialogParams("Упс...", "Произошла ошибочка"));
         }
 
         public async Task SaveExecute(Func<Task> action)

@@ -3,6 +3,7 @@ using ImpInfCommon.Utils;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using TgBotLib.Utils;
 
 namespace ImpInfCommon.ApiServices
 {
@@ -13,6 +14,7 @@ namespace ImpInfCommon.ApiServices
 
         public BaseCRUDService(HttpClient httpClient, IErrorsHandler errorsHandler)
         {
+            httpClient.BaseAddress = new System.Uri($"{httpClient.BaseAddress}/{typeof(TEntity).GetRoot()}");
             crudService = UtilsFunctions.GetRefitService<ICrudService<TEntity, TKey>>(httpClient);
             this.errorsHandler = errorsHandler;
         }

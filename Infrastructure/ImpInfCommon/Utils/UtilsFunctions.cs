@@ -18,7 +18,7 @@ namespace ImpInfCommon.Utils
 
         private static async Task<Exception> ThrowErrorResponseException(HttpResponseMessage httpResponse)
         {
-            if (httpResponse.IsSuccessStatusCode) return new ErrorResponseException(httpResponse.StatusCode, await httpResponse.Content.ReadAsStringAsync());
+            if (!httpResponse.IsSuccessStatusCode) return new ErrorResponseException(httpResponse.StatusCode, await httpResponse.Content.ReadAsStringAsync());
             return null;
         }
     }

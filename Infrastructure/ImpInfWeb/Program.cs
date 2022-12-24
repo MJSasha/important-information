@@ -15,7 +15,7 @@ string backRoot = "http://localhost:8080/api";
 
 builder.Services
     .AddTransient<CookieHandler>()
-    .AddScoped(sp => sp
+    .AddTransient(sp => sp
         .GetRequiredService<IHttpClientFactory>()
         .CreateClient("API"))
     .AddHttpClient("API", client => client.BaseAddress = new Uri(backRoot)).AddHttpMessageHandler<CookieHandler>();
