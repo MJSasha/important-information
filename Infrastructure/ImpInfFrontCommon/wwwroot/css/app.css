@@ -9,6 +9,9 @@
     --secondary-button-color: #084298;
     --accent-color: #e5f4fb;
     --telegram-icon-color: #28a8e9;
+    --veryimportant-color: #DC143C;
+    --important-color: #ffab00;
+    --notimportant-color: #228B22;
 }
 
 html, body {

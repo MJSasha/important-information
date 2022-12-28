@@ -1,39 +1,50 @@
 ﻿using ImpInfCommon.Data.Models;
 using ImpInfCommon.Data.Other;
 using ImpInfCommon.Interfaces;
+using ImpInfCommon.Utils;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ImpInfCommon.ApiServices
 {
-    public class NewsService : BaseCRUDService<News, int>, INews
+    public class NewsService : BaseCRUDService<News, int>, INewsService
     {
-        public NewsService(string backRoot, HttpClient httpClient) : base(backRoot, httpClient) { }
+        private readonly INewsService newsService;
+        private readonly IErrorsHandler errorsHandler;
+
+        public NewsService(HttpClient httpClient, IErrorsHandler errorsHandler) : base(httpClient, errorsHandler)
+        {
+            newsService = UtilsFunctions.GetRefitService<INewsService>(httpClient); ;
+            this.errorsHandler = errorsHandler;
+        }
 
         public async Task<List<News>> GetUnsent()
         {
-            HttpResponseMessage httpResponse = await httpClient.GetAsync(Root + "/Unsent");
-            return await Deserialize<List<News>>(httpResponse);
+            List<News> result = default;
+            await errorsHandler.SaveExecute(async () => result = await newsService.GetUnsent());
+            return result;
         }
 
         public async Task<List<News>> GetByLessonId(int lessonId)
         {
-            HttpResponseMessage httpResponse = await httpClient.GetAsync($"{Root}/ByLessonId/{lessonId}");
-            return await Deserialize<List<News>>(httpResponse);
+            List<News> result = default;
+            await errorsHandler.SaveExecute(async () => result = await newsService.GetByLessonId(lessonId));
+            return result;
         }
 
         public async Task<List<News>> GetByDates(StartEndTime startEndTime)
         {
-            var httpResponse = await httpClient.PostAsync(Root.ToString() + "/ByDates", new StringContent(Serialize(startEndTime), Encoding.UTF8, "application/json"));
-            return await Deserialize<List<News>>(httpResponse);
+            List<News> result = default;
+            await errorsHandler.SaveExecute(async () => result = await newsService.GetByDates(startEndTime));
+            return result;
         }
 
         public async Task<bool> CheckAnyNewsBefore(DateTimeWrap date)
         {
-            var httpResponse = await httpClient.PostAsync(Root.ToString() + "/AnyBefore", new StringContent(Serialize(date), Encoding.UTF8, "application/json"));
-            return await Deserialize<bool>(httpResponse);
+            bool result = default;
+            await errorsHandler.SaveExecute(async () => result = await newsService.CheckAnyNewsBefore(date));
+            return result;
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using ImpInfCommon.ApiServices;
-using ImpInfCommon.Interfaces;
+﻿using ImpInfCommon.Interfaces;
 using Microsoft.AspNetCore.Components.Authorization;
 using System.Security.Claims;
 
@@ -8,27 +7,18 @@ namespace ImpInfFrontCommon.Services
     public class TokenAuthStateProvider : AuthenticationStateProvider
     {
         private readonly CookieService cookieService;
-        private readonly IAuth authService;
-        private readonly ErrorsHandler errorsHandler;
+        private readonly IAuthService authService;
 
-        public TokenAuthStateProvider(CookieService cookieService, IAuth authService, ErrorsHandler errorsHandler)
+        public TokenAuthStateProvider(CookieService cookieService, IAuthService authService)
         {
             this.cookieService = cookieService;
             this.authService = authService;
-            this.errorsHandler = errorsHandler;
         }
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
             var token = await cookieService.GetCookies("token");
-            try
-            {
-                if (string.IsNullOrWhiteSpace(token) || !await authService.CheckToken(token)) return GetStateAnonymous();
-            }
-            catch (Exception ex)
-            {
-                errorsHandler.ProcessError(ex);
-            }
+            if (string.IsNullOrWhiteSpace(token) || !await authService.CheckToken(token)) return GetStateAnonymous();
 
             var claims = new List<Claim>()
             {

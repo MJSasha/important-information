@@ -1,4 +1,5 @@
 ﻿using ImpInfCommon.Exceptions;
+using ImpInfCommon.Interfaces;
 using ImpInfFrontCommon.Components.Dialogs.MessageDialog;
 using ImpInfFrontCommon.Definitions;
 using Microsoft.AspNetCore.Components;
@@ -6,7 +7,7 @@ using System.Net;
 
 namespace ImpInfFrontCommon.Services
 {
-    public class ErrorsHandler
+    public class ErrorsHandler : IErrorsHandler
     {
         protected NavigationManager NavigationManager { get; set; }
         protected DialogService DialogService { get; set; }

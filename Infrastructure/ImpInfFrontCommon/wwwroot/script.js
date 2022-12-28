@@ -5,7 +5,7 @@
         console.warn('element was not found', elementId);
         return false;
     }
-    element.scrollIntoView();
+    element.scrollIntoView({ block: "center", behavior: "smooth" });
     return true;
 }
 

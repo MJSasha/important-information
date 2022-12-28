@@ -7,7 +7,7 @@ namespace ImpInfApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class LessonsController : BaseCrudController<Lesson>, ILesson
+    public class LessonsController : BaseCrudController<Lesson>, ILessonService
     {
         private readonly BaseCrudRepository<Lesson> repository;
 

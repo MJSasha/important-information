@@ -44,7 +44,7 @@ namespace TelegramBot.Handlers
         {
             try
             {
-                AuthService authService = TransientService.GetAuthService();
+                AuthService authService = SingletontService.GetAuthService();
                 await authService.Registrate(registrationModel, chatId);
                 LogService.LogInfo($"|REGISTRATION| ChatId: {chatId} | Name: {registrationModel.Name} | Login: {registrationModel.Login}");
                 await bot.SendMessage($"Вы зарегистрированны! Теперь я буду обращаться к вам по имени {registrationModel.Name}");

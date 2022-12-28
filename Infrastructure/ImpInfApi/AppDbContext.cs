@@ -21,6 +21,8 @@ namespace ImpInfApi
 
             modelBuilder.Entity<User>().HasIndex(u => u.Login).IsUnique();
             modelBuilder.Entity<User>().HasIndex(u => u.ChatId).IsUnique();
+
+            modelBuilder.Entity<LessonsAndTimes>().HasAlternateKey(lt => new { lt.LessonId, lt.Time, lt.Type });
         }
     }
 }

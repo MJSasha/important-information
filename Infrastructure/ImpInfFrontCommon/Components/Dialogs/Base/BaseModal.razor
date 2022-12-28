@@ -1,19 +1,25 @@
 ﻿<div class="modal fade show" id="addCompanyModal" tabindex="-1" role="dialog" style="display: block; overflow-x: hidden; overflow-y: auto; opacity: 1;" aria-labelledby="addCompanyModalLabel" aria-hidden="true" @onkeypress="OnKeyPress">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addCompanyModalLabel">@Title</h5>
+    <div class="modal-dialog @(DispalyCenter ? "modal-dialog-centered" : "")" role="document">
+        <div class="modal-content p-3">
+            <div class="d-flex flex-row mb-3">
+                <div class="second-header text-break me-2" id="addCompanyModalLabel">@Title</div>
                 @if (!HideCloseButton)
                 {
-                    <button type="button" class="btn-close" aria-label="Close" @onclick="() => OnClose?.Invoke()"/>
+                    <button type="button" class="btn-close ms-auto" aria-label="Close" @onclick="() => OnClose?.Invoke()"/>
                 }
             </div>
-            <div class="modal-body">
-                @Content
-            </div>
-            <div class="modal-footer">
-                @Footer
-            </div>
+            @if (Content != null)
+            {
+                <div class="d-flex flex-row">
+                    @Content
+                </div>
+            }
+            @if (Footer != null)
+            {
+                <div class="d-flex flex-row-reverse">
+                    @Footer
+                </div>
+            }
         </div>
     </div>
 </div>
@@ -25,6 +31,9 @@
 
     [Parameter]
     public bool HideCloseButton { get; set; }
+
+    [Parameter]
+    public bool DispalyCenter { get; set; }
 
     [Parameter]
     public Action OnClose { get; set; }

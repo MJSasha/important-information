@@ -1,10 +1,13 @@
 ﻿@using ImpInfFrontCommon.Components.Dialogs.MessageDialog
+@using ImpInfFrontCommon.Components.Dialogs.LessonRedactionDialog
 @using ImpInfFrontCommon.Services;
 
 @inject DialogService dialogService
 
 <MessageDialog @ref="messageDialog" CloseByEnter="true"/>
+<LessonRedactionDialog @ref="lessonRedactionDialog" CloseByEnter="true" />
 
 @code {
     MessageDialog messageDialog { set => dialogService.RegisterDialog(value); }
+    LessonRedactionDialog lessonRedactionDialog { set => dialogService.RegisterDialog(value); }
 }
