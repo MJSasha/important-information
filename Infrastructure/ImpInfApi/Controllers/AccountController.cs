@@ -13,13 +13,11 @@ namespace ImpInfApi.Controllers
     [ApiController]
     public class AccountController : ControllerBase, IAuthService
     {
-        private readonly AppSettings appSettings;
         private readonly BaseCrudRepository<User> usersRepository;
         private readonly ILogger<User> logger;
 
-        public AccountController(AppSettings appSettings, BaseCrudRepository<User> usersRepository, ILogger<User> logger)
+        public AccountController(BaseCrudRepository<User> usersRepository, ILogger<User> logger)
         {
-            this.appSettings = appSettings;
             this.usersRepository = usersRepository;
             this.logger = logger;
         }
