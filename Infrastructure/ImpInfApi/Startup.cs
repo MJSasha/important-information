@@ -88,7 +88,7 @@ namespace ImpInfApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<NotificationsHub>("/hubs/NotificationsService");
+                endpoints.MapHub<NotificationsHub>("/api/hubs/NotificationsService");
             });
 
             using var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();

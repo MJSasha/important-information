@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components.WebAssembly.Http;
 
-namespace ImpInfFrontCommon.Pages
+namespace ImpInfFrontCommon.Utils
 {
     public class IncludeRequestCredentialsMessageHandler : DelegatingHandler
     {

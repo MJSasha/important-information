@@ -1,9 +1,8 @@
 ﻿@page "/Hub"
 
 @using ImpInfCommon.Interfaces;
-@using Microsoft.AspNetCore.SignalR.Client;
-@inject NavigationManager Navigation
-@implements IAsyncDisposable
+@using ImpInfFrontCommon.Services
+@implements IDisposable
 
 <PageTitle>Notifications Hub</PageTitle>
 
@@ -21,30 +20,24 @@
 @code {
     [Inject]
     private INewsService NewsService { get; set; }
-    private HubConnection? hubConnection;
     private List<News> allNews = new List<News>();
 
-    protected override async Task OnInitializedAsync()
+    protected override Task OnInitializedAsync()
     {
-        hubConnection = new HubConnectionBuilder().WithUrl("http://localhost:8080/hubs/NotificationsService", o =>
-        {
-            o.HttpMessageHandlerFactory = innerHandler => new IncludeRequestCredentialsMessageHandler { InnerHandler = innerHandler };
-        }).Build();
+        NotificationsService.OnNewsCreated += OnNewsCreated;
 
-        hubConnection.On<News>(nameof(INotificationsService.NotifyNewsCreated), async (news) =>
-        {
-            var newsForTest = await NewsService.Get();
-            allNews = newsForTest; //EXAMPLE
-            StateHasChanged();
-        });
-
-        await hubConnection.StartAsync();
+        return base.OnInitializedAsync();
     }
 
-    public bool IsConnected => hubConnection?.State == HubConnectionState.Connected;
-
-    public async ValueTask DisposeAsync()
+    private async Task OnNewsCreated(News news)
     {
-        if (hubConnection is not null) await hubConnection.DisposeAsync();
+        var newsForTest = await NewsService.Get();
+        allNews = newsForTest; //EXAMPLE
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        NotificationsService.OnNewsCreated -= OnNewsCreated;
     }
 }
