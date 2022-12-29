@@ -3,6 +3,6 @@
     public enum ExpanderJustify
     {
         Between,
-        End
+        End,
     }
 }

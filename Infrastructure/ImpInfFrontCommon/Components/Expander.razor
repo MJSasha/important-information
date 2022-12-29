@@ -5,7 +5,7 @@
 
         @if (!HideArrow)
         {
-            <SvgImage Src="/assets/img/follow.svg#icon" width="8px" height="16px" color="var(--link-color)" class="flex-shrink-0" style="@($"transform: rotate({(Expanded ? 270 : 90)}deg);")"/>
+            <SvgImage Src="_content/ImpInfFrontCommon/image/follow.svg#icon" width="8px" height="16px" color="var(--link-color)" class="flex-shrink-0" style="@($"transform: rotate({(Expanded  ? 270 : 90)}deg);")"/>
         }
     </div>
     <div class="collapse @(expandedInitially ? "show" : null)" id="@(string.IsNullOrWhiteSpace(Id) ? "collapsePanel" : Id)">
@@ -51,7 +51,7 @@
     public async Task Toggle()
     {
         Expanded = !Expanded;
-        await jSRuntime.InvokeVoidAsync("expanderMethods.toggle", Id);
+        await jSRuntime.InvokeVoidAsync("expanderMethods.toggle", string.IsNullOrWhiteSpace(Id) ? "collapsePanel" : Id);
         StateHasChanged();
     }
 
