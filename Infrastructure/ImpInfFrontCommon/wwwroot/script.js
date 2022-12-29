@@ -42,3 +42,12 @@ window.ReadCookie = {
         return "";
     }
 }
+$("body").on("click", '[data-toggle="collapse"]', function (e) {
+    if ($($(this).data('target')).hasClass('collapsing'))
+        return false;
+});
+window.expanderMethods = {
+    toggle: function (id) {
+        $(`#${id}`).collapse('toggle');
+    }
+};
