@@ -1,6 +1,7 @@
-using ImpInfApi.Middlewares;
+using ImpInfApi.Hubs;
 using ImpInfApi.Models;
 using ImpInfApi.Repository;
+using ImpInfApi.Services;
 using ImpInfApi.Utils;
 using ImpInfCommon.Data.Models;
 using Microsoft.AspNetCore.Builder;
@@ -12,6 +13,7 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Reflection;
 
 namespace ImpInfApi
 {
@@ -46,19 +48,11 @@ namespace ImpInfApi
                     Title = "ImpInfApi"
                 });
 
-                options.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {{
-                    new OpenApiSecurityScheme
-                    {
-                        Reference = new OpenApiReference
-                        {
-                            Type = ReferenceType.SecurityScheme,
-                            Id = "Bearer"
-                        }
-                    },Array.Empty<string>()
-                }});
+                //options.AddSignalRSwaggerGen(ssgOptions => ssgOptions.ScanAssemblies(typeof(ImpInfCommon.Interfaces.INotificationsService).Assembly));
+                options.AddSignalRSwaggerGen();
             });
 
+            services.AddSignalR();
 
             //DI
             services.AddTransient<BaseCrudRepository<News>>();
@@ -67,6 +61,8 @@ namespace ImpInfApi
             services.AddTransient<BaseCrudRepository<Lesson>>();
             services.AddTransient<BaseCrudRepository<Note>>();
             services.AddTransient<BaseCrudRepository<LessonsAndTimes>>();
+
+            services.AddSingleton<NotificationsService>();
 
             RegistratePaths(services);
         }
@@ -87,11 +83,12 @@ namespace ImpInfApi
 
 
             var serviceScopeForPermision = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
-            app.UseMiddleware<CheckPermisionMiddleware>(appSettings, serviceScopeForPermision.ServiceProvider.GetService<BaseCrudRepository<User>>());
+            //app.UseMiddleware<CheckPermisionMiddleware>(appSettings, serviceScopeForPermision.ServiceProvider.GetService<BaseCrudRepository<User>>());
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<NotificationsHub>("/api/hubs/NotificationsService");
             });
 
             using var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();

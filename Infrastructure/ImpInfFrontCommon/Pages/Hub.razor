@@ -1,0 +1,43 @@
+﻿@page "/Hub"
+
+@using ImpInfCommon.Interfaces;
+@using ImpInfFrontCommon.Services
+@implements IDisposable
+
+<PageTitle>Notifications Hub</PageTitle>
+
+<hr>
+
+<ul id="messagesList">
+    @foreach (var news in allNews)
+    {
+        <li>Message: @news.Message</li>
+        <li>Lesson: @news.Lesson</li>
+        <li></li>
+    }
+</ul>
+
+@code {
+    [Inject]
+    private INewsService NewsService { get; set; }
+    private List<News> allNews = new List<News>();
+
+    protected override Task OnInitializedAsync()
+    {
+        NotificationsService.OnNewsCreated += OnNewsCreated;
+
+        return base.OnInitializedAsync();
+    }
+
+    private async Task OnNewsCreated(News news)
+    {
+        var newsForTest = await NewsService.Get();
+        allNews = newsForTest; //EXAMPLE
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        NotificationsService.OnNewsCreated -= OnNewsCreated;
+    }
+}

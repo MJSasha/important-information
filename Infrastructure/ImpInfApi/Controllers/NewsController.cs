@@ -1,4 +1,5 @@
 ﻿using ImpInfApi.Repository;
+using ImpInfApi.Services;
 using ImpInfCommon.Data.Models;
 using ImpInfCommon.Data.Other;
 using ImpInfCommon.Interfaces;
@@ -14,10 +15,19 @@ namespace ImpInfApi.Controllers
     public class NewsController : BaseCrudController<News>, INewsService
     {
         private readonly BaseCrudRepository<News> repository;
+        private readonly NotificationsService notificationsService;
 
-        public NewsController(BaseCrudRepository<News> repository) : base(repository)
+        public NewsController(BaseCrudRepository<News> repository, NotificationsService notificationsService) : base(repository)
         {
             this.repository = repository;
+            this.notificationsService = notificationsService;
+        }
+
+
+        public override async Task Post([FromBody] News entity)
+        {
+            await base.Post(entity);
+            await notificationsService.NotifyNewsCreated(entity);
         }
 
 

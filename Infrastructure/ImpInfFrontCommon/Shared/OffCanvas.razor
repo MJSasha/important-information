@@ -1,0 +1,26 @@
+@using ImpInfCommon.ApiServices;
+@using ImpInfCommon.Interfaces;
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header">
+        <h5 id="offcanvasRightLabel">Offcanvas right</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+            <input @bind-value="@Message">
+            <button class="btn btn-secondary" onclick="@SendNew()" type="submit">Отправить</button>
+    </div>
+</div>
+
+@code{
+    [Inject]
+    public INewsService newsService { get; set; }
+    private string Message { get; set; } = "sdf";
+
+    private async Task SendNew()
+    {
+        await newsService.Post(new News()
+            {
+                Message = this.Message
+            });
+    }
+}

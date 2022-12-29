@@ -9,7 +9,7 @@ namespace ImpInfFrontCommon
 {
     public static class ServiceBuilder
     {
-        public static void RegistrateCommonServices(IServiceCollection services, string backRoot)
+        public static async void RegistrateCommonServices(IServiceCollection services, string backRoot)
         {
             services.AddTransient<CookieHandler>()
                 .AddTransient(sp => sp
@@ -32,6 +32,8 @@ namespace ImpInfFrontCommon
 
             services.AddSingleton<IErrorsHandler, ErrorsHandler>();
             services.AddSingleton<DialogService>();
+
+            await NotificationsService.Init($"{backRoot}/hubs/NotificationsService");
         }
     }
 }

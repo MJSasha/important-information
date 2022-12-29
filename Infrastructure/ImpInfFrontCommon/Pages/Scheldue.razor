@@ -4,8 +4,11 @@
 
 @using BlazorDateRangePicker
 @using Microsoft.AspNetCore.Authorization
+@using System.Diagnostics
 
 <PageTitle>Расписание</PageTitle>
+<button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Toggle right offcanvas</button>
+
 
 <div class="d-flex flex-column h-100">
     <div class="d-sm-flex flex-sm-row justify-content-between align-items-center m-3">
@@ -46,6 +49,6 @@
         }
         catch {/*ignore*/}
 
-        base.OnAfterRender(firstRender);
+        await base.OnAfterRenderAsync(firstRender);
     }
 }
