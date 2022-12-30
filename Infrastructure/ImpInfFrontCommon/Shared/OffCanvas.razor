@@ -1,26 +1,75 @@
 @using ImpInfCommon.ApiServices;
 @using ImpInfCommon.Interfaces;
+@inject IJSRuntime JS
+
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
     <div class="offcanvas-header">
-        <h5 id="offcanvasRightLabel">Offcanvas right</h5>
-        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        <h5 id="offcanvasRightLabel">Ќовости</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="«акрыть"></button>
     </div>
+
     <div class="offcanvas-body">
-            <input @bind-value="@Message">
-            <button class="btn btn-secondary" onclick="@SendNew()" type="submit">ќтправить</button>
+        <div class="">
+            <div class="card">
+                <div class="card-header">
+                    –екомендуемые
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">ќсобое обращение с заголовком</h5>
+                    <p class="card-text">— вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    –екомендуемые
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">ќсобое обращение с заголовком</h5>
+                    <p class="card-text">— вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    –екомендуемые
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">ќсобое обращение с заголовком</h5>
+                    <p class="card-text">— вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    тутата
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">ќсобое обращение с заголовком</h5>
+                    <p class="card-text">— вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="p-1 align-items-center">
+        <div id="test" class="input-text-canvas" contenteditable="true" @onkeydown="@HandleKeyDown" @bind="@Message"></div>
     </div>
 </div>
 
 @code{
+
     [Inject]
-    public INewsService newsService { get; set; }
-    private string Message { get; set; } = "sdf";
+    public INews newsService { get; set; }
+    private string Message { get; set; }
 
     private async Task SendNew()
     {
-        await newsService.Post(new News()
-            {
-                Message = this.Message
-            });
+        await newsService.Post(new News() { Message = this.Message });
     }
+
+    private string PreviousCode = null;
+
+    private async Task HandleKeyDown(KeyboardEventArgs e)
+    {
+    }
+   
 }
