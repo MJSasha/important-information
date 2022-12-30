@@ -120,3 +120,58 @@ body {
 .validation-message {
     color: red;
 }
+
+
+[contenteditable="true"]:active,
+[contenteditable="true"]:focus {
+    border-color: blueviolet;
+    outline: initial;
+}
+
+.editorold {
+    min-height: 46px;
+    max-height: 200px;
+    border: 1px solid #ddd;
+    border-color: rgb(84, 46, 164);
+    padding: 10px;
+    border-radius: 2px;
+    box-shadow: 1px 1px 2px #ddd;
+    background: #fff;
+    overflow-y: auto;
+    resize: none;
+}
+
+
+.input-text-canvas {
+    width: 100%;
+    min-height: 46px;
+    max-height: 200px;
+    border: 1px solid #080404;
+    border-radius: 6px;
+    padding: 10px 15px;
+    background-color: transparent;
+    color: #000000;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: 300;
+    overflow-x: hidden;
+}
+
+/*scroll*/
+*::-webkit-scrollbar,
+html *::-webkit-scrollbar {
+    height: 8px;
+    width: 10px;
+}
+
+*::-webkit-scrollbar-track,
+html *::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+*::-webkit-scrollbar-thumb,
+html *::-webkit-scrollbar-thumb {
+    background-color: rgb(139, 139, 139);
+    border-radius: 5px;
+    border: 3px solid rgb(255, 255, 255);
+}
