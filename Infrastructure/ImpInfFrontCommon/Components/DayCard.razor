@@ -40,24 +40,12 @@
             </div>
         </Header>
         <Content>
-            Content
+            <div class="d-flex flex-row w-100 justify-content-between align-items-center p-3">
+                <div>Нет заметок</div>
+                <div class="circle-button">
+                    <SvgImage Src="_content/ImpInfFrontCommon/image/plus.svg#icon"/>
+                </div>
+            </div>
         </Content>
     </Expander>
 </div>
-
-@code {
-
-    [Parameter]
-    public Day Day { get; set; }
-
-    private string GetImporatanceColor(Importance importance)
-    {
-        return importance switch
-        {
-            Importance.VeryImportant => "--veryimportant-color",
-            Importance.Important => "--important-color",
-            Importance.NotImportant => "--notimportant-color",
-            _ => ""
-        };
-    }
-}

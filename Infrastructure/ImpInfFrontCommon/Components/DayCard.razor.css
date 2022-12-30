@@ -3,3 +3,15 @@
     min-height: 7.5px;
     min-width: 7.5px;
 }
+
+.circle-button {
+    border-radius: 50%;
+    background-color: var(--secondary-button-color);
+    height: 30px;
+    width: 30px;
+    padding: 0.375rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--background-color);
+}
