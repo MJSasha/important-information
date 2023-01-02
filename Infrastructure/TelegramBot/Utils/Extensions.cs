@@ -1,6 +1,7 @@
 ﻿using ImpInfCommon.Data.Models;
 using ImpInfCommon.Utils;
 using System;
+using System.Linq;
 using TgBotLib.Utils;
 
 namespace TelegramBot.Utils
@@ -10,25 +11,20 @@ namespace TelegramBot.Utils
         public static string Above(this int number)
         {
             var stringNumber = number.ToString();
-            string aboveNumber = "";
-            for (int i = 0; i < stringNumber.Length; i++)
+            return stringNumber.Aggregate("", (current, t) => current + t switch
             {
-                aboveNumber += stringNumber[i] switch
-                {
-                    '1' => "¹",
-                    '2' => "²",
-                    '3' => "³",
-                    '4' => "⁴",
-                    '5' => "⁵",
-                    '6' => "⁶",
-                    '7' => "⁷",
-                    '8' => "⁸",
-                    '9' => "⁹",
-                    '0' => "⁰",
-                    _ => "",
-                };
-            }
-            return aboveNumber;
+                '1' => "¹",
+                '2' => "²",
+                '3' => "³",
+                '4' => "⁴",
+                '5' => "⁵",
+                '6' => "⁶",
+                '7' => "⁷",
+                '8' => "⁸",
+                '9' => "⁹",
+                '0' => "⁰",
+                _ => "",
+            });
         }
 
         public static string GetMonthName(this int monthNumber)
