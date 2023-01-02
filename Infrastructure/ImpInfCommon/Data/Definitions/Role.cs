@@ -1,4 +1,4 @@
-﻿using TgBotLib.Utils.Attributes;
+﻿using ImpInfCommon.Utils.Attributes;
 
 namespace ImpInfCommon.Data.Definitions
 {

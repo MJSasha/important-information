@@ -1,6 +1,6 @@
 ﻿using UIKit;
 
-namespace ImpInfApp
+namespace ImpInfApp.Platforms.iOS
 {
     public class Program
     {

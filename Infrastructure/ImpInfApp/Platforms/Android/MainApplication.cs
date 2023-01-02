@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace ImpInfApp
+namespace ImpInfApp.Platforms.Android
 {
 #if DEBUG
     [Application(UsesCleartextTraffic = true)]

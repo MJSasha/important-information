@@ -1,7 +1,7 @@
 ﻿using ImpInfCommon.Interfaces;
+using ImpInfCommon.Utils.Attributes;
 using System;
 using System.Linq;
-using TgBotLib.Utils.Attributes;
 
 namespace ImpInfCommon.Data.Models
 {

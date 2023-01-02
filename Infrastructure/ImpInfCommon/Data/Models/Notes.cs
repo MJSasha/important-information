@@ -1,5 +1,5 @@
 ﻿using ImpInfCommon.Interfaces;
-using TgBotLib.Utils.Attributes;
+using ImpInfCommon.Utils.Attributes;
 
 namespace ImpInfCommon.Data.Models
 {

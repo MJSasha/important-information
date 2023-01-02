@@ -1,12 +1,14 @@
-﻿using System;
+﻿using ImpInfCommon.Utils.Attributes;
+using System;
 using System.Linq;
 using System.Reflection;
-using TgBotLib.Utils.Attributes;
 
 namespace ImpInfCommon.Utils
 {
     public static class Extentions
     {
+        public static string GetRoot(this Type type) => type?
+            .GetCustomAttribute<EntityRootAttribute>()?.Root ?? nameof(type);
         public static string GetName(this Enum enumValue) => enumValue.GetType()?
             .GetMember(enumValue.ToString())?
             .First()?

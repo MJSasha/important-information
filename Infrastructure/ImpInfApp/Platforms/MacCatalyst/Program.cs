@@ -1,6 +1,6 @@
 ﻿using UIKit;
 
-namespace ImpInfApp
+namespace ImpInfApp.Platforms.MacCatalyst
 {
     public class Program
     {
