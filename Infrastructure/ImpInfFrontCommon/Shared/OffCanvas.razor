@@ -49,8 +49,8 @@
    
     private async ValueTask<ItemsProviderResult<News>> LoadNews(ItemsProviderRequest request)
     {
-        var news = await newsService.Get();
+        var news = await newsService.ReadIntervalSortedByDate(request.StartIndex, 50);
 
-        return new ItemsProviderResult<News>(news.Skip(request.StartIndex).Take(50), news.Count);
+        return new ItemsProviderResult<News>(news, news.Count);
     }
 }

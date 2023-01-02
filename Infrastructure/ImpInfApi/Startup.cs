@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Reflection;
+using ImpInfApi.Middlewares;
 
 namespace ImpInfApi
 {
@@ -55,7 +56,7 @@ namespace ImpInfApi
             services.AddSignalR();
 
             //DI
-            services.AddTransient<BaseCrudRepository<News>>();
+            services.AddTransient<NewsRepository>();
             services.AddTransient<BaseCrudRepository<User>>();
             services.AddTransient<BaseCrudRepository<Day>, DaysRepository>();
             services.AddTransient<BaseCrudRepository<Lesson>>();
@@ -82,8 +83,8 @@ namespace ImpInfApi
                 .AllowCredentials());
 
 
-            var serviceScopeForPermision = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
-            //app.UseMiddleware<CheckPermisionMiddleware>(appSettings, serviceScopeForPermision.ServiceProvider.GetService<BaseCrudRepository<User>>());
+            var serviceScopeForPermission = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
+            app.UseMiddleware<CheckPermisionMiddleware>(appSettings, serviceScopeForPermission.ServiceProvider.GetService<BaseCrudRepository<User>>());
 
             app.UseEndpoints(endpoints =>
             {

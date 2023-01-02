@@ -14,10 +14,10 @@ namespace ImpInfApi.Controllers
     [ApiController]
     public class NewsController : BaseCrudController<News>, INewsService
     {
-        private readonly BaseCrudRepository<News> repository;
+        private readonly NewsRepository repository;
         private readonly NotificationsService notificationsService;
 
-        public NewsController(BaseCrudRepository<News> repository, NotificationsService notificationsService) : base(repository)
+        public NewsController(NewsRepository repository, NotificationsService notificationsService) : base(repository)
         {
             this.repository = repository;
             this.notificationsService = notificationsService;
@@ -57,6 +57,12 @@ namespace ImpInfApi.Controllers
         public Task<List<News>> GetByDates([FromBody] StartEndTime startEndTime)
         {
             return repository.Read(n => n.DateTimeOfCreate > startEndTime.Start && n.DateTimeOfCreate < startEndTime.End);
+        }
+
+        [HttpGet("ReadIntervalSortedByDate")]
+        public Task<List<News>> ReadIntervalSortedByDate(int start, int take)
+        {
+            return repository.ReadWithOrderByDate(start, take); //TODO - include Users
         }
 
         [HttpPost("AnyBefore")]

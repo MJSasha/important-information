@@ -1,4 +1,5 @@
-﻿using ImpInfCommon.Data.Models;
+﻿using System;
+using ImpInfCommon.Data.Models;
 using ImpInfCommon.Data.Other;
 using ImpInfCommon.Interfaces;
 using ImpInfCommon.Utils;
@@ -37,6 +38,13 @@ namespace ImpInfCommon.ApiServices
         {
             List<News> result = default;
             await errorsHandler.SaveExecute(async () => result = await newsService.GetByDates(startEndTime));
+            return result;
+        }
+
+        public async Task<List<News>> ReadIntervalSortedByDate(int start = 0, int take = int.MaxValue)
+        {
+            List<News> result = default;
+            await errorsHandler.SaveExecute(async () => result = await newsService.ReadIntervalSortedByDate(start, take));
             return result;
         }
 

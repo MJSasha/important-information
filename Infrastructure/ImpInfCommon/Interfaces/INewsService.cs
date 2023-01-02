@@ -14,6 +14,10 @@ namespace ImpInfCommon.Interfaces
         Task<List<News>> GetByLessonId(int lessonId);
         [Post("/ByDates")]
         Task<List<News>> GetByDates([Body] StartEndTime startEndTime);
+
+        [Get("/ReadIntervalSortedByDate")]
+        Task<List<News>> ReadIntervalSortedByDate([AliasAs("start")] int start, [AliasAs("take")] int take);
+
         [Post("/AnyBefore")]
         Task<bool> CheckAnyNewsBefore([Body] DateTimeWrap date);
     }
