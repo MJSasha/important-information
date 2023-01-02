@@ -9,48 +9,23 @@
     </div>
 
     <div class="offcanvas-body">
-        <div class="">
-            <div class="card">
-                <div class="card-header">
-                    Рекомендуемые
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">Особое обращение с заголовком</h5>
-                    <p class="card-text">С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту.</p>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    Рекомендуемые
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">Особое обращение с заголовком</h5>
-                    <p class="card-text">С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту.</p>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    Рекомендуемые
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">Особое обращение с заголовком</h5>
-                    <p class="card-text">С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту.</p>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    тутата
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">Особое обращение с заголовком</h5>
-                    <p class="card-text">С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту.</p>
-                </div>
-            </div>
+        <div class="d-flex flex-column-reverse">
+            <Virtualize Context="item" ItemsProvider="@LoadNews">
+                <ItemContent>
+                    <p>
+                        @item.Message
+                    </p>
+                </ItemContent>
+                <Placeholder>
+                    <p class="placeholder-glow">
+                        <span class="placeholder w-100"></span>
+                    </p>
+                </Placeholder>
+            </Virtualize>
         </div>
-
     </div>
 
-    <div class="p-1 align-items-center">
+    <div class="d-flex flex-row p-1 align-items-center">
         <div id="test" class="input-text-canvas" contenteditable="true" @onkeydown="@HandleKeyDown" @bind="@Message"></div>
     </div>
 </div>
@@ -63,7 +38,7 @@
 
     private async Task SendNew()
     {
-        await newsService.Post(new News() { Message = this.Message });
+        await newsService.Post(new News() { Message = Message });
     }
 
     private string PreviousCode = null;
@@ -72,4 +47,10 @@
     {
     }
    
+    private async ValueTask<ItemsProviderResult<News>> LoadNews(ItemsProviderRequest request)
+    {
+        var news = await newsService.Get();
+
+        return new ItemsProviderResult<News>(news.Skip(request.StartIndex).Take(50), news.Count);
+    }
 }
