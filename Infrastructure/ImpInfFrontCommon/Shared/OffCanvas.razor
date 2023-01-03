@@ -9,19 +9,29 @@
     </div>
 
     <div class="offcanvas-body">
-        <div class="d-flex flex-column-reverse">
-            <Virtualize Context="item" ItemsProvider="@LoadNews">
-                <ItemContent>
-                    <p>
-                        @item.Message
-                    </p>
-                </ItemContent>
-                <Placeholder>
-                    <p class="placeholder-glow">
-                        <span class="placeholder w-100"></span>
-                    </p>
-                </Placeholder>
-            </Virtualize>
+        <div class="h-100">
+            <CollectionView DataSource="News" RemainingItemsThresholdReachedCommand="@LoadMoreNews">
+                <EmptyView>
+                    <div class="d-flex justify-content-center w-100" style="height: 100vh;">
+                        <div class="spinner-border align-self-center" style="color: var(--secondary-button-color) " role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </EmptyView>
+                <ItemTemplate Context="news">
+                    <div class="text-black">@news.Message</div>
+                </ItemTemplate>
+                <ItemSeparator>
+                    <div class="separator-horizontal"></div>
+                </ItemSeparator>
+                <LoadingIndicator>
+                    <div class="d-flex justify-content-center w-100" style="height: 100vh;">
+                        <div class="spinner-border align-self-center" style="color: var(--secondary-button-color) " role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </LoadingIndicator>
+            </CollectionView>
         </div>
     </div>
 
@@ -34,23 +44,29 @@
 
     [Inject]
     public INewsService newsService { get; set; }
+
     private string Message { get; set; }
+    private List<News> News { get; set; }
+
+    private string PreviousCode = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        News = await newsService.ReadIntervalSortedByDate(0, 50);
+        await base.OnInitializedAsync();
+    }
 
     private async Task SendNew()
     {
-        await newsService.Post(new News() { Message = Message });
+        await newsService.Post(new News { Message = Message });
     }
-
-    private string PreviousCode = null;
 
     private async Task HandleKeyDown(KeyboardEventArgs e)
     {
     }
    
-    private async ValueTask<ItemsProviderResult<News>> LoadNews(ItemsProviderRequest request)
+    private async Task LoadMoreNews(int startIndex)
     {
-        var news = await newsService.ReadIntervalSortedByDate(request.StartIndex, 50);
-
-        return new ItemsProviderResult<News>(news, news.Count);
+        News.AddRange(await newsService.ReadIntervalSortedByDate(startIndex, 50));
     }
 }

@@ -1,0 +1,124 @@
+﻿@typeparam TEntity
+@inject IJSRuntime js
+@implements IDisposable
+
+
+<div @attributes="AdditionalAttributes" class="collection-view @CssClass">
+    @Header
+    @if (isEmptyList)
+    {
+        @EmptyView
+    }
+    else
+    {
+        @foreach (var item in DataSource)
+        {
+            @ItemTemplate(item)
+            @if(DataSource.Last().Equals(item) == false)
+            {
+                @ItemSeparator
+            }
+        }
+    }
+    @if(isLoading || IsLoading)
+    {
+        if (LoadingIndicator == null)
+        {
+            <div class="d-flex justify-content-center mt-4 mb-3">
+                <Spinner />
+            </div>
+        }
+        else
+        {
+            @LoadingIndicator
+        }
+    }
+    <div @ref="lastItemIndicator" style="height:1px"></div>
+    @Footer
+</div>
+
+@code {
+
+    [Parameter]
+    public RenderFragment EmptyView { get; set; }
+
+    [Parameter]
+    public RenderFragment Header { get; set; }
+
+    [Parameter]
+    public RenderFragment Footer { get; set; }
+
+    [Parameter]
+    public RenderFragment LoadingIndicator { get; set; }
+
+    [Parameter]
+    public RenderFragment<TEntity> ItemTemplate { get; set; }
+
+    [Parameter]
+    public RenderFragment ItemSeparator { get; set; }
+
+    [Parameter]
+    public IEnumerable<TEntity> DataSource { get; set; }
+
+    [Parameter]
+    public Func<Task> RemainingItemsThresholdReached { get; set; }
+
+    [Parameter]
+    public Func<int, Task> RemainingItemsThresholdReachedCommand { get; set; }
+
+    [Parameter]
+    public bool IsLoading { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IDictionary<string, object> AdditionalAttributes { get; set; }
+
+    private string CssClass => AdditionalAttributes?.ContainsKey("class") == true ? (string)AdditionalAttributes["class"] : null;
+
+    protected bool isLoading;
+    protected bool isEmptyList { get => DataSource == null || DataSource.Count() == 0; }
+    protected ElementReference lastItemIndicator;
+    protected DotNetObjectReference<CollectionView<TEntity>> currentComponentReference;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            //change global function to exported function from module
+            currentComponentReference = DotNetObjectReference.Create(this);
+            await js.InvokeVoidAsync("collectionView", lastItemIndicator, currentComponentReference);
+        }
+    }
+
+    [JSInvokable]
+    public async Task LoadMoreItems()
+    {
+        if (isLoading) return;
+
+        isLoading = true;
+        StateHasChanged();
+
+        try
+        {
+            await RemainingItemsThresholdReached.Invoke();
+            await RemainingItemsThresholdReachedCommand.Invoke(DataSource.Count());
+        }
+        catch
+        {
+            // ignored
+        }
+
+        isLoading = false;
+        StateHasChanged();
+    }
+
+    // public async Task ScrollTo(int index)
+    // {
+    //     //not implemented
+    // }
+
+    public async void Dispose()
+    {
+        await js.InvokeVoidAsync("collectionViewDispose", currentComponentReference);
+        currentComponentReference?.Dispose();
+    }
+}
