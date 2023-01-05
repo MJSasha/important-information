@@ -1,119 +1,99 @@
 import React, {useState , useEffect} from 'react';
 import axios from 'axios';
+import Cookies from "js-cookie";
 import { useNavigate } from 'react-router-dom';
 import {CSSTransition} from 'react-transition-group';
 import SideBar from '../SideBar/SideBar';
+import DayCard from '../DayCard/DayCard';
 import './Main.modules.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ReactDatePicker from '../DatePicker/DatePicker';
-// imgs imp
-import pinkPlanet from './img/pinkPlanet.png';
-import orangePlanet from './img/orangePlanet.png';
-import orangeAsteroid from './img/orangeAsteroid.png';
-import bluePlanet from './img/bluePlanet.png';
-import astronaut from './img/astronaut.png';
-// 
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
+const DOMEN_SERVER = process.env.REACT_APP_BACK_ROOT ?? 'http://localhost:8080/api';
+axios.defaults.withCredentials = true;
 
 
 function Main(){
-    
     const [showSB, setShowSB] = useState(false);
+    const [startDate, setStartDate] = useState(new Date());
+    const [firstDayOfWeek, setFirstDayOfWeek] = useState('');
+    const [lastDayOfWeek, setLastDayOfWeek] = useState('');
     const navigate = useNavigate();
 
-    // const UserLogout = () => {
-    //     Cookies.remove('token');
-    //     console.log('After logout token is => ' + Cookies.get('token'))
-    //     navigate('/')
-    // }
-
     useEffect(() => {
-        if (!axios.defaults.headers.common['Authorization']) {
+        if (!Cookies.get('token')) {
             navigate('/')
         }
     })
 
+    useEffect(() => {
+        setFirstDayOfWeek(new Date(startDate).setDate(startDate.getDate() - startDate.getDay() + (startDate.getDay() === 0 ? -6:1)));
+        setLastDayOfWeek(new Date(startDate).setDate(startDate.getDate() - startDate.getDay()+7));
+        // setArrayOfDays(Array(7).fill(new Date(firstdayofweek)).map((elem, idx) =>
+        // new Date(elem.setDate(elem.getDate() - elem.getDay() + idx + 1)).toLocaleDateString().split('.').reverse().join('-')));
+        
+    }, [startDate])
+
+    useEffect(() => {
+        axios.post(DOMEN_SERVER + '/Days/ByDates', {
+            start: firstDayOfWeek + 'T19:07:08.615Z',
+            end: lastDayOfWeek + 'T19:07:08.615Z',
+        })
+        .then(res => {
+            console.log('получить все пары в этот день---'+res)
+
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }, [startDate])
+
     return (
         <div className="wrapper">
-                <header className="header d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
-                    <h1 className="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">LOGO</h1>
-                    <div className="col-md-3 group-btn">
-                        <button type="button" className="btn btn-outline-primary me-2 news-btn" onClick={()=>setShowSB(!showSB)}>Новости</button>
-                        <button onClick={ () => { delete axios.defaults.headers.common["Authorization"]; navigate('/') } } className="logout-btn btn btn-primary">Logout</button>
-                    </div>
-                </header>
+        
+            <header className="header container-fluid d-flex flex-wrap align-items-center justify-content-between mb-1 border-bottom">
+                <div className="col-md-3 mb-md-0 text-light">ImpInfWeb</div>
+                <div className="col-md-3 text-end group-btn my-1">
+                    <button type="button" className="btn btn-outline-primary news-btn" onClick={()=>setShowSB(!showSB)}>Новости</button>
+                    <button onClick={ () => { Cookies.remove('token'); navigate('/') } } className="logout-btn btn btn-primary">Logout</button>
+                </div>
+            </header>
+
             <div className="hero">
-
-
-                <div className="content-wrapper">
-                    <img className='pinkPlanet' src={pinkPlanet} alt="pinkPlanet"/>
-                    <img className='orangePlanet' src={orangePlanet} alt="orangePlanet"/>
-                    <img className='orangeAsteroid' src={orangeAsteroid} alt="orangeAsteroid"/>
-                    <img className='bluePlanet' src={bluePlanet} alt="bluePlanet"/>
-                    <img className='astronaut' src={astronaut} alt="astronaut"/>
+                <div className="d-flex flex-row">
                     <div className="container">
+                        {/* date */}
+                        <div className="d-sm-flex flex-sm-row justify-content-between m-3">
+                            <div className='head-text'>Расписание</div>
+                            <div className='mb-3 pt-2'>
+                                <div className="text-black-50">Выберите неделю</div>
+                                <DatePicker
+                                closeOnScroll={true}
+                                todayButton="Вернуться к сегодняшнему дню"
+                                dateFormat="yyyy-MM-dd"
+                                calendarStartDay={1}
+                                selected={startDate} 
+                                onChange={(date) => setStartDate(date)} 
+                                />
+                            </div>
+                        </div>
+                        {/* date */}
+                        
+                        <div className="overflow-hidden align-items-center">
+                            {/* {
+                                arrayOfDays.map((dateOfDay, indexOfDate) =>
+                                    <div key={indexOfDate} className=''> */}
+                                        <DayCard day={}/>
+                                    {/* </div>
+                                )
+                            } */}
+                        </div>
 
-                        {/* date */}
-                        <div className="parent-datepicker-wrapper">
-                        <ReactDatePicker />
-                        </div>
-                        {/* date */}
-                        {/* cards */}
-                        <div className="row row-cols-1 row-cols-md-3 g-4 cards-wrapper">
-                            <div className="col">
-                                <div className="card text-dark bg-light mb-3 shadow-outline">
-                                    <div className="card-body">
-                                        <h5 className="card-title">Заголовок карточки</h5>
-                                        <p className="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту. Этот контент немного длиннее.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col ">
-                                <div className="card text-dark bg-light mb-3 shadow-outline">
-                                    <div className="card-body">
-                                        <h5 className="card-title">Заголовок карточки</h5>
-                                        <p className="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту. Этот контент немного длиннее.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col ">
-                                <div className="card text-dark bg-light mb-3 shadow-outline">
-                                    <div className="card-body">
-                                        <h5 className="card-title">Заголовок карточки</h5>
-                                        <p className="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту. Этот контент немного длиннее.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col ">
-                                <div className="card text-dark bg-light mb-3 shadow-outline">
-                                    <div className="card-body">
-                                        <h5 className="card-title">Заголовок карточки</h5>
-                                        <p className="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту. Этот контент немного длиннее.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col ">
-                                <div className="card text-dark bg-light mb-3 shadow-outline">
-                                    <div className="card-body">
-                                        <h5 className="card-title">Заголовок карточки</h5>
-                                        <p className="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col ">
-                                <div className="card text-dark bg-light mb-3 shadow-outline">
-                                    <div className="card-body">
-                                        <h5 className="card-title">Заголовок карточки</h5>
-                                        <p className="card-text">Это более длинная карта С вспомогательным текстом ниже в качестве естественного перехода к дополнительному контенту. Этот контент немного длиннее.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {/* cards */}
                     </div>
                     <CSSTransition in={showSB} timeout={300} classNames='fade' unmountOnExit>
                         <div className="SideBarWrapper">
-                            <SideBar/>
+                            <SideBar SBIsOpen={showSB}/>
                         </div>
                     </CSSTransition>
                 </div>

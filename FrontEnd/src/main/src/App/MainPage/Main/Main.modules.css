@@ -1,65 +1,69 @@
 
-html {
+body {
   overflow: -moz-scrollbars-vertical; 
-  overflow-y: scroll;
+  overflow-y: auto;
+  overflow-x: hidden;
+  /* background-color: #c4c4c4; */
 }
-*, ::after, ::before {
-    box-sizing: border-box;
-}
+
 .header{
-  background: #5449A8;
+  background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
 }
+.head-text {
+  font-size: 250%;
+  color: #084298;
+}
+/* datepicker */
+.react-datepicker__input-container{
+  width: 50%;
+}
+/* datepicker */
+
 /* header btns */
 .btn:focus {
   outline: none;
   box-shadow: none;
 }
 .news-btn{
-  color: #B7ADFF;
-  border-color: #B7ADFF;
+  color: #ffffff;
+  border-color: #ffffff;
 }
 .news-btn:hover{
-  background: #5449A8;
-  border-color: #B7ADFF;
+  background: #ffffff;
+  border-color: #ffffff;
+  color:rgb(5, 39, 103);
 }
 .logout-btn{
-  border-color: #B7ADFF;
-  background: #B7ADFF;
+  /* border-color: #B7ADFF; */
+  border: none;
+  background: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
 }
 .logout-btn:hover{
-  background: #5449A8;
-  border-color: #B7ADFF;
+  /* background: #5449A8;
+  border-color: #B7ADFF; */
+  color: #cbcbcb;
 }
 .logout-btn:focus{
-  background: #5449A8;
-  border-color: #B7ADFF
+  color: #cbcbcb;
 }
 /* header btns */
-.content-wrapper{
-    display: flex;
-}
-.logo{
+/* .logo{
     padding-left: 2%;
-}
+} */
 .shadow-box{
     box-shadow: 0 5px 5px -2px rgba(0, 0, 0, .5);
 }
-.group-btn{
+/* .group-btn{
     padding-left: 10%;
-}
+} */
 .SideBarWrapper{
   position: absolute;
-  /* top: 15vh; */
   right: 0;
   z-index: 100;
   /* sidebar height */
-  height: 820px;
+  /* height: 820px; */
   /*  */
   box-shadow: -6px 0px 4px -2px rgba(0, 0, 0, 0.4);
-}
-.content-wrapper{
-  display: flex;
-  flex-direction: row;
 }
 /* SideBar transition start*/
 .fade-enter{
@@ -84,28 +88,18 @@ html {
 }
 /* SideBar transition end*/
 
-/* datepicker styles */
-.parent-datepicker-wrapper{
-  margin-left: 5%;
-  display: flex;
-  justify-content: center;
-}
-/* datepicker styles */
-
 /* cards styles */
 .shadow-outline{
   -webkit-box-shadow: 0px 0px 2px 5px rgba(0, 0, 0, 0.4);
   -moz-box-shadow: 0px 0px 2px 5px rgba(0, 0, 0, 0.4);
   box-shadow: 0px 0px 1px 2px rgba(0, 0, 0, 0.2);
 }
-.cards-wrapper{
-  margin-top: 1%;
-}
 .card{
   border-radius: 12%;
   --bs-bg-opacity: 0.7;
-  width: 80%;
-  height: 340px;
+  max-width: 70%;
+  min-height: 90%;
+  /* margin: 2em; */
 }
 .card::after{ /*????????????????*/
   filter: blur(5px);
@@ -154,3 +148,21 @@ html {
 }
 
 /* imgs */
+@media (max-height: 768px) {
+  .header{
+    max-height: clamp(70px, 5vh, 80px);
+  }
+}
+@media (min-height: 860px) {
+  .cards-wrapper{
+    margin-top: 1px;
+  }
+  .card {
+    margin-top: 5%;
+    min-height: 15em;
+    max-height: 20em;
+  }
+  .parent-datepicker-wrapper {
+    margin-top: 2%;
+  }
+}

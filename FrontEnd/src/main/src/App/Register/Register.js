@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios';
+import Cookies from "js-cookie";
 import './Register_styles.modules.css';
 import logo from './img/logo.svg';
 import { Form, Button} from 'react-bootstrap';
@@ -7,6 +8,8 @@ import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const DOMEN_SERVER = process.env.REACT_APP_BACK_ROOT ?? 'http://localhost:8080/api';
+axios.defaults.withCredentials = true;
+
 
 function Register(){
 
@@ -38,8 +41,8 @@ function Register(){
                 password: register.password,
             })
             .then(token => {
-                    console.log('token => '+ token.data)
-                    axios.defaults.headers.common['Authorization'] = 'Bearer '+token.data;
+                    console.log('token => '+ token.data.token)
+                    Cookies.set('token', token.data.token, {expires: 720})
                     navigate('/main')
             })
             .catch(err => {
