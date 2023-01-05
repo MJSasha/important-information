@@ -1,10 +1,17 @@
 using ImpInfApi.Services;
+using Xunit.Abstractions;
 
 namespace UnitTests
 {
     public class ScheduleParserTests
     {
+        private readonly ITestOutputHelper output;
         private readonly ScheduleParser scheduleParser = new();
+
+        public ScheduleParserTests(ITestOutputHelper output)
+        {
+            this.output = output;
+        }
 
         [Fact]
         public void HaveDaysTest_PageWithDays()
@@ -23,11 +30,22 @@ namespace UnitTests
         }
 
         [Fact]
-        public void GetDaysTest_PageWitDays()
+        public void GetDaysTest_PageWithDays()
         {
-            var result = scheduleParser.GetDays(TestsData.PageWithSchedule);
+            var dates = scheduleParser.GetDaysDates(TestsData.PageWithSchedule);
 
-            Assert.NotEmpty(result);
+            dates.ForEach(d => output.WriteLine(d.ToString()));
+
+            Assert.Contains(DateTime.Parse("01.09.2023"), dates);
+            Assert.Contains(DateTime.Parse("02.09.2023"), dates);
+        }
+
+        [Fact]
+        public void GetDaysTest_PageWithoutDays()
+        {
+            var dates = scheduleParser.GetDaysDates(TestsData.PageWithoutSchedule);
+
+            Assert.Empty(dates);
         }
     }
 }
